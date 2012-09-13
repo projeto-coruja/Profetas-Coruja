@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="celulars/list">
+        <put-attribute name="body" value="/WEB-INF/views/celulars/list.jspx"/>
+    </definition>
+<definition extends="default" name="celulars/show">
+        <put-attribute name="body" value="/WEB-INF/views/celulars/show.jspx"/>
+    </definition>
+<definition extends="default" name="celulars/create">
+        <put-attribute name="body" value="/WEB-INF/views/celulars/create.jspx"/>
+    </definition>
+<definition extends="default" name="celulars/update">
+        <put-attribute name="body" value="/WEB-INF/views/celulars/update.jspx"/>
+    </definition>
+</tiles-definitions>

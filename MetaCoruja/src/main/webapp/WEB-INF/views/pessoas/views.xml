@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="pessoas/list">
+        <put-attribute name="body" value="/WEB-INF/views/pessoas/list.jspx"/>
+    </definition>
+<definition extends="default" name="pessoas/show">
+        <put-attribute name="body" value="/WEB-INF/views/pessoas/show.jspx"/>
+    </definition>
+<definition extends="default" name="pessoas/create">
+        <put-attribute name="body" value="/WEB-INF/views/pessoas/create.jspx"/>
+    </definition>
+<definition extends="default" name="pessoas/update">
+        <put-attribute name="body" value="/WEB-INF/views/pessoas/update.jspx"/>
+    </definition>
+</tiles-definitions>

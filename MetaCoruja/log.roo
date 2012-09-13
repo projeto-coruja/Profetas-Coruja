@@ -1,0 +1,79 @@
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-09-13 09:31:47
+project --topLevelPackage br.unifesp.teste --projectName TesteSpring --java 6 --packaging WAR
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-09-13 09:31:47
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log opened at 2012-09-13 09:31:50
+hint
+help jpa setup
+jpa setup --provider HIBERNATE --database POSTGRES 
+help
+help
+hint
+entity jpa --class br.unifesp.teste.model.Pessoa
+entity jpa --class br.unifesp.teste.model.Celular
+hint
+field string --fieldName Nome
+field string --fieldName Número 
+help entity jpa
+entity jpa --class br.unifesp.teste.model.Pessoa
+field string --fieldName Nome
+field number --fieldName Idade --type short
+hint
+hint web mvc
+web mvc setup 
+web mvc scaffold --class br.unifesp.teste.web.DataController
+entity jpa --class br.unifesp.teste.model.Celular
+web mvc scaffold --class br.unifesp.teste.web.CelularController
+download status
+download accept terms of use
+hint
+hint finders
+finder list
+finder list 
+finder add --class ~.model.Pessoa --finderName findPessoa
+finder list 
+finder list 
+finder add --class ~.model.Celular --finderName findCelular
+finder list 
+finder add --class ~.model.Celular --finderName findCelular
+finder list 
+finder list 
+hint
+hint logging
+logging setup --level DEBUG 
+perform tests
+hint
+perform package
+hint
+field string --fieldName Numero
+finder list
+finder add --finderName findCelularsByNumeroEquals
+finder add --finderName findPessoasByName
+entity jpa --class ~.model.Pessoa
+finder add --finderName findPessoasByName
+finder list
+field string --fieldName Nome
+finder list
+finder add --finderName findPessoasByNomeEquals
+focus --class ~.model.Celular
+finder list 
+hint
+hint eclipse
+database properties list
+database properties set --key database.password --value coruja
+database properties set --key database.username --value coruja
+perform package 
+database properties list
+database properties set --key database.name --value coruja_spring
+perform package 
+focus --class ~.model.Pessoa
+field boolean --fieldName Online
+finder list
+finder add --finderName findPessoasByOnlineNot
+perform package 
+perform package 
+perform package 
+database properties list 
+help database
+hint
+hint eclipse
+// Spring Roo 1.2.2.RELEASE [rev 7d75659] log closed at 2012-09-13 11:57:46
