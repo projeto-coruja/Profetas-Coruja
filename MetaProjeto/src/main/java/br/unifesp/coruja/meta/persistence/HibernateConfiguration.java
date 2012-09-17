@@ -23,7 +23,13 @@ public class HibernateConfiguration {
 		props.put("hibernate.dialect", PostgreSQL82Dialect.class.getName());
 		props.put("hibernate.format_sql", "true");
 		props.put("hibernate.hbm2ddl.auto", "create-drop");
-
+		
+		//props.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+		props.put("hibernate.connection.driver_class", "org.springframework.jdbc.datasource.DriverManagerDataSource");
+		props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/coruja_metaprojeto");
+		props.put("hibernate.connection.username", "coruja");
+		props.put("hibernate.connection.password", "coruja");
+		
 	    LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
 		bean.setAnnotatedClasses(new Class[]{Item.class, Order.class});		
 		bean.setHibernateProperties(props);

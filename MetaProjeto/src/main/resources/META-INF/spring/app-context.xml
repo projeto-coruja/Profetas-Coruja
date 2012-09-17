@@ -10,17 +10,17 @@
 
 
 	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
-		destroy-method="close"> <property name="driverClassName" value="org.postgresql.Driver" 
+		-> destroy-method="close"> <property name="driverClassName" value="org.postgresql.Driver" 
 		/> <property name="url" value="jdbc:postgresql://localhost:5432/coruja_metaprojeto" 
 		/> <property name="username" value="coruja" /> <property name="password" 
 		value="coruja" /> </bean> -->
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost:5432/coruja_metaprojeto" />
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- <property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url"
+			value="jdbc:postgresql://localhost:5432/coruja_metaprojeto" />
 		<property name="username" value="coruja" />
-		<property name="password" value="coruja" />
+		<property name="password" value="coruja" /> -->
 	</bean>
 
 
