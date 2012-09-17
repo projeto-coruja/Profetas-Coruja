@@ -5,17 +5,31 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.hibernate.dialect.PostgreSQL82Dialect;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+
+//import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 public class HibernateConfiguration {
 
-	@Value("#{dataSource}")
+	// @Value("#{dataSource}")
 	private DataSource dataSource;
+
+	private DataSource getDataSource() {
+		if (dataSource == null) {
+			DriverManagerDataSource newDataSource = new DriverManagerDataSource();
+			newDataSource.setDriverClassName("org.postgresql.Driver");
+			newDataSource.setUrl("jdbc:postgresql://localhost:5432/coruja_metaprojeto");
+			newDataSource.setUsername("coruja");
+			newDataSource.setPassword("coruja");
+			this.dataSource = newDataSource;
+		}
+		return this.dataSource;
+	}
 
 	@Bean
 	public LocalSessionFactoryBean sessionFactoryBean() {
@@ -24,16 +38,10 @@ public class HibernateConfiguration {
 		props.put("hibernate.format_sql", "true");
 		props.put("hibernate.hbm2ddl.auto", "create-drop");
 		
-		//props.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		props.put("hibernate.connection.driver_class", "org.springframework.jdbc.datasource.DriverManagerDataSource");
-		props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/coruja_metaprojeto");
-		props.put("hibernate.connection.username", "coruja");
-		props.put("hibernate.connection.password", "coruja");
-		
-	    LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
-		bean.setAnnotatedClasses(new Class[]{Item.class, Order.class});		
+		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
+		bean.setAnnotatedClasses(new Class[] { Item.class, Order.class });
 		bean.setHibernateProperties(props);
-		bean.setDataSource(this.dataSource);
+		bean.setDataSource(getDataSource());
 		return bean;
 	}
 
