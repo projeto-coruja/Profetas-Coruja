@@ -21,7 +21,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="teste.mvc.teste" />
+	<context:component-scan base-package="br.unifesp.coruja.meta" />
 	
 	
 	

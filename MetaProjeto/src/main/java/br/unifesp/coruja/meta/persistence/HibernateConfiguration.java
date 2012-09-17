@@ -23,11 +23,14 @@ public class HibernateConfiguration {
 		props.put("hibernate.dialect", H2Dialect.class.getName());
 		props.put("hibernate.format_sql", "true");
 		
+		
+//		props.put("hibernate.hbm2ddl.auto", "create-drop");
 //		props.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 //	    props.put("hibernate.connection.username", "coruja");
 //	    props.put("hibernate.connection.password", "coruja");
 //	    props.put("hibernate.connection.url", "jdbc:mysql://localhost:5432/coruja_metaprojeto");
 
+	    
 		AnnotationSessionFactoryBean bean = new AnnotationSessionFactoryBean();
 		bean.setAnnotatedClasses(new Class[]{Item.class, Order.class});		
 		bean.setHibernateProperties(props);
