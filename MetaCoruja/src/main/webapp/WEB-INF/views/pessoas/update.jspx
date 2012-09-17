@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <jsp:output omit-xml-declaration="yes"/>
-    <form:update id="fu_br_unifesp_teste_model_Pessoa" modelAttribute="pessoa" path="/pessoas" versionField="Version" z="+1H0wToB0VcEdFcrIgHV/zQZk3Q=">
-        <field:input field="Nome" id="c_br_unifesp_teste_model_Pessoa_Nome" z="VvunAG4qc3V0SR0gU7J0vkEr2Bg="/>
-        <field:checkbox field="Online" id="c_br_unifesp_teste_model_Pessoa_Online" z="TKV2IQIMxwVPVPBm9RDk1QHTJYY="/>
-    </form:update>
-</div>
