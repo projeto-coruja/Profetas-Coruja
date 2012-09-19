@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.unifesp.maritaca</groupId>
+  <artifactId>maritaca</artifactId>
+  <packaging>pom</packaging>
+  <version>${maritaca.version}</version>
+  <name>maritaca</name>
+  <url>https://acatiram.com</url>
+  
+  <modules>
+    <module>persistence</module>
+    <module>business</module>
+    <module>webservices</module>
+    <module>web</module>
+  </modules>
+  
+  <properties>
+  	<!-- This version corresponds to the current Maritaca milestone -->
+    <maritaca.version>0.1.2</maritaca.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <log4j.version>1.2.16</log4j.version>
+    <slf4j.version>1.5.11</slf4j.version>
+    <commonslogging.version>1.1</commonslogging.version>
+    <springframework.version>3.1.0.RELEASE</springframework.version>
+    <jackson.version>1.9.7</jackson.version>
+    
+    <javaeewebapi.version>6.0</javaeewebapi.version>
+    <jspapi.version>2.0</jspapi.version>
+    
+    <jstl.version>1.1.2</jstl.version>
+    <standardtaglibs.version>1.1.2</standardtaglibs.version>
+    <tiles.version>2.2.2</tiles.version>
+    
+    <!-- -->
+    <junit.version>4.8.1</junit.version>
+    <mockito.version>1.9.0-rc1</mockito.version>
+    <springmodules.validation.version>0.8</springmodules.validation.version>
+  </properties>
+</project>
