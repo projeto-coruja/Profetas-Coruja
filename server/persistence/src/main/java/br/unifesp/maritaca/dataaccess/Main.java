@@ -10,7 +10,7 @@ import br.unifesp.maritaca.dataaccess.domain.UserVO;
 
 public class Main {
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
         
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         UserDAO userDAO = (UserDAO) context.getBean("userDAO");
@@ -28,5 +28,5 @@ public class Main {
         for(UserVO u : users) {
             System.out.println("u: " + u.getEmail());
         }        
-    }
+    }*/
 }
