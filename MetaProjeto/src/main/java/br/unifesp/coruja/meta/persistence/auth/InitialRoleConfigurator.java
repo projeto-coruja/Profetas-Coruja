@@ -14,18 +14,20 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-
+@Component
 public class InitialRoleConfigurator implements ApplicationListener<ContextRefreshedEvent> {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Transactional
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		if(populateRoleList() == false);
-		System.out.println("PANIC");
+		if(populateRoleList() == false)
+			System.out.println("PANIC");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -47,7 +49,7 @@ public class InitialRoleConfigurator implements ApplicationListener<ContextRefre
 					populate_query.executeUpdate();
 					counter++;
 				}
-				reader.readLine();
+				rolename = reader.readLine();
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {
