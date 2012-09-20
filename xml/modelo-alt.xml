@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message-repository>
+	<category name="aCategory">
+		<message-bucket reference="anotherFieldName">
+			<message id="1">Moar text.</message>
+			<message id="2">Text was here.</message>
+		</message-bucket>
+		<message-bucket reference="anExceptionName">
+			<message id="1">It broke because aliens.</message>
+			<message id="2">It broke because magnets.</message>
+			<message id="3">It broke because aliens and magnets.</message>
+		</message-bucket>
+	</category>
+</message-repository>
