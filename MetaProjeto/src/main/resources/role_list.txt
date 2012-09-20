@@ -1,0 +1,6 @@
+-- Simple file listing all the roles used by the metaproject
+Admin
+Supervisor
+Manager
+User
+Banned

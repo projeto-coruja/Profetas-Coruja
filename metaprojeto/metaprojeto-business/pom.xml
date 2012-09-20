@@ -8,9 +8,7 @@
 		<artifactId>metaprojeto</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>br.unifesp.coruja</groupId>
 	<artifactId>metaprojeto-business</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>metaprojeto-business</name>
 	<url>http://maven.apache.org</url>
 	<properties>
