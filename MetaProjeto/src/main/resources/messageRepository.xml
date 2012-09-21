@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<message-repository>
+<message-repository
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="msg-repo-coruja1.0.xsd">
 	<category name="aCategory">
 		<context name="somewhere">
 			<message id="1" reference="alsoThere">It broke because aliens.</message>
