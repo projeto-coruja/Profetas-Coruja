@@ -26,15 +26,15 @@ public class InitialRoleConfigurator implements ApplicationListener<ContextRefre
 	@Transactional
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		if(populateRoleList() == false)
+		if(populatePermissionList() == false)
 			System.out.println("PANIC");
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public boolean populateRoleList() {
+	public boolean populatePermissionList() {
 		Session s = sessionFactory.getCurrentSession();
-		List<String> old_role_list = s.createQuery("select rolename from Role").list();
+		List<String> old_role_list = s.createQuery("select rolename from Permission").list();
 		SQLQuery populate_query = s.createSQLQuery("INSERT INTO user_roles(id, rolename) VALUES (:p_id, :p_rolename);");
 		long counter = 1;
 		

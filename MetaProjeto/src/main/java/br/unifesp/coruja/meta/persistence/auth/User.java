@@ -1,11 +1,10 @@
-package br.unifesp.coruja.meta.persistence;
-
-import java.util.List;
+package br.unifesp.coruja.meta.persistence.auth;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -26,8 +25,9 @@ public class User {
 	@NotEmpty
 	private String password;
 	
-	@OneToMany
-	private List<Role> roles;
+	@NotNull
+	@ManyToOne
+	private Group authGroup;
 
 	public Long getId() {
 		return id;
@@ -61,12 +61,12 @@ public class User {
 		this.password = password;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+	public Group getAuthGroup() {
+		return authGroup;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setAuthGroup(Group authGroup) {
+		this.authGroup = authGroup;
 	}
 
 }

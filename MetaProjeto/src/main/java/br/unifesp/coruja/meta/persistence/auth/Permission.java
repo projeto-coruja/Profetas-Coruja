@@ -1,4 +1,4 @@
-package br.unifesp.coruja.meta.persistence;
+package br.unifesp.coruja.meta.persistence.auth;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user_roles")
-public class Role {
+public class Permission {
 	
 	@Id
 	private Long id;

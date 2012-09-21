@@ -1,0 +1,11 @@
+-- I hate life
+-- List of annotated classes to be managed by Hibernate
+-- Used on HibernateConfiguration
+-- Lines starting in ++ define a prefix for the mapped classes
+++ br.unifesp.coruja.meta.persistence.auth
+User
+Group
+Permission
+++ br.unifesp.coruja.meta.persistence
+Item
+Order

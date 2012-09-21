@@ -1,6 +1,10 @@
 package br.unifesp.coruja.meta.persistence;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -8,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -31,6 +36,39 @@ public class HibernateConfiguration {
 		}
 		return this.dataSource;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	private Class[] generateEntityClassList() {
+		ArrayList<Class> class_list = new ArrayList<Class>();
+	
+		try {
+			Resource role_list = new ClassPathResource("/entity_list.txt");
+			BufferedReader reader = new BufferedReader(new FileReader(role_list.getFile()));
+			String text_line = reader.readLine();
+			String prefix = null;
+			while(text_line != null) {
+				if(text_line.startsWith("++")){
+					prefix = text_line.substring(2).trim();
+				}
+				else if(!text_line.startsWith("--")){
+					class_list.add(Class.forName(prefix + "." + text_line));
+				}
+				text_line = reader.readLine();
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return (Class[]) class_list.toArray(new Class[class_list.size()]);
+	}
 
 	@Bean
 	public LocalSessionFactoryBean sessionFactoryBean() throws IOException {
@@ -38,7 +76,7 @@ public class HibernateConfiguration {
 		Properties hibernate_props = PropertiesLoaderUtils.loadProperties(new ClassPathResource("/hibernate.properties"));
 		
 		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
-		bean.setAnnotatedClasses(new Class[] { Item.class, Order.class, User.class, Role.class });
+		bean.setAnnotatedClasses(generateEntityClassList());
 		bean.setHibernateProperties(hibernate_props);
 		bean.setDataSource(getDataSource(jdbc_props));
 		return bean;
