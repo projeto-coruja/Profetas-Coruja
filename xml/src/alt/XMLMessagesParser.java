@@ -35,20 +35,24 @@ public class XMLMessagesParser {
 				String category = cat.getAttributeValue("name");
 				repo.putCategory(category);
 				
-				//E agora pegando os buckets da categoria, e iterando neles
-				List<Element> bucketList = cat.getChildren();
-				for(Element bucket : bucketList) {
+				//E agora pegando os contextos da categoria, e iterando neles
+				List<Element> contextList = cat.getChildren();
+				for(Element ctx : contextList) {
 					
-					//Repete tudo com as referẽncias
-					String reference = bucket.getAttributeValue("reference");
-					repo.putBucket(category, reference);
-					List<Element> messageList = bucket.getChildren();
+					//Repete tudo com os contextos
+					String context = ctx.getAttributeValue("name");
+					repo.putContext(category, context);
+					List<Element> messageList = ctx.getChildren();
 					for(Element msg : messageList) {
+						
+						String reference = msg.getAttributeValue("reference");
+						if(!repo.referenceExists(category, context, reference))
+							repo.putReference(category, context, reference);
 						
 						//Finalmente, adicionando a mensagem com o atributo "id"
 						int id = Integer.parseInt(msg.getAttributeValue("id"));
 						String message = msg.getText();
-						repo.putMessage(category, reference, id, message);
+						repo.putMessage(category, context, reference, id, message);
 					}
 				}
 			}
