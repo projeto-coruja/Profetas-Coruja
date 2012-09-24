@@ -5,7 +5,6 @@
 # For STS/Eclipse #
 ###################
 .classpath
-.project
 .settings
 
 # Maven #
