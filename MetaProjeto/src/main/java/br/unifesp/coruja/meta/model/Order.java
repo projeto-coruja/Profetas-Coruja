@@ -1,4 +1,4 @@
-package br.unifesp.coruja.meta.persistence;
+package br.unifesp.coruja.meta.model;
 
 
 import java.util.Collection;
