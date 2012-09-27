@@ -1,4 +1,4 @@
-package br.unifesp.coruja.meta.persistence;
+package br.unifesp.coruja.meta.persistence.util;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -42,8 +42,8 @@ public class HibernateConfiguration {
 		ArrayList<Class> class_list = new ArrayList<Class>();
 	
 		try {
-			Resource role_list = new ClassPathResource("/entity_list.txt");
-			BufferedReader reader = new BufferedReader(new FileReader(role_list.getFile()));
+			Resource entity_list = new ClassPathResource("/entity_list.txt");
+			BufferedReader reader = new BufferedReader(new FileReader(entity_list.getFile()));
 			String text_line = reader.readLine();
 			String prefix = null;
 			while(text_line != null) {

@@ -1,4 +1,4 @@
-package br.unifesp.coruja.meta.persistence.auth;
+package br.unifesp.coruja.meta.persistence.util;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -19,17 +19,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class InitialRoleConfigurator implements ApplicationListener<ContextRefreshedEvent> {
-
+	
 	@Autowired
 	private SessionFactory sessionFactory;
-
+	
 	@Transactional
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		if(populatePermissionList() == false)
 			System.out.println("PANIC");
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public boolean populatePermissionList() {
@@ -37,7 +37,7 @@ public class InitialRoleConfigurator implements ApplicationListener<ContextRefre
 		List<String> old_role_list = s.createQuery("select rolename from Permission").list();
 		SQLQuery populate_query = s.createSQLQuery("INSERT INTO user_roles(id, rolename) VALUES (:p_id, :p_rolename);");
 		long counter = 1;
-
+		
 		try {
 			Resource role_list = new ClassPathResource("/role_list.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(role_list.getFile()));
@@ -59,7 +59,7 @@ public class InitialRoleConfigurator implements ApplicationListener<ContextRefre
 			System.out.println("ERROR: failure trying to read file");
 			return false;
 		}
-
+		
 		return true;
 	}
 

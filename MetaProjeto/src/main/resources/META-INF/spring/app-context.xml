@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -13,5 +15,14 @@
 	<context:annotation-config />
 	
 	<tx:annotation-driven  transaction-manager="transactionManager"/>
+	
+	<bean id="dtobinder" class="org.jdto.spring.SpringDTOBinder" />
 
+	<bean id="dtoutil" class="br.unifesp.coruja.meta.persistence.util.DTOUtility">
+		<constructor-arg name="dtoPrefix" value="br.unifesp.coruja.meta.persistence.dto" />
+		<constructor-arg name="entityPrefix" value="br.unifesp.coruja.meta.persistence.model" />
+	</bean>
+	
+	<bean id="bd-access" class="br.unifesp.coruja.meta.persistence.util.PersistenceAccess"></bean>
+	
 </beans>

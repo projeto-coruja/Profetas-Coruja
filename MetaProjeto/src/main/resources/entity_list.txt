@@ -1,10 +1,9 @@
 -- List of annotated classes to be managed by Hibernate
 -- Used on HibernateConfiguration
 -- Lines starting in ++ define a prefix for the mapped classes
-++ br.unifesp.coruja.meta.persistence.auth
+++ br.unifesp.coruja.meta.persistence.model
+Item
+Order
 User
 Group
 Permission
-++ br.unifesp.coruja.meta.persistence
-Item
-Order
