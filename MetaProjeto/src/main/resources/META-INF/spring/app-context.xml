@@ -23,6 +23,7 @@
 		<constructor-arg name="entityPrefix" value="br.unifesp.coruja.meta.persistence.model" />
 	</bean>
 	
-	<bean id="bd-access" class="br.unifesp.coruja.meta.persistence.util.PersistenceAccess"></bean>
-	
+	<bean id="bd-access"
+		class="br.unifesp.coruja.meta.persistence.util.PersistenceAccess" />
+
 </beans>

@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<http auto-config="true">
-		<intercept-url pattern="/home*" access="ROLE_USER" />
+		<intercept-url pattern="/home*" access="ROLE_ADMIN" />
 		<form-login login-page="/login" default-target-url="/home"
 			authentication-failure-url="/loginfailed" />
 		<logout logout-success-url="/logout" />

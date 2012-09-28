@@ -12,6 +12,17 @@ public class Group implements DTO{
 	private String groupname;
 	
 	private List<Permission> roles;
+	
+	
+	public Group() {
+		//For JDTO use
+	}
+	
+	public Group(String groupname, List<Permission> roles) {
+		super();
+		this.groupname = groupname;
+		this.roles = roles;
+	}
 
 	public Long getId() {
 		return id;

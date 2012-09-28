@@ -3,6 +3,8 @@ package br.unifesp.coruja.meta.persistence.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -14,7 +16,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name="user_accounts")
 public class UserMO implements EntityModel{
 	
-private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 	
 	@NotEmpty
 	private String nickname;

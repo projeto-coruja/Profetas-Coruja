@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
@@ -17,24 +19,32 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.unifesp.coruja.meta.persistence.dto.DTO;
+import br.unifesp.coruja.meta.persistence.dto.Group;
+import br.unifesp.coruja.meta.persistence.dto.Permission;
+import br.unifesp.coruja.meta.persistence.dto.User;
+
 @Component
 public class InitialRoleConfigurator implements ApplicationListener<ContextRefreshedEvent> {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Autowired
+	private PersistenceAccess pa;
+	
 	@Transactional
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		if(populatePermissionList() == false)
-			System.out.println("PANIC");
+		populatePermissionList();
+		populateUserAndGroupTables();
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public boolean populatePermissionList() {
+	public void populatePermissionList() {
 		Session s = sessionFactory.getCurrentSession();
-		List<String> old_role_list = s.createQuery("select rolename from Permission").list();
+		List<String> old_role_list = s.createQuery("select rolename from PermissionMO").list();
 		SQLQuery populate_query = s.createSQLQuery("INSERT INTO user_roles(id, rolename) VALUES (:p_id, :p_rolename);");
 		long counter = 1;
 		
@@ -54,13 +64,34 @@ public class InitialRoleConfigurator implements ApplicationListener<ContextRefre
 			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: role list not found");
-			return false;
 		} catch (IOException e) {
 			System.out.println("ERROR: failure trying to read file");
-			return false;
+		}
+	}
+	
+	@Transactional
+	public void populateUserAndGroupTables() {
+		Group g_user = null, g_admin = null;
+		
+		List<DTO> list_roles = pa.findEntity("from PermisssionMO");
+		for(DTO dto : list_roles) {
+			Permission p = (Permission) dto;
+			if(p.getRolename().equals("ROLE_USER")) {
+				g_user = new Group("users", new ArrayList<Permission>());
+				g_user.getRoles().add(p);
+			}
+			else if(p.getRolename().equals("ROLE_ADMIN")) {
+				g_admin = new Group("admins", new ArrayList<Permission>());
+				g_admin.getRoles().add(p);
+			}
 		}
 		
-		return true;
+		pa.saveEntity(g_admin);
+		pa.saveEntity(g_user);
+		
+		User u = new User("Hueho", "hueho@gmail.com", "senha", g_admin, true, new Date());
+		pa.saveEntity(u);
+				
 	}
 
 }

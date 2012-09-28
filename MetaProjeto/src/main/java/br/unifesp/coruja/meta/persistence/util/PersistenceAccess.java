@@ -22,7 +22,9 @@ public class PersistenceAccess {
 	
 	@SuppressWarnings({"unchecked"})
 	public void saveEntity(DTO dto) {
-		sf.getCurrentSession().save(binder.extractFromDto(du.findEntityClassForDTO(dto), dto));
+		EntityModel em = binder.extractFromDto(du.findEntityClassForDTO(dto), dto);
+		sf.getCurrentSession().save(em);
+		dto.setId(em.getId());
 	}
 	
 	public void updateEntity(DTO dto) throws IllegalArgumentException, UpdateEntityException {

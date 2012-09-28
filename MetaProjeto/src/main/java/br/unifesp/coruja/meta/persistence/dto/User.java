@@ -37,6 +37,23 @@ public class User implements DTO, UserDetails{
 	@NotNull
 	private Date creationDate;
 
+	public User() {
+		//For JDTO use
+	}
+
+	public User(String nickname, String username, String password,
+			Group authGroup, boolean enabled, Date creationDate) {
+		super();
+		this.nickname = nickname;
+		this.username = username;
+		this.password = password;
+		this.authGroup = authGroup;
+		this.enabled = enabled;
+		this.creationDate = creationDate;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}

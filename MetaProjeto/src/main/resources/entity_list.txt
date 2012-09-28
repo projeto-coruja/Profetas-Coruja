@@ -2,6 +2,6 @@
 -- Used on HibernateConfiguration
 -- Lines starting in ++ define a prefix for the mapped classes
 ++ br.unifesp.coruja.meta.persistence.model
-User
-Group
-Permission
+UserMO
+GroupMO
+PermissionMO
