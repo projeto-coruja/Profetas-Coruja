@@ -37,7 +37,21 @@ public class InitialRoleConfigurator implements ApplicationListener<ContextRefre
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		populatePermissionList();
-		populateUserAndGroupTables();
+		try {
+			populateUserAndGroupTables();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UpdateEntityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -70,10 +84,10 @@ public class InitialRoleConfigurator implements ApplicationListener<ContextRefre
 	}
 	
 	@Transactional
-	public void populateUserAndGroupTables() {
+	public void populateUserAndGroupTables() throws IllegalArgumentException, InstantiationException, IllegalAccessException, UpdateEntityException {
 		Group g_user = null, g_admin = null;
 		
-		List<DTO> list_roles = pa.findEntity("from PermisssionMO");
+		List<DTO> list_roles = pa.findEntity("from PermissionMO");
 		for(DTO dto : list_roles) {
 			Permission p = (Permission) dto;
 			if(p.getRolename().equals("ROLE_USER")) {

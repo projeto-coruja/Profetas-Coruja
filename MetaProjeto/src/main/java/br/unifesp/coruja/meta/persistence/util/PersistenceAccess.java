@@ -20,9 +20,9 @@ public class PersistenceAccess {
 	@Autowired
 	private DTOUtility du;
 	
-	@SuppressWarnings({"unchecked"})
-	public void saveEntity(DTO dto) {
-		EntityModel em = binder.extractFromDto(du.findEntityClassForDTO(dto), dto);
+	public void saveEntity(DTO dto) throws IllegalArgumentException, UpdateEntityException, InstantiationException, IllegalAccessException {
+		EntityModel em = du.createEmptyEntityInstanceFromDTOType(dto);
+		du.updateEntityFromDTO(em, dto);
 		sf.getCurrentSession().save(em);
 		dto.setId(em.getId());
 	}

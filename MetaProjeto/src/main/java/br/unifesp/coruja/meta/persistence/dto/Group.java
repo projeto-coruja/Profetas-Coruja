@@ -3,6 +3,7 @@ package br.unifesp.coruja.meta.persistence.dto;
 import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.jdto.annotation.DTOCascade;
 
 public class Group implements DTO{
 	
@@ -11,8 +12,8 @@ public class Group implements DTO{
 	@NotEmpty
 	private String groupname;
 	
+	@DTOCascade
 	private List<Permission> roles;
-	
 	
 	public Group() {
 		//For JDTO use

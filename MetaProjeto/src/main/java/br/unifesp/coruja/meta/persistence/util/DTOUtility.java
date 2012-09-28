@@ -23,6 +23,8 @@ public class DTOUtility {
 	
 	private String dtoPrefix;
 	private String entityPrefix;
+	private String dtoSuffix;
+	private String entitySuffix;
 	
 	@Autowired
 	private DTOBinder binder;
@@ -33,10 +35,16 @@ public class DTOUtility {
 	 * @param dtoPrefix
 	 * @param entityPrefix
 	 */
-	@ConstructorProperties({"dtoPrefix, entityPrefix"})
-	public DTOUtility(String dtoPrefix, String entityPrefix){
+	@ConstructorProperties({"dtoPrefix", "entityPrefix", "dtoSuffix", "entitySuffix"})
+	public DTOUtility(String dtoPrefix, String entityPrefix, String dtoSuffix, String entitySuffix){
 		this.dtoPrefix = dtoPrefix;
 		this.entityPrefix = entityPrefix;
+		this.dtoSuffix = dtoSuffix;
+		this.entitySuffix = entitySuffix;
+	}
+	
+	public DTOUtility(){
+
 	}
 	
 	/**
@@ -49,7 +57,7 @@ public class DTOUtility {
 		Class clazz = dto.getClass();
 		String name = clazz.getSimpleName();
 		try {
-			return Class.forName(entityPrefix + name);
+			return Class.forName(entityPrefix + "." + name + entitySuffix);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -64,9 +72,9 @@ public class DTOUtility {
 	 */
 	public Class findDTOClassForEntity(Object ent){
 		Class clazz = ent.getClass();
-		String name = clazz.getSimpleName();
+		String name = clazz.getSimpleName().replace(entitySuffix, dtoSuffix);
 		try {
-			return Class.forName(dtoPrefix + name);
+			return Class.forName(dtoPrefix + "." + name);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -113,6 +121,9 @@ public class DTOUtility {
 						Object arg = null;
 						try {
 							arg = get.invoke(dto, (Object[]) null);
+							if(arg == null) {
+								set.invoke(ent, arg);
+							}
 							if(arg instanceof List){
 								Object test_type = ((List) arg).get(0);
 								if(test_type instanceof DTO) {
@@ -129,6 +140,10 @@ public class DTOUtility {
 							else if(arg instanceof DTO){
 								Method ent_getter = ent_class.getMethod(get.getName(), (Class[]) null);
 								Object embedded_ent = ent_getter.invoke(ent, (Object[]) null);
+								if(embedded_ent == null) {
+									Class embedded_ent_class = ent_getter.getReturnType();
+									embedded_ent = embedded_ent_class.newInstance();
+								}
 								updateEntityFromDTO((EntityModel) embedded_ent, (DTO) arg);
 							} else set.invoke(ent, arg);
 						} catch (IllegalAccessException e) {
@@ -143,11 +158,17 @@ public class DTOUtility {
 						} catch (SecurityException e) {
 							e.printStackTrace();
 							throw new UpdateEntityException("Erro ao atualizar entidade.");
+						} catch (InstantiationException e) {
+							e.printStackTrace();
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	public EntityModel createEmptyEntityInstanceFromDTOType(DTO dto) throws InstantiationException, IllegalAccessException {
+		return (EntityModel) findEntityClassForDTO(dto).newInstance();
 	}
 
 }

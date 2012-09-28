@@ -21,6 +21,8 @@
 	<bean id="dtoutil" class="br.unifesp.coruja.meta.persistence.util.DTOUtility">
 		<constructor-arg name="dtoPrefix" value="br.unifesp.coruja.meta.persistence.dto" />
 		<constructor-arg name="entityPrefix" value="br.unifesp.coruja.meta.persistence.model" />
+		<constructor-arg name="dtoSuffix" value="" />
+		<constructor-arg name="entitySuffix" value="MO" />
 	</bean>
 	
 	<bean id="bd-access"

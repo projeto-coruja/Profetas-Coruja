@@ -23,6 +23,8 @@
 	
 	<context:component-scan base-package="br.unifesp.coruja.meta" />
 	
+	<beans:import resource="classpath:app-context.xml"/>
+	
 	
 	
 </beans:beans>
