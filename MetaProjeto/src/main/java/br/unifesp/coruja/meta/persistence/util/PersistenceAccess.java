@@ -7,6 +7,7 @@ import org.jdto.DTOBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.unifesp.coruja.meta.persistence.dto.DTO;
+import br.unifesp.coruja.meta.persistence.model.EntityModel;
 
 public class PersistenceAccess {
 	
@@ -26,7 +27,7 @@ public class PersistenceAccess {
 	
 	public void updateEntity(DTO dto) throws IllegalArgumentException, UpdateEntityException {
 		Object entity = sf.getCurrentSession().load(du.findEntityClassForDTO(dto), dto.getId());
-		du.updateEntityFromDTO(entity, dto);
+		du.updateEntityFromDTO((EntityModel) entity, dto);
 		sf.getCurrentSession().update(entity);
 	}
 	

@@ -4,8 +4,13 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.jdto.DTOBinder;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import br.unifesp.coruja.meta.persistence.dto.DTO;
+import br.unifesp.coruja.meta.persistence.model.EntityModel;
 import br.unifesp.coruja.meta.persistence.util.UpdateEntityException;
 
 /**
@@ -18,6 +23,9 @@ public class DTOUtility {
 	
 	private String dtoPrefix;
 	private String entityPrefix;
+	
+	@Autowired
+	private DTOBinder binder;
 	
 	/**
 	 * Construtor para a classe, criado especificamente para uso pelo Spring.<br>
@@ -74,7 +82,7 @@ public class DTOUtility {
 	 * @throws UpdateEntityException 
 	 */
 	@SuppressWarnings("unchecked")
-	public void updateEntityFromDTO(Object ent, DTO dto) throws IllegalArgumentException, UpdateEntityException {
+	public void updateEntityFromDTO(EntityModel ent, DTO dto) throws IllegalArgumentException, UpdateEntityException {
 		
 		if(ent == null) throw new IllegalArgumentException("Entity argument is null");
 		if(dto == null) throw new IllegalArgumentException("DTO argument is null");
@@ -102,16 +110,27 @@ public class DTOUtility {
 			if(!get.getName().substring(3).equals("Id")){
 				for(Method set : ec_setters) {
 					if(get.getName().substring(3).equals(set.getName().substring(3))) {
-						Object arg;
+						Object arg = null;
 						try {
 							arg = get.invoke(dto, (Object[]) null);
-							if(!(arg instanceof DTO))
-								set.invoke(ent, arg);
-							else {
+							if(arg instanceof List){
+								Object test_type = ((List) arg).get(0);
+								if(test_type instanceof DTO) {
+									throw new IllegalAccessError("Not supported yet");
+								}
+								else {
+									List<Object> ent_list = new ArrayList<Object>();
+									for(Object obj : (List<Object>) arg) {
+										ent_list.add(obj);
+									}
+									set.invoke(ent, ent_list);
+								}
+							}
+							else if(arg instanceof DTO){
 								Method ent_getter = ent_class.getMethod(get.getName(), (Class[]) null);
 								Object embedded_ent = ent_getter.invoke(ent, (Object[]) null);
-								updateEntityFromDTO(embedded_ent, (DTO) arg);
-							}
+								updateEntityFromDTO((EntityModel) embedded_ent, (DTO) arg);
+							} else set.invoke(ent, arg);
 						} catch (IllegalAccessException e) {
 							e.printStackTrace();
 							throw new UpdateEntityException("Erro ao atualizar entidade.");
