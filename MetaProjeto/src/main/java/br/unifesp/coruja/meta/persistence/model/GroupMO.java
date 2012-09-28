@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user_groups")
-public class Group implements EntityModel{
+public class GroupMO implements EntityModel{
 	
 	@Id
 	private Long id;
@@ -20,7 +20,7 @@ public class Group implements EntityModel{
 	private String groupname;
 	
 	@OneToMany
-	private List<Permission> roles;
+	private List<PermissionMO> roles;
 
 	public Long getId() {
 		return id;
@@ -38,11 +38,11 @@ public class Group implements EntityModel{
 		this.groupname = groupname;
 	}
 
-	public List<Permission> getRoles() {
+	public List<PermissionMO> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Permission> roles) {
+	public void setRoles(List<PermissionMO> roles) {
 		this.roles = roles;
 	}
 

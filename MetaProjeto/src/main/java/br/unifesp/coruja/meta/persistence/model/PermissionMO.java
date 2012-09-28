@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user_roles")
-public class Permission implements EntityModel{
+public class PermissionMO implements EntityModel{
 	
 	@Id
 	private Long id;
