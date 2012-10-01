@@ -25,7 +25,7 @@ public class HibernateUserDetailsService implements UserDetailsService {
 		if(resultSet == null) throw new UsernameNotFoundException(username + " not found");
 		
 		UserDetails user = (UserDetails) resultSet.get(0);
-		if(user.getAuthorities() != null || user.getAuthorities().isEmpty())
+		if(user.getAuthorities() == null || user.getAuthorities().isEmpty())
 			throw new UsernameNotFoundException(username + " doesn't have any authority");
 		else return user;
 	}

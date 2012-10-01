@@ -10,7 +10,7 @@
 		<intercept-url pattern="/home*" access="ROLE_ADMIN" />
 		<form-login login-page="/login" default-target-url="/home"
 			authentication-failure-url="/loginfailed" />
-		<logout logout-success-url="/logout" />
+		<logout logout-success-url="/" />
 	</http>
 
 	<beans:bean id="userDetailsService"

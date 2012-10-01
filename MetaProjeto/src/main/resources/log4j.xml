@@ -33,7 +33,7 @@
 	</logger>
 	
 	<logger name="org.springframework.security">
-		<level value="info" />
+		<level value="all" />
 	</logger>
 	
 	<logger name="org.hibernate">
