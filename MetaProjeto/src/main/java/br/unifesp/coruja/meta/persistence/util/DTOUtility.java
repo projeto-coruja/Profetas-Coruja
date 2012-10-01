@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.jdto.DTOBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,6 +29,9 @@ public class DTOUtility {
 	
 	@Autowired
 	private DTOBinder binder;
+	
+	@Autowired
+	private SessionFactory sf;
 	
 	/**
 	 * Construtor para a classe, criado especificamente para uso pelo Spring.<br>
@@ -127,7 +131,68 @@ public class DTOUtility {
 							if(arg instanceof List){
 								Object test_type = ((List) arg).get(0);
 								if(test_type instanceof DTO) {
-									throw new IllegalAccessError("Not supported yet");
+									/*
+									 * arg é uma lista
+									 * se executar o get na entidade também será uma lista 
+									 */
+									Method ent_list_getter = ent_class.getMethod(get.getName(), (Class[]) null);
+									List<EntityModel> ent_list = (List<EntityModel>) ent_list_getter.invoke(ent, (Object[]) null);
+									List<DTO> dto_list = (List<DTO>) arg;
+									boolean check = true;
+									/*
+									 * para cada DTO, itera pelas entidades que já existirem
+									 * se o DTO não possuir id em comum com qualquer entidade, busque
+									 * a entidade relacionada ao DTO do banco de dados. Se não existir, 
+									 * taca exceção porque setaram o Id do DTO manualmente
+									 */
+									if(ent_list != null) {
+										for(DTO dto_e : dto_list) {
+											if(dto_e.getId() != null) {
+												for(EntityModel ent_e : ent_list) {
+													if(dto_e.getId() == ent_e.getId()) {
+														check = false;
+														break;
+													}
+												}
+												if(check) {
+													EntityModel new_ent = (EntityModel) sf.getCurrentSession().get(findEntityClassForDTO(dto_e), dto_e.getId());
+													if(new_ent != null) {
+														ent_list.add(new_ent);
+													}
+													else {
+														throw new UpdateEntityException("DO NOT SET ID ON NEWLY CREATED DTO INSTANCES");
+													}
+												}
+											}
+											else {
+												EntityModel new_ent = createEmptyEntityInstanceFromDTOType(dto_e);
+												updateEntityFromDTO(new_ent, dto_e);
+												sf.getCurrentSession().save(new_ent);
+												ent_list.add(new_ent);
+											}
+										}
+									}
+									else {
+										ent_list = new ArrayList<EntityModel>();
+										for(DTO dto_e : dto_list) {
+											if(dto_e.getId() != null) {
+												EntityModel new_ent = (EntityModel) sf.getCurrentSession().get(findEntityClassForDTO(dto_e), dto_e.getId());
+												if(new_ent != null) {
+													ent_list.add(new_ent);
+												}
+												else {
+													throw new UpdateEntityException("DO NOT SET ID ON NEWLY CREATED DTO INSTANCES");
+												}
+											}
+											else {
+												EntityModel new_ent = createEmptyEntityInstanceFromDTOType(dto_e);
+												updateEntityFromDTO(new_ent, dto_e);
+												sf.getCurrentSession().save(new_ent);
+												ent_list.add(new_ent);
+											}
+										}
+									}
+									set.invoke(ent, ent_list);
 								}
 								else {
 									List<Object> ent_list = new ArrayList<Object>();
@@ -141,10 +206,25 @@ public class DTOUtility {
 								Method ent_getter = ent_class.getMethod(get.getName(), (Class[]) null);
 								Object embedded_ent = ent_getter.invoke(ent, (Object[]) null);
 								if(embedded_ent == null) {
-									Class embedded_ent_class = ent_getter.getReturnType();
-									embedded_ent = embedded_ent_class.newInstance();
+									if(((DTO) arg).getId() == null){
+										Class embedded_ent_class = ent_getter.getReturnType();
+										embedded_ent = embedded_ent_class.newInstance();
+										updateEntityFromDTO((EntityModel) embedded_ent, (DTO) arg);
+										sf.getCurrentSession().save(embedded_ent);
+										set.invoke(ent, embedded_ent);
+									}
+									else{
+										embedded_ent = sf.getCurrentSession().get(findEntityClassForDTO((DTO) arg), ((DTO) arg).getId());
+										if(embedded_ent != null) {
+											updateEntityFromDTO((EntityModel) embedded_ent, (DTO) arg);
+											sf.getCurrentSession().update(embedded_ent);
+											set.invoke(ent, embedded_ent);
+										}
+										else {
+											throw new UpdateEntityException("DO NOT SET ID ON NEWLY CREATED DTO INSTANCES");
+										}
+									}
 								}
-								updateEntityFromDTO((EntityModel) embedded_ent, (DTO) arg);
 							} else set.invoke(ent, arg);
 						} catch (IllegalAccessException e) {
 							e.printStackTrace();

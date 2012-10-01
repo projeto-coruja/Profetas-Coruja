@@ -7,8 +7,9 @@
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
-		<config>src/main/resources/security-context.xml</config>
-		<config>src/main/resources/app-context.xml</config>
+		<config>src/main/resources/contextConfig/app-context.xml</config>
+		<config>src/main/resources/contextConfig/security-context.xml</config>
+		<config>src/main/webapp/WEB-INF/root-context.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

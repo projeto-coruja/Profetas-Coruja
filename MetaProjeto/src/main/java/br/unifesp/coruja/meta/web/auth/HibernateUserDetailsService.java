@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.unifesp.coruja.meta.persistence.dto.DTO;
 import br.unifesp.coruja.meta.persistence.util.PersistenceAccess;
@@ -18,6 +19,7 @@ public class HibernateUserDetailsService implements UserDetailsService {
 	private PersistenceAccess pa;
 
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<DTO> resultSet = pa.findEntity("from UserMO where username = '" + username +"'");
 		if(resultSet == null) throw new UsernameNotFoundException(username + " not found");

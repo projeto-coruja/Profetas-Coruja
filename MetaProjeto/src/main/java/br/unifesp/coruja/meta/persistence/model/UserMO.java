@@ -79,7 +79,7 @@ public class UserMO implements EntityModel{
 		this.authGroup = authGroup;
 	}
 
-	public boolean isEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
 

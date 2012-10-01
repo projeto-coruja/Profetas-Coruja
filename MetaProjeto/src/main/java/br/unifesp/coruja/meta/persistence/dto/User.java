@@ -96,7 +96,7 @@ public class User implements DTO, UserDetails{
 		this.authGroup = authGroup;
 	}
 
-	public boolean isEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
 
@@ -137,6 +137,11 @@ public class User implements DTO, UserDetails{
 
 	@Override
 	public boolean isCredentialsNonExpired() {
+		return enabled;
+	}
+	
+	@Override
+	public boolean isEnabled() {
 		return enabled;
 	}
 

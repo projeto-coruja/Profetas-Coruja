@@ -25,7 +25,12 @@
 		<constructor-arg name="entitySuffix" value="MO" />
 	</bean>
 	
-	<bean id="bd-access"
+	<bean id="db-access"
 		class="br.unifesp.coruja.meta.persistence.util.PersistenceAccess" />
 
+	<bean id="initDB"
+		class="br.unifesp.coruja.meta.persistence.util.DatabaseTestConfig"
+		init-method="initDB">
+	</bean>
+	
 </beans>
