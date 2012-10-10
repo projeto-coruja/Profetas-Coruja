@@ -5,13 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import br.unifesp.coruja.meta.general.SimpleDate;
 import br.unifesp.coruja.meta.persistence.dto.DTO;
 import br.unifesp.coruja.meta.persistence.dto.Group;
 import br.unifesp.coruja.meta.persistence.dto.Permission;
@@ -86,7 +86,7 @@ public class DatabaseTestConfig {
 		try {
 			pa.saveEntity(g_admin);
 			pa.saveEntity(g_user);
-			User u = new User("Hueho", "hueho@gmail.com", "b7e94be513e96e8c45cd23d162275e5a12ebde9100a425c4ebcdd7fa4dcd897c", g_admin, true, new Date());
+			User u = new User("Hueho", "hueho@gmail.com", "b7e94be513e96e8c45cd23d162275e5a12ebde9100a425c4ebcdd7fa4dcd897c", g_admin, true, SimpleDate.parse("2012/12/21"));
 			pa.saveEntity(u);
 		} catch (IllegalArgumentException e) {
 			System.err.println("DTO-to-Entity dynamic generation error");

@@ -1,7 +1,5 @@
 package br.unifesp.coruja.meta.persistence.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,8 +7,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import br.unifesp.coruja.meta.general.SimpleDate;
 
 @Entity
 @Table(name="user_accounts")
@@ -37,7 +38,8 @@ public class UserMO implements EntityModel{
 	private boolean enabled;
 	
 	@NotNull
-	private Date creationDate;
+	@Type(type="br.unifesp.coruja.meta.general.SimpleDateHibernateType")
+	private SimpleDate creationDate;
 
 	public Long getId() {
 		return id;
@@ -87,11 +89,11 @@ public class UserMO implements EntityModel{
 		this.enabled = enabled;
 	}
 
-	public Date getCreationDate() {
+	public SimpleDate getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date date) {
+	public void setCreationDate(SimpleDate date) {
 		this.creationDate = date;
 	}
 

@@ -2,7 +2,6 @@ package br.unifesp.coruja.meta.persistence.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -13,6 +12,8 @@ import org.jdto.annotation.DTOCascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import br.unifesp.coruja.meta.general.SimpleDate;
 
 public class User implements DTO, UserDetails{
 	
@@ -37,14 +38,14 @@ public class User implements DTO, UserDetails{
 	private boolean enabled;
 	
 	@NotNull
-	private Date creationDate;
+	private SimpleDate creationDate;
 
 	public User() {
 		//For JDTO use
 	}
 
 	public User(String nickname, String username, String password,
-			Group authGroup, boolean enabled, Date creationDate) {
+			Group authGroup, boolean enabled, SimpleDate creationDate) {
 		super();
 		this.nickname = nickname;
 		this.username = username;
@@ -104,11 +105,11 @@ public class User implements DTO, UserDetails{
 		this.enabled = enabled;
 	}
 
-	public Date getCreationDate() {
+	public SimpleDate getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date date) {
+	public void setCreationDate(SimpleDate date) {
 		this.creationDate = date;
 	}
 	

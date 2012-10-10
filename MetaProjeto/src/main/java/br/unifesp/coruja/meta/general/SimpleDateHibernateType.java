@@ -59,7 +59,6 @@ public class SimpleDateHibernateType implements UserType {
 		else {
 			st.setString(index, value.toString());
 		}
-		
 	}
 
 	@Override
