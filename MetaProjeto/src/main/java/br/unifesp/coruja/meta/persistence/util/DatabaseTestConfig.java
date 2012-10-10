@@ -86,7 +86,7 @@ public class DatabaseTestConfig {
 		try {
 			pa.saveEntity(g_admin);
 			pa.saveEntity(g_user);
-			User u = new User("Hueho", "hueho@gmail.com", "e8d95a51f3af4a3b134bf6bb680a213a", g_admin, true, new Date());
+			User u = new User("Hueho", "hueho@gmail.com", "b7e94be513e96e8c45cd23d162275e5a12ebde9100a425c4ebcdd7fa4dcd897c", g_admin, true, new Date());
 			pa.saveEntity(u);
 		} catch (IllegalArgumentException e) {
 			System.err.println("DTO-to-Entity dynamic generation error");

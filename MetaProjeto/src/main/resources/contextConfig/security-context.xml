@@ -19,7 +19,7 @@
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailsService">
-			<password-encoder hash="md5" />
+			<password-encoder hash="sha-256" />
 		</authentication-provider>
 	</authentication-manager>
 
