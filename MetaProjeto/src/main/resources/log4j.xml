@@ -9,12 +9,7 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
-	
-	<!-- Application Loggers -->
-	<logger name="teste.mvc.teste">
-		<level value="info" />
-	</logger>
-	
+		
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
@@ -33,7 +28,7 @@
 	</logger>
 	
 	<logger name="org.springframework.security">
-		<level value="all" />
+		<level value="info" />
 	</logger>
 	
 	<logger name="org.hibernate">
