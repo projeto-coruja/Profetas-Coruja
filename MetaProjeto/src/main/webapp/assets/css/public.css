@@ -3,11 +3,33 @@
 /* html5doctor.com Reset v1.6.1 - http://cssreset.com */
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}nav ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}
 
-#global {
+#login {
+	position: fixed;
+	border: 2px solid #D5E8E8;
 	height: auto;
-	margin: 0 auto;
+	width: 100%;
+	margin: -40px auto;
+	float: top;
+	font-family: Arial;
+    font-size: 12px;	
+	background: #f6f8f8;
+}
+
+#loginTable {
+	margin: auto;
+}
+
+#loginTable button{
+	font-family: Arial;
+	font-size: 12px;
+	width: 125px;
+}
+
+#global {
+	margin: 40px auto;
+	height: auto;
 	width: 1024px;
-	
+	clear: both;
 }
 
 #header {
@@ -15,7 +37,15 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 }
 
 #middle {
+	margin: 10px 10px;
 	padding: 10px 0 0 0;
+	clear: both;
+}
+
+#footer {
+	background: #f6f8f8;
+	border: 2px solid #D5E8E8;	
+	padding: 20px 0 20px 0;
 	clear: both;
 }
 
@@ -30,6 +60,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 
 #mainMenu {
     float: left;
+    width: 100%;
 }
 
 #mainMenu > li {
@@ -51,7 +82,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 }
 
 #mainMenu ul li a {
-    width: 120px;
+    width: 100px;
 }
 
 #mainMenu li:hover ul {
@@ -63,6 +94,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 #mainMenu {
     font-family: Arial;
     font-size: 12px;	
+	background: #f6f8f9
 }
 
 #mainMenu > li > a {
@@ -79,6 +111,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 
 #mainMenu ul li a {
     color: #000;
+    background: #f6f8f9
 }
 
 #mainMenu ul li:hover a {

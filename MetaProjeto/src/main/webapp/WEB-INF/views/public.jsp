@@ -1,38 +1,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page contentType="text/html; charset=UTF-8"%>
 <html>
-<head>
-<link rel="stylesheet" type="text/css"
-	href="<c:url value = "/assets/css/public.css"/>" />
-</head>
-<body>
-	<div id="global">
-		<div id="header">
-			<ul id="mainMenu">
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Sobre</a></li>
-				<li><a href="#">Busca</a>
-					<ul>
-						<li><a href="#">Vida</a></li>
-						<li><a href="#">Universo</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Contato</a>
-					<ul>
-						<li><a href="#">Email</a></li>
-						<li><a href="#">Sinal de fumaça</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Doe</a>
-					<ul>
-						<li><a href="#">Dinheiro</a></li>
-						<li><a href="#">Coisas</a></li>
-					</ul>
-				</li>
-			</ul>
+	<head>
+		<meta charset="utf-8">
+		<title>Profetas</title>
+
+		<!-- Import dos styles CSS -->
+		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/public.css"/>" />
+
+	</head>
+	<body>
+		<div id="login"><c:import url="/assets/templates/defaultLogin.jsp" /></div>
+		<div id="global">
+			<div id="header"><c:import url="/assets/templates/defaultMenu.jsp" /></div>
+			
+			<div id="middle">
+				<!-- Texto da Pagina inicial -->
+				<c:import url="/assets/templates/welcomeText.jsp" />
+			</div>
+			
+			<div id="footer">
+				<c:import url="/assets/templates/footer.jsp" />
+			</div>
 		</div>
-		<div id="middle">
-			<a href="<c:url value="/home" />"> Do you exist?</a>
-		</div>
-	</div>
-</body>
+	</body>
 </html>
