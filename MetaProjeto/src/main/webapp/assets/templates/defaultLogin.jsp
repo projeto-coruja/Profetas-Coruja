@@ -5,7 +5,7 @@
 <sec:authorize access="isAnonymous()">
 <form name="f" method="POST" action="<c:url value='j_spring_security_check' />">
 	<input type="hidden" name="spring-security-redirect" value="/public" />
-	<table id="loginTable">
+	<table id="loginTable" style="border-spacing: 10px;">
 		<tr>
 			<td><label class="sidebar" for="login">Login:</label> <input
 				class="inputLogin" type="text" name="j_username" height="30px"

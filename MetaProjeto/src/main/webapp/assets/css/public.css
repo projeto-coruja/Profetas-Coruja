@@ -6,7 +6,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 #login {
 	position: fixed;
 	border: 2px solid #D5E8E8;
-	height: auto;
+	height: 27px;
 	width: 100%;
 	margin: -40px auto;
 	float: top;
