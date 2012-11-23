@@ -23,7 +23,7 @@
 	</table>
 </form>
 </sec:authorize>
-<sec:authorize>
+<sec:authorize access="isAuthenticated()">
 	<table id="loginTable">
 		<tr>
 			<td>Bem vindo!</td>
