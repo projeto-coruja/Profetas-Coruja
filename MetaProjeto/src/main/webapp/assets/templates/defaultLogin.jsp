@@ -1,14 +1,18 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<form method="post" action="/GraoPara/doLogin">
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<sec:authorize access="isAnonymous()">
+<form name="f" method="POST" action="<c:url value='j_spring_security_check' />">
+	<input type="hidden" name="spring-security-redirect" value="/public" />
 	<table id="loginTable">
 		<tr>
 			<td><label class="sidebar" for="login">Login:</label> <input
-				class="inputLogin" type="text" name="login" height="30px"
+				class="inputLogin" type="text" name="j_username" height="30px"
 				size="auto" placeholder=""></td>
 
 			<td><label class="sidebar" for="senha">Senha:</label> <input
-				class="inputLogin" type="password" name="senha" height="30px"
+				class="inputLogin" type="password" name="j_password" height="30px"
 				size="auto" placeholder=""></td>
 
 			<td><button type="submit">Entrar</button></td>
@@ -18,3 +22,12 @@
 		</tr>
 	</table>
 </form>
+</sec:authorize>
+<sec:authorize>
+	<table id="loginTable">
+		<tr>
+			<td>Bem vindo!</td>
+			<td><a href="<c:url value="/j_spring_security_logout" />" > Logout</a></td>
+		</tr>
+	</table>			
+</sec:authorize>
