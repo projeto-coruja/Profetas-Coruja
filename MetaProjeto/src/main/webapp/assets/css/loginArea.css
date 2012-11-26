@@ -29,9 +29,10 @@
 
 #loggedBar {
 	margin: auto;
+	font-size: 16px;
 }
 
 #loggedBar table {
 	border-collapse: separate;
-	border-spacing: 45px 0px;
+	border-spacing: 45px 5px;
 }

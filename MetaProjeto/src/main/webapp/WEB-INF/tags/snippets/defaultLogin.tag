@@ -29,7 +29,7 @@
 	<div id="loggedBar" align="center">
 		<table>
 			<tr>
-				<td>Bem vindo!</td>
+				<td>Bem vindo de volta, <sec:authentication property="principal.nickname" />!</td>
 				<td><a href="<c:url value="/j_spring_security_logout" />" > Logout</a></td>
 			</tr>
 		</table>
