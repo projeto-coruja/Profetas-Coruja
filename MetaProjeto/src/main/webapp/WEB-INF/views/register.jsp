@@ -31,8 +31,8 @@
 							<td><form:password path="password"/>
 						</tr>
 						<tr>
-							<td><form:label path="password">Repita a senha:</form:label></td>
-							<td><form:password path="password"/>
+							<td><form:label path="repeatPassword">Repita a senha:</form:label></td>
+							<td><form:password path="repeatPassword"/>
 						</tr>
 						<tr>
 							<td><form:button type="submit">Registrar</form:button></td>

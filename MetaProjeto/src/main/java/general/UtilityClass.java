@@ -1,5 +1,6 @@
 package general;
 
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import org.apache.commons.validator.routines.EmailValidator;
@@ -25,6 +26,14 @@ public class UtilityClass {
 
 	public static boolean isInit(String str) {
 		return str == null || str.isEmpty();
+	}
+	
+	public static SimpleDate getNow() {
+		Calendar c = Calendar.getInstance();
+		return new SimpleDate(
+				(short) c.get(Calendar.YEAR), 
+				(short) c.get(Calendar.MONTH), 
+				(short) c.get(Calendar.DATE));
 	}
 	
 }
