@@ -159,5 +159,10 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>3.1.2.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 	</dependencies>
 </project>

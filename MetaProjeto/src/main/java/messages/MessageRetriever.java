@@ -1,5 +1,7 @@
 package messages;
 
+import static general.UtilityClass.isInit;
+
 public class MessageRetriever {
 	
 	private MessageRepository repository;
@@ -15,14 +17,10 @@ public class MessageRetriever {
 	}
 	
 	public String getMessage(String category, String context, String reference, int id){
-		try {
-			if(category.isEmpty() 
-				|| context.isEmpty() 
-				|| reference.isEmpty() 
+		if(isInit(category)
+				|| isInit(context) 
+				|| isInit(reference) 
 				|| id <= 0) throw new IllegalArgumentException();
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException();
-		}
 		return repository.getMessage(category, context, reference, id);
 	}
 	

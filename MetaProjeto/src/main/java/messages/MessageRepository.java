@@ -31,11 +31,19 @@ public class MessageRepository {
 	}
 	
 	public String getMessage(String category, String context, String reference, int id) {
-		return repository.get(category).get(context).get(reference).get(id);
+		try {
+			return repository.get(category).get(context).get(reference).get(id);
+		} catch (NullPointerException npe) {
+			return null;
+		}
 	}
 	
 	public boolean referenceExists(String category, String context, String reference) {
-		return repository.get(category).get(context).containsKey(reference);
+		try {
+			return repository.get(category).get(context).containsKey(reference);
+		} catch (NullPointerException npe) {
+			return false;
+		}
 	}
 
 }
