@@ -7,6 +7,17 @@
 	<name>Meta Projeto</name>
 	<description>Projeto-base para os futuros sistemas do Coruja</description>
 	<packaging>war</packaging>
+	
+	<licenses>
+		<license>
+			<name>GNU General Public License v2.0 only</name>
+			<url>http://www.spdx.org/licenses/GPL-2.0</url>
+		</license>
+	</licenses>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<build>
 		<plugins>

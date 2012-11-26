@@ -1,0 +1,69 @@
+@CHARSET "UTF-8";
+
+/* Main menu basic settings
+-------------------------------------*/
+#mainMenu,
+#mainMenu ul {
+    list-style: none;
+    border: 1px solid black;
+    padding: 0;
+}
+
+#mainMenu {
+    float: left;
+    width: 100%;
+}
+
+#mainMenu > li {
+    float: left;
+}
+
+#mainMenu li a {
+	display: block;
+    height: 2em;
+    line-height: 2em;
+    padding: 0 1.5em;
+    text-decoration: none;
+}
+
+#mainMenu ul {
+    position: absolute;
+    display: none;
+	z-index: 999;
+}
+
+#mainMenu ul li a {
+    width: 100px;
+}
+
+#mainMenu li:hover ul {
+    display: block;
+}
+
+/* Main menu style
+------------------------------------------*/
+#mainMenu {
+    font-family: Arial;
+    font-size: 12px;	
+	background: #f6f8f9
+}
+
+#mainMenu > li > a {
+    color: #000;
+    font-weight: bold;
+}
+
+#mainMenu > li:hover > a {
+    color: #000;
+}
+ 
+/* Submenu style
+------------------------------------------*/
+
+#mainMenu ul li a {
+    color: #000;
+    background: #f6f8f9
+}
+
+#mainMenu ul li:hover a {
+}

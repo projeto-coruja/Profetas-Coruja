@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="snp" tagdir="/WEB-INF/tags/snippets/" %>
 <%@page contentType="text/html; charset=UTF-8"%>
 <html>
 	<head>
@@ -6,21 +7,23 @@
 		<title>Profetas</title>
 
 		<!-- Import dos styles CSS -->
-		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/public.css"/>" />
+		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/main.css"/>" />
+		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/loginArea.css"/>" />
+		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/floatingMenu.css"/>" />
 
 	</head>
 	<body>
-		<div id="login"><c:import url="/assets/templates/defaultLogin.jsp" /></div>
+		<div id="login"><snp:defaultLogin /></div>
 		<div id="global">
-			<div id="header"><c:import url="/assets/templates/defaultMenu.jsp" /></div>
+			<div id="header"><snp:defaultMenu /></div>
 			
 			<div id="middle">
 				<!-- Texto da Pagina inicial -->
-				<c:import url="/assets/templates/welcomeText.jsp" />
+				<snp:welcomeText />
 			</div>
 			
 			<div id="footer">
-				<c:import url="/assets/templates/footer.jsp" />
+				<snp:footer />
 			</div>
 		</div>
 	</body>

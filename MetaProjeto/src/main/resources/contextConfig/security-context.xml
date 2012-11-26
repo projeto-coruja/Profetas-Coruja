@@ -20,7 +20,7 @@
 	</http>
 
 	<beans:bean id="userDetailsService"
-		class="br.unifesp.coruja.meta.web.auth.HibernateUserDetailsService">
+		class="web.auth.HibernateUserDetailsService">
 	</beans:bean>
 
 	<authentication-manager>
