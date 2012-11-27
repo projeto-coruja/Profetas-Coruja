@@ -2,7 +2,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="snp" tagdir="/WEB-INF/tags/snippets/" %>
-<%@ taglib prefix="own" uri="/WEB-INF/tags/coruja-taglib.tld" %>
+
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -21,6 +21,9 @@
 					</c:when>
 					<c:when test="${not empty failure }">
 						<h1><c:out value="${failure}" /></h1>
+						<c:forEach items="${form_errors}" var="error"> 
+							<c:out value="${error }" />
+						</c:forEach>
 					</c:when>
 					<c:otherwise>
 					</c:otherwise>

@@ -1,5 +1,7 @@
 package web.controllers;
 
+import java.util.HashMap;
+
 import general.UtilityClass;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +31,23 @@ public class RegisterController {
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String register(ModelMap model) {
- 
 		return "register";
- 
 	}
 	
 	@RequestMapping(value="/createAccount", method = RequestMethod.POST)
 	public String createAccount(@ModelAttribute RegisterFormBean newAccount, BindingResult result, ModelMap model) {
 		
+		HashMap<String, String> form_errors;
 		RegisterFormValidator validator = new RegisterFormValidator();
 		validator.validate(newAccount, result);
 		
 		if(result.hasErrors()) {
 			model.addAttribute("failure", "Cadastro mal-sucedido!");
+			form_errors = new HashMap<String, String>();
 			for(FieldError e : result.getFieldErrors()) {
-				model.addAttribute("error_" + e.getField(), e.getDefaultMessage());
+				form_errors.put("error_" + e.getField(), e.getDefaultMessage());
 			}
+			model.addAttribute("form_errors", form_errors);
 			
 			return "register";
 		}
@@ -52,8 +55,10 @@ public class RegisterController {
 		User newUser = new User(newAccount.getNickname(), newAccount.getUsername(), newAccount.getPassword(), reg.getGroup("users"), true, UtilityClass.getNow());
 		String save_result = reg.addNewUser(newUser);
 		if(!save_result.isEmpty()) {
+			form_errors = new HashMap<String, String>();
 			model.addAttribute("failure", "Cadastro mal-sucedido!");
-			model.addAttribute("error_persistence", save_result);
+			form_errors.put("error_persistence", save_result);
+			model.addAttribute("form_errors", form_errors);
 			return "register";
 		}
 	
