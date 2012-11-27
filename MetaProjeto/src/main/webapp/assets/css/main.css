@@ -26,3 +26,32 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address
 	padding: 20px 0 20px 0;
 	clear: both;
 }
+
+.registerForm {
+	clear: both;
+	margin: 0px 0px 10px 0px;
+	padding: 10px 0 0;
+	width:380px;	
+}
+
+.registerForm div{
+	margin-bottom:10px;
+	text-align:center;
+}
+
+.registerForm table {
+	border:1px solid silver;	
+}
+
+.registerForm td{
+	padding:5px 5px 5px 5px;
+	text-align:right;
+}
+
+.registerForm button{
+	margin-top:5px;
+}
+
+.registerForm a{
+	text-decoration:none;
+}

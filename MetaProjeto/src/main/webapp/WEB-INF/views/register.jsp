@@ -12,26 +12,33 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/main.css"/>" />		
 		
 	</head>
-	<body>
+	<body style="text-align:-moz-center;">
+		<div style="border:1px solid; height:124px; width:1024px;">Banner</div>
 		<div id="global">
 			<div id="header">
 				<c:choose>
 					<c:when test="${not empty success}">
+						<div id="header" style="color:green; height:21px; padding-top:4px; width:264px; margin-left:390px;">
 						<h1><c:out value="${success}" /></h1>
+						</div>
 					</c:when>
 					<c:when test="${not empty failure }">
+						<div id="header" style="color:red; height:110px; padding-top:4px; width:408px; margin-left:320px;">
 						<h1><c:out value="${failure}" /></h1>
 						<c:forEach items="${form_errors}" var="error"> 
 							<c:out value="${error }" />
 						</c:forEach>
+						</div>
 					</c:when>
 					<c:otherwise>
 					</c:otherwise>
 				</c:choose>
-				<h2>Cadastro de usuários:</h2>
 			</div>
-			<div id="middle">
+			<div class="registerForm">
 				<form:form action="createAccount" method="post" modelAttribute="newAccount">
+					<div>
+						Cadastro de usuários:
+					</div>
 					<table>
 						<tr>
 							<td><form:label path="nickname">Apelido:</form:label></td>
@@ -50,7 +57,8 @@
 							<td><form:password path="repeatPassword"/></td>
 						</tr>
 						<tr>
-							<td><form:button type="submit">Registrar</form:button></td>
+							<td></td>
+							<td><a style="text-align:left; margin-right:10px;" href="#">Home</a><form:button type="submit">Registrar</form:button></td>
 						</tr>
 					</table>
 				</form:form>
