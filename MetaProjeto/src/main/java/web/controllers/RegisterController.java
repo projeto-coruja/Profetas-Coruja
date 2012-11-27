@@ -28,6 +28,9 @@ public class RegisterController {
 	@Autowired
 	private PasswordEncoder encoder;
 	
+	@Autowired
+	private RegisterFormValidator validator;
+	
 	@ModelAttribute("newAccount")
 	public RegisterFormBean getRegisterFormBean() {
 		return new RegisterFormBean();
@@ -42,7 +45,6 @@ public class RegisterController {
 	public String createAccount(@ModelAttribute RegisterFormBean newAccount, BindingResult result, ModelMap model) {
 		
 		HashMap<String, String> form_errors;
-		RegisterFormValidator validator = new RegisterFormValidator();
 		validator.validate(newAccount, result);
 		
 		if(result.hasErrors()) {

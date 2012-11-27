@@ -3,12 +3,14 @@ package web.beans;
 import general.UtilityClass;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import web.services.UserManagementService;
 
+@Component
 public class RegisterFormValidator implements Validator {
 
 	@Autowired
@@ -30,6 +32,7 @@ public class RegisterFormValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "repeatPassword", "field.required", "Repita a senha.");
 		
 		RegisterFormBean newUser = (RegisterFormBean) target;
+		
 		if(newUser.getNickname() != null && UtilityClass.notAlphaNum(newUser.getNickname())) {
 			errors.rejectValue("nickname", "field.chars", "Caracteres especiais não são aceitos.");
 		}
