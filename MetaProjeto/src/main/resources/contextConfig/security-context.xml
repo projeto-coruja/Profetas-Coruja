@@ -22,10 +22,14 @@
 	<beans:bean id="userDetailsService"
 		class="web.auth.HibernateUserDetailsService">
 	</beans:bean>
+	
+	<beans:bean id="encoder" 
+    	class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+	</beans:bean>
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailsService">
-			<password-encoder hash="sha-256" />
+			<password-encoder hash="sha-256" ref="encoder"/>
 		</authentication-provider>
 	</authentication-manager>
 
