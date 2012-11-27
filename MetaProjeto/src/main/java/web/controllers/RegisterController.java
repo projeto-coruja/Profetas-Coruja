@@ -5,6 +5,7 @@ import java.util.HashMap;
 import general.UtilityClass;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,9 +25,12 @@ public class RegisterController {
 	@Autowired
 	private UserManagementService reg;
 	
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	@ModelAttribute("newAccount")
 	public RegisterFormBean getRegisterFormBean() {
-	  return new RegisterFormBean();
+		return new RegisterFormBean();
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
@@ -52,7 +56,7 @@ public class RegisterController {
 			return "register";
 		}
 	
-		User newUser = new User(newAccount.getNickname(), newAccount.getUsername(), newAccount.getPassword(), reg.getGroup("users"), true, UtilityClass.getNow());
+		User newUser = new User(newAccount.getNickname(), newAccount.getUsername(), encoder.encode(newAccount.getPassword()), reg.getGroup("users"), true, UtilityClass.getNow());
 		String save_result = reg.addNewUser(newUser);
 		if(!save_result.isEmpty()) {
 			form_errors = new HashMap<String, String>();
