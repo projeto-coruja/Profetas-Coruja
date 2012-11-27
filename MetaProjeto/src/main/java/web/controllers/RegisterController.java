@@ -22,6 +22,11 @@ public class RegisterController {
 	@Autowired
 	private UserManagementService reg;
 	
+	@ModelAttribute("newAccount")
+	public RegisterFormBean getRegisterFormBean() {
+	  return new RegisterFormBean();
+	}
+	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public String register(ModelMap model) {
  
@@ -36,24 +41,22 @@ public class RegisterController {
 		validator.validate(newAccount, result);
 		
 		if(result.hasErrors()) {
+			model.addAttribute("failure", "Cadastro mal-sucedido!");
 			for(FieldError e : result.getFieldErrors()) {
 				model.addAttribute("error_" + e.getField(), e.getDefaultMessage());
 			}
 			
 			return "register";
 		}
-		else {
-			User newUser = new User(newAccount.getNickname(), newAccount.getUsername(), newAccount.getPassword(), reg.getGroup("users"), true, UtilityClass.getNow());
-			reg.addNewUser(newUser, result);
-			if(result.hasErrors()) {
-				for(FieldError e : result.getFieldErrors()) {
-					model.addAttribute("object.persist" + e.getField(), e.getDefaultMessage());
-				}
-				
-				return "register";
-			}
+	
+		User newUser = new User(newAccount.getNickname(), newAccount.getUsername(), newAccount.getPassword(), reg.getGroup("users"), true, UtilityClass.getNow());
+		String save_result = reg.addNewUser(newUser);
+		if(!save_result.isEmpty()) {
+			model.addAttribute("failure", "Cadastro mal-sucedido!");
+			model.addAttribute("error_persistence", save_result);
+			return "register";
 		}
-		
+	
 		model.addAttribute("success", "Cadastro bem-sucedido!");
 		return "register";
  

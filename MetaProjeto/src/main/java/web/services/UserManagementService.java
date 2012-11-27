@@ -3,7 +3,6 @@ package web.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
 
 import persistence.dto.Group;
 import persistence.dto.User;
@@ -22,22 +21,26 @@ public class UserManagementService {
 	}
 	
 	@Transactional
-	public void addNewUser(User newUser, Errors errors) {
+	public String addNewUser(User newUser) {
+		String result = "Erro interno: ";
 		try {
 			pa.saveEntity(newUser);
+			result = "";
 		} catch (IllegalArgumentException e) {
-			errors.reject("object.persist", "Erro interno: IllegalArgumentException.");
 			e.printStackTrace();
+			result += e.toString();
 		} catch (InstantiationException e) {
-			errors.reject("object.persist", "Erro interno: InstantiationException.");
 			e.printStackTrace();
+			result += e.toString();
 		} catch (IllegalAccessException e) {
-			errors.reject("object.persist", "Erro interno: IllegalAccessException.");
 			e.printStackTrace();
+			result += e.toString();
 		} catch (UpdateEntityException e) {
-			errors.reject("object.persist", "Erro interno: UpdateEntityException.");
 			e.printStackTrace();
+			result += e.toString();
 		}
+		
+		return result;
 	}
 	
 	@Transactional

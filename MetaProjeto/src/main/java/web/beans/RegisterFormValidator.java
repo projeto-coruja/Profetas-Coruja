@@ -42,7 +42,7 @@ public class RegisterFormValidator implements Validator {
 		if(newUser.getPassword() != null && newUser.getPassword().length() < MINIMUM_PASSWORD_LENGTH) {
 			errors.rejectValue("password", "field.min.length", "Tamanho da senha é inválido.");
 		}
-		if(newUser.getPassword() != null && newUser.getRepeatPassword() != null && newUser.getPassword().equals(newUser.getRepeatPassword())) {
+		if(newUser.getPassword() != null && newUser.getRepeatPassword() != null && !newUser.getPassword().equals(newUser.getRepeatPassword())) {
 			errors.rejectValue("repeatPassword", "field.equal", "Confirmação da senha inválida.");
 		}
 
