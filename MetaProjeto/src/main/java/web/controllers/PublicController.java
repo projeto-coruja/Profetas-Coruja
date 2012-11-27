@@ -10,7 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PublicController {
  
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String printWelcome(ModelMap model, Principal principal ) {
+	public String root(ModelMap model, Principal principal ) {
+ 
+		return "public";
+ 
+	}
+	
+	@RequestMapping(value="/public", method = RequestMethod.GET)
+	public String accessPublic(ModelMap model, Principal principal ) {
  
 		return "public";
  
