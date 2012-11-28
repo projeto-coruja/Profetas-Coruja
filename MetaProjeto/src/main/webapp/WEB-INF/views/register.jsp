@@ -58,7 +58,7 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td><a style="text-align:left; margin-right:10px;" href="#">Home</a><form:button type="submit">Registrar</form:button></td>
+							<td><a style="text-align:left; margin-right:10px;" href="public">Home</a><form:button type="submit">Registrar</form:button></td>
 						</tr>
 					</table>
 				</form:form>
