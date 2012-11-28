@@ -12,6 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.dto.DTO;
 import persistence.util.PersistenceAccess;
 
+/**
+ * Service used by Spring Security to retrive data from database using our persistence architecture.
+ * 
+ * @author Daniel Gracia
+ * @see org.springframework.security.core.userdetails.UserDetailsService;
+ *
+ */
 
 @Service
 public class HibernateUserDetailsService implements UserDetailsService {
@@ -19,6 +26,14 @@ public class HibernateUserDetailsService implements UserDetailsService {
 	@Autowired
 	private PersistenceAccess pa;
 
+	/**
+	 * Loads an user data querying the database by username (email).
+	 * Fairly straightforward.
+	 *  
+	 *  @param username the desired user "username" (email)
+	 *  @throws UsernameNotFoundException either when the user isn't found or if the user doesn't have any kind of authority
+	 *  @return an {@code User} object
+	 */
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,11 +1,15 @@
 package persistence.util;
 
+/**
+ * Small exception class used in DTOUtility
+ * 
+ * @author Vitor Kawai
+ * @since Milestone 1
+ */
+
 public class UpdateEntityException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 887995666636556777L;
 
 	public UpdateEntityException() {
 		super();

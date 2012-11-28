@@ -10,6 +10,15 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
+/**
+ * A implementation of Hibernate {@code UserType} interface for use with {@code SimpleDate}. It really just converts the
+ * instances in strings to be stored in the database and vice-versa.  
+ * 
+ * @author hueho
+ * @since Milestone 1
+ * @see org.hibernate.usertype.UserType
+ */
+
 public class SimpleDateHibernateType implements UserType {
 
 	

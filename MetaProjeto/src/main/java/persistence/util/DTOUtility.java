@@ -21,7 +21,9 @@ import persistence.util.UpdateEntityException;
 
 /**
  * Classe utilitária para ajudar na manutenção dos DTOs.<br>
- * Originalmente funcionava por convenção, mas adaptada para funcionar por configuração, para integrar melhor ao Spring
+ * Originalmente funcionava por convenção, mas adaptada para funcionar por configuração, para integrar melhor ao Spring.
+ * 
+ * @since Milestone 1
  */
 
 @SuppressWarnings("rawtypes")

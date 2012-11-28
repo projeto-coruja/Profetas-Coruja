@@ -19,6 +19,18 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Small configuration class for Hibernate. Configures a {@code DataSource} and a {@code SessionFactory} for
+ * use with Spring. Also configures a transactional manager and implements in great NIH fashion a simple parser
+ * and loader for setting up entity class to be mapped by Hibernate.
+ * <br><br>
+ * {@code HibernateConfiguration} reads settings from the files {@code jdbc.properties}.  {@code hibernate.properties} and {@code entity_list.txt}. They are
+ * present in the {@code src/main/resources} folder.
+ * 
+ * @author Daniel Gracia
+ * @since Milestone 1
+ */
+
 @EnableTransactionManagement
 @Configuration
 public class HibernateConfiguration {
