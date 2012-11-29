@@ -12,7 +12,7 @@
 	
 	<http use-expressions="true" auto-config="true">
 		<intercept-url pattern="/home*" access="hasRole('ROLE_ADMIN')" />
-		<form-login login-page="/login" default-target-url="/home"
+		<form-login login-page="/login" default-target-url="/public"
 			always-use-default-target="false"
 			authentication-success-handler-ref="SavedRequestAwareAuthenticationSuccessHandler"
 			authentication-failure-url="/loginfailed" />

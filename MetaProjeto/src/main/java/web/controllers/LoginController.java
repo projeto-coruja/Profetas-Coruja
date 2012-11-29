@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
  
+	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String login(ModelMap model) {
  
@@ -18,7 +19,7 @@ public class LoginController {
 	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
 	public String loginerror(ModelMap model) {
  
-		model.addAttribute("error", "true");
+		model.addAttribute("failure", "true");
 		return "login";
  
 	}
