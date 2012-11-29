@@ -48,8 +48,8 @@ public class RegisterFormValidator implements Validator {
 		if(newUser.getNickname() != null && UtilityClass.notAlphaNum(newUser.getNickname())) {
 			errors.rejectValue("nickname", "field.chars", "Caracteres especiais não são aceitos.");
 		}
-		if(newUser.getUsername() != null && !UtilityClass.validateEmail(newUser.getUsername())) {
-			if(UtilityClass.validateEmail(newUser.getUsername()))
+		if(newUser.getUsername() != null) {
+			if(!UtilityClass.validateEmail(newUser.getUsername()))
 				errors.rejectValue("username", "field.email", "Não é endereço de email válido.");
 			else if(serv.existingUser(newUser.getUsername()))
 				errors.rejectValue("nickname", "field.chars", "Endereço já é utilizado.");
