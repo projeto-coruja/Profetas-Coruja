@@ -10,6 +10,13 @@ import org.springframework.validation.Validator;
 
 import web.services.UserManagementService;
 
+/**
+ * A validator for the register form. Implements the {@link Validator} interface from Spring mostly just because.
+ * 
+ * @author Daniel Gracia
+ * @since Milestone 1
+ *
+ */
 @Component
 public class RegisterFormValidator implements Validator {
 
@@ -23,6 +30,11 @@ public class RegisterFormValidator implements Validator {
 		return RegisterFormBean.class.isAssignableFrom(clazz);
 	}
 
+	/**
+	 * Validates all the fields on the {@link RegisterFormBean} target. It first checks if the fields are empty, and then it
+	 * checks for invalid character on the nickname, validates the username as an email, checks the size of the password and
+	 * compare the two password fields for confirmation. It stores all validation errors in the {@Errors} parameter.
+	 */
 	@Override
 	public void validate(Object target, Errors errors) {
 		

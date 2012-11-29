@@ -10,7 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.dto.DTO;
 import persistence.model.EntityModel;
 
-
+/**
+ * A persistence facade which saves, update, find and delete entries from the database. Accepts {@code DTO} instances as input, and convert them
+ * to {@code EntityModel} to Hibernate.
+ * <br><br>
+ * This is probably the most straightforward part of the persistence layer, and its based of the old system in the GraoPara project, so I won't bother commentating.
+ * Just be sure that, if any of these throws an exception that is not a {@code HibernateException} or similar, it's a bug in the persistence layer and nowhere else. Probably.
+ * 
+ * @author Daniel Gracia, Vitor Kawai, Rodney Rick
+ * @since Milestone 1
+ */
 public class PersistenceAccess {
 	
 	@Autowired

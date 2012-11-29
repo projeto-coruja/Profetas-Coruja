@@ -9,10 +9,22 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+/** A static class for processing our XML file with messages and inserting into a {@code MessageRepository}.
+ * 
+ * @author Vitor Kawai, Daniel Gracia
+ * @since  Milestone 1
+ * @see MessageRepository
+ *
+ */
 public class XMLMessagesParser {
 	
 	private static final String filename = "modelo-alt.xml"; 
 	
+	/**
+	 * Reads a XML file using a private, hardcoded filename, process it and returns a finished {@code MessageRepository}.
+	 * 
+	 * @return a {@code MessageRepository}
+	 */
 	public static MessageRepository generateRepositoryFromXML() {
 		
 		SAXBuilder builder = new SAXBuilder();

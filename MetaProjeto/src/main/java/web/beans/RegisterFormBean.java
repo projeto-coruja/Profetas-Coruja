@@ -1,5 +1,12 @@
 package web.beans;
 
+/**
+ * A POJO (plain old Java object) for storing the register form values.
+ * 
+ * @author Daniel Gracia
+ * @since Milestone 1
+ *
+ */
 public class RegisterFormBean {
 
 	private String nickname;
