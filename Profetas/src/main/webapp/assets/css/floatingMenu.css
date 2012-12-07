@@ -18,6 +18,10 @@
     float: left;
 }
 
+#MainMenu > li:hover {
+    background: #E1E4E6;
+}
+
 #mainMenu li a {
 	display: block;
     height: 2em;
@@ -66,4 +70,5 @@
 }
 
 #mainMenu ul li:hover a {
+    background: #E1E4E6;
 }
