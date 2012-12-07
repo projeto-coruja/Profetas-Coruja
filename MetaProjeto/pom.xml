@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.unifesp.coruja.meta</groupId>
-	<artifactId>MetaProjeto</artifactId>
+	<artifactId>Profetas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Meta Projeto</name>
 	<description>Projeto-base para os futuros sistemas do Coruja</description>
@@ -36,7 +36,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<warName>MetaProjeto</warName>
+					<warName>Profetas</warName>
 				</configuration>
 			</plugin>
 		</plugins>
