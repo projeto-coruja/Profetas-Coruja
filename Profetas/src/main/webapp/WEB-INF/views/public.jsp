@@ -10,9 +10,13 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/main.css"/>" />
 		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/loginArea.css"/>" />
 		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/floatingMenu.css"/>" />
+		
+		<!-- import dos javascripts -->
+		<script src="/Profetas/assets/javascript/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/Profetas/assets/javascript/utility.js" type="text/javascript" charset="utf-8"></script>
 
 	</head>
-	<body>
+	<body onload="getImage()">
 		<div id="login"><snp:defaultLogin /></div>
 		<div id="global">
 			<div id="header"><snp:defaultMenu /></div>
