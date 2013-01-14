@@ -10,10 +10,15 @@
 		
 		<!-- Import dos styles CSS -->
 		<link rel="stylesheet" type="text/css" href="<c:url value = "/assets/css/main.css"/>" />		
-		
+	
+		<!-- import dos javascripts -->
+		<script src="/Profetas/assets/javascript/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/Profetas/assets/javascript/utility.js" type="text/javascript" charset="utf-8"></script>
+	
+
 	</head>
-	<body style="text-align:-moz-center;">
-		<div style="border:1px solid; height:124px; width:1024px;">Banner</div>
+	<body onload="getImage()" style="text-align:-moz-center;">
+		<!--  <div style="border:1px solid; height:124px; width:1024px;">Banner</div>  -->
 		<div id="global">
 			<div id="header">
 				<c:choose>
