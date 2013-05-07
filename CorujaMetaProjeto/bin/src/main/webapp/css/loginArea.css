@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+#login {
+	position: fixed;
+	border: 2px solid #D5E8E8;
+	height: 27px;
+	width: 100%;
+	margin: -40px auto;
+	float: top;
+	font-family: Arial;
+    font-size: 12px;	
+	background: #f6f8f8;
+}
+
+#loginTable {
+	margin: auto;
+}
+
+#loginTable table {
+	border-collapse: separate;
+	border-spacing: 22px 0px;
+}
+
+#loginTable button{
+	font-family: Arial;
+	font-size: 12px;
+	width: 125px;
+}
+
+#loggedBar {
+	margin: auto;
+	font-size: 16px;
+}
+
+#loggedBar table {
+	border-collapse: separate;
+	border-spacing: 45px 5px;
+}
