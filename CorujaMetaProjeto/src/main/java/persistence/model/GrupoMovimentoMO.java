@@ -1,29 +1,45 @@
 package persistence.model;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import datatype.SimpleDate;
 
-public class GrupoMovimentoMO {
+@Entity
+public class GrupoMovimentoMO implements EntityModel {
 
-	private int id;
-
+	@Id
+	@GeneratedValue
+	private Long id;
+	
+	@NotEmpty
 	private String nome;
 
+	@Type(type="persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoInicio;
 
+	@Type(type="persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoFim;
 
 	private String descricao;
 
+	@ManyToMany
 	private List<LocalMO> local;
 
 	private GrupoPersonagemMO grupoPersonagem;
 
-	public int getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

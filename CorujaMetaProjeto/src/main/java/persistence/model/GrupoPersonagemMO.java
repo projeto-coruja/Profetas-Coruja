@@ -1,20 +1,30 @@
 package persistence.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.Type;
+
 import datatype.SimpleDate;
 
+@Entity
 public class GrupoPersonagemMO extends GrupoMovimentoMO {
+	@Id
+	@GeneratedValue
+	private Long id;
 
-	private int id;
-
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoIngresso;
 
 	private GrupoMovimentoMO grupoMovimento;
 
-	public int getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

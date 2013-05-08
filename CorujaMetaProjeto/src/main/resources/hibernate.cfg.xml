@@ -17,5 +17,18 @@
 		<mapping class="persistence.model.ProfileMO" />
 		<mapping class="persistence.model.ConfigurationMO" />
 		
+		<mapping class="persistence.model.AcervoCotaMO" />
+		<mapping class="persistence.model.ClassificacaoMO" />
+		<mapping class="persistence.model.CorrespondenciaMO" />
+		<mapping class="persistence.model.EncontroMO" />
+		<mapping class="persistence.model.FontesObrasMO" />
+		<mapping class="persistence.model.GrupoMovimentoMO" />
+		<mapping class="persistence.model.GrupoPersonagemMO" />
+		<mapping class="persistence.model.LocaisPersonagensMO" />
+		<mapping class="persistence.model.LocalMO" />
+		<mapping class="persistence.model.PalavraChaveMO" />
+		<mapping class="persistence.model.PersonagemMO" />
+		<mapping class="persistence.model.ReligiaoCrencasMO" />
+		
 	</session-factory>
 </hibernate-configuration>

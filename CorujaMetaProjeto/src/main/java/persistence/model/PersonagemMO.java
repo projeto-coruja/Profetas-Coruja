@@ -2,22 +2,37 @@ package persistence.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import datatype.SimpleDate;
 
-public class PersonagemMO {
+@Entity
+public class PersonagemMO implements EntityModel {
 
-	private int id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
+	@NotEmpty
 	private String nome;
 
 	private String apelido;
 
 	private LocalMO localNascimento;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate dataNascimento;
 
 	private LocalMO localMorte;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate dataMorte;
 
 	private String biografia;
@@ -28,31 +43,26 @@ public class PersonagemMO {
 
 	private FontesObrasMO referencia_bibliografica;
 
-	private List<ReligiãoCrencasMO> religião;
+	@ManyToMany
+	private List<ReligiaoCrencasMO> religião;
 
+	@ManyToMany
 	private List<GrupoPersonagemMO> grupo;
 
+	@OneToMany
 	private List<LocaisPersonagensMO> locaisVisitados;
 
+	@ManyToMany
 	private List<EncontroMO> encontro;
 
+	@ManyToMany
 	private List<FontesObrasMO> Obras;
 
-	private ReligiãoCrencasMO religiãoCrencas;
-
-	private GrupoPersonagemMO grupoPersonagem;
-
-	private LocaisPersonagensMO locaisPersonagens;
-
-	private CorrespondenciaMO correspondencia;
-
-	private FontesObrasMO fontesObras;
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -132,15 +142,16 @@ public class PersonagemMO {
 		return referencia_bibliografica;
 	}
 
-	public void setReferencia_bibliografica(FontesObrasMO referencia_bibliografica) {
+	public void setReferencia_bibliografica(
+			FontesObrasMO referencia_bibliografica) {
 		this.referencia_bibliografica = referencia_bibliografica;
 	}
 
-	public List<ReligiãoCrencasMO> getReligião() {
+	public List<ReligiaoCrencasMO> getReligião() {
 		return religião;
 	}
 
-	public void setReligião(List<ReligiãoCrencasMO> religião) {
+	public void setReligião(List<ReligiaoCrencasMO> religião) {
 		this.religião = religião;
 	}
 
@@ -174,46 +185,6 @@ public class PersonagemMO {
 
 	public void setObras(List<FontesObrasMO> obras) {
 		Obras = obras;
-	}
-
-	public ReligiãoCrencasMO getReligiãoCrencas() {
-		return religiãoCrencas;
-	}
-
-	public void setReligiãoCrencas(ReligiãoCrencasMO religiãoCrencas) {
-		this.religiãoCrencas = religiãoCrencas;
-	}
-
-	public GrupoPersonagemMO getGrupoPersonagem() {
-		return grupoPersonagem;
-	}
-
-	public void setGrupoPersonagem(GrupoPersonagemMO grupoPersonagem) {
-		this.grupoPersonagem = grupoPersonagem;
-	}
-
-	public LocaisPersonagensMO getLocaisPersonagens() {
-		return locaisPersonagens;
-	}
-
-	public void setLocaisPersonagens(LocaisPersonagensMO locaisPersonagens) {
-		this.locaisPersonagens = locaisPersonagens;
-	}
-
-	public CorrespondenciaMO getCorrespondencia() {
-		return correspondencia;
-	}
-
-	public void setCorrespondencia(CorrespondenciaMO correspondencia) {
-		this.correspondencia = correspondencia;
-	}
-
-	public FontesObrasMO getFontesObras() {
-		return fontesObras;
-	}
-
-	public void setFontesObras(FontesObrasMO fontesObras) {
-		this.fontesObras = fontesObras;
 	}
 
 }

@@ -1,26 +1,37 @@
 package persistence.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Type;
+
 import datatype.SimpleDate;
 
-public class CorrespondenciaMO {
+@Entity
+public class CorrespondenciaMO implements EntityModel {
 
-	private int id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
+	@NotNull
 	private PersonagemMO remetente;
 
+	@NotNull
 	private PersonagemMO destinatario;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate data;
 
 	private LocalMO local;
 
-	private PersonagemMO personagem;
-
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -56,12 +67,4 @@ public class CorrespondenciaMO {
 		this.local = local;
 	}
 
-	public PersonagemMO getPersonagem() {
-		return personagem;
-	}
-
-	public void setPersonagem(PersonagemMO personagem) {
-		this.personagem = personagem;
-	}
-	
 }

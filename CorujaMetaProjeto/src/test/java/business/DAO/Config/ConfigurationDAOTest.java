@@ -10,6 +10,7 @@ public class ConfigurationDAOTest {
 		d.addPropertie("email", "lalala@lalala.com");
 		Configuration c;
 		c = d.getEntry("email");
+		d.removeEntry("email");
 		System.out.println(c.getValue());
 	}
 

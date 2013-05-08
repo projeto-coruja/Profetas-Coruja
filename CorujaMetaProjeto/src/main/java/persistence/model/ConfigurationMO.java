@@ -1,5 +1,6 @@
 package persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,10 +15,12 @@ public class ConfigurationMO implements EntityModel {
 	private Long id;
 
 	@NaturalId
+	@Column(length = 1024)
 	private String entry;
-	
+
+	@Column(length = 1024)
 	private String value;
-	
+
 	@Override
 	public Long getId() {
 		return id;

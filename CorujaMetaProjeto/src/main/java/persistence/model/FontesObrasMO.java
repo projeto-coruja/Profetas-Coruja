@@ -1,12 +1,26 @@
 package persistence.model;
+
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import datatype.SimpleDate;
 
-public class FontesObrasMO {
+@Entity
+public class FontesObrasMO implements EntityModel {
 
-	private int id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
+	@NotEmpty
 	private String titulo;
 
 	private String comentarios;
@@ -19,6 +33,7 @@ public class FontesObrasMO {
 
 	private String traducoes;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate dataImpressao;
 
 	private String editor;
@@ -29,21 +44,26 @@ public class FontesObrasMO {
 
 	private ClassificacaoMO classificao;
 
+	@OneToMany
 	private List<PalavraChaveMO> palavraChave;
 
+	@ManyToMany
 	private List<FontesObrasMO> obrasCitadas;
 
+	@ManyToMany
 	private List<PersonagemMO> leitores;
 
+	@ManyToMany
 	private List<PersonagemMO> personagens;
 
+	@ManyToMany
 	private List<PersonagemMO> autoresCitados;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

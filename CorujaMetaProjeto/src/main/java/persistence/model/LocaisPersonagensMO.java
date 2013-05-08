@@ -1,22 +1,34 @@
 package persistence.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.Type;
+
 import datatype.SimpleDate;
 
-public class LocaisPersonagensMO {
+@Entity
+public class LocaisPersonagensMO implements EntityModel {
 
-	private int id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoChegada;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoSaida;
 
 	private LocalMO local;
 
-	public int getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
