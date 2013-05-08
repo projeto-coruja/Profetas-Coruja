@@ -1,4 +1,4 @@
-package webview.servlet;
+package webview.servlet.account;
 
 import java.io.IOException;
 

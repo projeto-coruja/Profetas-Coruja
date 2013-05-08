@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import webview.util.AlertsUtility;
 import webview.util.WebUtility;
@@ -37,29 +38,33 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String user = request.getParameter("login");
 		String senha = request.getParameter("senha");
+		HttpSession session = request.getSession();
 		try {
 			UserBean login_result = AuthBean.validarLogin(user, senha, AuthBean.NonHashedPwd);
 			if(login_result != null && (login_result.getLogType().equals(AuthBean.LoginSuccessAdmin) || login_result.getLogType().equals(AuthBean.LoginSuccessUserLevel2) 
 					|| login_result.getLogType().equals(AuthBean.LoginSuccessUserLevel1)))
 			{
-				Cookie c_email = new Cookie(WebUtility.cookie_email, user);
-				Cookie c_pass = new Cookie(
-						WebUtility.cookie_session, 
-						EJBUtility.getHash(login_result.getUsername() + login_result.getEmail() + login_result.getLogType(), 
-								"SHA-256")
-				);
-				Cookie c_status = new Cookie(WebUtility.cookie_status, login_result.getLogType().toString());
-				Cookie c_nome = new Cookie(WebUtility.cookie_nome, WebUtility.removeAccents(login_result.getUsername()));
+				session.setAttribute("userEmail", login_result.getEmail());
+				session.setAttribute("userName", login_result.getUsername());
 				
-				c_email.setMaxAge(WebUtility.cookie_expire);
-				c_pass.setMaxAge(WebUtility.cookie_expire);
-				c_status.setMaxAge(-1);
-				c_nome.setMaxAge(WebUtility.cookie_expire);
+//				Cookie c_email = new Cookie(WebUtility.cookie_email, user);
+//				Cookie c_pass = new Cookie(
+//						WebUtility.cookie_session, 
+//						EJBUtility.getHash(login_result.getUsername() + login_result.getEmail() + login_result.getLogType(), 
+//								"SHA-256")
+//				);
+//				Cookie c_status = new Cookie(WebUtility.cookie_status, login_result.getLogType().toString());
+//				Cookie c_nome = new Cookie(WebUtility.cookie_nome, WebUtility.removeAccents(login_result.getUsername()));
 				
-				response.addCookie(c_email);
-				response.addCookie(c_pass);
-				response.addCookie(c_status);
-				response.addCookie(c_nome);
+//				c_email.setMaxAge(WebUtility.cookie_expire);
+//				c_pass.setMaxAge(WebUtility.cookie_expire);
+//				c_status.setMaxAge(-1);
+//				c_nome.setMaxAge(WebUtility.cookie_expire);
+//				
+//				response.addCookie(c_email);
+//				response.addCookie(c_pass);
+//				response.addCookie(c_status);
+//				response.addCookie(c_nome);
 
 			    if(login_result.getLogType() == AuthBean.LoginSuccessUserLevel1)	// retorna para a página de USER
 			    	response.sendRedirect("/GraoPara/protected/user/index.jsp");

@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8"%>
-<%@page import="webview.servlet.AdminRegisterServlet"%>
+<%@page import="webview.servlet.account.AdminRegisterServlet"%>
 <%@page import="webview.worker.SearchWorker"%>
 
 <html>
