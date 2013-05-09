@@ -9,7 +9,7 @@ import persistence.exceptions.UpdateEntityException;
 import business.DAO.login.ProfileDAO;
 import business.DAO.login.UserDAO;
 import business.EJB.util.EJBUtility;
-import business.EJB.util.RegularExpression;
+import business.EJB.util.Regex;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
 import business.exceptions.login.IncorrectProfileInformationException;
@@ -21,33 +21,33 @@ public class AdminBean {
 
 	private UserDAO userDAO;
 	private ProfileDAO profileDAO;
-
+	
 	private final String profileNamePattern = "([a-z0-9]){3,}";
-	private final RegularExpression profileNameChecker = new RegularExpression(profileNamePattern);
+	private final Regex profileNameChecker = new Regex(profileNamePattern);
 
 	private final String emailPattern = "([A-Za-z0-9])([_.-]?[A-Za-z0-9])*@([A-Za-z0-9]+)(\\.[A-Za-z0-9]+)+";
-	private final RegularExpression emailChecker = new RegularExpression(emailPattern);
+	private final Regex emailChecker = new Regex(emailPattern);
 
 	public AdminBean() {
 		userDAO = new UserDAO();
 		profileDAO = new ProfileDAO();
 	}
 
-	public void adicionarProfile(String profile, boolean read, boolean write, boolean edit) 
+	public void addProfile(String profile, String[] permissions) 
 			throws UnreachableDataBaseException, IncorrectProfileInformationException {
 		try {
 			if(!profileNameChecker.check(profile))	throw new IncorrectProfileInformationException("Nome inválido");
 			Profile check = profileDAO.findProfileByName(profile);
 			if(check.getProfile().equals(profile))	throw new IncorrectProfileInformationException("Nome de profile já existe.");
 		} catch(ProfileNotFoundException e) {
-			profileDAO.createProfile(profile);
+			profileDAO.createProfile(profile, permissions);
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
-
-	public void adicionarUsuario(String email, String name, String password, String profile) throws UnreachableDataBaseException, IncorrectLoginInformationException, DuplicateUserException {
+	
+	public void addUser(String email, String name, String password, String profile) throws UnreachableDataBaseException, IncorrectLoginInformationException, DuplicateUserException {
 		try {
 			if(!emailChecker.check(email))	
 				throw new IncorrectLoginInformationException("Email inválido");	
@@ -67,14 +67,14 @@ public class AdminBean {
 				} catch (ProfileNotFoundException f) {
 					e.printStackTrace();
 				}
-				userDAO.addUser(email, name, EJBUtility.getHash(password, "MD5"), p_dto);
+				userDAO.addUser(email, name, EJBUtility.getHash(password), p_dto);
 			}
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void alterarPermissoesUsuario(String email, String novo_perfil) 
+	public void changeUserProfile(String email, String novo_perfil) 
 			throws IncorrectProfileInformationException, UnreachableDataBaseException, UserNotFoundException, 
 				ProfileNotFoundException, IllegalArgumentException, UpdateEntityException {
 		userDAO.changeUserProfile(email, profileDAO.findProfileByName(novo_perfil));

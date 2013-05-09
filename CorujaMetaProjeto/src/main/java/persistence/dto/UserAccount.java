@@ -16,11 +16,13 @@ public class UserAccount implements DTO{
 	
 	private String password;
 	
+	private String generatedToken;
+	
 	public UserAccount() {
 		//Para o JDTO
 	}
 
-	public UserAccount(String name, Profile profile, String email,	String password) {
+	public UserAccount(String name, Profile profile, String email,	String password, String generatedToken) {
 		this.name = name;
 		this.profile = profile;
 		this.email = email;
@@ -65,6 +67,14 @@ public class UserAccount implements DTO{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getGeneratedToken() {
+		return generatedToken;
+	}
+
+	public void setGeneratedToken(String generatedToken) {
+		this.generatedToken = generatedToken;
 	}
 	
 }

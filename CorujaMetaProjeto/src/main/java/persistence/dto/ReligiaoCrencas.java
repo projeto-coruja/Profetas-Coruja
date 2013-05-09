@@ -1,29 +1,30 @@
-package persistence.model;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotEmpty;
+package persistence.dto;
 
 import datatype.SimpleDate;
 
-@Entity
-public class ReligiaoCrencasMO implements EntityModel {
-	@Id
-	@GeneratedValue
+public class ReligiaoCrencas implements DTO {
+
 	private Long id;
-	@NotEmpty
+
 	private String nome;
 
-	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoInicio;
 
-	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoFim;
 
 	private String descricao;
+
+	public ReligiaoCrencas() {
+	}
+
+	public ReligiaoCrencas(Long id, String nome, SimpleDate anoInicio,
+			SimpleDate anoFim, String descricao) {
+		this.id = id;
+		this.nome = nome;
+		this.anoInicio = anoInicio;
+		this.anoFim = anoFim;
+		this.descricao = descricao;
+	}
 
 	public Long getId() {
 		return id;

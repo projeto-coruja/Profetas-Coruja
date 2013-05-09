@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
@@ -38,10 +39,13 @@ public class FontesObrasMO implements EntityModel {
 
 	private String editor;
 
+	@ManyToOne
 	private GrupoMovimentoMO grupoMovimento;
 
+	@ManyToOne
 	private LocalMO localImpressao;
 
+	@ManyToOne
 	private ClassificacaoMO classificao;
 
 	@OneToMany

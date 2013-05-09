@@ -3,6 +3,7 @@ package persistence.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
@@ -18,6 +19,7 @@ public class EncontroMO implements EntityModel {
 	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate data;
 
+	@ManyToOne
 	private LocalMO local;
 
 	public Long getId() {

@@ -32,8 +32,6 @@ public class GrupoMovimentoMO implements EntityModel {
 	@ManyToMany
 	private List<LocalMO> local;
 
-	private GrupoPersonagemMO grupoPersonagem;
-
 	@Override
 	public Long getId() {
 		return id;
@@ -81,14 +79,6 @@ public class GrupoMovimentoMO implements EntityModel {
 
 	public void setLocal(List<LocalMO> local) {
 		this.local = local;
-	}
-
-	public GrupoPersonagemMO getGrupoPersonagem() {
-		return grupoPersonagem;
-	}
-
-	public void setGrupoPersonagem(GrupoPersonagemMO grupoPersonagem) {
-		this.grupoPersonagem = grupoPersonagem;
 	}
 
 }

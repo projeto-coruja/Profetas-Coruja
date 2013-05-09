@@ -1,23 +1,24 @@
-package persistence.model;
+package persistence.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+public class Local implements DTO {
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-@Entity
-public class LocalMO implements EntityModel {
-	@Id
-	@GeneratedValue
 	private Long id;
 
-	@NotEmpty
 	private String nome;
 
 	private double latitude;
 
 	private double longitude;
+
+	public Local() {
+	}
+
+	public Local(Long id, String nome, double latitude, double longitude) {
+		this.id = id;
+		this.nome = nome;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
 	public Long getId() {
 		return id;

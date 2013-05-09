@@ -3,6 +3,7 @@ package persistence.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
@@ -17,14 +18,17 @@ public class CorrespondenciaMO implements EntityModel {
 	private Long id;
 
 	@NotNull
+	@ManyToOne
 	private PersonagemMO remetente;
 
 	@NotNull
+	@ManyToOne
 	private PersonagemMO destinatario;
 
 	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate data;
 
+	@ManyToOne
 	private LocalMO local;
 
 	public Long getId() {

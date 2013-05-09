@@ -30,6 +30,8 @@ public class UserAccountMO implements EntityModel  {
 	
 	@NotEmpty
 	private String password;
+	
+	private String generatedToken;
 
 	public Long getId() {
 		return id;
@@ -69,6 +71,14 @@ public class UserAccountMO implements EntityModel  {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getGeneratedToken() {
+		return generatedToken;
+	}
+
+	public void setGeneratedToken(String generatedToken) {
+		this.generatedToken = generatedToken;
 	}
 
 }

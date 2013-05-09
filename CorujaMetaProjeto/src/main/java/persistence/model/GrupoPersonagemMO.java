@@ -3,13 +3,14 @@ package persistence.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
 import datatype.SimpleDate;
 
 @Entity
-public class GrupoPersonagemMO extends GrupoMovimentoMO {
+public class GrupoPersonagemMO implements EntityModel {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -17,6 +18,7 @@ public class GrupoPersonagemMO extends GrupoMovimentoMO {
 	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoIngresso;
 
+	@ManyToOne
 	private GrupoMovimentoMO grupoMovimento;
 
 	@Override

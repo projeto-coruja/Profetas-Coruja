@@ -24,6 +24,7 @@ import business.exceptions.login.UserNotFoundException;
 @WebServlet("/doLogin")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private String indexPage = "";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,16 +37,15 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AuthBean authetication = new AuthBean();
 		String user = request.getParameter("login");
 		String senha = request.getParameter("senha");
 		HttpSession session = request.getSession();
 		try {
-			UserBean login_result = AuthBean.validarLogin(user, senha, AuthBean.NonHashedPwd);
+			authetication.validarLogin(user, senha, session, AuthBean.NonHashedPwd);
 			if(login_result != null && (login_result.getLogType().equals(AuthBean.LoginSuccessAdmin) || login_result.getLogType().equals(AuthBean.LoginSuccessUserLevel2) 
 					|| login_result.getLogType().equals(AuthBean.LoginSuccessUserLevel1)))
 			{
-				session.setAttribute("userEmail", login_result.getEmail());
-				session.setAttribute("userName", login_result.getUsername());
 				
 //				Cookie c_email = new Cookie(WebUtility.cookie_email, user);
 //				Cookie c_pass = new Cookie(

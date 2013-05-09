@@ -4,9 +4,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+/**
+ *	Classe de utilidades. 
+ */
 public class EJBUtility {
-
-	private EJBUtility (){}
 
 	private static String byteArrayToHexString(byte[] b){
 		StringBuffer sb = new StringBuffer(b.length * 2);
@@ -22,12 +23,30 @@ public class EJBUtility {
 
 	private static byte[] genHash(String s, String algorithm) throws NoSuchAlgorithmException{
 		if(algorithm.isEmpty())	throw new NoSuchAlgorithmException("Nenhum algoritmo passado");
-		MessageDigest md5 = MessageDigest.getInstance(algorithm);
-		md5.reset();
-		md5.update(s.getBytes(),0,s.length());
-		return md5.digest();
+		MessageDigest digest = MessageDigest.getInstance(algorithm);
+		digest.reset();
+		digest.update(s.getBytes(),0,s.length());
+		return digest.digest();
 	}
 
+	/**
+	 * Transforma uma senha em hash utilizando o algorítmo MD5.
+	 * @param s - String que será transformado em hash.
+	 * Caso <b>null</b> ou algoritmo inexistente, o método utilizará o <b>MD5</b> como padrão. 
+	 * @return hashword - Hash da senha.
+	 */
+	public static String getHash(String s){
+
+		String hashword = null;
+		try {
+			hashword = byteArrayToHexString(genHash(s, "MD5"));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+//		System.out.println(hashword);
+		return hashword;
+	}
+	
 	/**
 	 * Transforma uma senha em hash.
 	 * @param s - String que será transformado em hash.
@@ -44,6 +63,7 @@ public class EJBUtility {
 			try {
 				hashword = byteArrayToHexString(genHash(s, "MD5"));
 			} catch (NoSuchAlgorithmException e1) {
+				e.printStackTrace();
 			}
 		}
 //		System.out.println(hashword);
@@ -76,6 +96,15 @@ public class EJBUtility {
 			s += c;
 		}
 		return s;
+	}
+	
+	/**
+	 * Gera um token aleatório.
+	 * @param suffix - sufixo para o token.
+	 * @return token
+	 */
+	public static String genRandomToken(String suffix){
+		return suffix+getHash(genRandomString(15),"SHA-256");
 	}
 
 }

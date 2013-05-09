@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
@@ -25,11 +26,13 @@ public class PersonagemMO implements EntityModel {
 
 	private String apelido;
 
+	@ManyToOne
 	private LocalMO localNascimento;
 
 	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate dataNascimento;
 
+	@ManyToOne
 	private LocalMO localMorte;
 
 	@Type(type = "persistence.util.SimpleDateHibernateType")
@@ -41,6 +44,7 @@ public class PersonagemMO implements EntityModel {
 
 	private String formacao;
 
+	@ManyToOne
 	private FontesObrasMO referencia_bibliografica;
 
 	@ManyToMany

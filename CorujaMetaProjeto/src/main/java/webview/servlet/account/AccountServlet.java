@@ -44,63 +44,74 @@ public class AccountServlet extends HttpServlet {
 		RegisterUserBean cadastro = new RegisterUserBean();
 		SearchUserBean busca = new SearchUserBean();
 		AdminBean admin = new AdminBean();
+		AuthBean auth = new AuthBean();
 		
 		String action = request.getParameter("action");
-		String permissaoNova;
-		String senhaVelha;
-		String senhaNova;
+		String newProfile;
+		String oldPassword;
+		String newPassword;
 		UserAccount user = null;
 		response.setContentType("text/html; charset=UTF-8");  
 		String email = WebUtility.selectCookie(request.getCookies(), WebUtility.cookie_email).getValue();
-		String status = WebUtility.selectCookie(request.getCookies(), WebUtility.cookie_status).getValue();
-
-		if(action.equals("editPermission") && status.equals(AuthBean.LoginSuccessAdmin)){
-			permissaoNova = request.getParameter("permissao");
-			email = request.getParameter("email");
-			
-			AlertsUtility.alertAndRedirectHistory(response, "Permissão trocado com sucesso.");
-			
+		
+		if(auth.isLoggedIn(request.getSession())){	// Verifica se o usuário iniciou uma sessão.
 			try {
-				admin.alterarPermissoesUsuario(email, permissaoNova);
+				// Verifica a ação do usuário e se ele tem permissão para executar tal ação
+				if(action.equals("editPermission")){
+					if(!auth.allowedOperation("userEditPermission", request.getSession(), true)){
+						AlertsUtility.alertAndRedirectHistory(response, "Erro ao autenticar usuário.");
+					}
+					newProfile = request.getParameter("permissao");
+					email = request.getParameter("email");
+					try {
+						admin.changeUserProfile(email, newProfile);
+						AlertsUtility.alertAndRedirectHistory(response, "Permissão trocado com sucesso.");
+					} catch (UnreachableDataBaseException e) {
+						AlertsUtility.alertAndRedirectHistory(response, "Não foi possível conectar com o banco de dados.");
+						e.printStackTrace();
+					} catch (UserNotFoundException e) {
+						e.printStackTrace();
+					} catch (IncorrectProfileInformationException e) {
+						e.printStackTrace();
+					} catch (ProfileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (UpdateEntityException e) {
+						e.printStackTrace();
+					}
+				}
+				else if(action.equals("editPassword") ){
+					if(!auth.validateToken(request.getSession())){
+						AlertsUtility.alertAndRedirectHistory(response, "Erro ao autenticar usuário.");
+					}
+					oldPassword = request.getParameter("senhaAtual");
+					newPassword = request.getParameter("senhaNova");
+					try {
+						user = busca.findUser(email);
+						
+						if(user.getPassword().equals(EJBUtility.getHash(oldPassword, "MD5"))){
+							user.setPassword(EJBUtility.getHash(newPassword, "MD5"));
+							cadastro.atualizarUsuario(user);  
+							AlertsUtility.alertAndRedirectHistory(response, "Senha trocada com sucesso.");
+						}
+						else{
+							AlertsUtility.alertAndRedirectHistory(response, "Erro ao trocar a senha, senha informada diferente da cadastrada.");
+						}
+					} catch (UnreachableDataBaseException e) {
+						AlertsUtility.alertAndRedirectHistory(response, "Não foi possível conectar com o banco de dados.");
+						e.printStackTrace();
+					} catch (UserNotFoundException e) {
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (UpdateEntityException e) {
+						e.printStackTrace();
+					}	
+				}
 			} catch (UnreachableDataBaseException e) {
-				AlertsUtility.alertAndRedirectHistory(response, "Não foi possível conectar com o banco de dados.");
-				e.printStackTrace();
-			} catch (UserNotFoundException e) {
-				e.printStackTrace();
-			} catch (IncorrectProfileInformationException e) {
-				e.printStackTrace();
-			} catch (ProfileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (UpdateEntityException e) {
 				e.printStackTrace();
 			}
-		}
-		else if(action.equals("editPassword")){
-			senhaVelha = request.getParameter("senhaAtual");
-			senhaNova = request.getParameter("senhaNova");
-			try {
-				user = busca.findUser(email);
-				
-				if(user.getPassword().equals(EJBUtility.getHash(senhaVelha, "MD5"))){
-					user.setPassword(EJBUtility.getHash(senhaNova, "MD5"));
-					cadastro.atualizarUsuario(user);  
-					AlertsUtility.alertAndRedirectHistory(response, "Senha trocada com sucesso.");
-				}
-				else{
-					AlertsUtility.alertAndRedirectHistory(response, "Erro ao trocar a senha, senha informada diferente da cadastrada.");
-				}
-			} catch (UnreachableDataBaseException e) {
-				AlertsUtility.alertAndRedirectHistory(response, "Não foi possível conectar com o banco de dados.");
-				e.printStackTrace();
-			} catch (UserNotFoundException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (UpdateEntityException e) {
-				e.printStackTrace();
-			}	
 		}
 	}
 

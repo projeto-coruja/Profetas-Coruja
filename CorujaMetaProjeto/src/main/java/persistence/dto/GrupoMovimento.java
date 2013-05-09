@@ -1,30 +1,40 @@
-package persistence.model;
+package persistence.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.List;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.jdto.annotation.DTOCascade;
 
 import datatype.SimpleDate;
 
-@Entity
-public class ReligiaoCrencasMO implements EntityModel {
-	@Id
-	@GeneratedValue
+public class GrupoMovimento implements DTO {
+
 	private Long id;
-	@NotEmpty
+
 	private String nome;
 
-	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoInicio;
 
-	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoFim;
 
 	private String descricao;
 
+	@DTOCascade
+	private List<Local> local;
+
+	public GrupoMovimento() {
+	}
+
+	public GrupoMovimento(Long id, String nome, SimpleDate anoInicio,
+			SimpleDate anoFim, String descricao, List<Local> local) {
+		this.id = id;
+		this.nome = nome;
+		this.anoInicio = anoInicio;
+		this.anoFim = anoFim;
+		this.descricao = descricao;
+		this.local = local;
+	}
+
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -63,6 +73,14 @@ public class ReligiaoCrencasMO implements EntityModel {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public List<Local> getLocal() {
+		return local;
+	}
+
+	public void setLocal(List<Local> local) {
+		this.local = local;
 	}
 
 }

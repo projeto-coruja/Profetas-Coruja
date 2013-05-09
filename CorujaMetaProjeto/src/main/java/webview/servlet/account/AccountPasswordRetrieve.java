@@ -12,6 +12,7 @@ import persistence.exceptions.UpdateEntityException;
 import webview.util.AlertsUtility;
 
 import business.EJB.user.RegisterUserBean;
+import business.exceptions.MailNotConfiguredException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
@@ -40,6 +41,8 @@ public class AccountPasswordRetrieve extends HttpServlet {
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();
 		} catch (UpdateEntityException e) {
+			e.printStackTrace();
+		} catch (MailNotConfiguredException e) {
 			e.printStackTrace();
 		}
 	}
