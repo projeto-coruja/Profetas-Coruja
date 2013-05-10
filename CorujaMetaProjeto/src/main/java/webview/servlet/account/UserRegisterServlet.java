@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import webview.util.AlertsUtility;
 import webview.util.WebUtility;
-import business.EJB.user.RegisterUserBean;
+import business.Bean.user.RegisterUserBean;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
 

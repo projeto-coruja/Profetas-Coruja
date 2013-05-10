@@ -18,7 +18,7 @@ import persistence.dto.DTO;
 import persistence.dto.Profile;
 import persistence.dto.UserAccount;
 import persistence.util.PersistenceUtility;
-import business.EJB.util.EJBUtility;
+import business.Bean.util.EJBUtility;
 
 /**
  * Servlet implementation class InitServlet
@@ -41,9 +41,9 @@ public class InitServlet extends HttpServlet {
 		super.init(config);
 		initLogger(config);
 
-		log.info("Iniciando sistema Grão-Para...");
+		log.info("Iniciando sistema Profetas...");
 		PersistenceAccess pa = new PersistenceAccess();
-		String[] profiles_names = {"default", "user", "admin"};
+		String[] profiles_names = {"user", "admin"};
 
 		List<DTO> profile;
 		for (String p : profiles_names) {
@@ -72,7 +72,9 @@ public class InitServlet extends HttpServlet {
 							"Admin", 
 							(Profile) (pa.findEntity("from ProfileMO where profile = 'admin'").get(0)),
 							"admin@graopara.com",
-							EJBUtility.getHash("null","MD5")
+							EJBUtility.getHash("null","MD5"), 
+							null,
+							null
 					)
 			);
 		}
@@ -84,10 +86,12 @@ public class InitServlet extends HttpServlet {
 			log.info("Criando usuário de teste...");
 			pa.saveEntity(
 					new UserAccount(
-							"Usuário Padrão Nível 1", 
+							"Usuário Padrão", 
 							(Profile) (pa.findEntity("from ProfileMO where profile = 'user'").get(0)),
 							"user1@graopara.com",
-							EJBUtility.getHash("null","MD5")
+							EJBUtility.getHash("null","MD5"),
+							null,
+							null
 					)
 			);
 			

@@ -1,5 +1,7 @@
 package persistence.model;
 
+import java.util.GregorianCalendar;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,6 +34,8 @@ public class UserAccountMO implements EntityModel  {
 	private String password;
 	
 	private String generatedToken;
+	
+	private GregorianCalendar tokenDate;
 
 	public Long getId() {
 		return id;
@@ -79,6 +83,14 @@ public class UserAccountMO implements EntityModel  {
 
 	public void setGeneratedToken(String generatedToken) {
 		this.generatedToken = generatedToken;
+	}
+
+	public GregorianCalendar getTokenDate() {
+		return tokenDate;
+	}
+
+	public void setTokenDate(GregorianCalendar tokenDate) {
+		this.tokenDate = tokenDate;
 	}
 
 }

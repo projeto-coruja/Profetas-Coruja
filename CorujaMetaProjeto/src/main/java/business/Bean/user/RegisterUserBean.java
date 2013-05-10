@@ -1,11 +1,11 @@
-package business.EJB.user;
+package business.Bean.user;
 
 import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
+import business.Bean.util.EJBUtility;
+import business.Bean.util.Regex;
+import business.Bean.util.SendMail;
 import business.DAO.login.UserDAO;
-import business.EJB.util.EJBUtility;
-import business.EJB.util.Regex;
-import business.EJB.util.SendMail;
 import business.exceptions.MailNotConfiguredException;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;

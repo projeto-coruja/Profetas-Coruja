@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import webview.util.AlertsUtility;
 
@@ -29,15 +29,11 @@ public class LogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cookie[] c_list = request.getCookies();
-		for(Cookie c : c_list){
-			c.setMaxAge(0);
-			response.addCookie(c);
-		}
+		HttpSession session = request.getSession();
+		session.invalidate();
 		
 		AlertsUtility.alertOnly(response, "Logout feito com sucesso!");
-		
-		response.sendRedirect("/GraoPara/public/index.jsp");
+		response.sendRedirect("index.jsp");
 	}
 
 }

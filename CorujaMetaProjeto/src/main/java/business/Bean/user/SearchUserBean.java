@@ -1,4 +1,4 @@
-package business.EJB.user;
+package business.Bean.user;
 
 import java.util.List;
 

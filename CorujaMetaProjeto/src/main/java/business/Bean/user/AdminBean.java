@@ -1,4 +1,4 @@
-package business.EJB.user;
+package business.Bean.user;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import persistence.dto.DTO;
 import persistence.dto.Profile;
 import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
+import business.Bean.util.EJBUtility;
+import business.Bean.util.Regex;
 import business.DAO.login.ProfileDAO;
 import business.DAO.login.UserDAO;
-import business.EJB.util.EJBUtility;
-import business.EJB.util.Regex;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
 import business.exceptions.login.IncorrectProfileInformationException;

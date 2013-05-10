@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import persistence.exceptions.UpdateEntityException;
 import webview.util.AlertsUtility;
 
-import business.EJB.user.AdminBean;
+import business.Bean.user.AdminBean;
 import business.exceptions.login.IncorrectProfileInformationException;
 import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;

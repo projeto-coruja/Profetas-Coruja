@@ -38,10 +38,10 @@ public class UserDAO {
 	public void addUser(String email, String name, String password, Profile profile) throws UnreachableDataBaseException {
 		UserAccount newUser;
 		if(profile == null){
-			newUser = new UserAccount(name, ProfileDAO.getDefaultProfile(), email, password, null);
+			newUser = new UserAccount(name, ProfileDAO.getDefaultProfile(), email, password, null, null);
 		}
 		else{
-			newUser = new UserAccount(name, profile, email, password, null);
+			newUser = new UserAccount(name, profile, email, password, null, null);
 		}
 		try {
 			manager.saveEntity(newUser);

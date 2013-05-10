@@ -1,11 +1,13 @@
-package business.EJB.user;
+package business.Bean.user;
+
+import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpSession;
 
 import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
+import business.Bean.util.EJBUtility;
 import business.DAO.login.UserDAO;
-import business.EJB.util.EJBUtility;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
@@ -14,7 +16,7 @@ import business.exceptions.login.UserNotFoundException;
  */
 public class AuthBean {
 
-	private UserDAO loginDAO = new UserDAO();
+	private UserDAO loginDAO;
 	/**
 	 * Flag para habilitar hash de senha
 	 */
@@ -23,6 +25,10 @@ public class AuthBean {
 	 * Flag para desabilitar hash de senha
 	 */
 	public static final boolean NonHashedPwd = false;
+	
+	public AuthBean() {
+		loginDAO = new UserDAO();
+	}
 	
 	/**
 	 * Autentica um usuário
@@ -52,8 +58,10 @@ public class AuthBean {
 		if (check.getPassword().equals(hashedPassword)){	// Verifica se a senha fornecido é a mesma da cadastrada.
 			// Gera um token.
 			String sessionToken = EJBUtility.genRandomToken("LOG");
-			// Grava o token no banco de dados e atualiza.
+			// Grava o token no banco de dados.
+			GregorianCalendar tokenDate = new GregorianCalendar();
 			check.setGeneratedToken(sessionToken);
+			check.setTokenDate(tokenDate);
 			loginDAO.updateUser(check);
 			// Define os atributos de sessão.
 			session.setAttribute("userMail", check.getEmail());
@@ -62,7 +70,7 @@ public class AuthBean {
 			session.setAttribute("userAccessToken", sessionToken);
 			session.setAttribute("userLoginSuccessfull", true);
 		}
-		else	session.setAttribute("userLoginSuccessfull", false);
+		else	throw new UserNotFoundException("Senha errada");
 	}
 
 	/**
@@ -82,9 +90,13 @@ public class AuthBean {
 	 */
 	public boolean validateToken(HttpSession session) throws UnreachableDataBaseException{
 		UserAccount user;
+		// Pega os atributos da sessão.
+		String userMail = (String) session.getAttribute("userMail");
+		String userToken = (String)session.getAttribute("userAccessToken");
+		if(userMail == null || userToken == null)	return false;
 		try {
-			user = loginDAO.findUserByEmail((String) session.getAttribute("userMail"));
-			if(!user.getGeneratedToken().equals((String)session.getAttribute("userAccessToken"))){
+			user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
+			if(!user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
 				session.invalidate();	// Força o logout.
 				return false; // Se os tokens divergirem, negar a ação.
 			}

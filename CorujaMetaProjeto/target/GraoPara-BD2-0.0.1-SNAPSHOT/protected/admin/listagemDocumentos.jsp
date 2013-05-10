@@ -1,7 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="webview.util.WebUtility"%>
-<%@page import="business.EJB.user.AdminBean"%>
+<%@page import="business.Bean.user.AdminBean"%>
 <%@page import="webview.worker.SearchWorker"%>
 
 <html>

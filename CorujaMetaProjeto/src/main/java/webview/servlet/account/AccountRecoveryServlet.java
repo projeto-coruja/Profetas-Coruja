@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
 import webview.util.AlertsUtility;
-import business.EJB.user.RegisterUserBean;
-import business.EJB.user.SearchUserBean;
-import business.EJB.util.EJBUtility;
+import business.Bean.user.RegisterUserBean;
+import business.Bean.user.SearchUserBean;
+import business.Bean.util.EJBUtility;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 

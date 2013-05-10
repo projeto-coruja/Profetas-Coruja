@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import webview.util.AlertsUtility;
 import webview.util.WebUtility;
-import business.EJB.user.AdminBean;
+import business.Bean.user.AdminBean;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
 import business.exceptions.login.UnreachableDataBaseException;

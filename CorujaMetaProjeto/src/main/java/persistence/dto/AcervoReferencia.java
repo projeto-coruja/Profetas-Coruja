@@ -1,14 +1,14 @@
 package persistence.dto;
 
-public class AcervoCota implements DTO {
+public class AcervoReferencia implements DTO {
 
 	public Long id;
 
 	public String nome;
 	
-	public AcervoCota(){} // JDTO
+	public AcervoReferencia(){} // JDTO
 	
-	public AcervoCota(Long id, String nome) {
+	public AcervoReferencia(Long id, String nome) {
 		this.id = id;
 		this.nome = nome;
 	}

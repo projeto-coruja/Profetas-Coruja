@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import persistence.dto.UserAccount;
+import business.Bean.user.AdminBean;
 import business.DAO.login.UserDAO;
-import business.EJB.user.AdminBean;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 

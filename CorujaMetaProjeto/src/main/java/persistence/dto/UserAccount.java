@@ -1,5 +1,7 @@
 package persistence.dto;
 
+import java.util.GregorianCalendar;
+
 import org.jdto.annotation.DTOCascade;
 
 
@@ -18,15 +20,18 @@ public class UserAccount implements DTO{
 	
 	private String generatedToken;
 	
+	private GregorianCalendar tokenDate;
+	
 	public UserAccount() {
 		//Para o JDTO
 	}
 
-	public UserAccount(String name, Profile profile, String email,	String password, String generatedToken) {
+	public UserAccount(String name, Profile profile, String email,	String password, String generatedToken, GregorianCalendar tokenDate) {
 		this.name = name;
 		this.profile = profile;
 		this.email = email;
 		this.password = password;
+		this.tokenDate = tokenDate;
 	}
 	
 	public Long getId() {
@@ -75,6 +80,14 @@ public class UserAccount implements DTO{
 
 	public void setGeneratedToken(String generatedToken) {
 		this.generatedToken = generatedToken;
+	}
+
+	public GregorianCalendar getTokenDate() {
+		return tokenDate;
+	}
+
+	public void setTokenDate(GregorianCalendar tokenDate) {
+		this.tokenDate = tokenDate;
 	}
 	
 }
