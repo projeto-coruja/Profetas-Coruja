@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:choose>
-	<c:when test="${empty sessionScope['userLoginSuccessfull'] && !sessionScope['userLoginSuccessfull']}">
+	<c:when test="${empty sessionScope['userLoginSuccessfull'] || !sessionScope['userLoginSuccessfull']}">
 		<form method="post" action="/Profetas/doLogin">
 			<fieldset>				
 				<!-- Login -->
