@@ -12,7 +12,7 @@
   <load-on-startup>1</load-on-startup>
  </servlet>
  <session-config>
-  <tracking-mode>SSL</tracking-mode>
+  <tracking-mode>COOKIE</tracking-mode>
  </session-config>
  <welcome-file-list>
   <welcome-file>/public/index.jsp</welcome-file>
