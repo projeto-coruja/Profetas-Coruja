@@ -8,8 +8,7 @@ public class AcervoReferencia implements DTO {
 	
 	public AcervoReferencia(){} // JDTO
 	
-	public AcervoReferencia(Long id, String nome) {
-		this.id = id;
+	public AcervoReferencia(String nome) {
 		this.nome = nome;
 	}
 
