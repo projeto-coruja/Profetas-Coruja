@@ -33,7 +33,7 @@ public class LogoutServlet extends HttpServlet {
 		session.invalidate();
 		
 		AlertsUtility.alertOnly(response, "Logout feito com sucesso!");
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("public/index.jsp");
 	}
 
 }

@@ -22,7 +22,7 @@ import business.exceptions.login.UserNotFoundException;
 @WebServlet("/doLogin")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final String indexPage = "Profetas/index.jsp";
+	private final String indexPage = "public/index.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
