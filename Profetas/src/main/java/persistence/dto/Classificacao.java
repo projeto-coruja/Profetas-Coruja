@@ -9,8 +9,7 @@ public class Classificacao implements DTO {
 	public Classificacao() {
 	}
 
-	public Classificacao(Long id, String tipo) {
-		this.id = id;
+	public Classificacao(String tipo) {
 		this.tipo = tipo;
 	}
 

@@ -96,7 +96,7 @@ public class AcervoReferenciaDAO {
 		try {
 			resultSet = manager.findEntity("from AcervoReferenciaMO order by nome");
 			if(resultSet == null) {
-				throw new ThemeNotFoundException ("Nenhum referência encontrada.");
+				throw new ReferenceNotFoundException ("Nenhum referência encontrada.");
 			}
 			else return resultSet;
 		} catch (DataAccessLayerException e) {
