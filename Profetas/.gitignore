@@ -1,20 +1,3 @@
-# Compiled source #
-###################
-*.class
-
-# For STS/Eclipse #
-###################
-.classpath
-.settings
-
-# Maven #
-###################
-target
-
-# For Mac OS X #
-###################
-.DS_Store
-
-# Logging #
-###################
-*.log
+/target
+/.classpath
+/pom.xml
