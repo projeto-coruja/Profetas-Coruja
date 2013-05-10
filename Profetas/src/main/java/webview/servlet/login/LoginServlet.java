@@ -22,7 +22,7 @@ import business.exceptions.login.UserNotFoundException;
 @WebServlet("/doLogin")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final String indexPage = "index.jsp";
+	private final String indexPage = "Profetas/index.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,6 +46,7 @@ public class LoginServlet extends HttpServlet {
 						"Problema na autenticação.", 
 						indexPage);
 			}
+			AlertsUtility.redirectOnly(response, indexPage);
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();
 		} catch (UserNotFoundException e) {

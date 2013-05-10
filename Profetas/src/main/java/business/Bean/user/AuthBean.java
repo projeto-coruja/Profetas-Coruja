@@ -50,7 +50,7 @@ public class AuthBean {
 		}
 		
 		String hashedPassword = null;
-		if(hashed == NonHashedPwd)
+		if(hashed == HashedPwd)
 			hashedPassword = EJBUtility.getHash(password, "MD5");	// Hashea a senha fornecido para a comparação.
 		else
 			hashedPassword = password;

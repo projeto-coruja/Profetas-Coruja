@@ -8,7 +8,7 @@
 <title>Login test</title>
 </head>
 <body>
-<% if(auth.isLoggedIn(session)){%>
+<% if(!auth.isLoggedIn(session)){%>
 	<form method="post" action="/Profetas/doLogin">
 				<fieldset>				
 					<!-- Login -->

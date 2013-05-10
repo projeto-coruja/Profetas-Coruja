@@ -71,7 +71,7 @@ public class InitServlet extends HttpServlet {
 					new UserAccount(
 							"Admin", 
 							(Profile) (pa.findEntity("from ProfileMO where profile = 'admin'").get(0)),
-							"admin@graopara.com",
+							"admin@coruja.com",
 							EJBUtility.getHash("null","MD5"), 
 							null,
 							null
@@ -88,7 +88,7 @@ public class InitServlet extends HttpServlet {
 					new UserAccount(
 							"Usuário Padrão", 
 							(Profile) (pa.findEntity("from ProfileMO where profile = 'user'").get(0)),
-							"user1@graopara.com",
+							"user@coruja.com",
 							EJBUtility.getHash("null","MD5"),
 							null,
 							null
