@@ -16,8 +16,7 @@ public class Encontro implements DTO {
 	public Encontro() {
 	}
 
-	public Encontro(Long id, SimpleDate data, Local local) {
-		this.id = id;
+	public Encontro(SimpleDate data, Local local) {
 		this.data = data;
 		this.local = local;
 	}

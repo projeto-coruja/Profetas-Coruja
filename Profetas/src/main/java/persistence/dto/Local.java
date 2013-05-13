@@ -13,8 +13,7 @@ public class Local implements DTO {
 	public Local() {
 	}
 
-	public Local(Long id, String nome, double latitude, double longitude) {
-		this.id = id;
+	public Local(String nome, double latitude, double longitude) {
 		this.nome = nome;
 		this.latitude = latitude;
 		this.longitude = longitude;
