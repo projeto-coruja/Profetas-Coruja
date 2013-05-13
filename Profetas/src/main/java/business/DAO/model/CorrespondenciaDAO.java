@@ -7,7 +7,7 @@ import persistence.dto.DTO;
 import persistence.dto.Correspondencia;
 import persistence.exceptions.UpdateEntityException;
 import persistence.util.DataAccessLayerException;
-import business.exceptions.model.CorrespondenciaNotFoundException;
+import business.exceptions.model.CorrespondenceNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 
 public class CorrespondenciaDAO {
@@ -49,13 +49,13 @@ public class CorrespondenciaDAO {
 		}
 	}
 
-	public List<DTO> findCorrespondenceByQuery(String query) throws CorrespondenciaNotFoundException, UnreachableDataBaseException{
+	public List<DTO> findCorrespondenceByQuery(String query) throws CorrespondenceNotFoundException, UnreachableDataBaseException{
 		List<DTO> resultSet = null;
 		if(query == null)	throw new IllegalArgumentException("Query não pode ser null.");
 		try {
 			resultSet = manager.findEntity(query);
 			if(resultSet == null) {
-				throw new  CorrespondenciaNotFoundException("Nenhuma correspondência encontrada.");
+				throw new  CorrespondenceNotFoundException("Nenhuma correspondência encontrada.");
 			}
 			else return resultSet;
 		} catch (DataAccessLayerException e) {
