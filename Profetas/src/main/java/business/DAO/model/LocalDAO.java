@@ -23,7 +23,7 @@ public class LocalDAO {
 		Local newLocal = new Local(name, latitude, longitude);
 		try {
 			findExactLocal(latitude, longitude);
-			throw new DuplicateLocalException("Local já existe.");
+			throw new DuplicateLocalException("Local já existente.");
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			

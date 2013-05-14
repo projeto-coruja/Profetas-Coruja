@@ -14,7 +14,7 @@ public class PalavraChaveMO implements EntityModel {
 	private Long id;
 
 	@NotEmpty
-	private String nome;
+	private String palavraChave;
 
 	public Long getId() {
 		return id;
@@ -24,12 +24,12 @@ public class PalavraChaveMO implements EntityModel {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getPalavraChave() {
+		return palavraChave;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setPalavraChave(String palavraChave) {
+		this.palavraChave = palavraChave;
 	}
 
 }

@@ -4,14 +4,13 @@ public class PalavraChave implements DTO {
 
 	private Long id;
 
-	private String nome;
+	private String palavraChave;
 
 	public PalavraChave() {
 	}
 
-	public PalavraChave(Long id, String nome) {
-		this.id = id;
-		this.nome = nome;
+	public PalavraChave(String palavraChave) {
+		this.palavraChave = palavraChave;
 	}
 
 	public Long getId() {
@@ -22,12 +21,12 @@ public class PalavraChave implements DTO {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getPalavraChave() {
+		return palavraChave;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setPalavraChave(String palavraChave) {
+		this.palavraChave = palavraChave;
 	}
 
 }

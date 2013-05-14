@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import business.exceptions.model.ClassificationNotFoundException;
+import business.exceptions.model.DuplicateClassificationException;
 import business.exceptions.login.UnreachableDataBaseException;
 import persistence.PersistenceAccess;
 import persistence.dto.Classificacao;
@@ -19,15 +20,35 @@ public class ClassificacaoDAO {
 		manager = new PersistenceAccess();	
 	}
 	
-	public Classificacao addClassification(String type) throws UnreachableDataBaseException {
+	public Classificacao addClassification(String type) throws UnreachableDataBaseException, DuplicateClassificationException {
 		Classificacao newClassificacao = new Classificacao(type);
 		try {
-			manager.saveEntity(newClassificacao);
+			findClassificationByType(type);
+			throw new DuplicateClassificationException("Classificação já existente.");
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
+		} catch (ClassificationNotFoundException e) {
+			manager.saveEntity(newClassificacao);
+			return newClassificacao;
 		}
-		return newClassificacao;
+	}
+	
+	public void removeClassification(String type) throws UnreachableDataBaseException, ClassificationNotFoundException {
+		List<DTO> check = null;
+		Classificacao select = null;
+		try {
+			check = findClassificationByType(type);
+			for(DTO dto : check) {
+				if (((Classificacao) dto).getTipo().equals(type))
+					select = (Classificacao) dto;
+			}
+			if(select == null)	throw new ClassificationNotFoundException("Classificação não encontrada.");
+			manager.deleteEntity(select);
+		} catch(DataAccessLayerException e) {
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
+		}
 	}
 	
 	public Classificacao updateClassification(String oldType, String newType) 
@@ -60,23 +81,6 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	public void removeClassification(String type) throws UnreachableDataBaseException, ClassificationNotFoundException {
-		List<DTO> check = null;
-		Classificacao select = null;
-		try {
-			check = findClassificationByType(type);
-			for(DTO dto : check) {
-				if (((Classificacao) dto).getTipo().equals(type))
-					select = (Classificacao) dto;
-			}
-			if(select == null)	throw new ClassificationNotFoundException("Classificação não encontrada.");
-			manager.deleteEntity(select);
-		} catch(DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
-		}
-	}
-	
 	public List<DTO> findClassificationByType(String type) throws  UnreachableDataBaseException, ClassificationNotFoundException {
 		List<DTO> resultSet = null;
 		try {
@@ -91,7 +95,7 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	/*public List<DTO> getAllClassification() throws  UnreachableDataBaseException, ClassificationNotFoundException  {
+	/*public List<DTO> getAllClassification() throws UnreachableDataBaseException, ClassificationNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM ClassificacaoMO ORDER BY tipo");
