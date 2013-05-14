@@ -44,18 +44,18 @@ public class EncontroDAO {
 		return newEncounter;
 	}
 	
-	public void removeEncounter(String localName) throws UnreachableDataBaseException, EncounterNotFoundException{
+	public void removeEncounter(String localName) throws UnreachableDataBaseException, EncounterNotFoundException {
 		List<DTO> check = null;
 		Encontro select = null;
-		try{
-			check = findEncounterByLocal(localName);
-			for(DTO dto : check){
+		try {
+			check = findEncounterByLocalName(localName);
+			for(DTO dto : check) {
 				if (((Encontro) dto).getLocal().getNome().equals(localName))
 					select = (Encontro) dto;
 			}
 			if(select == null)	throw new EncounterNotFoundException("Encontro não encontrado.");
 			manager.deleteEntity(select);
-		} catch(DataAccessLayerException e){
+		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
@@ -68,14 +68,14 @@ public class EncontroDAO {
 		
 		boolean unmodifiedEncounterLocal = false;
 		try {
-			if(newEncounterLocal != null && !newEncounterLocal.isEmpty()){
-				try{	
+			if(newEncounterLocal != null && !newEncounterLocal.isEmpty()) {
+				try {	
 					check = (new LocalDAO()).findLocalByName(newEncounterLocal);
 					for(DTO dto : check) {
 						if(((Local) dto).getNome().equals(newEncounterLocal))
 							selectLocal = (Local) dto;
 					}
-				} catch(DataAccessLayerException e){
+				} catch(DataAccessLayerException e) {
 					e.printStackTrace();
 					throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 				} catch (LocalNotFoundException e) {
@@ -84,7 +84,7 @@ public class EncontroDAO {
 			}
 			else unmodifiedEncounterLocal = true;
 			
-			check = findEncounterByLocal(oldEncounterLocal);
+			check = findEncounterByLocalName(oldEncounterLocal);
 			for(DTO dto : check) {
 				if(((Encontro) dto).getLocal().getNome().equals(oldEncounterLocal))
 					selectEncontro = (Encontro) dto;
@@ -94,7 +94,7 @@ public class EncontroDAO {
 			selectEncontro.setData(newDate);
 			manager.updateEntity(selectEncontro);
 
-		} catch(DataAccessLayerException e){
+		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
@@ -102,10 +102,10 @@ public class EncontroDAO {
 		return selectEncontro;
 	}
 	
-	public List<DTO> findEncounterByDate(SimpleDate date) throws  UnreachableDataBaseException, EncounterNotFoundException  {
+	public List<DTO> findEncounterByDate(SimpleDate date) throws  UnreachableDataBaseException, EncounterNotFoundException {
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM EncontroMO WHERE data = '" + date + "' ORDER BY data");
+			resultSet = manager.findEntity("FROM EncontroMO WHERE data = '" + date + "' ORDER BY data, local.nome");
 			if(resultSet == null) {
 				throw new EncounterNotFoundException ("Encontro não encontrado.");
 			}
@@ -116,12 +116,12 @@ public class EncontroDAO {
 		}
 	}
 	
-	public List<DTO> findKeyWordByTheme(String theme) throws  UnreachableDataBaseException, EncounterNotFoundException  {
+	public List<DTO> findEncounterByLocalName(String localName) throws  UnreachableDataBaseException, EncounterNotFoundException {
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from PalavraChaveMO where tema.tema = '" + theme + "' order by tema, palavra");
+			resultSet = manager.findEntity("FROM EncontroMO WHERE local.nome = '" + localName + "' ORDER BY local.nome, data");
 			if(resultSet == null) {
-				throw new EncounterNotFoundException ("Tema não encontrado");
+				throw new EncounterNotFoundException ("Encontro não encontrado.");
 			}
 			else return resultSet;
 		} catch (DataAccessLayerException e) {
@@ -130,18 +130,17 @@ public class EncontroDAO {
 		}
 	}
 	
-	public List<DTO> getAllKeys() throws  UnreachableDataBaseException, EncounterNotFoundException  {
+	public List<DTO> getAllEncounters() throws  UnreachableDataBaseException, EncounterNotFoundException {
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from PalavraChaveMO order by tema.tema");
+			resultSet = manager.findEntity("FROM EncontroMO ORDER BY local.nome, data");
 			if(resultSet == null) {
-				throw new EncounterNotFoundException ("Nenhuma palavra aprovada");
+				throw new EncounterNotFoundException ("Não existe nenhum encontro cadastrado.");
 			}
 			else return resultSet;
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
-	}
-	
+	}	
 }

@@ -22,7 +22,7 @@ public class CorrespondenciaDAO {
 		if(newCor == null)	throw new IllegalArgumentException("newCorrespondencia is null.");
 		try {
 			manager.saveEntity(newCor);
-		} catch(DataAccessLayerException e){
+		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
@@ -32,7 +32,7 @@ public class CorrespondenciaDAO {
 		if(cor == null)	throw new IllegalArgumentException("Nenhuma correspondência especificada.");
 		try{
 			manager.deleteEntity(cor);
-		} catch(DataAccessLayerException e){
+		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
@@ -49,7 +49,7 @@ public class CorrespondenciaDAO {
 		}
 	}
 
-	public List<DTO> findCorrespondenceByQuery(String query) throws CorrespondenceNotFoundException, UnreachableDataBaseException{
+	public List<DTO> findCorrespondenceByQuery(String query) throws CorrespondenceNotFoundException, UnreachableDataBaseException {
 		List<DTO> resultSet = null;
 		if(query == null)	throw new IllegalArgumentException("Query não pode ser null.");
 		try {
@@ -62,6 +62,5 @@ public class CorrespondenciaDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
-	}
-	
+	}	
 }

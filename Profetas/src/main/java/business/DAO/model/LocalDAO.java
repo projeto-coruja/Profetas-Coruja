@@ -67,7 +67,7 @@ public class LocalDAO {
 		}
 	}
 	
-	public List<DTO> findLocalByName(String name) throws  UnreachableDataBaseException, LocalNotFoundException  {
+	public List<DTO> findLocalByName(String name) throws  UnreachableDataBaseException, LocalNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM LocalMO WHERE nome LIKE '%" + name +"%' ORDER BY nome, latitude, longitude");
@@ -81,7 +81,7 @@ public class LocalDAO {
 		}
 	}
 	
-	public List<DTO> findAllLocal() throws  UnreachableDataBaseException, LocalNotFoundException  {
+	public List<DTO> findAllLocal() throws  UnreachableDataBaseException, LocalNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM LocalMO ORDER BY nome, latitude, longitude");
@@ -93,6 +93,5 @@ public class LocalDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
-	}
-	
+	}	
 }
