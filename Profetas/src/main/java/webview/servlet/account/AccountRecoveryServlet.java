@@ -7,13 +7,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
 import webview.util.AlertsUtility;
+import business.Bean.user.AuthBean;
 import business.Bean.user.RegisterUserBean;
-import business.Bean.user.SearchUserBean;
-import business.Bean.util.EJBUtility;
+import business.exceptions.MailNotConfiguredException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
@@ -35,19 +35,37 @@ public class AccountRecoveryServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		SearchUserBean busca = new SearchUserBean();
-		RegisterUserBean cadastro = new RegisterUserBean();
-		String newPassword = null;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AuthBean auth = new AuthBean();
+		HttpSession session = request.getSession();
 		String email = request.getParameter("email"); 
-
+		String sessionToken = request.getParameter("sessionid"); 
+		if(email == null || email.isEmpty()){
+			AlertsUtility.alertAndRedirectHistory(response, "Nenhum email fornecido.");
+		}
+		else{
+			session.setAttribute("userMail", email);
+			session.setAttribute("userAccessToken", sessionToken);
+		}
 		try {
-			UserAccount user = busca.findUser(email);
-			newPassword = EJBUtility.genRandomString(6);
-			user.setPassword(EJBUtility.getHash(newPassword, "MD5"));
-			cadastro.atualizarUsuario(user);
-		    
-			AlertsUtility.alertAndRedirectHistory(response, "Nova senha gerado para "+ email +": "+ newPassword);
+			if(sessionToken == null || sessionToken.isEmpty()){
+				sessionToken = auth.createRecoveryToken(email);
+				// Mandar pro email o link de autenticação.
+				
+				// Teste
+				AlertsUtility.alertAndRedirectHistory(response, "link: http://localhost:8080/Profetas/doPasswordRecovery?email="+ email +"&sessionid="+ sessionToken); // DEBUG!
+			}
+			else{
+				if(auth.validateToken(session)){
+					RegisterUserBean bean = new RegisterUserBean();
+					// Gera uma nova senha
+					String password = bean.recuperarSenha(email);
+					
+					//Teste
+					AlertsUtility.alertAndRedirectHistory(response, "senha: "+ password); // DEBUG!
+				}
+				//AlertsUtility.alertAndRedirectHistory(response, "Nova senha gerado para "+ email +": "+ newPassword);
+			}
 			
 		} catch (UnreachableDataBaseException e) {
 			
@@ -60,6 +78,7 @@ public class AccountRecoveryServlet extends HttpServlet {
 			e.printStackTrace();
 		} catch (UpdateEntityException e) {
 			e.printStackTrace();
+		} catch (MailNotConfiguredException e) {
 		}
 	}
 	

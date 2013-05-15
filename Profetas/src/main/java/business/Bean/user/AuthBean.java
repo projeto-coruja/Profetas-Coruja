@@ -92,7 +92,7 @@ public class AuthBean {
 		UserAccount user;
 		// Pega os atributos da sessão.
 		String userMail = (String) session.getAttribute("userMail");
-		String userToken = (String)session.getAttribute("userAccessToken");
+		String userToken = (String) session.getAttribute("userAccessToken");
 		if(userMail == null || userToken == null)	return false;
 		try {
 			user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
@@ -103,7 +103,32 @@ public class AuthBean {
 		} catch (UserNotFoundException e) {
 			return false;
 		}
-		return false;
+		return true;
+	}
+	
+	/**
+	 * Método para criar um token de recuperação de senha.
+	 * @param email - Email do usuário
+	 * @return Token para autenticação.
+	 * @throws UserNotFoundException
+	 * @throws UnreachableDataBaseException
+	 */
+	public String createRecoveryToken(String email) throws UserNotFoundException, UnreachableDataBaseException{
+		// Gera um token.
+		String sessionToken = EJBUtility.genRandomToken("REC");
+		// Busca o usuário no banco de dados.
+		UserAccount user = loginDAO.findUserByEmail(email);
+		GregorianCalendar tokenDate = new GregorianCalendar();
+		user.setGeneratedToken(sessionToken);
+		user.setTokenDate(tokenDate);
+		try {
+			loginDAO.updateUser(user);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (UpdateEntityException e) {
+			e.printStackTrace();
+		}
+		return sessionToken;
 	}
 	
 	/**

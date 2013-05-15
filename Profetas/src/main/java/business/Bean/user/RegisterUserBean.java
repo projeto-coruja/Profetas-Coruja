@@ -23,6 +23,14 @@ public class RegisterUserBean {
 		userDAO = new UserDAO();
 	}
 	
+	/**
+	 * Adiciona um usuário novo
+	 * @param email - Email do usuário
+	 * @param password - Senha
+	 * @param name - Nome
+	 * @throws IncorrectLoginInformationException - Erro caso e email não bata com a expressão regular
+	 * @throws DuplicateUserException - Erro caso o email já tenha sido cadastrado antes
+	 */
 	public void addUser(String email, String password, String name) throws IncorrectLoginInformationException, DuplicateUserException{
 		try {
 			if(!emailChecker.check(email))	throw new IncorrectLoginInformationException("Email inválido");	
@@ -38,14 +46,26 @@ public class RegisterUserBean {
 		}
 	}
 	
+	/**
+	 * Gera uma nova senha aleatória para um usuário
+	 * @param email - Email
+	 * @return Nova senha.
+	 * @throws UnreachableDataBaseException
+	 * @throws UserNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws UpdateEntityException
+	 * @throws MailNotConfiguredException
+	 */
 	public String recuperarSenha(String email) throws UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException, MailNotConfiguredException {
 		UserAccount user = userDAO.findUserByEmail(email);
 		String newPassword = EJBUtility.genRandomString(6);
-		SendMail mail = new SendMail();
+		//SendMail mail = new SendMail();
+		user.setGeneratedToken(null);
+		user.setTokenDate(null);
 		user.setPassword(EJBUtility.getHash(newPassword, "MD5"));
 		userDAO.updateUser(user);
 		try{
-			mail.send("Não Responder",user.getEmail(), "Sua nova senha do Grão Pará!", "Aqui está a sua nova senha do Grão Pará.\n\n"+newPassword);
+			//mail.send("Não Responder",user.getEmail(), "Sua nova senha do Grão Pará!", "Aqui está a sua nova senha do Grão Pará.\n\n"+newPassword);
 		}catch(RuntimeException e){
 			e.printStackTrace();
 		}
