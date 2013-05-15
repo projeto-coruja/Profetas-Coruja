@@ -72,6 +72,33 @@ public class AuthBean {
 		}
 		else	throw new UserNotFoundException("Senha errada");
 	}
+	
+	/**
+	 * Faz o logOut do usuário
+	 * @param session - Sessão do usuário
+	 * @throws UserNotFoundException
+	 * @throws UnreachableDataBaseException
+	 */
+	public void logOut(HttpSession session) throws UserNotFoundException, UnreachableDataBaseException{
+		UserAccount user;
+		// Pega os atributos da sessão.
+		String userMail = (String) session.getAttribute("userMail");
+		String userToken = (String) session.getAttribute("userAccessToken");
+
+		user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
+		if(user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
+			try {
+				user.setGeneratedToken(null);
+				user.setTokenDate(null);
+				loginDAO.updateUser(user);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (UpdateEntityException e) {
+				e.printStackTrace();
+			}
+		}
+		session.invalidate();
+	}
 
 	/**
 	 * Verifica se o usuário está logado.

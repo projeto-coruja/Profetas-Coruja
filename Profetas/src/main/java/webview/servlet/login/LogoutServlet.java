@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import business.Bean.user.AuthBean;
+import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.login.UserNotFoundException;
+
 import webview.util.AlertsUtility;
 
 /**
@@ -30,7 +34,13 @@ public class LogoutServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		session.invalidate();
+		AuthBean auth = new AuthBean();
+		try {
+			auth.logOut(session);
+		} catch (UserNotFoundException e) {
+		} catch (UnreachableDataBaseException e) {
+			e.printStackTrace();
+		}
 		
 		AlertsUtility.alertOnly(response, "Logout feito com sucesso!");
 		response.sendRedirect("public/index.jsp");
