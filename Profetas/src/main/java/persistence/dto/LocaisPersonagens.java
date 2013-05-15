@@ -18,9 +18,7 @@ public class LocaisPersonagens implements DTO {
 	public LocaisPersonagens() {
 	}
 
-	public LocaisPersonagens(Long id, SimpleDate anoChegada,
-			SimpleDate anoSaida, Local local) {
-		this.id = id;
+	public LocaisPersonagens(SimpleDate anoChegada, SimpleDate anoSaida, Local local) {
 		this.anoChegada = anoChegada;
 		this.anoSaida = anoSaida;
 		this.local = local;

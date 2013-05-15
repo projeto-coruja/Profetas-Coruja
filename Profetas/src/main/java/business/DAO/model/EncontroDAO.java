@@ -102,7 +102,7 @@ public class EncontroDAO {
 		return selectEncontro;
 	}
 	
-	public List<DTO> findEncounterByDate(SimpleDate date) throws  UnreachableDataBaseException, EncounterNotFoundException {
+	public List<DTO> findEncounterByDate(SimpleDate date) throws UnreachableDataBaseException, EncounterNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM EncontroMO WHERE data = '" + date + "' ORDER BY data, local.nome");
@@ -116,7 +116,7 @@ public class EncontroDAO {
 		}
 	}
 	
-	public List<DTO> findEncounterByLocalName(String localName) throws  UnreachableDataBaseException, EncounterNotFoundException {
+	public List<DTO> findEncounterByLocalName(String localName) throws UnreachableDataBaseException, EncounterNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM EncontroMO WHERE local.nome = '" + localName + "' ORDER BY local.nome, data");
