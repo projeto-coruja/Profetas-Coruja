@@ -17,9 +17,7 @@ public class ReligiaoCrencas implements DTO {
 	public ReligiaoCrencas() {
 	}
 
-	public ReligiaoCrencas(Long id, String nome, SimpleDate anoInicio,
-			SimpleDate anoFim, String descricao) {
-		this.id = id;
+	public ReligiaoCrencas(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao) {
 		this.nome = nome;
 		this.anoInicio = anoInicio;
 		this.anoFim = anoFim;

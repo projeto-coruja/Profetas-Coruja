@@ -95,7 +95,7 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	/*public List<DTO> getAllClassification() throws UnreachableDataBaseException, ClassificationNotFoundException {
+	public List<DTO> getAllClassification() throws UnreachableDataBaseException, ClassificationNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM ClassificacaoMO ORDER BY tipo");
@@ -107,5 +107,5 @@ public class ClassificacaoDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
-	}*/	
+	}
 }

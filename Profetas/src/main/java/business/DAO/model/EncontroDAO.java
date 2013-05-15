@@ -61,7 +61,7 @@ public class EncontroDAO {
 		}
 	}
 	
-	public Encontro updateEncounter(SimpleDate newDate, String newEncounterLocal, String oldEncounterLocal) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, EncounterNotFoundException {
+	public Encontro updateEncounter(String oldEncounterLocal, String newEncounterLocal, SimpleDate newDate) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, EncounterNotFoundException {
 		List<DTO> check = null;
 		Encontro selectEncontro = null;
 		Local selectLocal = null;

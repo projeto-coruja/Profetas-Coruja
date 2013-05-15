@@ -51,26 +51,26 @@ public class PalavraChaveDAO {
 		}
 	}
 	
-	public PalavraChave updateKeyword(String oldkeyword, String newkeyword)
+	public PalavraChave updateKeyword(String oldKeyword, String newKeyword)
 			throws UnreachableDataBaseException, KeywordNotFoundException, IllegalAccessException, IllegalArgumentException, 
 			InvocationTargetException, NoSuchMethodException, SecurityException, UpdateEntityException {
 		List<DTO> check = null;
 		PalavraChave select = null;
 		try{
-			check = findKeyword(oldkeyword);
+			check = findKeyword(oldKeyword);
 			for(DTO dto : check){
-				if (((PalavraChave) dto).getPalavraChave().equals(oldkeyword))
+				if (((PalavraChave) dto).getPalavraChave().equals(oldKeyword))
 					select = (PalavraChave) dto;
 			}
 			try{
-				check = findKeyword(newkeyword);
+				check = findKeyword(newKeyword);
 				for(DTO dto : check) {
-					if (((PalavraChave) dto).getPalavraChave().equals(newkeyword))
+					if (((PalavraChave) dto).getPalavraChave().equals(newKeyword))
 						throw new IllegalArgumentException("Palavra-chave nova já existente.");
 				}
 			} catch (KeywordNotFoundException e) {}
 
-			select.setPalavraChave(newkeyword);
+			select.setPalavraChave(newKeyword);
 
 			manager.updateEntity(select);
 			return select;

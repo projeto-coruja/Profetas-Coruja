@@ -95,7 +95,7 @@ public class AcervoReferenciaDAO {
 		}
 	}
 	
-	/*public List<DTO> getAllReferences() throws  UnreachableDataBaseException, ReferenceNotFoundException  {
+	public List<DTO> getAllReferences() throws  UnreachableDataBaseException, ReferenceNotFoundException  {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM AcervoReferenciaMO ORDER BY nome");
@@ -107,5 +107,5 @@ public class AcervoReferenciaDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
-	}*/	
+	}
 }
