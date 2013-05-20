@@ -10,18 +10,16 @@ public class GrupoPersonagem implements DTO {
 
 	private SimpleDate anoIngresso;
 
+	@DTOCascade
+	private GrupoMovimento grupoMovimento;
+
 	public GrupoPersonagem() {
 	}
 
-	public GrupoPersonagem(Long id, SimpleDate anoIngresso,
-			GrupoMovimento grupoMovimento) {
-		this.id = id;
+	public GrupoPersonagem(SimpleDate anoIngresso, GrupoMovimento grupoMovimento) {
 		this.anoIngresso = anoIngresso;
 		this.grupoMovimento = grupoMovimento;
 	}
-
-	@DTOCascade
-	private GrupoMovimento grupoMovimento;
 
 	@Override
 	public Long getId() {
