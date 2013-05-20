@@ -22,8 +22,7 @@ public class Correspondencia implements DTO {
 	public Correspondencia() {
 	}
 
-	public Correspondencia(Personagem remetente,
-			Personagem destinatario, SimpleDate data, Local local) {
+	public Correspondencia(Personagem remetente, Personagem destinatario, SimpleDate data, Local local) {
 		this.remetente = remetente;
 		this.destinatario = destinatario;
 		this.data = data;

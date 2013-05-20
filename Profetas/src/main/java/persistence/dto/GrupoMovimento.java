@@ -24,9 +24,7 @@ public class GrupoMovimento implements DTO {
 	public GrupoMovimento() {
 	}
 
-	public GrupoMovimento(Long id, String nome, SimpleDate anoInicio,
-			SimpleDate anoFim, String descricao, List<Local> local) {
-		this.id = id;
+	public GrupoMovimento(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao, List<Local> local) {
 		this.nome = nome;
 		this.anoInicio = anoInicio;
 		this.anoFim = anoFim;
