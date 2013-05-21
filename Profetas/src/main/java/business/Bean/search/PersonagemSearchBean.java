@@ -65,9 +65,12 @@ public class PersonagemSearchBean {
 		 if(dataMorte.getYear() < dataNascimento.getYear())	throw new IllegalArgumentException("dataMorte < dataNascimento");
 		 if(nome == null)	throw new IllegalArgumentException("nome vazio");
 		 nome = nome.toUpperCase();
-		 dao.addPersonagem(nome, apelido,localNascimento, dataNascimento, localMorte, dataMorte, biografia, ocupacao,
+		 /*dao.addPersonagem(nome, apelido,localNascimento, dataNascimento, localMorte, dataMorte, biografia, ocupacao,
 					formacao, referencia_bibliografica,religião, grupo, locaisVisitados, encontro,
-					obras);
+					obras);*/
+		 
+		 int id = 0;
+		dao.novoaddPersonagem(id, apelido, biografia, dataMorte, dataNascimento, formacao, nome, ocupacao, localMorte, localNascimento, referencia_bibliografica);
 	 }
 
 	 public Personagem findExactPersonagem(String nome, String apelido) throws UnreachableDataBaseException,PersonagemNotFoundException{

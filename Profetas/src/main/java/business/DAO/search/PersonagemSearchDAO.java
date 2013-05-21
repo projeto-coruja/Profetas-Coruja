@@ -115,7 +115,7 @@ public class PersonagemSearchDAO {
 		 * @throws PersonagemNotFoundException
 		 * @throws DuplicatePersonagemException
 		 */
-		public Personagem addPersonagem(String nome, String apelido,
+		/*public Personagem addPersonagem(String nome, String apelido,
 				Local localNascimento, SimpleDate dataNascimento, Local localMorte,
 				SimpleDate dataMorte, String biografia, String ocupacao,
 				String formacao, FontesObras referencia_bibliografica,
@@ -126,6 +126,25 @@ public class PersonagemSearchDAO {
 			Personagem newId = new Personagem(nome, apelido, localNascimento, dataNascimento,localMorte,
 					dataMorte,biografia,  ocupacao,formacao, referencia_bibliografica,
 					religião, grupo, locaisVisitados, encontro, obras);
+			try{
+				findExactPersonagem(nome);
+				throw new DuplicatePersonagemException("Personagem ja existe.");
+			}catch(DataAccessLayerException e){
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");			
+			} catch (PersonagemNotFoundException e) {
+				manager.saveEntity(newId);
+				return newId;
+			}
+			// TODO Auto-generated method stub
+			
+		}*/
+		public Personagem novoaddPersonagem(int id, String apelido, String biografia, SimpleDate dataMorte, SimpleDate dataNascimento,
+				String formacao, String nome, String ocupacao, Local localMorte,Local localNascimento, 			 
+				FontesObras referencia_bibliografica) throws UnreachableDataBaseException, DuplicatePersonagemException {
+			
+			Personagem newId = new Personagem(id,apelido, biografia,dataMorte, dataNascimento,
+					formacao, nome, ocupacao,localMorte, localNascimento,  referencia_bibliografica);
 			try{
 				findExactPersonagem(nome);
 				throw new DuplicatePersonagemException("Personagem ja existe.");

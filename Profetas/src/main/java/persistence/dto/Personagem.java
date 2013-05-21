@@ -51,7 +51,8 @@ public class Personagem implements DTO {
 	public Personagem() {
 	}
 
-	public Personagem(String nome, String apelido,
+	/* Testando outro construtor
+	public Personagem( String nome, String apelido,
 			Local localNascimento, SimpleDate dataNascimento, Local localMorte,
 			SimpleDate dataMorte, String biografia, String ocupacao,
 			String formacao, FontesObras referencia_bibliografica,
@@ -73,6 +74,22 @@ public class Personagem implements DTO {
 		this.locaisVisitados = locaisVisitados;
 		this.encontro = encontro;
 		Obras = obras;
+	}
+	*/
+	public Personagem( int id, String apelido, String biografia, SimpleDate dataMorte, SimpleDate dataNascimento,
+			String formacao, String nome, String ocupacao, Local localMorte,Local localNascimento, 			 
+			FontesObras referencia_bibliografica) {
+		this.nome = nome;
+		this.apelido = apelido;
+		this.localNascimento = localNascimento;
+		this.dataNascimento = dataNascimento;
+		this.localMorte = localMorte;
+		this.dataMorte = dataMorte;
+		this.biografia = biografia;
+		this.ocupacao = ocupacao;
+		this.formacao = formacao;
+		this.referencia_bibliografica = referencia_bibliografica;
+		
 	}
 
 	public Long getId() {
