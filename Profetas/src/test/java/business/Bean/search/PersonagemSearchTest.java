@@ -15,17 +15,19 @@ import persistence.dto.FontesObras;
 import persistence.dto.GrupoPersonagem;
 import persistence.dto.LocaisPersonagens;
 import persistence.dto.Local;
+import persistence.dto.Personagem;
 import persistence.dto.ReligiaoCrencas;
-import persistence.model.ReligiaoCrencasMO;
 
 import business.DAO.search.PersonagemSearchDAO;
+import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.search.PersonagemNotFoundException;
 
 
 public class PersonagemSearchTest {
 	
 	@Before
 	@Test
-	public void personagemSearchTest(){
+	public void personagemSearchTest() throws UnreachableDataBaseException, PersonagemNotFoundException{
 		PersonagemSearchDAO dao = new PersonagemSearchDAO();
 		Local grecia =new Local("Grecia", 1.0, 1.0);
 		Local roma= new Local("Roma", 1.0,1.0);
@@ -39,7 +41,9 @@ public class PersonagemSearchTest {
 		List<FontesObras> obras = null;
 		SimpleDate nasci = null;
 		dao.addPersonagem("joao", "joazinho", grecia, nasci, roma, nasci, "ajsidjiasdji", "pensador", "nenhuma", referencia_bibliografica, religiao, grupo, locaisVisitados, encontro, obras);
-		
+		Personagem p = (Personagem) dao.findPersonagem("joao");
+		assertEquals("joao", p.getNome());
+
 		
 		
 	}
