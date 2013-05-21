@@ -53,7 +53,7 @@ public class FontesObras implements DTO {
 	public FontesObras() {
 	}
 
-	public FontesObras(Long id, String titulo, String comentarios,
+	public FontesObras(String titulo, String comentarios,
 			String refverenciasirCulacaoObra, String uRL,
 			String copiasManuscritas, String traducoes,
 			SimpleDate dataImpressao, String editor,
@@ -61,7 +61,6 @@ public class FontesObras implements DTO {
 			Classificacao classificao, List<PalavraChave> palavraChave,
 			List<FontesObras> obrasCitadas, List<Personagem> leitores,
 			List<Personagem> personagens, List<Personagem> autoresCitados) {
-		this.id = id;
 		this.titulo = titulo;
 		this.comentarios = comentarios;
 		this.refverenciasirCulacaoObra = refverenciasirCulacaoObra;

@@ -51,7 +51,7 @@ public class Personagem implements DTO {
 	public Personagem() {
 	}
 
-	public Personagem( String nome, String apelido,
+	public Personagem(String nome, String apelido,
 			Local localNascimento, SimpleDate dataNascimento, Local localMorte,
 			SimpleDate dataMorte, String biografia, String ocupacao,
 			String formacao, FontesObras referencia_bibliografica,
