@@ -36,8 +36,8 @@ public class PersonagemSearchDAO {
 			List<DTO> resultSet = null;
 			try {
 				resultSet = manager.findEntity("FROM PersonagemMO"+		
-						"with nome = '"+nome+"'"+
-						"ORDER BY nome " +"");
+						" where nome = "+nome+" "+
+						" ORDER BY nome ");
 				
 				if(resultSet == null) {
 					throw new PersonagemNotFoundException ("Personagem não encontrado.");
