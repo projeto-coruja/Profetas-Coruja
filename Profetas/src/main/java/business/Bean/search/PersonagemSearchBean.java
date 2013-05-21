@@ -1,6 +1,5 @@
 package business.Bean.search;
 
-import java.util.ArrayList;
 import java.util.List;
 import business.DAO.search.PersonagemSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;

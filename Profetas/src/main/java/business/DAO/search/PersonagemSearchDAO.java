@@ -9,7 +9,6 @@ import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.search.DuplicatePersonagemException;
 import business.exceptions.search.PersonagemNotFoundException;
 import persistence.PersistenceAccess;
-
 import persistence.dto.DTO;
 import persistence.dto.Encontro;
 import persistence.dto.FontesObras;

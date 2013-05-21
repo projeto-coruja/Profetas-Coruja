@@ -1,7 +1,11 @@
 package business.exceptions.search;
 
 public class PersonagemNotFoundException extends Exception {
-	private static final long serialVersionUID = -1123937683286049875L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public PersonagemNotFoundException() {
 		super();

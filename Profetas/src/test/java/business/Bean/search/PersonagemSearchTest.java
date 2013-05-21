@@ -20,12 +20,13 @@ import persistence.dto.ReligiaoCrencas;
 
 import business.DAO.search.PersonagemSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.search.DuplicatePersonagemException;
 import business.exceptions.search.PersonagemNotFoundException;
 
 
 public class PersonagemSearchTest {
 	@Test
-	public void personagemSearchTest() throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public void personagemSearchTest() throws UnreachableDataBaseException, PersonagemNotFoundException, DuplicatePersonagemException{
 		PersonagemSearchDAO dao = new PersonagemSearchDAO();
 		Local grecia =new Local("Grecia", 1.0, 1.0);
 		Local roma= new Local("Roma", 1.0,1.0);
