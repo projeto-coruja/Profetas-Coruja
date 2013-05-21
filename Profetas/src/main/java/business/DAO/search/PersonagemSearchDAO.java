@@ -122,13 +122,13 @@ public class PersonagemSearchDAO {
 				String formacao, FontesObras referencia_bibliografica,
 				List<ReligiaoCrencas> religião, List<GrupoPersonagem> grupo,
 				List<LocaisPersonagens> locaisVisitados, List<Encontro> encontro,
-				List<FontesObras> obras) {
-			Long id;
-			Personagem newId = new Personagem(id, nome, apelido, localNascimento, dataNascimento,localMorte,
+				List<FontesObras> obras) throws UnreachableDataBaseException, DuplicatePersonagemException {
+			
+			Personagem newId = new Personagem(nome, apelido, localNascimento, dataNascimento,localMorte,
 					dataMorte,biografia,  ocupacao,formacao, referencia_bibliografica,
 					religião, grupo, locaisVisitados, encontro, obras);
 			try{
-				findexactPersonagem(nome);
+				findExactPersonagem(nome);
 				throw new DuplicatePersonagemException("Personagem ja existe.");
 			}catch(DataAccessLayerException e){
 				e.printStackTrace();

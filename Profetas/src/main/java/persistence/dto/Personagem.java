@@ -51,14 +51,13 @@ public class Personagem implements DTO {
 	public Personagem() {
 	}
 
-	public Personagem(Long id, String nome, String apelido,
+	public Personagem( String nome, String apelido,
 			Local localNascimento, SimpleDate dataNascimento, Local localMorte,
 			SimpleDate dataMorte, String biografia, String ocupacao,
 			String formacao, FontesObras referencia_bibliografica,
 			List<ReligiaoCrencas> religião, List<GrupoPersonagem> grupo,
 			List<LocaisPersonagens> locaisVisitados, List<Encontro> encontro,
 			List<FontesObras> obras) {
-		this.id = id;
 		this.nome = nome;
 		this.apelido = apelido;
 		this.localNascimento = localNascimento;
