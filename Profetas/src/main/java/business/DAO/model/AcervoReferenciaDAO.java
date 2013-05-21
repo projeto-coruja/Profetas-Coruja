@@ -1,17 +1,15 @@
 package business.DAO.model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import business.exceptions.model.DuplicateReferenceException;
-import business.exceptions.model.ReferenceNotFoundException;
-import business.exceptions.login.UnreachableDataBaseException;
 import persistence.PersistenceAccess;
 import persistence.dto.AcervoReferencia;
-import persistence.dto.Autor;
 import persistence.dto.DTO;
 import persistence.exceptions.UpdateEntityException;
 import persistence.util.DataAccessLayerException;
+import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.model.DuplicateReferenceException;
+import business.exceptions.model.ReferenceNotFoundException;
 
 public class AcervoReferenciaDAO {
 
@@ -45,7 +43,7 @@ public class AcervoReferenciaDAO {
 		}
 	}
 	
-	public AcervoReferencia updateReference(AcervoReferencia reference) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException{
+	public void updateReference(AcervoReferencia reference) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException{
 		try{
 			manager.updateEntity(reference);
 		} catch(DataAccessLayerException e){
