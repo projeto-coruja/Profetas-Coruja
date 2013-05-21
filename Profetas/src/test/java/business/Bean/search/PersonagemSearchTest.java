@@ -24,8 +24,6 @@ import business.exceptions.search.PersonagemNotFoundException;
 
 
 public class PersonagemSearchTest {
-	
-	@Before
 	@Test
 	public void personagemSearchTest() throws UnreachableDataBaseException, PersonagemNotFoundException{
 		PersonagemSearchDAO dao = new PersonagemSearchDAO();
@@ -43,6 +41,7 @@ public class PersonagemSearchTest {
 		dao.addPersonagem("joao", "joazinho", grecia, nasci, roma, nasci, "ajsidjiasdji", "pensador", "nenhuma", referencia_bibliografica, religiao, grupo, locaisVisitados, encontro, obras);
 		Personagem p = (Personagem) dao.findPersonagem("joao");
 		assertEquals("joao", p.getNome());
+		
 
 		
 		

@@ -4,13 +4,12 @@ import java.util.List;
 
 import datatype.SimpleDate;
 
-import business.exceptions.documents.CodiceCaixaNotFoundException;
-import business.exceptions.documents.DuplicateCodiceCaixaException;
+
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.search.DuplicatePersonagemException;
 import business.exceptions.search.PersonagemNotFoundException;
 import persistence.PersistenceAccess;
-import persistence.dto.CodiceCaixa;
+
 import persistence.dto.DTO;
 import persistence.dto.Encontro;
 import persistence.dto.FontesObras;
@@ -34,7 +33,7 @@ public class PersonagemSearchDAO {
 		 * @throws UnreachableDataBaseException
 		 * @throws PersonagemNotFoundException
 		 */
-		public Personagem findexactPersonagem(String nome) throws PersonagemNotFoundException, UnreachableDataBaseException{
+		public Personagem findExactPersonagem(String nome) throws PersonagemNotFoundException, UnreachableDataBaseException{
 			List<DTO> resultSet = null;
 			try {
 				resultSet = manager.findEntity("FROM PersonagemMO"+		
@@ -76,6 +75,47 @@ public class PersonagemSearchDAO {
 				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 			}
 		}
+		
+		/**
+		 * Pesquisa todos os personagens 
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 */
+		public List<DTO> findAllPersonagem() throws  UnreachableDataBaseException, PersonagemNotFoundException  {
+			List<DTO> resultSet = null;
+			try {
+				resultSet = manager.findEntity("from PersonagemMO order by nome, apelido");
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException("Não existe nenhum Personagem cadastrado.");
+				}
+				else return resultSet;
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
+		
+		/**
+		 * Adiciona um personagem 
+		 * @param nome - nome do personagem.
+		 * @param apelido - apelido do personagem.
+		 * @param localNascimento - Local localNascimento personagem.
+		 * @param dataNascimento - dataNascimento personagem.
+		 * @param localMorte - localMorte personagem.
+		 * @param dataMorte - dataMorte personagem.
+		 * @param biografia - biografia personagem.
+		 * @param ocupacao - ocupacao personagem.
+		 * @param formacao -formacao personagem.
+		 * @param referencia_bibliografica - referencia_bibliografica personagem.
+		 * @param religião - religião personagem.
+		 * @param grupo -  grupo personagem.
+		 * @param locaisVisitados - locaisVisitados personagem.
+		 * @param encontro -  encontro personagem.
+		 * @param obras - obras personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 * @throws DuplicatePersonagemException
+		 */
 		public Personagem addPersonagem(String nome, String apelido,
 				Local localNascimento, SimpleDate dataNascimento, Local localMorte,
 				SimpleDate dataMorte, String biografia, String ocupacao,
