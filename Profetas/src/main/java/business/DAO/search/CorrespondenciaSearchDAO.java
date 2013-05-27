@@ -1,4 +1,4 @@
-//Tratar correpondencia! Pesquisas nao funcionam!!!!!
+//Tratar correspondencia! Pesquisas nao funcionam!!!!!
 package business.DAO.search;
 
 import java.util.List;

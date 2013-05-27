@@ -36,7 +36,7 @@ private PersistenceAccess manager;
 		}
 	}
 	
-	public List<DTO> findCodiceCaixaByTipo(String tipo) throws  UnreachableDataBaseException,ClassificationNotFoundException {
+	public List<DTO> findClassificacaoByTipo(String tipo) throws  UnreachableDataBaseException,ClassificationNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("from ClassificacaoMO where tipo like '%" + tipo +"%' "
@@ -53,7 +53,7 @@ private PersistenceAccess manager;
 		}
 	}
 	
-	public List<DTO> findCodiceCaixaById(int id) throws  UnreachableDataBaseException,ClassificationNotFoundException  {
+	public List<DTO> findClassificacaoById(int id) throws  UnreachableDataBaseException,ClassificationNotFoundException  {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("from ClassificacaoMO where id =" + id +"order by id, tipo");
