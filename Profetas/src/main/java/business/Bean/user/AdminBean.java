@@ -80,7 +80,7 @@ public class AdminBean {
 		userDAO.changeUserProfile(email, profileDAO.findProfileByName(novo_perfil));
 	}
 
-	public void deletarUsuario(String email) throws UnreachableDataBaseException, UserNotFoundException {
+	public void removeUser(String email) throws UnreachableDataBaseException, UserNotFoundException {
 		userDAO.removeUser(email);
 	}
 

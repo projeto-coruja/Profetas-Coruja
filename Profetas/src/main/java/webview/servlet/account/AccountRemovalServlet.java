@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import persistence.dto.UserAccount;
 import business.Bean.user.AdminBean;
+import business.Bean.user.AuthBean;
 import business.DAO.login.UserDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -35,30 +36,28 @@ public class AccountRemovalServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		UserDAO loginDAO = new UserDAO();
-		
+		AuthBean auth = new AuthBean();
 		UserAccount userToRemove = null;
 		
 		AdminBean adm = new AdminBean();
 		
-		String tab = request.getParameter("tab");
 		String email = request.getParameter("email");
-
+		
 		try {
-			userToRemove = loginDAO.findUserByEmail(email);
-		} catch (UnreachableDataBaseException e1) {
-			e1.printStackTrace();
-		} catch (UserNotFoundException e1) {
-			e1.printStackTrace();
-		}
+			if(auth.allowedOperation("userRemovalPermission", request.getSession(), true)){
+				
+				userToRemove = loginDAO.findUserByEmail(email);
 
-		try {
-			adm.deletarUsuario(email);
-
-			if(userToRemove.getProfile().equals("default"))
-				response.sendRedirect("/GraoPara/protected/admin/painel.jsp#tab"+tab); 
-			else
-				response.sendRedirect("/GraoPara/protected/admin/painel.jsp#tab"+tab);
-
+				adm.removeUser(email);
+				// TODO: Tratar os redirecionamentos!
+				if(userToRemove.getProfile().equals("default"))
+					response.sendRedirect("public/index.jsp"); 
+				else
+					response.sendRedirect("public/index.jsp");
+			}
+			else{
+				// Alertar a falta de permissão.
+			}
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();
 		} catch (UserNotFoundException e) {

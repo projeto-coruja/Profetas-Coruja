@@ -19,7 +19,8 @@ import business.exceptions.login.IncorrectLoginInformationException;
  */
 @WebServlet("/doRegister")
 public class UserRegisterServlet extends HttpServlet {
-	
+
+	private final String indexPage = "public/index.jsp";
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -51,11 +52,11 @@ public class UserRegisterServlet extends HttpServlet {
 			RegisterUserBean register = new RegisterUserBean();
 			try {
 				register.addUser(email, senha, nome);
-				AlertsUtility.alertAndRedirectPage(response, "Usuário adicionado! Aguarde a aprovação dos seus direitos de edição.", "/GraoPara/public/index.jsp");
+				AlertsUtility.alertAndRedirectPage(response, "Usuário adicionado! Aguarde a aprovação dos seus direitos de edição.", indexPage);
 			} catch (IncorrectLoginInformationException e) {
-				AlertsUtility.alertAndRedirectPage(response, "Email inválido! Por favor tente novamente.", "/GraoPara/public/userCadastre.jsp");
+				AlertsUtility.alertAndRedirectPage(response, "Email inválido! Por favor tente novamente.", indexPage);
 			} catch (DuplicateUserException e) {
-				AlertsUtility.alertAndRedirectPage(response, "Email já em uso! Por favor tente novamente.", "/GraoPara/public/userCadastre.jsp");
+				AlertsUtility.alertAndRedirectPage(response, "Email já em uso! Por favor tente novamente.", indexPage);
 			}
 		}
 	}

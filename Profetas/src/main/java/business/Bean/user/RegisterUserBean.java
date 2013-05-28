@@ -4,7 +4,6 @@ import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
 import business.Bean.util.EJBUtility;
 import business.Bean.util.Regex;
-import business.Bean.util.SendMail;
 import business.DAO.login.UserDAO;
 import business.exceptions.MailNotConfiguredException;
 import business.exceptions.login.DuplicateUserException;

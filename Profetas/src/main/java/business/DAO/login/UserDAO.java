@@ -114,7 +114,7 @@ public class UserDAO {
 			Profile profile = profileDAO.findProfileByName(profileName);
 			if(profile == null)	throw new ProfileNotFoundException();
 			resultSet = null;
-			resultSet = manager.findEntity("from UserAccountMO where name = '" + profile.getId() + "' order by name");
+			resultSet = manager.findEntity("from UserAccountMO where profile = '" + profile.getId() + "' order by name");
 			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário encontrado");
 		}catch(DataAccessLayerException e){
 			e.printStackTrace();

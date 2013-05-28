@@ -128,6 +128,7 @@ public class AuthBean {
 				return false; // Se os tokens divergirem, negar a ação.
 			}
 		} catch (UserNotFoundException e) {
+			session.invalidate();	// Força o logout.
 			return false;
 		}
 		return true;
