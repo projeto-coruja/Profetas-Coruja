@@ -35,27 +35,32 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AuthBean authetication = new AuthBean();;
+		AuthBean authetication = new AuthBean();
+		// Recebe os parâmetros enviado via método post do HTML
 		String user = request.getParameter("user");
 		String password = request.getParameter("password");
+		// Pega a sessão do usuário.
 		HttpSession session = request.getSession();
 		try {
+			// Autenticação.
 			authetication.authenticate(user, password, session, AuthBean.HashedPwd);
-			if(!(Boolean)session.getAttribute("userLoginSuccessfull")){
+			//TODO: arrumar os redirecionamento.
+			if(!(Boolean)session.getAttribute("userLoginSuccessfull")){	// Verifica se a atenticação foi mal sucedido
+				// Caso a autenticação não tenha sido bem sucedido, exibe uma mensagem de erro na tela do usuário 
 				AlertsUtility.alertAndRedirectPage(response, 
 						"Problema na autenticação.", 
 						indexPage);
 			}
-			AlertsUtility.redirectOnly(response, indexPage);
-		} catch (UnreachableDataBaseException e) {
+			AlertsUtility.redirectOnly(response, indexPage);	// Caso bem sucedido, somente redireciona o usuário
+		} catch (UnreachableDataBaseException e) { // Caso ocorra algum problema com o hibernate.
 			e.printStackTrace();
-		} catch (UserNotFoundException e) {
+		} catch (UserNotFoundException e) {	// Caso o email não exista no banco de dados.
 			AlertsUtility.alertAndRedirectPage(response, 
 					"Login incorreto! Verifique seu email e senha, e tente de novo.", 
 					indexPage);
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {	// Caso ocorra alguma entrada ilegal (ex. email inválido); nota: isso deve ser tratado antes do formulário ser enviado!
 		e.printStackTrace();
-		} catch (UpdateEntityException e) {
+		} catch (UpdateEntityException e) { // Caso ocora algum problema para gravar a conta no banco de dados.
 			e.printStackTrace();
 		}
 	}

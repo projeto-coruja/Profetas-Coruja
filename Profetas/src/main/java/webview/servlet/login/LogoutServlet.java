@@ -33,17 +33,16 @@ public class LogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession();	// Pega a sessão do usuário.
 		AuthBean auth = new AuthBean();
 		try {
-			auth.logOut(session);
+			auth.logOut(session);	// Chama o método de logout.
 		} catch (UserNotFoundException e) {
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();
 		}
 		
-		AlertsUtility.alertOnly(response, "Logout feito com sucesso!");
-		response.sendRedirect("public/index.jsp");
+		AlertsUtility.alertAndRedirectPage(response, "Logout feito com sucesso!", "public/index.jsp"); // Exibe alerta e redireciona o usuário para a home.
 	}
 
 }

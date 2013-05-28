@@ -88,9 +88,9 @@ public class AuthBean {
 		user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
 		if(user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
 			try {
-				user.setGeneratedToken(null);
-				user.setTokenDate(null);
-				loginDAO.updateUser(user);
+				user.setGeneratedToken(null);	// Invalida o token de sessão.
+				user.setTokenDate(null);		// 
+				loginDAO.updateUser(user);		// Atualiza o usuário no banco.
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (UpdateEntityException e) {
