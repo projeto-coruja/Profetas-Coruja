@@ -1,16 +1,14 @@
 package business.DAO.model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import business.exceptions.model.ClassificationNotFoundException;
-import business.exceptions.model.DuplicateClassificationException;
-import business.exceptions.login.UnreachableDataBaseException;
 import persistence.PersistenceAccess;
 import persistence.dto.Classificacao;
 import persistence.dto.DTO;
-import persistence.exceptions.UpdateEntityException;
 import persistence.util.DataAccessLayerException;
+import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.model.ClassificationNotFoundException;
+import business.exceptions.model.DuplicateClassificationException;
 
 public class ClassificacaoDAO {
 
@@ -21,6 +19,7 @@ public class ClassificacaoDAO {
 	}
 	
 	public Classificacao addClassification(String type) throws UnreachableDataBaseException, DuplicateClassificationException {
+		if(type.isEmpty() || type == null)	throw new IllegalArgumentException("Tipo vazio ou nulo.");
 		Classificacao newClassificacao = new Classificacao(type);
 		try {
 			findClassificationByType(type);
@@ -35,6 +34,7 @@ public class ClassificacaoDAO {
 	}
 	
 	public void removeClassification(String type) throws UnreachableDataBaseException, ClassificationNotFoundException {
+		if(type.isEmpty() || type == null) throw new IllegalArgumentException("Tipo vazio ou nulo.");
 		List<DTO> check = null;
 		Classificacao select = null;
 		try {
@@ -51,9 +51,8 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	public Classificacao updateClassification(String oldType, String newType) 
-			throws UnreachableDataBaseException, ClassificationNotFoundException, IllegalAccessException, IllegalArgumentException, 
-			InvocationTargetException, NoSuchMethodException, SecurityException, UpdateEntityException {
+	public Classificacao updateClassification(String oldType, String newType) throws UnreachableDataBaseException, ClassificationNotFoundException {
+		if(oldType.isEmpty() || oldType == null || newType.isEmpty() || newType == null)	throw new IllegalArgumentException("Tipo vazio ou nulo.");
 		List<DTO> check = null;
 		Classificacao select = null;
 		try{

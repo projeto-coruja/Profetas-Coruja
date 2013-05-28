@@ -46,13 +46,12 @@ public class Personagem implements DTO {
 	private List<Encontro> encontro;
 
 	@DTOCascade
-	private List<FontesObras> Obras;
+	private List<FontesObras> obras;
 
 	public Personagem() {
 	}
 
-	/* Testando outro construtor
-	public Personagem( String nome, String apelido,
+	public Personagem(String nome, String apelido,
 			Local localNascimento, SimpleDate dataNascimento, Local localMorte,
 			SimpleDate dataMorte, String biografia, String ocupacao,
 			String formacao, FontesObras referencia_bibliografica,
@@ -73,10 +72,10 @@ public class Personagem implements DTO {
 		this.grupo = grupo;
 		this.locaisVisitados = locaisVisitados;
 		this.encontro = encontro;
-		Obras = obras;
+		this.obras = obras;
 	}
-	*/
-	public Personagem( int id, String apelido, String biografia, SimpleDate dataMorte, SimpleDate dataNascimento,
+
+	public Personagem(int id, String apelido, String biografia, SimpleDate dataMorte, SimpleDate dataNascimento,
 			String formacao, String nome, String ocupacao, Local localMorte,Local localNascimento, 			 
 			FontesObras referencia_bibliografica) {
 		this.nome = nome;
@@ -88,8 +87,7 @@ public class Personagem implements DTO {
 		this.biografia = biografia;
 		this.ocupacao = ocupacao;
 		this.formacao = formacao;
-		this.referencia_bibliografica = referencia_bibliografica;
-		
+		this.referencia_bibliografica = referencia_bibliografica;		
 	}
 
 	public Long getId() {
@@ -213,11 +211,11 @@ public class Personagem implements DTO {
 	}
 
 	public List<FontesObras> getObras() {
-		return Obras;
+		return obras;
 	}
 
 	public void setObras(List<FontesObras> obras) {
-		Obras = obras;
+		this.obras = obras;
 	}
 
 }

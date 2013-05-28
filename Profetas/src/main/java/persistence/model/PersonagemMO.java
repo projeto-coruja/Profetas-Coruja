@@ -60,7 +60,7 @@ public class PersonagemMO implements EntityModel {
 	private List<EncontroMO> encontro;
 
 	@ManyToMany
-	private List<FontesObrasMO> Obras;
+	private List<FontesObrasMO> obras;
 
 	public Long getId() {
 		return id;
@@ -184,11 +184,11 @@ public class PersonagemMO implements EntityModel {
 	}
 
 	public List<FontesObrasMO> getObras() {
-		return Obras;
+		return obras;
 	}
 
 	public void setObras(List<FontesObrasMO> obras) {
-		Obras = obras;
+		this.obras = obras;
 	}
 
 }
