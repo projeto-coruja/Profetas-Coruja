@@ -13,6 +13,7 @@ import persistence.exceptions.UpdateEntityException;
 import webview.util.AlertsUtility;
 import business.Bean.user.AuthBean;
 import business.Bean.user.RegisterUserBean;
+import business.Bean.util.SendMail;
 import business.exceptions.MailNotConfiguredException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -48,9 +49,12 @@ public class AccountRecoveryServlet extends HttpServlet {
 			session.setAttribute("userAccessToken", sessionToken);
 		}
 		try {
+			SendMail mail = new SendMail();
 			if(sessionToken == null || sessionToken.isEmpty()){
 				sessionToken = auth.createRecoveryToken(email);
+				
 				// Mandar pro email o link de autenticação.
+				// mail.send(from, to, subject, msg);
 				
 				// Teste
 				AlertsUtility.alertAndRedirectHistory(response, "link: http://localhost:8080/Profetas/doPasswordRecovery?email="+ email +"&sessionid="+ sessionToken); // DEBUG!

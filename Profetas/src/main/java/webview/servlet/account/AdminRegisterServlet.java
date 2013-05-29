@@ -7,10 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import webview.util.AlertsUtility;
 import webview.util.WebUtility;
 import business.Bean.user.AdminBean;
+import business.Bean.user.AuthBean;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -35,6 +37,8 @@ public class AdminRegisterServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		AuthBean auth = new AuthBean();
 		String nome = WebUtility.removeAccents(request.getParameter("nome"));
 		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
@@ -42,17 +46,24 @@ public class AdminRegisterServlet extends HttpServlet {
 
 		if (!senha.equals(request.getParameter("confsenha"))) {
 			
-			AlertsUtility.alertAndRedirectPage(response, "Senha inválida! Tente novamente.", "/GraoPara/protected/admin/cadUser.jsp");
+			AlertsUtility.alertAndRedirectPage(response, "Senha e verificação de senha diferente! Tente novamente.", "/GraoPara/protected/admin/cadUser.jsp");
 			
 		} else {
 			
 			AdminBean adminBean = new AdminBean();
 			
 			try {
-				adminBean.addUser(email, nome, senha, permissao);
-				response.setContentType("text/html; charset=UTF-8");
+				if(auth.allowedOperation("addNewUserPermission", session, true)){
+					adminBean.addUser(email, nome, senha, permissao);
+					response.setContentType("text/html; charset=UTF-8");
 				
-				AlertsUtility.alertAndRedirectPage(response, "Usuário adicionado!", "/GraoPara/protected/admin/cadUser.jsp");
+					AlertsUtility.alertAndRedirectPage(response, "Usuário adicionado!", "/GraoPara/protected/admin/cadUser.jsp");
+					
+				}
+				else{
+
+					//AlertsUtility.alertAndRedirectPage(response, "Sem permissão para realizar a operação!", "/public/index.jsp");
+				}
 
 			} catch (UnreachableDataBaseException e) {
 				

@@ -94,6 +94,29 @@ public class AdminBean {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Atualiza informações de um determinado usuário.
+	 * @param email - String contendo o email atual do usuário
+	 * @param newEmail - String contendo e email novo. Mandar <b>null</b> caso não queira fazer modificações.
+	 * @param newPassword - String contendo a nova senha.  Mandar <b>null</b> caso não queira fazer modificações.
+	 * @param newProfile - String contendo o novo profile. Mandar <b>null</b> caso não queira fazer modificações.
+	 * @throws UserNotFoundException
+	 * @throws UnreachableDataBaseException
+	 * @throws ProfileNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws UpdateEntityException
+	 */
+	public void changeUserInformation(String email, String newEmail, String newPassword, String newProfile) throws UserNotFoundException, UnreachableDataBaseException, ProfileNotFoundException, IllegalArgumentException, UpdateEntityException{
+		UserAccount user = userDAO.findUserByEmail(email);
+		if(isInit(newEmail))	user.setEmail(newEmail);
+		if(isInit(newPassword))	user.setPassword(EJBUtility.getHash(newPassword));
+		if(isInit(newProfile)){
+			Profile p = profileDAO.findProfileByName(newProfile);
+			user.setProfile(p);
+		}
+		userDAO.updateUser(user);
+	}
 
 	/**
 	 * Troca o perfil de um determinado usuário.
@@ -130,6 +153,10 @@ public class AdminBean {
 	 */
 	public List<DTO> getAllAvailableProfiles() throws UnreachableDataBaseException, ProfileNotFoundException{
 		return profileDAO.getAllProfiles();
+	}
+	
+	private boolean isInit(String s){
+		return s != null && !s.isEmpty();
 	}
 	
 }

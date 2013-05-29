@@ -55,7 +55,7 @@ public class ProfileDAO {
 		}
 	}
 	
-	public synchronized void createProfile(String profile) throws UnreachableDataBaseException{
+	public void createProfile(String profile) throws UnreachableDataBaseException{
 		Profile newProfile = new Profile(profile, new String[]{"default"});
 		try {
 			manager.saveEntity(newProfile);
@@ -65,7 +65,7 @@ public class ProfileDAO {
 		}
 	}
 	
-	public synchronized void createProfile(String profile, String[] permissions) throws UnreachableDataBaseException{
+	public void createProfile(String profile, String[] permissions) throws UnreachableDataBaseException{
 		Profile newProfile = new Profile(profile, permissions);
 		try {
 			manager.saveEntity(newProfile);
@@ -75,7 +75,7 @@ public class ProfileDAO {
 		}
 	}
 	
-	public synchronized void removeProfile(String profile) throws UnreachableDataBaseException, ProfileNotFoundException{
+	public void removeProfile(String profile) throws UnreachableDataBaseException, ProfileNotFoundException{
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("from ProfileMO where profile = '" + profile + "'");

@@ -36,7 +36,7 @@ public class AccountApprovalServlet extends HttpServlet {
 		AdminBean adminBean = new AdminBean();
 		
 		try {
-			adminBean.changeUserProfile(request.getParameter("email"), "user" + request.getParameter("nivel"));
+			adminBean.changeUserProfile(request.getParameter("email"), request.getParameter("nivel"));
 			response.sendRedirect(request.getContextPath() + "/protected/admin/painel.jsp");
 		} catch (IncorrectProfileInformationException e) {
 			AlertsUtility.alertAndRedirectHistory(response, "Erro de profile inválido, contate o suporte.");

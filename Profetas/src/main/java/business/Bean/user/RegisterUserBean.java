@@ -70,9 +70,25 @@ public class RegisterUserBean {
 		}
 		return newPassword;
 	}
-
-	public void atualizarUsuario(UserAccount user) throws UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException{
+	
+	/**
+	 * Atualiza informações de um determinado usuário.
+	 * @param email - String contendo o email atual do usuário
+	 * @param newEmail - String contendo e email novo. Mandar <b>null</b> caso não queira fazer modificações.
+	 * @param newPassword - String contendo a nova senha.  Mandar <b>null</b> caso não queira fazer modificações.
+	 * @throws UserNotFoundException
+	 * @throws UnreachableDataBaseException
+	 * @throws IllegalArgumentException
+	 * @throws UpdateEntityException
+	 */
+	public void changeUserInformation(String email, String newEmail, String newPassword) throws UserNotFoundException, UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException{
+		UserAccount user = userDAO.findUserByEmail(email);
+		if(isInit(newEmail))	user.setEmail(newEmail);
+		if(isInit(newPassword))	user.setPassword(EJBUtility.getHash(newPassword));
 		userDAO.updateUser(user);
 	}
-	
+
+	private boolean isInit(String s){
+		return s != null && !s.isEmpty();
+	}
 }

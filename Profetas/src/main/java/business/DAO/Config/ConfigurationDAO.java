@@ -17,7 +17,7 @@ public class ConfigurationDAO {
 		manager = new PersistenceAccess();
 	}
 	
-	public synchronized void addPropertie(String entry, String value) throws UnreachableDataBaseException{
+	public void addPropertie(String entry, String value) throws UnreachableDataBaseException{
 		Configuration newConf = new Configuration(entry,value);
 		try{
 			manager.saveEntity(newConf);
@@ -27,7 +27,7 @@ public class ConfigurationDAO {
 		}
 	}
 	
-	public synchronized void removeEntry(String entry) throws UnreachableDataBaseException, ConfigNotFoundException{
+	public void removeEntry(String entry) throws UnreachableDataBaseException, ConfigNotFoundException{
 		List<DTO> resultSet = null;
 		try{
 			resultSet = manager.findEntity("from ConfigurationMO where entry = '" + entry +"'");

@@ -35,7 +35,7 @@ public class UserDAO {
 		}
 	}
 	
-	public synchronized void addUser(String email, String name, String password, Profile profile) throws UnreachableDataBaseException {
+	public void addUser(String email, String name, String password, Profile profile) throws UnreachableDataBaseException {
 		UserAccount newUser;
 		if(profile == null){
 			newUser = new UserAccount(name, ProfileDAO.getDefaultProfile(), email, password, null, null);
@@ -64,7 +64,7 @@ public class UserDAO {
 		return resultSet;
 	}
 	
-	public synchronized void removeUser(String email) throws UnreachableDataBaseException, UserNotFoundException{
+	public void removeUser(String email) throws UnreachableDataBaseException, UserNotFoundException{
 		UserAccount check = null;
 		try{
 			check = findUserByEmail(email);
@@ -75,7 +75,7 @@ public class UserDAO {
 		}
 	}
 	
-	public synchronized void changeUserProfile(String email, Profile new_profile) throws IncorrectProfileInformationException, UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException {
+	public void changeUserProfile(String email, Profile new_profile) throws IncorrectProfileInformationException, UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException {
 		UserAccount check = null;
 		try {
 			check = findUserByEmail(email);
@@ -90,7 +90,7 @@ public class UserDAO {
 		}
 	}
 	
-	public synchronized void updateUser(UserAccount user) throws UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException{
+	public void updateUser(UserAccount user) throws UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException{
 		if(user.getId() == null){
 			user = this.findUserByEmail(user.getEmail());
 			if(user == null)	throw new UserNotFoundException("Usuário não encontrado");
