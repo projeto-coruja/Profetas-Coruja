@@ -5,7 +5,6 @@ import java.util.List;
 import persistence.PersistenceAccess;
 import persistence.dto.AcervoReferencia;
 import persistence.dto.DTO;
-import persistence.exceptions.UpdateEntityException;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateReferenceException;
@@ -20,6 +19,7 @@ public class AcervoReferenciaDAO {
 	}
 	
 	public AcervoReferencia addReference(String name) throws UnreachableDataBaseException, DuplicateReferenceException {
+		if(name.isEmpty() || name == null) throw new IllegalArgumentException("Nome vazio ou nulo.");
 		AcervoReferencia newAcervoReferencia = new AcervoReferencia(name);
 		try {
 			findReferenceByName(name);
@@ -33,7 +33,20 @@ public class AcervoReferenciaDAO {
 		}
 	}
 	
-	public void removeReference(AcervoReferencia reference) throws UnreachableDataBaseException {
+	public void removeReference(String name) throws UnreachableDataBaseException, ReferenceNotFoundException {
+		if(name == null) throw new IllegalArgumentException("Nenhum Nome especificado.");
+		AcervoReferencia select = null;
+		try{
+			select = findReferenceByName(name);
+			if(select == null) throw new ReferenceNotFoundException ("Referência não encontrada.");
+			manager.deleteEntity(select);
+		} catch(DataAccessLayerException e){
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
+		}
+	}
+	
+	/*public void removeReference(AcervoReferencia reference) throws UnreachableDataBaseException {
 		if(reference == null)	throw new IllegalArgumentException("Nenhum Acervo/Referência especificado.");
 		try{
 			manager.deleteEntity(reference);
@@ -41,16 +54,30 @@ public class AcervoReferenciaDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
-	}
+	}*/
 	
-	public void updateReference(AcervoReferencia reference) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException{
+	public void updateReference(String oldName, String newName) throws UnreachableDataBaseException, ReferenceNotFoundException {
+		if(oldName.isEmpty() || oldName == null || newName.isEmpty() || newName == null) throw new IllegalArgumentException("Nome vazio ou nulo.");
+		AcervoReferencia select = null;
+		try{
+			select = findReferenceByName(oldName);
+			if(select == null) throw new ReferenceNotFoundException ("Referência não encontrada.");
+			select.setNome(newName);
+			manager.updateEntity(select);
+		} catch(DataAccessLayerException e){
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
+		}
+	}	
+	
+	/*public void updateReference(AcervoReferencia reference) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException{
 		try{
 			manager.updateEntity(reference);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
-	}	
+	}*/	
 	
 	public AcervoReferencia findReferenceByName(String name) throws  UnreachableDataBaseException, ReferenceNotFoundException {
 		List<DTO> resultSet = null;
