@@ -86,7 +86,7 @@ public class AuthBean {
 		String userToken = (String) session.getAttribute("userAccessToken");
 
 		user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
-		if(user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
+		if(isLoggedIn(session) && user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
 			try {
 				user.setGeneratedToken(null);	// Invalida o token de sessão.
 				user.setTokenDate(null);		// 
@@ -102,8 +102,8 @@ public class AuthBean {
 
 	/**
 	 * Verifica se o usuário está logado.
-	 * @param session
-	 * @return
+	 * @param session - HttpSession
+	 * @return <b>TRUE</b> se o usuário está logado, <b>FALSE</b> caso contrário.
 	 */
 	public boolean isLoggedIn(HttpSession session){
 		return (session.getAttribute("userLoginSuccessfull") != null && (Boolean) session.getAttribute("userLoginSuccessfull"));

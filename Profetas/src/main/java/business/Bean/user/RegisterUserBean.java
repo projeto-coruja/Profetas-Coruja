@@ -1,13 +1,17 @@
 package business.Bean.user;
 
+import persistence.dto.Profile;
 import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
 import business.Bean.util.EJBUtility;
 import business.Bean.util.Regex;
+import business.DAO.login.ProfileDAO;
 import business.DAO.login.UserDAO;
 import business.exceptions.MailNotConfiguredException;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
+import business.exceptions.login.NoDefaultProfileException;
+import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
@@ -27,18 +31,29 @@ public class RegisterUserBean {
 	 * @param email - Email do usuário
 	 * @param password - Senha
 	 * @param name - Nome
+	 * @param profile - Profile
 	 * @throws IncorrectLoginInformationException - Erro caso e email não bata com a expressão regular
 	 * @throws DuplicateUserException - Erro caso o email já tenha sido cadastrado antes
+	 * @throws ProfileNotFoundException 
+	 * @throws NoDefaultProfileException 
 	 */
-	public void addUser(String email, String password, String name) throws IncorrectLoginInformationException, DuplicateUserException{
+	public void addUser(String email, String password, String name, String profile) throws IncorrectLoginInformationException, DuplicateUserException, ProfileNotFoundException, NoDefaultProfileException{
+		ProfileDAO profileDAO = new ProfileDAO();
 		try {
 			if(!emailChecker.check(email))	throw new IncorrectLoginInformationException("Email inválido");	
 			UserAccount check;
+			Profile p;
 			try {
 				check = userDAO.findUserByEmail(email);
 				if(check != null)	throw new DuplicateUserException();
 			} catch (UserNotFoundException e) {
-				userDAO.addUser(email, name, EJBUtility.getHash(password, "MD5"), null);
+				if(profile != null && !profile.isEmpty()){
+					p = profileDAO.findProfileByName(profile);
+					userDAO.addUser(email, name, EJBUtility.getHash(password, "MD5"), p);
+				}
+				else{
+					userDAO.addUser(email, name, EJBUtility.getHash(password, "MD5"), null);
+				}
 			}
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();

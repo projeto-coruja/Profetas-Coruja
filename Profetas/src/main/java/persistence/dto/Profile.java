@@ -8,10 +8,13 @@ public class Profile implements DTO {
 	private String profile;
 
 	private String[] permissions;
+
+	private boolean isDefault;
 	
-	public Profile(String profile, String[] permissions) {
+	public Profile(String profile, String[] permissions, boolean isDefault) {
 		this.profile = profile;
 		this.permissions = permissions;
+		this.isDefault = isDefault;
 	}
 	
 	public Profile() {
@@ -40,6 +43,14 @@ public class Profile implements DTO {
 
 	public void setPermissions(String[] permissions) {
 		this.permissions = permissions;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 }

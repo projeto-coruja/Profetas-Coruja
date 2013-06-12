@@ -19,6 +19,8 @@ public class ProfileMO implements EntityModel  {
 	private String profile;
 
 	private String[] permissions;
+	
+	private boolean isDefault;
 
 	public Long getId() {
 		return id;
@@ -42,6 +44,14 @@ public class ProfileMO implements EntityModel  {
 
 	public void setPermissions(String[] permissions) {
 		this.permissions = permissions;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 }

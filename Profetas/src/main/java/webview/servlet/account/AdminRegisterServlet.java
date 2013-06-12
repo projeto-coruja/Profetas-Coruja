@@ -15,6 +15,8 @@ import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
+import business.exceptions.login.NoDefaultProfileException;
+import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 
 /**
@@ -75,6 +77,11 @@ public class AdminRegisterServlet extends HttpServlet {
 			} catch (DuplicateUserException e) {
 				
 				AlertsUtility.alertAndRedirectPage(response, "Email já em uso!", "/GraoPara/protected/admin/cadUser.jsp");
+			} catch (ProfileNotFoundException e) {
+				e.printStackTrace();
+			} catch (NoDefaultProfileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

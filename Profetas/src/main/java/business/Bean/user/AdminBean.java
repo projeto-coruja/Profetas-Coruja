@@ -13,6 +13,7 @@ import business.DAO.login.UserDAO;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
 import business.exceptions.login.IncorrectProfileInformationException;
+import business.exceptions.login.NoDefaultProfileException;
 import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -59,6 +60,27 @@ public class AdminBean {
 	}
 	
 	/**
+	 * Seleciona um novo profile padrão
+	 * @param profile - Nome do novo profile padrão
+	 * @throws ProfileNotFoundException
+	 * @throws UnreachableDataBaseException
+	 * @throws NoDefaultProfileException 
+	 */
+	public void selectDefaultProfile(String profile) throws ProfileNotFoundException, UnreachableDataBaseException, NoDefaultProfileException{
+		Profile actualDefault;
+		Profile newDefault;
+		
+		actualDefault = profileDAO.getDefaultProfile();
+		newDefault = profileDAO.findProfileByName(profile);
+		
+		actualDefault.setDefault(false);
+		newDefault.setDefault(true);
+		
+		profileDAO.updateProfile(actualDefault.getProfile(), actualDefault.getPermissions(), actualDefault.isDefault());
+		profileDAO.updateProfile(newDefault.getProfile(), newDefault.getPermissions(), newDefault.isDefault());
+	}
+	
+	/**
 	 * Adiciona um novo usuário.
 	 * @param email - String contendo o email do usuário.
 	 * @param name - String contendo o nome do usuário.
@@ -67,8 +89,10 @@ public class AdminBean {
 	 * @throws UnreachableDataBaseException - Exceção do hibernate.
 	 * @throws IncorrectLoginInformationException - Exceção para email inválido.
 	 * @throws DuplicateUserException - Exceção para usuário duplicado (emails identicos).
+	 * @throws ProfileNotFoundException 
+	 * @throws NoDefaultProfileException 
 	 */
-	public void addUser(String email, String name, String password, String profile) throws UnreachableDataBaseException, IncorrectLoginInformationException, DuplicateUserException {
+	public void addUser(String email, String name, String password, String profile) throws UnreachableDataBaseException, IncorrectLoginInformationException, DuplicateUserException, ProfileNotFoundException, NoDefaultProfileException {
 		try {
 			if(!emailChecker.check(email))	
 				throw new IncorrectLoginInformationException("Email inválido");	

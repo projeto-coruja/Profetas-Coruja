@@ -6,47 +6,26 @@ import persistence.PersistenceAccess;
 import persistence.dto.DTO;
 import persistence.dto.Profile;
 import persistence.util.DataAccessLayerException;
+import business.exceptions.login.NoDefaultProfileException;
 import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 
 public class ProfileDAO {
 
-	private static Profile defaultProfile = null;
-	
-	private static final String defaultProfileName = "default";
-
 	private PersistenceAccess manager;
 	
 	public ProfileDAO() {
 		manager = new PersistenceAccess();
-		initDefaultProfile();
 	}
 	
-	public static Profile getDefaultProfile(){
-		if(defaultProfile == null)	initDefaultProfile();
-		return defaultProfile;
-	}
-	
-	private static void initDefaultProfile() { 
-		if(defaultProfile == null) {	
-			try {
-				defaultProfile = findDefaultProfile();
-			} catch (UnreachableDataBaseException e) {
-				e.printStackTrace();
-			} catch (ProfileNotFoundException e) {
-				
-			}
-		}
-	}
-	
-	private static Profile findDefaultProfile() throws UnreachableDataBaseException, ProfileNotFoundException {
+	public Profile getDefaultProfile() throws UnreachableDataBaseException, NoDefaultProfileException {
 		PersistenceAccess manager;
 		manager = new PersistenceAccess();
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ProfileMO where profile = '" + defaultProfileName + "'");
+			resultSet = manager.findEntity("FROM ProfileMO WHERE isDefault = 'TRUE'");
 			if(resultSet == null) {
-				throw new ProfileNotFoundException();
+				throw new NoDefaultProfileException();
 			}
 			else return (Profile) resultSet.get(0);
 		} catch(DataAccessLayerException e) {
@@ -56,7 +35,7 @@ public class ProfileDAO {
 	}
 	
 	public void createProfile(String profile) throws UnreachableDataBaseException{
-		Profile newProfile = new Profile(profile, new String[]{"default"});
+		Profile newProfile = new Profile(profile, new String[]{"default"}, false);
 		try {
 			manager.saveEntity(newProfile);
 		} catch (DataAccessLayerException e) {
@@ -66,7 +45,7 @@ public class ProfileDAO {
 	}
 	
 	public void createProfile(String profile, String[] permissions) throws UnreachableDataBaseException{
-		Profile newProfile = new Profile(profile, permissions);
+		Profile newProfile = new Profile(profile, permissions, false);
 		try {
 			manager.saveEntity(newProfile);
 		} catch (DataAccessLayerException e) {
@@ -91,6 +70,14 @@ public class ProfileDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
+	}
+	
+	public void updateProfile(String profile, String[] permissions, boolean isDefault) throws ProfileNotFoundException, UnreachableDataBaseException{
+		Profile check;
+		check = findProfileByName(profile);
+		if(permissions != null && permissions.length > 0)	check.setPermissions(permissions);
+		if((Object)isDefault != null)	check.setDefault(isDefault);
+		manager.updateEntity(check);
 	}
 	
 	public Profile findProfileByName(String profile) throws UnreachableDataBaseException, ProfileNotFoundException {

@@ -51,10 +51,10 @@ public class InitServlet extends HttpServlet {
 			if(profile == null) {
 				log.info("Profile '" + p + "' não encontrado, recriando..." );
 				if(p.equals("user")) {
-					pa.saveEntity(new Profile("user", new String[]{"default"}));
+					pa.saveEntity(new Profile("user", new String[]{"default"}, true));
 				}
 				else if(p.equals("admin")) {
-					pa.saveEntity(new Profile("admin", new String[]{"default","admin"}));
+					pa.saveEntity(new Profile("admin", new String[]{"default","admin"}, false));
 				}
 			}
 			else if(profile.size() > 1) {

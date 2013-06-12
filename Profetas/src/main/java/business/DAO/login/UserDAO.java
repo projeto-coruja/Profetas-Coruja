@@ -9,6 +9,7 @@ import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.IncorrectProfileInformationException;
+import business.exceptions.login.NoDefaultProfileException;
 import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -35,10 +36,11 @@ public class UserDAO {
 		}
 	}
 	
-	public void addUser(String email, String name, String password, Profile profile) throws UnreachableDataBaseException {
+	public void addUser(String email, String name, String password, Profile profile) throws UnreachableDataBaseException, ProfileNotFoundException, NoDefaultProfileException {
+		ProfileDAO dao = new ProfileDAO();
 		UserAccount newUser;
 		if(profile == null){
-			newUser = new UserAccount(name, ProfileDAO.getDefaultProfile(), email, password, null, null);
+			newUser = new UserAccount(name, dao.getDefaultProfile(), email, password, null, null);
 		}
 		else{
 			newUser = new UserAccount(name, profile, email, password, null, null);

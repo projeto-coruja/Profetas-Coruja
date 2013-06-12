@@ -13,13 +13,16 @@ import webview.util.WebUtility;
 import business.Bean.user.RegisterUserBean;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
+import business.exceptions.login.NoDefaultProfileException;
+import business.exceptions.login.ProfileNotFoundException;
 
 /**
  * Servlet implementation class CadastroServlet
  */
 @WebServlet("/doRegister")
 public class UserRegisterServlet extends HttpServlet {
-
+	private final boolean autoApprove = false;
+	private final String defaultProfile = "user";
 	private final String indexPage = "public/index.jsp";
 	private static final long serialVersionUID = 1L;
        
@@ -51,12 +54,22 @@ public class UserRegisterServlet extends HttpServlet {
 		{
 			RegisterUserBean register = new RegisterUserBean();
 			try {
-				register.addUser(email, senha, nome);
-				AlertsUtility.alertAndRedirectPage(response, "Usuário adicionado! Aguarde a aprovação dos seus direitos de edição.", indexPage);
+				if(!autoApprove){
+					register.addUser(email, senha, nome, null);
+					AlertsUtility.alertAndRedirectPage(response, "Usuário adicionado! Aguarde a aprovação dos seus direitos de edição.", indexPage);
+				}
+				else{
+					register.addUser(email, senha, nome, defaultProfile);
+					AlertsUtility.alertAndRedirectPage(response, "Cadastro bem sucedido, faça o login.", indexPage);
+				}
 			} catch (IncorrectLoginInformationException e) {
 				AlertsUtility.alertAndRedirectPage(response, "Email inválido! Por favor tente novamente.", indexPage);
 			} catch (DuplicateUserException e) {
 				AlertsUtility.alertAndRedirectPage(response, "Email já em uso! Por favor tente novamente.", indexPage);
+			} catch (ProfileNotFoundException e) {
+				e.printStackTrace();
+			} catch (NoDefaultProfileException e) {
+				e.printStackTrace();
 			}
 		}
 	}

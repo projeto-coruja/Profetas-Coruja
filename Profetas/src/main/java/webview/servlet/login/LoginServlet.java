@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AuthBean authetication = new AuthBean();
+		AuthBean auth = new AuthBean();
 		// Recebe os parâmetros enviado via método post do HTML
 		String user = request.getParameter("user");
 		String password = request.getParameter("password");
@@ -43,9 +43,9 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		try {
 			// Autenticação.
-			authetication.authenticate(user, password, session, AuthBean.HashedPwd);
+			auth.authenticate(user, password, session, AuthBean.HashedPwd);
 			//TODO: arrumar os redirecionamento.
-			if(!(Boolean)session.getAttribute("userLoginSuccessfull")){	// Verifica se a atenticação foi mal sucedido
+			if(auth.isLoggedIn(session)){	// Verifica se a atenticação foi mal sucedido
 				// Caso a autenticação não tenha sido bem sucedido, exibe uma mensagem de erro na tela do usuário 
 				AlertsUtility.alertAndRedirectPage(response, 
 						"Problema na autenticação.", 
