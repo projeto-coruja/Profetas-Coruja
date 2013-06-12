@@ -43,12 +43,14 @@ public class SendMail {
 			socketPort = conf.getEntry("mailSocketPort").getValue();
 		} catch (ConfigNotFoundException e) {
 			// Caso a classe está sendo chamado pela primeira vez, executar esta ação
-			conf.addPropertie("mailAccount", "");
-			conf.addPropertie("mailPassword", "");
-
-			conf.addPropertie("mailHost", "smtp.gmail.com");
-			conf.addPropertie("mailPort", "465");
-			conf.addPropertie("mailSocketPort", "465");
+//			conf.addPropertie("mailAccount", "");
+//			conf.addPropertie("mailPassword", "");
+//
+//			conf.addPropertie("mailHost", "smtp.gmail.com");
+//			conf.addPropertie("mailPort", "465");
+//			conf.addPropertie("mailSocketPort", "465");
+			
+			e.printStackTrace();
 		}
 	}
 

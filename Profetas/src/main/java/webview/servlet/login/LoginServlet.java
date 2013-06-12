@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 			// Autenticação.
 			auth.authenticate(user, password, session, AuthBean.HashedPwd);
 			//TODO: arrumar os redirecionamento.
-			if(auth.isLoggedIn(session)){	// Verifica se a atenticação foi mal sucedido
+			if(!auth.isLoggedIn(session)){	// Verifica se a atenticação foi mal sucedido
 				// Caso a autenticação não tenha sido bem sucedido, exibe uma mensagem de erro na tela do usuário 
 				AlertsUtility.alertAndRedirectPage(response, 
 						"Problema na autenticação.", 

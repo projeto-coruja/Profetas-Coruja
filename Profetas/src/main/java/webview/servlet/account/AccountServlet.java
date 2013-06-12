@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import persistence.exceptions.UpdateEntityException;
+import webview.util.AlertsUtility;
 
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
 import business.Bean.user.RegisterUserBean;
+import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -42,47 +44,45 @@ public class AccountServlet extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		String email = request.getParameter("email");
-		String newEmail = request.getParameter("newEmail");
+		String newEmail = request.getParameter("newMail");
 		String newPassword = request.getParameter("newPassword");
 		String newProfile = request.getParameter("newProfile");
-		
 		if(auth.isLoggedIn(session)){	// Verifica se o usuário está logado.
-			// Verifica se a mudança vai ser na própria conta (todos tem permissão para essa ação).
-			if(action.equals("changeSelfAccountInformation")){
-				try {
-					if(auth.validateToken(session)){	// Autenticação.
-						RegisterUserBean bean = new RegisterUserBean();
-						bean.changeUserInformation((String) session.getAttribute("userMail"), newEmail, newPassword);
-					}
-				} catch (UnreachableDataBaseException e) {
-					e.printStackTrace();
-				} catch (UserNotFoundException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (UpdateEntityException e) {
-					e.printStackTrace();
-				}
+			if(!newPassword.equals((String)request.getParameter("confPassword"))){
+				AlertsUtility.alertAndRedirectHistory(response, "Password mismatch");
 			}
-			// Verifica se a mudança vai ser em outra conta (Precisa ter permissão especial).
-			else if(action.equals("changeUserAccountInformation")){
-				try {
-					if(auth.allowedOperation("userInfoUpdatePermission", session, true)){ // Autenticação.
-						AdminBean admin = new AdminBean();
-						admin.changeUserInformation(email, newEmail, newPassword, newProfile);	
+			try {
+				// Verifica se a mudança vai ser na própria conta (todos tem permissão para essa ação).
+				if(action.equals("changeSelfAccountInformation") && auth.validateToken(session)){
+					RegisterUserBean bean = new RegisterUserBean();
+					bean.changeUserInformation((String) session.getAttribute("userMail"), newEmail, newPassword);
+					if(newEmail != null && !newEmail.isEmpty()){
+						session.removeAttribute("userMail");
+						session.setAttribute("userMail", newEmail);
 					}
-				} catch (UnreachableDataBaseException e) {
-					e.printStackTrace();
-				} catch (UserNotFoundException e) {
-					e.printStackTrace();
-				} catch (ProfileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (UpdateEntityException e) {
-					e.printStackTrace();
 				}
+				// Verifica se a mudança vai ser em outra conta (Precisa ter permissão especial).
+				else if(action.equals("changeUserAccountInformation") && auth.allowedOperation("userInfoUpdatePermission", session, true)){
+					AdminBean admin = new AdminBean();
+					admin.changeUserInformation(email, newEmail, newPassword, newProfile);	
+				}
+				AlertsUtility.alertAndRedirectPage(response, "Informações atualizadas com sucesso!", "public/index.jsp");
+			} catch (UnreachableDataBaseException e) {
+				e.printStackTrace();
+			} catch (UserNotFoundException e) {
+				AlertsUtility.alertAndRedirectHistory(response, e.getMessage());
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (UpdateEntityException e) {
+				e.printStackTrace();
+			} catch (DuplicateUserException e) {
+				AlertsUtility.alertAndRedirectHistory(response, e.getMessage());
+			} catch (ProfileNotFoundException e) {
+				e.printStackTrace();
 			}
+		}
+		else{
+			AlertsUtility.alertAndRedirectPage(response, "ERRO!", "public/index.jsp");
 		}
 	}
 

@@ -81,23 +81,24 @@ public class AuthBean {
 	 */
 	public void logOut(HttpSession session) throws UserNotFoundException, UnreachableDataBaseException{
 		UserAccount user;
-		// Pega os atributos da sessão.
-		String userMail = (String) session.getAttribute("userMail");
-		String userToken = (String) session.getAttribute("userAccessToken");
-
-		user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
-		if(isLoggedIn(session) && user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
-			try {
-				user.setGeneratedToken(null);	// Invalida o token de sessão.
-				user.setTokenDate(null);		// 
-				loginDAO.updateUser(user);		// Atualiza o usuário no banco.
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (UpdateEntityException e) {
-				e.printStackTrace();
+		if(isLoggedIn(session)){
+			// Pega os atributos da sessão.
+			String userMail = (String) session.getAttribute("userMail");
+			String userToken = (String) session.getAttribute("userAccessToken");
+			user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
+			if(user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
+				session.invalidate();
+				try {
+					user.setGeneratedToken(null);	// Invalida o token de sessão.
+					user.setTokenDate(null);		// 
+					loginDAO.updateUser(user);		// Atualiza o usuário no banco.
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (UpdateEntityException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		session.invalidate();
 	}
 
 	/**

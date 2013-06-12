@@ -21,7 +21,7 @@ import business.exceptions.login.ProfileNotFoundException;
  */
 @WebServlet("/doRegister")
 public class UserRegisterServlet extends HttpServlet {
-	private final boolean autoApprove = false;
+	private final boolean autoApprove = true;
 	private final String defaultProfile = "user";
 	private final String indexPage = "public/index.jsp";
 	private static final long serialVersionUID = 1L;
@@ -43,11 +43,11 @@ public class UserRegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nome = WebUtility.removeAccents(request.getParameter("nome"));
-		String email = request.getParameter("email");
-		String senha = request.getParameter("senha");
+		String nome = WebUtility.removeAccents(request.getParameter("name"));
+		String email = request.getParameter("mail");
+		String senha = request.getParameter("password");
 
-		if(!senha.equals(request.getParameter("confsenha"))){
+		if(!senha.equals(request.getParameter("confPassword"))){
 			AlertsUtility.alertAndRedirectHistory(response, "Senha inválida! Tente novamente.");
 		}
 		else

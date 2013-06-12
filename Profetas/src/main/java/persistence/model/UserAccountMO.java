@@ -26,7 +26,7 @@ public class UserAccountMO implements EntityModel  {
 	@NotNull
 	private ProfileMO profile;
 	
-	@NaturalId
+	@NaturalId(mutable=true)
 	@Email
 	private String email;
 	

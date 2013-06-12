@@ -91,16 +91,28 @@ public class RegisterUserBean {
 	 * @param email - String contendo o email atual do usuário
 	 * @param newEmail - String contendo e email novo. Mandar <b>null</b> caso não queira fazer modificações.
 	 * @param newPassword - String contendo a nova senha.  Mandar <b>null</b> caso não queira fazer modificações.
-	 * @throws UserNotFoundException
 	 * @throws UnreachableDataBaseException
 	 * @throws IllegalArgumentException
 	 * @throws UpdateEntityException
+	 * @throws DuplicateUserException 
 	 */
-	public void changeUserInformation(String email, String newEmail, String newPassword) throws UserNotFoundException, UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException{
-		UserAccount user = userDAO.findUserByEmail(email);
-		if(isInit(newEmail))	user.setEmail(newEmail);
-		if(isInit(newPassword))	user.setPassword(EJBUtility.getHash(newPassword));
-		userDAO.updateUser(user);
+	public void changeUserInformation(String email, String newEmail, String newPassword) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, DuplicateUserException{
+		UserAccount user;
+		try{
+			user = userDAO.findUserByEmail(email);
+			if(isInit(newEmail)){
+				try{
+					UserAccount check = userDAO.findUserByEmail(newEmail);
+					if(check != null)	throw new DuplicateUserException("Já existe email cadastrado");
+				}catch(UserNotFoundException e1){
+					user.setEmail(newEmail);
+				}
+			}
+			if(isInit(newPassword))	user.setPassword(EJBUtility.getHash(newPassword));
+			userDAO.updateUser(user);
+		}catch (UserNotFoundException e){
+			e.printStackTrace();
+		}
 	}
 
 	private boolean isInit(String s){

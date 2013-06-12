@@ -130,10 +130,18 @@ public class AdminBean {
 	 * @throws ProfileNotFoundException
 	 * @throws IllegalArgumentException
 	 * @throws UpdateEntityException
+	 * @throws DuplicateUserException 
 	 */
-	public void changeUserInformation(String email, String newEmail, String newPassword, String newProfile) throws UserNotFoundException, UnreachableDataBaseException, ProfileNotFoundException, IllegalArgumentException, UpdateEntityException{
+	public void changeUserInformation(String email, String newEmail, String newPassword, String newProfile) throws UserNotFoundException, UnreachableDataBaseException, ProfileNotFoundException, IllegalArgumentException, UpdateEntityException, DuplicateUserException{
 		UserAccount user = userDAO.findUserByEmail(email);
-		if(isInit(newEmail))	user.setEmail(newEmail);
+		if(isInit(newEmail)){
+			try{
+				UserAccount check = userDAO.findUserByEmail(newEmail);
+				if(check != null)	throw new DuplicateUserException("Já existe email cadastrado");
+			}catch(UserNotFoundException e){
+				user.setEmail(newEmail);
+			}
+		}
 		if(isInit(newPassword))	user.setPassword(EJBUtility.getHash(newPassword));
 		if(isInit(newProfile)){
 			Profile p = profileDAO.findProfileByName(newProfile);

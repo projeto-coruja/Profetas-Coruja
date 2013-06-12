@@ -14,6 +14,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 
 import persistence.PersistenceAccess;
+import persistence.dto.Configuration;
 import persistence.dto.DTO;
 import persistence.dto.Profile;
 import persistence.dto.UserAccount;
@@ -97,6 +98,32 @@ public class InitServlet extends HttpServlet {
 			
 		}
 		else user = null;
+		
+		String[] mailDefaultEntry = new String[]{
+				"mailAccount",
+				"mailPassword",
+				"mailHost",
+				"mailPort",
+				"mailSocketPort"
+				};
+		
+		String[] mailDefaultProp = new String[] {
+				"",
+				"",
+				"smtp.gmail.com",
+				"465",
+				"465"
+				};
+		
+		List<DTO> check;
+		for(int i = 0; i < mailDefaultEntry.length; i++){
+			check = pa.findEntity("from ConfigurationMO where entry = 'mailAccount'");
+			if(check == null){
+				log.info("Criando configurações básicas...");
+				pa.saveEntity(new Configuration(mailDefaultEntry[i], mailDefaultProp[i]));
+			}
+			else check = null;
+		}
 		
 		log.info("Finalizando inicialização...");
 	}

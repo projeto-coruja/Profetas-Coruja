@@ -38,11 +38,13 @@ public class LogoutServlet extends HttpServlet {
 		try {
 			auth.logOut(session);	// Chama o método de logout.
 		} catch (UserNotFoundException e) {
+//			e.printStackTrace();
 		} catch (UnreachableDataBaseException e) {
 			e.printStackTrace();
 		}
 		
-		AlertsUtility.alertAndRedirectPage(response, "Logout feito com sucesso!", "public/index.jsp"); // Exibe alerta e redireciona o usuário para a home.
+		AlertsUtility.redirectOnly(response, "public/index.jsp");
+//		AlertsUtility.alertAndRedirectPage(response, "Logout feito com sucesso!", "public/index.jsp"); // Exibe alerta e redireciona o usuário para a home.
 	}
 
 }
