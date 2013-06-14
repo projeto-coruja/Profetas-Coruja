@@ -7,26 +7,46 @@ import persistence.dto.Configuration;
 import persistence.dto.DTO;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.general.ConfigNotFoundException;
+import business.exceptions.general.DuplicatedEntryException;
 import business.exceptions.login.UnreachableDataBaseException;
 
+/**
+ * DAO de configurações. 
+ */
 public class ConfigurationDAO {
 
 	private PersistenceAccess manager;
-	
+	/**
+	 * Construtor
+	 */
 	public ConfigurationDAO(){
 		manager = new PersistenceAccess();
 	}
-	
-	public void addPropertie(String entry, String value) throws UnreachableDataBaseException{
-		Configuration newConf = new Configuration(entry,value);
+	/**
+	 * Adiciona uma nova entrada de configuração no banco de dados
+	 * @param entry - Nome da entrada (não pode ser nulo nem repetido).
+	 * @param value - Valor da entrada.
+	 * @throws DuplicatedEntryException - Exceção caso já exista entrada com o mesmo nome.
+	 * @throws UnreachableDataBaseException
+	 */
+	public void addPropertie(String entry, String value) throws UnreachableDataBaseException, DuplicatedEntryException{
 		try{
-			manager.saveEntity(newConf);
+			getEntry(entry);
+			throw new DuplicatedEntryException("Entrada já existe!");
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		} catch (ConfigNotFoundException e) {
+			manager.saveEntity(new Configuration(entry,value));
 		}
 	}
 	
+	/**
+	 * Remove uma entrada de configuração.
+	 * @param entry - Nome da entrada a ser removido.
+	 * @throws UnreachableDataBaseException
+	 * @throws ConfigNotFoundException
+	 */
 	public void removeEntry(String entry) throws UnreachableDataBaseException, ConfigNotFoundException{
 		List<DTO> resultSet = null;
 		try{
@@ -43,6 +63,13 @@ public class ConfigurationDAO {
 		}
 	}
 	
+	/**
+	 * Busca uma determinada entrada.
+	 * @param entry - Nome da entrada.
+	 * @return instancia de <b>Configuration</b>.
+	 * @throws UnreachableDataBaseException
+	 * @throws ConfigNotFoundException
+	 */
 	public Configuration getEntry(String entry) throws UnreachableDataBaseException, ConfigNotFoundException {
 		List<DTO> resultSet = null;
 		try {
@@ -57,6 +84,12 @@ public class ConfigurationDAO {
 		}
 	}
 	
+	/**
+	 * Pega todas as entradas presentes no banco de dados. 
+	 * @return Lista de <b>DTO</b> contendo todas as entradas presentes no banco de dados.
+	 * @throws UnreachableDataBaseException
+	 * @throws ConfigNotFoundException
+	 */
 	public List<DTO> getAllEntries() throws UnreachableDataBaseException, ConfigNotFoundException{
 		List<DTO> resultSet = null;
 		try {

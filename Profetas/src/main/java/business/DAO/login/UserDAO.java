@@ -14,6 +14,10 @@ import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
+/**
+ * DAO das contas de usuários. 
+ *
+ */
 public class UserDAO {
 
 	private PersistenceAccess manager;
@@ -22,6 +26,13 @@ public class UserDAO {
 		manager = new PersistenceAccess();
 	}
 	
+	/**
+	 * Busca um usuário a partir do email.
+	 * @param email - email do usuário.
+	 * @return Conta do usuário.
+	 * @throws UnreachableDataBaseException
+	 * @throws UserNotFoundException
+	 */
 	public UserAccount findUserByEmail(String email) throws UnreachableDataBaseException, UserNotFoundException {
 		List<DTO> resultSet = null;
 		try {
@@ -36,6 +47,17 @@ public class UserDAO {
 		}
 	}
 	
+	
+	/**
+	 * Adiciona um novo usuário.
+	 * @param email - Email do usuário.
+	 * @param name - Nome do usuário.
+	 * @param password - Senha do usuário.
+	 * @param profile - Perfil do usuário.
+	 * @throws UnreachableDataBaseException
+	 * @throws ProfileNotFoundException
+	 * @throws NoDefaultProfileException
+	 */
 	public void addUser(String email, String name, String password, Profile profile) throws UnreachableDataBaseException, ProfileNotFoundException, NoDefaultProfileException {
 		ProfileDAO dao = new ProfileDAO();
 		UserAccount newUser;
@@ -53,6 +75,12 @@ public class UserDAO {
 		}
 	}
 	
+	/**
+	 * Pega todos os usários presente no banco de dados.
+	 * @return Lista de DTOs contendo todos os usuários.
+	 * @throws UnreachableDataBaseException
+	 * @throws UserNotFoundException
+	 */
 	public List<DTO> listAllUsers() throws UnreachableDataBaseException, UserNotFoundException {
 		List<DTO> resultSet;
 		try{
@@ -66,6 +94,12 @@ public class UserDAO {
 		return resultSet;
 	}
 	
+	/**
+	 * Remove um usuário a partir do email.
+	 * @param email - Email do usuário.
+	 * @throws UnreachableDataBaseException
+	 * @throws UserNotFoundException
+	 */
 	public void removeUser(String email) throws UnreachableDataBaseException, UserNotFoundException{
 		UserAccount check = null;
 		try{
@@ -77,6 +111,16 @@ public class UserDAO {
 		}
 	}
 	
+	/**
+	 * Troca o perfil de um usuário.
+	 * @param email - Email do usuário que terá o perfil trocado.
+	 * @param new_profile - Novo perfil do usuário.
+	 * @throws IncorrectProfileInformationException
+	 * @throws UnreachableDataBaseException
+	 * @throws UserNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws UpdateEntityException
+	 */
 	public void changeUserProfile(String email, Profile new_profile) throws IncorrectProfileInformationException, UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException {
 		UserAccount check = null;
 		try {
@@ -92,6 +136,14 @@ public class UserDAO {
 		}
 	}
 	
+	/**
+	 * Atualiza um dados de um usuário.
+	 * @param user - Objeto UserAccount com os dados atualizados.
+	 * @throws UnreachableDataBaseException
+	 * @throws UserNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws UpdateEntityException
+	 */
 	public void updateUser(UserAccount user) throws UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException{
 		if(user.getId() == null){
 			user = this.findUserByEmail(user.getEmail());
@@ -107,6 +159,14 @@ public class UserDAO {
 		}
 	}
 	
+	/**
+	 * Lista todos os usuários de um determinado perfil.
+	 * @param profileName - Nome do perfil.
+	 * @return Lista de DTOs contendo todos os usuários de um determinado perfil.
+	 * @throws UnreachableDataBaseException
+	 * @throws ProfileNotFoundException
+	 * @throws UserNotFoundException
+	 */
 	public List<DTO> listUsersByProfile(String profileName) throws UnreachableDataBaseException, ProfileNotFoundException, UserNotFoundException {
 		List<DTO> resultSet = null;
 		ProfileDAO profileDAO = null;

@@ -6,11 +6,29 @@ import java.util.regex.Pattern;
  * Classe para utilização e validação de strings utilizando expressão regular. 
  */
 public class Regex {
-
-	private final Pattern w = Pattern.compile("[^a-zA-Z0-9àáãâäèéẽêëìíĩîïòóõôöùúũûüçÀÁÃÂÄÈÉẼÊËÌÍĨÎÏÒÓÕÔÖÙÚŨÛÜÇ: -]");
-	private final Pattern n = Pattern.compile("[^0-9]");
 	
 	private Pattern p;
+
+	private static final Pattern w = Pattern.compile("[^a-zA-Z0-9àáãâäèéẽêëìíĩîïòóõôöùúũûüçÀÁÃÂÄÈÉẼÊËÌÍĨÎÏÒÓÕÔÖÙÚŨÛÜÇ: -]");
+	private static final Pattern n = Pattern.compile("[^0-9]");
+	
+	/**
+	 * Verifica se a string é uma palavra.
+	 * @param s - String a ser verificado.
+	 * @return <b>true</b> se a string for uma palavra.<br><b>false</b> caso contrário.
+	 */
+	public static boolean findAN(String s) {
+		return w.matcher(s).find();
+	}
+
+	/**
+	 * Verifica se a string é um número.
+	 * @param s - String a ser verificado.
+	 * @return <b>true</b> se a string for um número.<br><b>false</b> caso contrário.
+	 */
+	public static boolean findN(String s) {
+		return n.matcher(s).find();
+	}
 	
 	/**
 	 * Construtor que irá forçar a utilização das expressões pré-definidas.
@@ -56,22 +74,6 @@ public class Regex {
 		if(newPattern.charAt(newPattern.length()-1) != '$')	newPattern = newPattern + "$";
 		p = Pattern.compile(newPattern, Pattern.CASE_INSENSITIVE);
 	}
-	
-	/**
-	 * Verifica se a string é uma palavra.
-	 * @param s - String a ser verificado.
-	 * @return <b>true</b> se a string for uma palavra.<br><b>false</b> caso contrário.
-	 */
-	public boolean findAN(String s) {
-		return w.matcher(s).find();
-	}
 
-	/**
-	 * Verifica se a string é um número.
-	 * @param s - String a ser verificado.
-	 * @return <b>true</b> se a string for um número.<br><b>false</b> caso contrário.
-	 */
-	public boolean findN(String s) {
-		return n.matcher(s).find();
-	}
+	
 }
