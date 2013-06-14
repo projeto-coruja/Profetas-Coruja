@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import datatype.SimpleDate;
 
+import persistence.dto.DTO;
 import persistence.dto.Encontro;
 import persistence.dto.FontesObras;
 import persistence.dto.GrupoPersonagem;
@@ -41,7 +42,10 @@ public class PersonagemSearchTest {
 		SimpleDate nasci = null;
 		//dao.novoaddPersonagem("joao", "joazinho", grecia, nasci, roma, nasci, "ajsidjiasdji", "pensador", "nenhuma", referencia_bibliografica, religiao, grupo, locaisVisitados, encontro, obras);
 		//Personagem p = (Personagem) dao.findPersonagem("joao");
-		dao.findAllPersonagem();
+		List<DTO> lalala = dao.findAllPersonagem();
+		for(DTO p : lalala){
+			System.out.println(((Personagem)p).getNome());
+		}
 		//assertEquals("joao", p.getNome());
 		
 
