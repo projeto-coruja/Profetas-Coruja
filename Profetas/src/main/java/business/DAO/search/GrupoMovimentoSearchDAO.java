@@ -30,7 +30,7 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public GrupoMovimento findExactGrupoMovimentoByNome(String nome) throws GroupMovementNotFoundException, UnreachableDataBaseException{
+	public List<DTO> findExactGrupoMovimentoByNome(String nome) throws GroupMovementNotFoundException, UnreachableDataBaseException{
 		nome = getQueryNormalization(nome);
 		List<DTO> resultSet = null;
 		try {
@@ -43,7 +43,7 @@ public class GrupoMovimentoSearchDAO {
 			}
 			else{
 				
-				return (GrupoMovimento) resultSet.get(0);
+				return  resultSet;
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
@@ -112,7 +112,7 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public GrupoMovimento findExactGrupoMovimentoByAnoFim(SimpleDate anofim) throws GroupMovementNotFoundException, UnreachableDataBaseException{
+	public List<DTO> findExactGrupoMovimentoByAnoFim(SimpleDate anofim) throws GroupMovementNotFoundException, UnreachableDataBaseException{
 		
 		List<DTO> resultSet = null;
 		try {
@@ -125,7 +125,7 @@ public class GrupoMovimentoSearchDAO {
 			}
 			else{
 				
-				return (GrupoMovimento) resultSet.get(0);
+				return resultSet;
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
