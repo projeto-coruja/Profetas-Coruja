@@ -14,7 +14,7 @@ public class FontesObras implements DTO {
 
 	private String comentarios;
 
-	private String refverenciasirCulacaoObra;
+	private String refverenciasirCulacaoObra;// trocar este nome para referenciasCirculacaoObra
 
 	private String URL;
 
