@@ -1,16 +1,14 @@
 package business.DAO.model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import business.exceptions.model.KeywordNotFoundException;
-import business.exceptions.login.UnreachableDataBaseException;
-import business.exceptions.model.DuplicateKeywordException;
 import persistence.PersistenceAccess;
 import persistence.dto.DTO;
 import persistence.dto.PalavraChave;
-import persistence.exceptions.UpdateEntityException;
 import persistence.util.DataAccessLayerException;
+import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.model.DuplicateKeywordException;
+import business.exceptions.model.KeywordNotFoundException;
 
 public class PalavraChaveDAO {
 
@@ -21,6 +19,7 @@ public class PalavraChaveDAO {
 	}
 	
 	public PalavraChave addKeyword(String keyword) throws UnreachableDataBaseException, DuplicateKeywordException {
+		if(keyword.isEmpty() || keyword == null)	throw new IllegalArgumentException("Palavra-chave vazia ou nula.");
 		PalavraChave newPalavraChave = new PalavraChave(keyword);
 		try {
 			findKeyword(keyword);
@@ -35,6 +34,7 @@ public class PalavraChaveDAO {
 	}
 	
 	public void removeKeyWord(String keyword) throws UnreachableDataBaseException, KeywordNotFoundException {
+		if(keyword.isEmpty() || keyword == null)	throw new IllegalArgumentException("Palavra-chave vazia ou nula.");
 		List<DTO> check = null;
 		PalavraChave select = null;
 		try {
@@ -51,9 +51,8 @@ public class PalavraChaveDAO {
 		}
 	}
 	
-	public PalavraChave updateKeyword(String oldKeyword, String newKeyword)
-			throws UnreachableDataBaseException, KeywordNotFoundException, IllegalAccessException, IllegalArgumentException, 
-			InvocationTargetException, NoSuchMethodException, SecurityException, UpdateEntityException {
+	public PalavraChave updateKeyword(String oldKeyword, String newKeyword) throws UnreachableDataBaseException, KeywordNotFoundException {
+		if(oldKeyword.isEmpty() || oldKeyword == null || newKeyword.isEmpty() || newKeyword == null)	throw new IllegalArgumentException("Palavra-chave vazia ou nula.");
 		List<DTO> check = null;
 		PalavraChave select = null;
 		try{
