@@ -30,7 +30,7 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<DTO> findExactGrupoMovimentoByNome(String nome) throws GroupMovementNotFoundException, UnreachableDataBaseException{
+	public GrupoMovimento findExactGrupoMovimentoByNome(String nome) throws GroupMovementNotFoundException, UnreachableDataBaseException{
 		nome = getQueryNormalization(nome);
 		List<DTO> resultSet = null;
 		try {
@@ -43,7 +43,7 @@ public class GrupoMovimentoSearchDAO {
 			}
 			else{
 				
-				return  resultSet;
+				return  (GrupoMovimento) resultSet.get(0);
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
