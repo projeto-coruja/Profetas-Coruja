@@ -5,7 +5,6 @@ import java.util.List;
 import persistence.PersistenceAccess;
 import persistence.dto.DTO;
 import persistence.dto.ReligiaoCrencas;
-import persistence.dto.TipoDocumento;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateReligionException;

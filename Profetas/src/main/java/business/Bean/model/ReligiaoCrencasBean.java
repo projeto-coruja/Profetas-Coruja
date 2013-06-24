@@ -77,7 +77,7 @@ public class ReligiaoCrencasBean {
 	/**
 	 * Retorna uma lista das Religiões/Crenças existentes.
 	 * 
-	 * @return ma lista ddas Religiões/Crenças existentes.
+	 * @return uma lista ddas Religiões/Crenças existentes.
 	 * @throws UnreachableDataBaseException
 	 * @throws ReligionNotFoundException
 	 */

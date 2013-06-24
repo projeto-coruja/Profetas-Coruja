@@ -22,13 +22,13 @@ public class EncontroDAO {
 		manager = new PersistenceAccess();	
 	}
 	
-	public Encontro addEncounter(SimpleDate date, String name) throws UnreachableDataBaseException, LocalNotFoundException {
+	public Encontro addEncounter(SimpleDate date, String localName) throws UnreachableDataBaseException, LocalNotFoundException {
 		LocalDAO newLocalDAO = new LocalDAO();
 		Local newLocal = null;
 		
-		List<DTO> check = newLocalDAO.findLocalByName(name);
+		List<DTO> check = newLocalDAO.findLocalByName(localName);
 		for (DTO dto : check) {
-			if(((Local) dto).getNome().equals(name)) {
+			if(((Local) dto).getNome().equals(localName)) {
 				newLocal = (Local) dto;
 			}
 		}
