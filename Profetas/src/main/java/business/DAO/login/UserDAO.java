@@ -185,4 +185,16 @@ public class UserDAO {
 		return resultSet;
 	}
 	
+	public List<DTO> listUsersWithExpiredTokens(String threshold) throws UnreachableDataBaseException, UserNotFoundException{
+		List<DTO> resultSet = null;
+		try{
+			resultSet = manager.findEntity("FROM UserAccountMO WHERE tokendate <= '"+ threshold +"'");
+			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário com chave expirado");
+		}catch(DataAccessLayerException e){
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+		return resultSet;
+	}
+	
 }

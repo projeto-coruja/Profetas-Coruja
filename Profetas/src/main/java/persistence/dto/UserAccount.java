@@ -31,6 +31,7 @@ public class UserAccount implements DTO{
 		this.profile = profile;
 		this.email = email;
 		this.password = password;
+		this.generatedToken = generatedToken;
 		this.tokenDate = tokenDate;
 	}
 	

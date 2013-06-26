@@ -13,6 +13,7 @@ import webview.util.AlertsUtility;
 import webview.util.WebUtility;
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
+import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
 import business.exceptions.login.NoDefaultProfileException;
@@ -80,8 +81,9 @@ public class AdminRegisterServlet extends HttpServlet {
 			} catch (ProfileNotFoundException e) {
 				e.printStackTrace();
 			} catch (NoDefaultProfileException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (DisallowedOperationException e) {
+				AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "public/index.jsp");
 			}
 		}
 	}

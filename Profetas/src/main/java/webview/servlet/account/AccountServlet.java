@@ -15,6 +15,7 @@ import webview.util.AlertsUtility;
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
 import business.Bean.user.RegisterUserBean;
+import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -49,16 +50,16 @@ public class AccountServlet extends HttpServlet {
 		String newProfile = request.getParameter("newProfile");
 		if(auth.isLoggedIn(session)){	// Verifica se o usuário está logado.
 			if(!newPassword.equals((String)request.getParameter("confPassword"))){
-				AlertsUtility.alertAndRedirectHistory(response, "Password mismatch");
+				AlertsUtility.alertAndRedirectHistory(response, "Password missmatch");
 			}
 			try {
 				// Verifica se a mudança vai ser na própria conta (todos tem permissão para essa ação).
 				if(action.equals("changeSelfAccountInformation") && auth.validateToken(session)){
 					RegisterUserBean bean = new RegisterUserBean();
-					bean.changeUserInformation((String) session.getAttribute("userMail"), newEmail, newPassword);
+					bean.changeUserInformation((String) session.getAttribute(AuthBean.sessionUserMail), newEmail, newPassword);
 					if(newEmail != null && !newEmail.isEmpty()){
-						session.removeAttribute("userMail");
-						session.setAttribute("userMail", newEmail);
+						session.removeAttribute(AuthBean.sessionUserMail);
+						session.setAttribute(AuthBean.sessionUserMail, newEmail);
 					}
 				}
 				// Verifica se a mudança vai ser em outra conta (Precisa ter permissão especial).
@@ -79,6 +80,8 @@ public class AccountServlet extends HttpServlet {
 				AlertsUtility.alertAndRedirectHistory(response, e.getMessage());
 			} catch (ProfileNotFoundException e) {
 				e.printStackTrace();
+			} catch (DisallowedOperationException e) {
+				AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "public/index.jsp");
 			}
 		}
 		else{

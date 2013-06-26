@@ -14,6 +14,7 @@ import webview.util.AlertsUtility;
 import business.Bean.user.AuthBean;
 import business.Bean.user.RegisterUserBean;
 import business.Bean.util.SendMail;
+import business.exceptions.DisallowedOperationException;
 import business.exceptions.MailNotConfiguredException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -68,8 +69,8 @@ public class AccountRecoveryServlet extends HttpServlet {
 			AlertsUtility.alertAndRedirectHistory(response, "Nenhum email fornecido.");
 		}
 		else{
-			session.setAttribute("userMail", email);
-			session.setAttribute("userAccessToken", sessionToken);
+			session.setAttribute(AuthBean.sessionUserMail, email);
+			session.setAttribute(AuthBean.sessionUserAccessToken, sessionToken);
 		}
 		try {
 			SendMail mail = new SendMail();
@@ -95,6 +96,9 @@ public class AccountRecoveryServlet extends HttpServlet {
 		} catch (UpdateEntityException e) {
 			e.printStackTrace();
 		} catch (MailNotConfiguredException e) {
+		} catch (DisallowedOperationException e) {
+			AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "public/index.jsp");
+			e.printStackTrace();
 		}
 	}
 	

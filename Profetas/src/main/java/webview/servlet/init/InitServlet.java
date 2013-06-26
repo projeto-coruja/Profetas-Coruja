@@ -20,6 +20,7 @@ import persistence.dto.Profile;
 import persistence.dto.UserAccount;
 import persistence.util.PersistenceUtility;
 import business.Bean.util.EJBUtility;
+import business.Bean.util.TokenValidityChecker;
 
 /**
  * Servlet implementation class InitServlet
@@ -41,6 +42,7 @@ public class InitServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		initLogger(config);
+		TokenValidityChecker.getInstance();
 
 		log.info("Iniciando sistema Profetas...");
 		PersistenceAccess pa = new PersistenceAccess();
@@ -117,7 +119,7 @@ public class InitServlet extends HttpServlet {
 		
 		List<DTO> check;
 		for(int i = 0; i < mailDefaultEntry.length; i++){
-			check = pa.findEntity("from ConfigurationMO where entry = 'mailAccount'");
+			check = pa.findEntity("from ConfigurationMO where entry = '"+mailDefaultEntry[i]+"'");
 			if(check == null){
 				log.info("Criando configurações básicas...");
 				pa.saveEntity(new Configuration(mailDefaultEntry[i], mailDefaultProp[i]));

@@ -8,6 +8,7 @@ import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
 import business.Bean.util.EJBUtility;
 import business.DAO.login.UserDAO;
+import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
@@ -17,6 +18,28 @@ import business.exceptions.login.UserNotFoundException;
 public class AuthBean {
 
 	private UserDAO loginDAO;
+	
+	/**
+	 * Atributo de sessão: userMail
+	 */
+	public static String sessionUserMail = "userMail";
+	/**
+	 * Atributo de sessão: userName
+	 */
+	public static String sessionUserName = "userName";
+	/**
+	 * Atributo de sessão: userPermissions
+	 */
+	public static String sessionUserPermissions = "userPermissions";
+	/**
+	 * Atributo de sessão: userAccessToken
+	 */
+	public static String sessionUserAccessToken = "userAccessToken";
+	/**
+	 * Atributo de sessão: userLoginSuccessfull
+	 */
+	public static String sessionUserLoginSuccessfull = "userLoginSuccessfull";
+	
 	/**
 	 * Flag para habilitar hash de senha
 	 */
@@ -64,11 +87,12 @@ public class AuthBean {
 			check.setTokenDate(tokenDate);
 			loginDAO.updateUser(check);
 			// Define os atributos de sessão.
-			session.setAttribute("userMail", check.getEmail());
-			session.setAttribute("userName", check.getName());
-			session.setAttribute("userPermissions", check.getProfile().getPermissions());
-			session.setAttribute("userAccessToken", sessionToken);
-			session.setAttribute("userLoginSuccessfull", true);
+			session.setAttribute(sessionUserMail, check.getEmail());
+			session.setAttribute(sessionUserName, check.getName());
+			session.setAttribute(sessionUserPermissions, check.getProfile().getPermissions());
+			session.setAttribute(sessionUserAccessToken, sessionToken);
+			session.setAttribute(sessionUserLoginSuccessfull, true);
+			
 		}
 		else	throw new UserNotFoundException("Senha errada");
 	}
@@ -86,8 +110,8 @@ public class AuthBean {
 			String userMail = (String) session.getAttribute("userMail");
 			String userToken = (String) session.getAttribute("userAccessToken");
 			user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
-			if(user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
-				session.invalidate();
+			session.invalidate();
+			if(user.getGeneratedToken() != null && user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
 				try {
 					user.setGeneratedToken(null);	// Invalida o token de sessão.
 					user.setTokenDate(null);		// 
@@ -116,7 +140,7 @@ public class AuthBean {
 	 * @return <b>true</b> se o token da sessão é válido.<br><b>false</b> caso contrário.
 	 * @throws UnreachableDataBaseException
 	 */
-	public boolean validateToken(HttpSession session) throws UnreachableDataBaseException{
+	public boolean validateToken(HttpSession session) throws UnreachableDataBaseException, DisallowedOperationException{
 		UserAccount user;
 		// Pega os atributos da sessão.
 		String userMail = (String) session.getAttribute("userMail");
@@ -124,9 +148,9 @@ public class AuthBean {
 		if(userMail == null || userToken == null)	return false;
 		try {
 			user = loginDAO.findUserByEmail(userMail); // Busca o usuário no banco de dados
-			if(!user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
+			if(user.getGeneratedToken() == null || !user.getGeneratedToken().equals(userToken)){ // Comparação dos tokens
 				session.invalidate();	// Força o logout.
-				return false; // Se os tokens divergirem, negar a ação.
+				throw new DisallowedOperationException("Token Inválido"); // Se os tokens divergirem, negar a ação.
 			}
 		} catch (UserNotFoundException e) {
 			session.invalidate();	// Força o logout.
@@ -169,14 +193,14 @@ public class AuthBean {
 	 * @throws UserNotFoundException
 	 * @throws UnreachableDataBaseException
 	 */
-	public boolean allowedOperation(String requiredPermission, HttpSession session, boolean tokenRequired) throws UnreachableDataBaseException {
+	public boolean allowedOperation(String requiredPermission, HttpSession session, boolean tokenRequired) throws UnreachableDataBaseException, DisallowedOperationException {
 		if(session.getAttribute("userLoginSuccessfull") != null && !(Boolean) session.getAttribute("userLoginSuccessfull")) return false;	// Verifica se o usuário está logado
 		if(tokenRequired){	// Verifica se a ação requer autenticação por token
-			if(!validateToken(session))	return false;			
+			if(!validateToken(session))	throw new DisallowedOperationException("Opeção não permitido");			
 		}
 		
 		for(String s : (String[])session.getAttribute("userPermissions"))
 			if(s.equals(requiredPermission))	return true;	// Verifica se o usuário tem permissão para executar uma derteminada ação.
-		return false;
+		throw new DisallowedOperationException("Opeção não permitido");
 	}
 }

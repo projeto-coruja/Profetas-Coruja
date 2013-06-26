@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import persistence.dto.UserAccount;
+import webview.util.AlertsUtility;
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
 import business.DAO.login.UserDAO;
+import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
@@ -62,6 +64,8 @@ public class AccountRemovalServlet extends HttpServlet {
 			e.printStackTrace();
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
+		} catch (DisallowedOperationException e) {
+			AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "public/index.jsp");
 		}
 	}
 	
