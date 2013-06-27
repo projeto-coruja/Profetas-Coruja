@@ -47,7 +47,7 @@ public class GrupoMovimentoDAO {
 		}
 	}
 	
-	public void removeGroupMovementByName(String name) throws UnreachableDataBaseException, GroupMovementNotFoundException {
+	/*public void removeGroupMovementByName(String name) throws UnreachableDataBaseException, GroupMovementNotFoundException {
 		List<DTO> check = null;
 		GrupoMovimento select = null;
 		try {
@@ -62,7 +62,7 @@ public class GrupoMovimentoDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
-	}
+	}*/
 	
 	public void updateGroupMovement(GrupoMovimento groupMovement) 
 			throws UnreachableDataBaseException, IllegalAccessException, IllegalArgumentException, 
@@ -78,21 +78,21 @@ public class GrupoMovimentoDAO {
 		}
 	}
 	
-	public List<DTO> findGroupMovementByName(String groupMovementName) throws  UnreachableDataBaseException, GroupMovementNotFoundException {
+	public GrupoMovimento findGroupMovementByName(String groupMovementName) throws  UnreachableDataBaseException, GroupMovementNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM GrupoMovimentoMO WHERE nome LIKE '%" + groupMovementName + "%' ORDER BY nome");
 			if(resultSet == null) {
 				throw new GroupMovementNotFoundException ("Grupo/Movimento não encontrado.");
 			}
-			else return resultSet;
+			else return (GrupoMovimento) resultSet.get(0);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
 	}
 	
-	public List<DTO> getAllReligions() throws  UnreachableDataBaseException, GroupMovementNotFoundException {
+	public List<DTO> getAllGroupsMovement() throws  UnreachableDataBaseException, GroupMovementNotFoundException {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM GrupoMovimentoMO ORDER BY nome");

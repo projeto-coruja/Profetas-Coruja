@@ -3,127 +3,95 @@ package business.Bean.model;
 import java.util.List;
 
 import persistence.dto.DTO;
-import persistence.dto.Encontro;
+import persistence.dto.LocaisPersonagens;
 import persistence.exceptions.UpdateEntityException;
-import business.DAO.model.EncontroDAO;
+import business.DAO.model.LocaisPersonagensDAO;
 import business.exceptions.login.UnreachableDataBaseException;
-import business.exceptions.model.EncounterNotFoundException;
 import business.exceptions.model.LocalNotFoundException;
+import business.exceptions.model.LocalsCharactersNotFoundException;
 import datatype.SimpleDate;
 
 public class LocaisPersonagensBean {
 	
-	EncontroDAO dao;
+	LocaisPersonagensDAO dao;
 
 	public LocaisPersonagensBean() {
-		dao = new EncontroDAO();
+		dao = new LocaisPersonagensDAO();
 	}
 	
 	/**
-	 * Adiciona um Encontro novo.
+	 * Adiciona um Local novo onde o Personagem passou.
 	 * 
-	 * @param date data do Encontro.
-	 * @param localName nome do local do Encontro.
+	 * @param localName nome do Local.
+	 * @param arrivalYear ano de chegada.
+	 * @param leaveYear ano de saída.
 	 * @throws UnreachableDataBaseException
-	 * @throws EncounterNotFoundException
 	 * @throws LocalNotFoundException
 	 */
-	public synchronized void addEncounter(SimpleDate date, String localName) throws UnreachableDataBaseException, EncounterNotFoundException, LocalNotFoundException {
+	public synchronized void addLocalsCharacters(String localName, SimpleDate arrivalYear, SimpleDate leaveYear) throws UnreachableDataBaseException, LocalNotFoundException {
 		//localName = localName.toLowerCase();
 		try {
-			List<DTO> check = dao.findEncounterByDate(date);
+			List<DTO> check = dao.findLocalsCharacters(localName);
 			for (DTO dto : check) {
-				if (((Encontro) dto).getData().equals(date) && ((Encontro) dto).getLocal().getNome().equals(localName))
-					throw new IllegalArgumentException("Encontro já existe.");
+				if (((LocaisPersonagens) dto).getAnoChegada().equals(arrivalYear) && ((LocaisPersonagens) dto).getAnoSaida().equals(leaveYear))
+					throw new IllegalArgumentException("Dado já existe.");
 			}
-			try {
-				dao.addEncounter(date, localName);
-			} catch (UnreachableDataBaseException e1) {
-				e1.printStackTrace();
-			}
-		} catch (LocalNotFoundException e) {
-			try {
-				dao.addEncounter(date, localName);
-			} catch (UnreachableDataBaseException e2) {
-				e2.printStackTrace();
-			}
+		} catch (LocalsCharactersNotFoundException e) {
+			dao.addLocalsCharacters(localName, arrivalYear, leaveYear);
 		}
-	}
-
-	/*public synchronized void removeEncounter(String localName) {
-		PersonagemBean personagemBean = new PersonagemBean();
-		List<DTO> results = null;
-
-		//localName = localName.toLowerCase();
-
-		try {
-			results = personagemBean.findCharacterByEncounter(localName);
-			for(DTO dto : results){
-				Personagem personagem = (Personagem) dto;
-				if(personagem.getEncontro() != null){
-					personagem.setEncontro(null);
-				}
-				personagemBean.updateCharacter(personagem);
-			}
-		} catch (CharacterNotFoundException e) {
-			
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (UpdateEntityException e) {
-			e.printStackTrace();
-		} finally {
-			dao.removeEncounter(localName);
-		}
-	}*/
+	}	
 	
 	/**
-	 * Remove um Local específico.
+	 * Remove um Local específico onde o Personagem passou.
 	 * 
-	 * @param localName nome do local do Encontro a ser removido.
+	 * @param localName nome do Local.
 	 * @throws UnreachableDataBaseException
-	 * @throws EncounterNotFoundException
+	 * @throws LocalsCharactersNotFoundException
 	 */
-	public synchronized void removeEncounter(String localName) throws UnreachableDataBaseException, EncounterNotFoundException {
-		dao.removeEncounter(localName);		
+	public synchronized void removeLocalsCharacters(String localName) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
+		dao.removeLocalsCharacters(localName);		
 	}
 	
+
 	/**
-	 * Atualiza um Encontro específico
+	 * Atualiza dados do Local onde o Personagem passou.
 	 * 
-	 * @param oldEncounterLocal nome do Local do Encontro a ser atualizado.
-	 * @param newEncounterLocal nome novo do Local do Encontro.
-	 * @param newDate data nova do Encotro.
+	 * @param oldLocal nome do Local a ser modificado.
+	 * @param newLocal nome novo do Local.
+	 * @param arrivalYear ano de chegada.
+	 * @param leaveYear ano de saída.
 	 * @throws UnreachableDataBaseException
 	 * @throws IllegalArgumentException
 	 * @throws UpdateEntityException
-	 * @throws EncounterNotFoundException
+	 * @throws LocalsCharactersNotFoundException
 	 */
-	public synchronized void updateEncounter(String oldEncounterLocal, String newEncounterLocal, SimpleDate newDate) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, EncounterNotFoundException {
-		if(oldEncounterLocal == null || newEncounterLocal == null || newDate == null || oldEncounterLocal.equals("") || newEncounterLocal.equals("") || newDate.equals("")) 
+	public synchronized void updateLocalsCharacters(String oldLocal, String newLocal, SimpleDate arrivalYear, SimpleDate leaveYear) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, LocalsCharactersNotFoundException {
+		if(oldLocal == null || newLocal == null || arrivalYear == null || leaveYear == null ||
+				oldLocal.equals("") || newLocal.equals("") || arrivalYear.equals("") || leaveYear.equals("")) 
 			throw new IllegalArgumentException("Argumentos não podem ser nulos/vazios.");
 		
-		oldEncounterLocal = oldEncounterLocal.toLowerCase();
-		newEncounterLocal = newEncounterLocal.toLowerCase();
+		oldLocal = oldLocal.toLowerCase();
+		newLocal = newLocal.toLowerCase();
 		try{
-			List<DTO> check = dao.findEncounterByLocalName(newEncounterLocal);
+			List<DTO> check = dao.findLocalsCharacters(newLocal);
 			for (DTO dto : check) {
-				if (((Encontro) dto).getLocal().equals(newEncounterLocal))
+				if (((LocaisPersonagens) dto).getLocal().equals(newLocal))
 					throw new IllegalArgumentException("Encontro já existe.");
 			}
-		} catch (EncounterNotFoundException e){
-			dao.updateEncounter(oldEncounterLocal, newEncounterLocal, newDate);
+		} catch (LocalsCharactersNotFoundException e){
+			dao.updateLocalsCharacters(oldLocal, newLocal, arrivalYear, leaveYear);
 		}		
 	}
 	
 	/**
-	 * Retorna uma lista dos Encontros existentes.
+	 * Retorna todos Locais por onde o Personagem já passou.
 	 * 
-	 * @return uma lista dos Encontros existentes.
+	 * @return uma lista dos Locais por onde o Personagem já passou.
 	 * @throws UnreachableDataBaseException
-	 * @throws EncounterNotFoundException
+	 * @throws LocalsCharactersNotFoundException
 	 */
-	public List<DTO> listAllEncounters() throws UnreachableDataBaseException, EncounterNotFoundException {
-		return dao.getAllEncounters();
+	public List<DTO> listAllEncounters() throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
+		return dao.getAllLocalsCharacters();
 	}
 
 }

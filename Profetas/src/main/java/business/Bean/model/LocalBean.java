@@ -43,7 +43,7 @@ public class LocalBean {
 	 * @param longitude - Longitude do Local a ser removido.
 	 * @throws UnreachableDataBaseException
 	 */
-	public synchronized void removeLocal(double latitude, double longitude) throws UnreachableDataBaseException{
+	public synchronized void removeLocal(double latitude, double longitude) throws UnreachableDataBaseException {
 		Local local;
 		try {
 			local = dao.findExactLocal(latitude, longitude);
@@ -67,7 +67,9 @@ public class LocalBean {
 	 * @throws IllegalArgumentException
 	 * @throws UpdateEntityException
 	 */
-	public synchronized void updateLocal(String name, double latitude, double longitude, String newName, double newLatitude, double newLongitude) throws UnreachableDataBaseException, LocalNotFoundException, IllegalArgumentException, UpdateEntityException{
+	public synchronized void updateLocal(String name, double latitude, double longitude, String newName, double newLatitude, double newLongitude) 
+			throws UnreachableDataBaseException, LocalNotFoundException, IllegalArgumentException, UpdateEntityException {
+		
 		Local local  = dao.findExactLocal(latitude, longitude);
 		local.setNome(newName);
 		local.setLatitude(newLatitude);
@@ -82,7 +84,7 @@ public class LocalBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws LocalNotFoundException
 	 */
-	public List<DTO> listAllLocals() throws UnreachableDataBaseException, LocalNotFoundException{
+	public List<DTO> listAllLocals() throws UnreachableDataBaseException, LocalNotFoundException {
 		return dao.findAllLocal();
 	}
 	

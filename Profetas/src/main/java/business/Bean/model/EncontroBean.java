@@ -28,25 +28,16 @@ public class EncontroBean {
 	 * @throws EncounterNotFoundException
 	 * @throws LocalNotFoundException
 	 */
-	public synchronized void addEncounter(SimpleDate date, String localName) throws UnreachableDataBaseException, EncounterNotFoundException, LocalNotFoundException {
+	public synchronized void addEncounter(SimpleDate date, String localName) throws UnreachableDataBaseException, LocalNotFoundException {
 		//localName = localName.toLowerCase();
 		try {
 			List<DTO> check = dao.findEncounterByDate(date);
 			for (DTO dto : check) {
-				if (((Encontro) dto).getData().equals(date) && ((Encontro) dto).getLocal().getNome().equals(localName))
+				if (((Encontro) dto).getLocal().getNome().equals(localName))
 					throw new IllegalArgumentException("Encontro já existe.");
 			}
-			try {
-				dao.addEncounter(date, localName);
-			} catch (UnreachableDataBaseException e1) {
-				e1.printStackTrace();
-			}
-		} catch (LocalNotFoundException e) {
-			try {
-				dao.addEncounter(date, localName);
-			} catch (UnreachableDataBaseException e2) {
-				e2.printStackTrace();
-			}
+		} catch (EncounterNotFoundException e) {
+			dao.addEncounter(date, localName);
 		}
 	}
 

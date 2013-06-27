@@ -23,16 +23,7 @@ public class GrupoPersonagemDAO {
 	}
 	
 	public GrupoPersonagem addGroupCharacter(SimpleDate entryYear, String groupMovementName) throws UnreachableDataBaseException, GroupMovementNotFoundException {
-		GrupoMovimentoDAO newGrupoMovimentoDAO = new GrupoMovimentoDAO();
-		GrupoMovimento newGrupoMovimento = null;
-		
-		List<DTO> check = newGrupoMovimentoDAO.findGroupMovementByName(groupMovementName);
-		for (DTO dto : check) {
-			if(((GrupoMovimento) dto).getNome().equals(groupMovementName)) {
-				newGrupoMovimento = (GrupoMovimento) dto;
-			}
-		}
-		
+		GrupoMovimento newGrupoMovimento = (new GrupoMovimentoDAO()).findGroupMovementByName(groupMovementName);		
 		GrupoPersonagem newGroupCharacter = new GrupoPersonagem(entryYear, newGrupoMovimento);
 		
 		try {
@@ -70,11 +61,7 @@ public class GrupoPersonagemDAO {
 		try {
 			if(newGroupMovementName != null && !newGroupMovementName.isEmpty()) {
 				try {	
-					check = (new GrupoMovimentoDAO()).findGroupMovementByName(newGroupMovementName);
-					for(DTO dto : check) {
-						if(((GrupoMovimento) dto).getNome().equals(newGroupMovementName))
-							selectGrupoMovimento = (GrupoMovimento) dto;
-					}
+					selectGrupoMovimento = (new GrupoMovimentoDAO()).findGroupMovementByName(newGroupMovementName);
 				} catch(DataAccessLayerException e) {
 					e.printStackTrace();
 					throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
