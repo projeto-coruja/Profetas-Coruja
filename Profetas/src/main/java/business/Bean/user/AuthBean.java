@@ -38,6 +38,14 @@ public class AuthBean {
 	 */
 	public static final String sessionUserAccessToken = "userAccessToken";
 	/**
+	 * Atributo de sessão
+	 */
+	public static final String sessionUserAccessTokenCreatedTime = "userAccessTokenCreatedTime";
+	/**
+	 * Atributo de sessão
+	 */
+	public static final String sessionUserAccessTokenLifeTime = "userAccessTokenLifeTime";
+	/**
 	 * Atributo de sessão: userLoginSuccessfull
 	 */
 	public static final String sessionUserLoginSuccessfull = "userLoginSuccessfull";
@@ -81,6 +89,7 @@ public class AuthBean {
 			hashedPassword = password;
 
 		if (check.getPassword().equals(hashedPassword)){	// Verifica se a senha fornecido é a mesma da cadastrada.
+			TokenValidityChecker tvc = TokenValidityChecker.getInstance();
 			// Gera um token.
 			String sessionToken = EJBUtility.genRandomToken("LOG");
 			// Grava o token no banco de dados.
@@ -93,6 +102,8 @@ public class AuthBean {
 			session.setAttribute(sessionUserName, check.getName());
 			session.setAttribute(sessionUserPermissions, check.getProfile().getPermissions());
 			session.setAttribute(sessionUserAccessToken, sessionToken);
+			session.setAttribute(sessionUserAccessTokenCreatedTime, new GregorianCalendar().getTimeInMillis());
+			session.setAttribute(sessionUserAccessTokenLifeTime, tvc.getExpireTime());
 			session.setAttribute(sessionUserLoginSuccessfull, true);
 			
 		}
