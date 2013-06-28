@@ -46,7 +46,7 @@ public class LoginCheckerFilter implements Filter {
 			long created = (Long) session.getAttribute(AuthBean.sessionUserAccessTokenCreatedTime);
 			int expire = (Integer) session.getAttribute(AuthBean.sessionUserAccessTokenLifeTime);
 			
-			if((time - created) >= expire){
+			if(expire != 0 && (time - created) >= expire){
 				try {
 					auth.logOut(session);
 				} catch (UserNotFoundException e) {

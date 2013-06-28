@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<element name="message-repository">
+		<complexType>
+			<sequence>
+				<element name="category" maxOccurs="unbounded" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="context">
+								<complexType>
+									<sequence>
+										<element name="message" maxOccurs="unbounded"
+											minOccurs="0">
+											<complexType>
+												<simpleContent>
+													<extension base="string">
+														<attribute type="byte" name="id" use="optional" />
+														<attribute type="string" name="reference" use="optional" />
+													</extension>
+												</simpleContent>
+											</complexType>
+										</element>
+									</sequence>
+									<attribute type="string" name="name" use="optional" />
+								</complexType>
+							</element>
+						</sequence>
+						<attribute type="string" name="name" use="optional" />
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
