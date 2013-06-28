@@ -22,7 +22,7 @@ import business.exceptions.login.UserNotFoundException;
  * O verificador somente irá executar uma ação quando der tempo para vencer qualquer token desde a ultima verificação.<br>
  * <br>
  * Exemplo:<br>
- * Se o token a cada 10 minutos. O verificador só irá fazer a verificação de 10 em 10 minutos.
+ * Se o token vence a cada 10 minutos. O verificador só irá fazer a verificação de 10 em 10 minutos.
  */
 public class TokenValidityChecker {
 	
@@ -45,8 +45,8 @@ public class TokenValidityChecker {
 		 * 1 minuto = 60000
 		 */
 		//expireTime = 3600000;
-		//expireTime = (int) TimeUnit.DAYS.toMillis(1);
-		expireTime = (int) TimeUnit.SECONDS.toMillis(10);
+		expireTime = (int) TimeUnit.DAYS.toMillis(1);
+//		expireTime = (int) TimeUnit.SECONDS.toMillis(10); // Teste
 		//=====
 		dao = new UserDAO();
 		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); // Seta formatação de data para a verificação no banco.
