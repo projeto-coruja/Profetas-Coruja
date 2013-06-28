@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message-repository
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="msg-repo-coruja1.0.xsd">
+<!-- 	<category name="aCategory"> -->
+<!-- 		<context name="somewhere"> -->
+<!-- 			<message id="1" reference="alsoThere">It broke because aliens.</message> -->
+<!-- 			<message id="2" reference="alsoThere">It broke because magnets.</message> -->
+<!-- 			<message id="3" reference="alsoThere">It broke because aliens and magnets.</message> -->
+<!-- 		</context> -->
+<!-- 	</category> -->
+<!-- 	<category name="bCategory"> -->
+<!-- 		<context name="somewhere"> -->
+<!-- 			<message id="1" reference="alsoThere">It broke because aliens.</message> -->
+<!-- 			<message id="2" reference="alsoThere">It broke because magnets.</message> -->
+<!-- 			<message id="3" reference="alsoThere">It broke because aliens and magnets.</message> -->
+<!-- 		</context> -->
+<!-- 	</category> -->
+
+		<category name="ServletMsg">
+			<context name="LoginServlet">
+				<message id="0"	reference="LoginFailed">Problema na autenticação.</message>
+				<message id="1"	reference="LoginFailed">public/index.jsp</message>
+				<message id="0"	reference="UserNotFoundException">Login incorreto! Verifique seu email e senha, e tente de novo.</message>
+			</context>
+			<context name="LogoutServlet">
+				<message id="0"	reference="LogoutSuccessful">Logout feito com sucesso!</message>
+			</context>
+		</category>
+
+</message-repository>

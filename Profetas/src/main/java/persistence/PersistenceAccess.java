@@ -47,7 +47,7 @@ public class PersistenceAccess {
 	 * @param dto - objeto que será atualizado.
 	 * @throws IllegalArgumentException
 	 */
-	public void updateEntity(DTO dto) throws IllegalArgumentException {
+	public synchronized void updateEntity(DTO dto) throws IllegalArgumentException {
 		EntityModel entity = man.find(du.findEntityClassForDTO(dto), dto.getId());
 		if(entity == null) throw new IllegalArgumentException("NÃO MEXA NO ID DE DTOs!");
 		du.updateEntityFromDTO((EntityModel) entity, dto);
@@ -60,7 +60,7 @@ public class PersistenceAccess {
 	 * @return Lista de DTOs contendo o resultado da busca.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<DTO> findEntity(String query) {
+	public synchronized List<DTO> findEntity(String query) {
 		List<Object> resultSet = man.find(query);
 		if(resultSet == null || resultSet.isEmpty()) {
 			man.finishOperation();
@@ -78,7 +78,7 @@ public class PersistenceAccess {
 	 * Deleta uma entidade do banco de dados.
 	 * @param dto - DTO a ser deletado.
 	 */
-	public void deleteEntity(DTO dto) {
+	public synchronized void deleteEntity(DTO dto) {
 		Object dead = man.find(du.findEntityClassForDTO(dto), dto.getId());
 		man.delete((EntityModel) dead);
 	}
@@ -89,7 +89,7 @@ public class PersistenceAccess {
 	 * @param criteria - Critério da conta.
 	 * @return Long contendo o número de linhas que satisfazem o critério passado.
 	 */
-	public Long countRows(String name, String criteria) {
+	public synchronized Long countRows(String name, String criteria) {
 		return man.count(du.findEntityNameForDTOName(name), criteria);
 	}
 

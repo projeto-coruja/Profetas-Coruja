@@ -20,7 +20,7 @@ import business.exceptions.login.UserNotFoundException;
 /**
  * Servlet Filter implementation class RootFilter
  */
-@WebFilter("*")
+@WebFilter("/*")
 public class LoginCheckerFilter implements Filter {
 
     /**
@@ -44,7 +44,7 @@ public class LoginCheckerFilter implements Filter {
 		if(auth.isLoggedIn(session)){
 			long time = new GregorianCalendar().getTimeInMillis();
 			long created = (Long) session.getAttribute(AuthBean.sessionUserAccessTokenCreatedTime);
-			long expire = (Long) session.getAttribute(AuthBean.sessionUserAccessTokenLifeTime);
+			int expire = (Integer) session.getAttribute(AuthBean.sessionUserAccessTokenLifeTime);
 			
 			if((time - created) >= expire){
 				try {
@@ -56,6 +56,7 @@ public class LoginCheckerFilter implements Filter {
 				}
 			}
 		}
+		chain.doFilter(request, response);
 	}
 
 	/**

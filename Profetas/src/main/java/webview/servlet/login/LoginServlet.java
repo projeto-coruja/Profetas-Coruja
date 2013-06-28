@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import persistence.exceptions.UpdateEntityException;
 
 import webview.util.AlertsUtility;
+import business.Bean.messages.MessageRetriever;
 import business.Bean.user.AuthBean;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -35,6 +36,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		MessageRetriever msg = MessageRetriever.getInstance();
 		AuthBean auth = new AuthBean();
 		// Recebe os parâmetros enviado via método post do HTML
 		String user = request.getParameter("user");
@@ -48,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 			if(!auth.isLoggedIn(session)){	// Verifica se a atenticação foi mal sucedido
 				// Caso a autenticação não tenha sido bem sucedido, exibe uma mensagem de erro na tela do usuário 
 				AlertsUtility.alertAndRedirectPage(response, 
-						"Problema na autenticação.", 
+						msg.getMessage("ServletMsg", "LoginServlet", "LoginFailed", 0), 
 						indexPage);
 			}
 			AlertsUtility.redirectOnly(response, indexPage);	// Caso bem sucedido, somente redireciona o usuário
@@ -56,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 		} catch (UserNotFoundException e) {	// Caso o email não exista no banco de dados.
 			AlertsUtility.alertAndRedirectPage(response, 
-					"Login incorreto! Verifique seu email e senha, e tente de novo.", 
+					msg.getMessage("ServletMsg", "LoginServlet", "UserNotFoundException", 0), 
 					indexPage);
 		} catch (IllegalArgumentException e) {	// Caso ocorra alguma entrada ilegal (ex. email inválido); nota: isso deve ser tratado antes do formulário ser enviado!
 		e.printStackTrace();

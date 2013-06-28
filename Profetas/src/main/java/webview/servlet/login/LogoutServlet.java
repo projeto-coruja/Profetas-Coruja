@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import business.Bean.messages.MessageRetriever;
 import business.Bean.user.AuthBean;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -35,6 +36,7 @@ public class LogoutServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();	// Pega a sessão do usuário.
 		AuthBean auth = new AuthBean();
+		MessageRetriever msg = MessageRetriever.getInstance();
 		try {
 			auth.logOut(session);	// Chama o método de logout.
 		} catch (UserNotFoundException e) {
@@ -43,8 +45,8 @@ public class LogoutServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		AlertsUtility.redirectOnly(response, "public/index.jsp");
-//		AlertsUtility.alertAndRedirectPage(response, "Logout feito com sucesso!", "public/index.jsp"); // Exibe alerta e redireciona o usuário para a home.
+//		AlertsUtility.redirectOnly(response, "public/index.jsp");
+		AlertsUtility.alertAndRedirectPage(response, msg.getMessage("ServletMsg", "LogoutServlet", "LogoutSuccessful", 0), "public/index.jsp"); // Exibe alerta e redireciona o usuário para a home.
 	}
 
 }
