@@ -12,6 +12,7 @@ import persistence.dto.UserAccount;
 import webview.util.AlertsUtility;
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
+import business.Bean.user.Permissions;
 import business.DAO.login.UserDAO;
 import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -46,7 +47,7 @@ public class AccountRemovalServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		
 		try {
-			if(auth.allowedOperation("userRemovalPermission", request.getSession(), true)){
+			if(auth.allowedOperation(Permissions.userRemovalPermission, request.getSession(), true)){
 				
 				userToRemove = loginDAO.findUserByEmail(email);
 

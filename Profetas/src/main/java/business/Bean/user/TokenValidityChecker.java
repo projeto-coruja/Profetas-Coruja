@@ -1,10 +1,11 @@
-package business.Bean.util;
+package business.Bean.user;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Timer;
 
@@ -43,13 +44,14 @@ public class TokenValidityChecker {
 		 * Tempo para o token expirar em milisegundos.
 		 * 1 minuto = 60000
 		 */
-		expireTime = 60000;
+		//expireTime = 3600000;
+		expireTime = (int) TimeUnit.DAYS.toMillis(1);
 		//=====
 		dao = new UserDAO();
 		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); // Seta formatação de data para a verificação no banco.
 		threshold = sdf.format(new GregorianCalendar().getTime());	// Seta a limiar para a próxima verificação.
 		
-		timer = new Timer(60000, new ActionListener() { // Intancia um novo timer, o timer executará o action listener a cada n milisegundos.  
+		timer = new Timer(expireTime, new ActionListener() { // Intancia um novo timer, o timer executará o action listener a cada n milisegundos.  
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -60,7 +62,7 @@ public class TokenValidityChecker {
 				threshold = sdf.format(new GregorianCalendar().getTime()); // Seta o novo limiar
 			}
 		});
-		timer.start();
+		if(expireTime != 0)	timer.start();
 	}
 	/**
 	 * Pega a instancia do verificador.

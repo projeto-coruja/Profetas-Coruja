@@ -1,6 +1,8 @@
 package business.Bean.user;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,23 +24,23 @@ public class AuthBean {
 	/**
 	 * Atributo de sessão: userMail
 	 */
-	public static String sessionUserMail = "userMail";
+	public static final String sessionUserMail = "userMail";
 	/**
 	 * Atributo de sessão: userName
 	 */
-	public static String sessionUserName = "userName";
+	public static final String sessionUserName = "userName";
 	/**
 	 * Atributo de sessão: userPermissions
 	 */
-	public static String sessionUserPermissions = "userPermissions";
+	public static final String sessionUserPermissions = "userPermissions";
 	/**
 	 * Atributo de sessão: userAccessToken
 	 */
-	public static String sessionUserAccessToken = "userAccessToken";
+	public static final String sessionUserAccessToken = "userAccessToken";
 	/**
 	 * Atributo de sessão: userLoginSuccessfull
 	 */
-	public static String sessionUserLoginSuccessfull = "userLoginSuccessfull";
+	public static final String sessionUserLoginSuccessfull = "userLoginSuccessfull";
 	
 	/**
 	 * Flag para habilitar hash de senha
@@ -193,14 +195,27 @@ public class AuthBean {
 	 * @throws UserNotFoundException
 	 * @throws UnreachableDataBaseException
 	 */
-	public boolean allowedOperation(String requiredPermission, HttpSession session, boolean tokenRequired) throws UnreachableDataBaseException, DisallowedOperationException {
+	public boolean allowedOperation(Permissions requiredPermission, HttpSession session, boolean tokenRequired) throws UnreachableDataBaseException, DisallowedOperationException {
 		if(session.getAttribute("userLoginSuccessfull") != null && !(Boolean) session.getAttribute("userLoginSuccessfull")) return false;	// Verifica se o usuário está logado
 		if(tokenRequired){	// Verifica se a ação requer autenticação por token
-			if(!validateToken(session))	throw new DisallowedOperationException("Opeção não permitido");			
+			if(!validateToken(session))	throw new DisallowedOperationException("Operação não permitido");			
 		}
 		
 		for(String s : (String[])session.getAttribute("userPermissions"))
-			if(s.equals(requiredPermission))	return true;	// Verifica se o usuário tem permissão para executar uma derteminada ação.
+			if(s.equals(requiredPermission.name()))	return true;	// Verifica se o usuário tem permissão para executar uma derteminada ação.
 		throw new DisallowedOperationException("Opeção não permitido");
+	}
+	
+	/**
+	 * Lista todas as permissões disponível.
+	 * @return <code>List&lt;String&gt;</code> contendo todas as permissões do enum <code>Permissions</code>.
+	 */
+	public List<String> listAllPermission(){
+		List<String> permissionList = new ArrayList<String>();
+		Permissions[] plist = Permissions.values();
+		for(Permissions p : plist){
+			permissionList.add(p.name());
+		}
+		return permissionList;
 	}
 }

@@ -19,8 +19,8 @@ import persistence.dto.DTO;
 import persistence.dto.Profile;
 import persistence.dto.UserAccount;
 import persistence.util.PersistenceUtility;
+import business.Bean.user.TokenValidityChecker;
 import business.Bean.util.EJBUtility;
-import business.Bean.util.TokenValidityChecker;
 
 /**
  * Servlet implementation class InitServlet

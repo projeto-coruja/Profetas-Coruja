@@ -11,9 +11,9 @@ import javax.servlet.http.HttpSession;
 
 import persistence.exceptions.UpdateEntityException;
 import webview.util.AlertsUtility;
-
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
+import business.Bean.user.Permissions;
 import business.Bean.user.RegisterUserBean;
 import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.DuplicateUserException;
@@ -63,7 +63,7 @@ public class AccountServlet extends HttpServlet {
 					}
 				}
 				// Verifica se a mudança vai ser em outra conta (Precisa ter permissão especial).
-				else if(action.equals("changeUserAccountInformation") && auth.allowedOperation("userInfoUpdatePermission", session, true)){
+				else if(action.equals("changeUserAccountInformation") && auth.allowedOperation(Permissions.userInfoUpdatePermission, session, true)){
 					AdminBean admin = new AdminBean();
 					admin.changeUserInformation(email, newEmail, newPassword, newProfile);	
 				}

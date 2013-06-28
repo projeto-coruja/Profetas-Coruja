@@ -13,6 +13,7 @@ import webview.util.AlertsUtility;
 import webview.util.WebUtility;
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;
+import business.Bean.user.Permissions;
 import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.DuplicateUserException;
 import business.exceptions.login.IncorrectLoginInformationException;
@@ -56,7 +57,7 @@ public class AdminRegisterServlet extends HttpServlet {
 			AdminBean adminBean = new AdminBean();
 			
 			try {
-				if(auth.allowedOperation("addNewUserPermission", session, true)){
+				if(auth.allowedOperation(Permissions.addNewUserPermission, session, true)){
 					adminBean.addUser(email, nome, senha, permissao);
 					response.setContentType("text/html; charset=UTF-8");
 				
