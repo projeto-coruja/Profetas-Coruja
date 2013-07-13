@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import persistence.exceptions.UpdateEntityException;
 import webview.util.AlertsUtility;
-
-import business.Bean.messages.MessageRetriever;
 import business.Bean.user.AdminBean;
 import business.exceptions.login.IncorrectProfileInformationException;
 import business.exceptions.login.ProfileNotFoundException;
@@ -35,7 +33,6 @@ public class AccountApprovalServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AdminBean adminBean = new AdminBean();
-		MessageRetriever msg = MessageRetriever.getInstance();
 		
 		try {
 			adminBean.changeUserProfile(request.getParameter("email"), request.getParameter("nivel"));
