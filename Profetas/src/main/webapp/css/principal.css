@@ -502,7 +502,7 @@ label {
 	width: 208px; /* Valor anterior: 180px; */
 	height: 1300px; /* 1280px; */
 	background-color: #033454; /* #24346F; */
-	padding-bottom: 10px;
+	/*padding-bottom: 10px;*/
 }
 
 /* Div do conteúdo interno do site, onde as outras páginas estão sendo carregadas dentro */

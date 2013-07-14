@@ -18,7 +18,7 @@
 				<snp:login />
 
 				<!-- Area de menu -->
-				<snp:login />
+				<snp:menu />
 			</div>
 
 			<!-- conteúdo -->
