@@ -7,10 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import persistence.dto.Classificacao;
 import persistence.dto.DTO;
 import persistence.dto.FontesObras;
-import persistence.dto.GrupoMovimento;
 import business.DAO.search.ClassificacaoSearchDAO;
 import business.DAO.search.FontesObrasSearchDAO;
 import business.DAO.search.GrupoMovimentoSearchDAO;
@@ -36,7 +34,7 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	@Test
+	//@Test
 	public void findBygrupoMovimentotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException, GroupMovementNotFoundException {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		GrupoMovimentoSearchDAO dao2 = new GrupoMovimentoSearchDAO();
@@ -54,6 +52,22 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
+	@Test
+		public void findByTitulotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException, GroupMovementNotFoundException {
+			FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
+			
+			
+		//	DTO tipo  = (DTO) dao.findExactFontesObras("Tragedia Grega");
+			//DTO tipo  = (DTO) dao.findFontesObrasByTitulo("Tragedia");
+			List<DTO> tipo =  dao.findFontesObrasByTitulo("Tragedia");
+			for(DTO g : tipo){
+				System.out.println(((DTO) g).getId());
+				System.out.println(((FontesObras)g).getTitulo());
+			}
+			
+			
+			
+		}
 	//@Test
 	public void findAlltest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra	

@@ -5,9 +5,9 @@ import java.util.List;
 import datatype.SimpleDate;
 
 import persistence.PersistenceAccess;
-import persistence.dto.Classificacao;
 import persistence.dto.DTO;
 import persistence.dto.FontesObras;
+import persistence.dto.GrupoMovimento;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
@@ -17,6 +17,34 @@ public class FontesObrasSearchDAO {
 	
 	public FontesObrasSearchDAO(){
 		manager= new PersistenceAccess();
+	}
+	
+	/**
+	 * Pesquisa por uma  exata fontesobras pesquisando por "id"
+	 * @param id - id da fontes/obras.
+	 * @throws UnreachableDataBaseException
+	 * @throws FontesObrasNotFoundException
+	 */
+	public FontesObras findExactFontesObrasById(long id) throws FontesObrasNotFoundException, UnreachableDataBaseException{
+		
+		List<DTO> resultSet = null;
+		try {
+			resultSet = manager.findEntity("FROM FontesObrasMO"+		
+					" where id = "+id+" "+
+					" ORDER BY nome ");
+			
+			if(resultSet == null) {
+				throw new FontesObrasNotFoundException ("Fontes Obras não encontrado.");
+			}
+			else{
+				
+				return (FontesObras) resultSet.get(0);
+			}
+		} catch (DataAccessLayerException e) {
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+		
 	}
 	/**
 	 * Pesquisa por uma FontesObras
@@ -28,8 +56,8 @@ public class FontesObrasSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM FontesObrasMO"+		
-					" where titulo = "+titulo+" "+
-					" ORDER BY nome ");
+					" where titulo = '"+titulo+"'"+
+					" ORDER BY titulo ");
 			
 			if(resultSet == null) {
 				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
@@ -54,7 +82,7 @@ public class FontesObrasSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("from FontesObrasMO where titulo like '%" + titulo +"%' "
-					+ "order by cod, titulo, anoInicio, anoFim");
+					+ "order by titulo");
 			
 			if(resultSet == null) {
 				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");

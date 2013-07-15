@@ -10,7 +10,6 @@ import persistence.dto.GrupoMovimento;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.GroupMovementNotFoundException;
-import business.exceptions.search.PersonagemNotFoundException;
 
 public class GrupoMovimentoSearchDAO {
 	
@@ -19,11 +18,11 @@ public class GrupoMovimentoSearchDAO {
 	public GrupoMovimentoSearchDAO(){
 		manager= new PersistenceAccess();
 	}
-	private String getQueryNormalization(String var){
+	/**private String getQueryNormalization(String var){
 		var.replace("'", "\'");
 				
 		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
-	}
+	}**/
 	/**
 	 * Pesquisa por um EXATO grupo movimento procurando pelo "nome"
 	 * @param nome - nome do grupo personagem.
@@ -31,12 +30,12 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws PersonagemNotFoundException
 	 */
 	public GrupoMovimento findExactGrupoMovimentoByNome(String nome) throws GroupMovementNotFoundException, UnreachableDataBaseException{
-		nome = getQueryNormalization(nome);
+		//nome = getQueryNormalization(nome);
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoMovimentoMO"+		
-					" where nome = "+nome+" "+
-					" ORDER BY nome ");
+			
+			resultSet = manager.findEntity("FROM GrupoMovimentoMO WHERE nome = '"+ nome +"'"
+					+ " ORDER BY nome");
 			
 			if(resultSet == null) {
 				throw new GroupMovementNotFoundException ("Grupo  Movimento não encontrado.");
@@ -54,9 +53,9 @@ public class GrupoMovimentoSearchDAO {
 	
 	/**
 	 * Pesquisa por um  exato grupo movimento pesquisando por "id"
-	 * @param nome - nome do grupo personagem.
+	 * @param id - id do grupo personagem.
 	 * @throws UnreachableDataBaseException
-	 * @throws PersonagemNotFoundException
+	 * @throws GroupMovementNotFoundException
 	 */
 	public GrupoMovimento findExactGrupoMovimentoById(int id) throws GroupMovementNotFoundException, UnreachableDataBaseException{
 		

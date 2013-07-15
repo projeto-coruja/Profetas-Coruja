@@ -2,6 +2,8 @@ package business.DAO.search;
 
 import java.util.List;
 
+import datatype.SimpleDate;
+
 import persistence.PersistenceAccess;
 import persistence.dto.DTO;
 import persistence.dto.GrupoPersonagem;
@@ -24,17 +26,17 @@ public class GrupoPersonagemSearchDAO {
 	}
 	/**
 	 * Pesquisa por um  grupo personagem
-	 * @param nome - nome do grupo personagem.
+	 * @param anoIngresso - ano de ingresso do grupo personagem.
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public GrupoPersonagem findExactGrupoPersonagem(String nome) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
-		nome = getQueryNormalization(nome);
+	public GrupoPersonagem findExactGrupoByAnoIngresso(SimpleDate anoIngresso) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
+	
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM GrupoPersonagemMO"+		
-					" where nome = "+nome+" "+
-					" ORDER BY nome ");
+					" where anoingresso = '"+ anoIngresso+ "'"+
+					" ORDER BY anoingresso ");
 			
 			if(resultSet == null) {
 				throw new GroupCharacterNotFoundException ("Grupo  de  Personagem não encontrado.");
@@ -52,7 +54,7 @@ public class GrupoPersonagemSearchDAO {
 	
 	/**
 	 * Pesquisa por um  grupo personagem
-	 * @param nome - nome do grupo personagem.
+	 * @param id - id do grupo personagem.
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
@@ -77,28 +79,7 @@ public class GrupoPersonagemSearchDAO {
 		}
 		
 	}
-	/**
-	 * Pesquisa por uma "parcela" do nome do Grupo personagem 
-	 * @param nome - nome do personagem.
-	 * @throws UnreachableDataBaseException
-	 * @throws PersonagemNotFoundException
-	 */
-	public List<DTO> findGrupoPersonagem(String nome) throws  UnreachableDataBaseException, GroupCharacterNotFoundException {
-		List<DTO> resultSet = null;
-		try {
-			resultSet = manager.findEntity("from GrupoPersonagemMO where nome like '%" + nome +"%' "
-					+ "order by anoIngresso");
-			
-			if(resultSet == null) {
-				throw new GroupCharacterNotFoundException ("Grupo Personagem não encontrado.");
-			}
-			else return resultSet;
-		
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
-		}
-	}
+	
 	
 	/**
 	 * Pesquisa todos os Grupos personagens 
