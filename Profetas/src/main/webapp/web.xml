@@ -15,6 +15,6 @@
   <tracking-mode>COOKIE</tracking-mode>
  </session-config>
  <welcome-file-list>
-  <welcome-file>/public/index.jsp</welcome-file>
+  <welcome-file>/jsp/index.jsp</welcome-file>
  </welcome-file-list>
 </web-app>

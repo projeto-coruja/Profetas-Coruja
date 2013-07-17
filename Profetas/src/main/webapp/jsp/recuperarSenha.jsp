@@ -23,7 +23,7 @@
 		
 			<div class="content" id="content">
 				<h1>Recuperar Senha</h1>
-				<form id="signupform" autocomplete="off" method="post" action="/GraoPara/passwordRecovery">
+				<form id="signupform" autocomplete="off" method="post" action="<c:url value="/doPasswordRecovery"/>">
 					<table class="tableForms">
 						<tr>
 							<td class="tdForms">
@@ -33,7 +33,7 @@
 						
 						<tr>
 							<td class="field">
-								<input class="input" name="email" id="email" type="text" size="20" maxlength="1024" />
+								<input class="input" name="mail" id="email" type="text" size="20" maxlength="1024" />
 							</td>
 							<td class="status"></td>
 						</tr>

@@ -27,10 +27,10 @@
 						
 						<div style="text-align:center; padding:0px 1px 8px;">
 							<input class="buttonEntrar" type="submit" name="Entrar"	value="Entrar" />
-							<a style="text-decoration: none; "href="<c:url value="/public/userCadastre.jsp"/>"><input type="button" class="buttonRegistrar" name="Registrar" value="Registrar"></a>
+							<a style="text-decoration: none; "href="<c:url value="/jsp/userCadastre.jsp"/>"><input type="button" class="buttonRegistrar" name="Registrar" value="Registrar"></a>
 						</div>
 						<div style="text-align:center; margin:-5px 0px -15px;">
-							<a style="text-decoration: none; "href="<c:url value="/public/recuperarSenha.jsp"/>">Esqueci a senha</a>
+							<a style="text-decoration: none; "href="<c:url value="/jsp/recuperarSenha.jsp"/>">Esqueci a senha</a>
 						</div>
 					</form>
 				</c:when>

@@ -6,7 +6,7 @@
 	<div class="conteudo">
 		<article class="menuLateral">
 			<ul class="nav" id="menu">
-				<li><a class="borderTop" class="noBorderTop" href="index.jsp">Home</a></li>
+				<li><a class="borderTop" class="noBorderTop" href="<c:url value="/jsp/index.jsp" />">Home</a></li>
 			</ul>
 		</article>
 	</div>
@@ -17,11 +17,12 @@
 	<div class="conteudo">
 		<article class="menuLateral">
 			<ul class="nav" id="menu">
-				<li><a class="borderTop" href="pesquisa.jsp">Pesquisar Documento</a></li>
+				<li><a class="borderTop" href="<c:url value="/jsp/pesquisa.jsp" />">Pesquisar Documento</a></li>
 			</ul>
 		</article>
 	</div>
 </div>
+
 <c:forEach var="permission" items="${sessionScope['userPermissions']}">
 	<c:if test="${permission == 'admin'}">
 		<!-- Cadastros -->
@@ -57,10 +58,10 @@
 	<div class="conteudo">
 		<article class="menuLateral">
 			<ul class="nav" id="menu">
-				<li><a class="borderTop" href="tutorialPesquisa.jsp">Como pesquisar no acervo</a></li>
-				<li><a href="sobre.jsp">Sobre</a></li>
-				<li><a href="contato.jsp">Contato</a></li>
-				<li><a href="creditos.jsp">Créditos</a></li>
+				<li><a class="borderTop" href="<c:url value="/jsp/tutorialPesquisa.jsp" />">Como pesquisar no acervo</a></li>
+				<li><a href="<c:url value="/jsp/sobre.jsp" />">Sobre</a></li>
+				<li><a href="<c:url value="/jsp/contato.jsp" />">Contato</a></li>
+				<li><a href="<c:url value="/jsp/creditos.jsp" />">Créditos</a></li>
 			</ul>
 		</article>
 	</div>

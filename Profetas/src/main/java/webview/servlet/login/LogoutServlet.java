@@ -43,7 +43,7 @@ public class LogoutServlet extends HttpServlet {
 		}
 		
 //		AlertsUtility.redirectOnly(response, "public/index.jsp");
-		AlertsUtility.alertAndRedirectPage(response, "Logout feito com sucesso.", "public/index.jsp"); // Exibe alerta e redireciona o usuário para a home.
+		AlertsUtility.alertAndRedirectPage(response, "Logout feito com sucesso.", "jsp/index.jsp"); // Exibe alerta e redireciona o usuário para a home.
 	}
 
 }

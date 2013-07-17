@@ -67,7 +67,7 @@ public class AccountServlet extends HttpServlet {
 					AdminBean admin = new AdminBean();
 					admin.changeUserInformation(email, newEmail, newPassword, newProfile);	
 				}
-				AlertsUtility.alertAndRedirectPage(response, "Informações atualizadas com sucesso!", "public/index.jsp");
+				AlertsUtility.alertAndRedirectPage(response, "Informações atualizadas com sucesso!", "jsp/index.jsp");
 			} catch (UnreachableDataBaseException e) {
 				e.printStackTrace();
 			} catch (UserNotFoundException e) {
@@ -81,11 +81,11 @@ public class AccountServlet extends HttpServlet {
 			} catch (ProfileNotFoundException e) {
 				e.printStackTrace();
 			} catch (DisallowedOperationException e) {
-				AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "public/index.jsp");
+				AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "jsp/index.jsp");
 			}
 		}
 		else{
-			AlertsUtility.alertAndRedirectPage(response, "ERRO!", "public/index.jsp");
+			AlertsUtility.alertAndRedirectPage(response, "ERRO!", "jsp/index.jsp");
 		}
 	}
 

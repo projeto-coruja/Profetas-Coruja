@@ -23,7 +23,7 @@ import business.exceptions.login.ProfileNotFoundException;
 public class UserRegisterServlet extends HttpServlet {
 	private final boolean autoApprove = true;
 	private final String defaultProfile = "user";
-	private final String indexPage = "public/index.jsp";
+	private final String indexPage = "jsp/index.jsp";
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -46,7 +46,7 @@ public class UserRegisterServlet extends HttpServlet {
 		String nome = WebUtility.removeAccents(request.getParameter("name"));
 		String email = request.getParameter("mail");
 		String senha = request.getParameter("password");
-
+		System.out.println(nome +"," + email +"," + senha);
 		if(!senha.equals(request.getParameter("confPassword"))){
 			AlertsUtility.alertAndRedirectHistory(response, "Senha inválida! Tente novamente.");
 		}
