@@ -32,7 +32,7 @@ public class PersonagemSearchDAO {
 		 * @throws UnreachableDataBaseException
 		 * @throws PersonagemNotFoundException
 		 */
-		public Personagem findExactPersonagem(String nome) throws PersonagemNotFoundException, UnreachableDataBaseException{
+		public Personagem findExactPersonagemByNome(String nome) throws PersonagemNotFoundException, UnreachableDataBaseException{
 			List<DTO> resultSet = null;
 			try {
 				resultSet = manager.findEntity("FROM PersonagemMO"+		
@@ -58,7 +58,7 @@ public class PersonagemSearchDAO {
 		 * @throws UnreachableDataBaseException
 		 * @throws PersonagemNotFoundException
 		 */
-		public List<DTO> findPersonagem(String nome) throws  UnreachableDataBaseException, PersonagemNotFoundException {
+		public List<DTO> findPersonagemByNome(String nome) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
 				resultSet = manager.findEntity("from PersonagemMO where nome like '%" + nome +"%' "
@@ -75,6 +75,116 @@ public class PersonagemSearchDAO {
 			}
 		}
 		
+		/**
+		 * Pesquisa por uma "parcela" do apelido do personagem 
+		 * @param apelido - apelido do personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 */
+		public List<DTO> findPersonagemByApelido(String apelido) throws  UnreachableDataBaseException, PersonagemNotFoundException {
+			List<DTO> resultSet = null;
+			try {
+				resultSet = manager.findEntity("from PersonagemMO where apelido like '%" + apelido +"%' "
+						+ "order by apelido");
+				
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+				}
+				else return resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
+		/**
+		 * Pesquisa personagens pelo local de nascimento
+		 * @param localnascimento_id - id do local de nascimento do personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 */
+		public List<DTO> findPersonagemByLocalNascimento(long localnascimento_id ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
+			List<DTO> resultSet = null;
+			try {
+				resultSet = manager.findEntity("from PersonagemMO where localnascimento_id  = '" + localnascimento_id +"' "
+						+ "order by apelido");
+				
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+				}
+				else return resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
+		/**
+		 * Pesquisa personagens pelo local da morte
+		 * @param localmorte_id - id do local da morte do personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 */
+		public List<DTO> findPersonagemByLocalMorte(long localmorte_id ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
+			List<DTO> resultSet = null;
+			try {
+				resultSet = manager.findEntity("from PersonagemMO where localmorte_id  = '" + localmorte_id +"' "
+						+ "order by apelido");
+				
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+				}
+				else return resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
+		/**
+		 * Pesquisa personagens pela data de nascimento
+		 * @param dataNascimento- data de nascimento do personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 */
+		public List<DTO> findPersonagemByDataNascimento(SimpleDate dataNascimento ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
+			List<DTO> resultSet = null;
+			try {
+				resultSet = manager.findEntity("from PersonagemMO where datanascimento = '" + dataNascimento +"' "
+						+ "order by apelido");
+				
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+				}
+				else return resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
+		/**
+		 * Pesquisa personagens pela data da morte
+		 * @param dataMorte- data da morte do personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 */
+		public List<DTO> findPersonagemByDataMorte(SimpleDate dataMorte ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
+			List<DTO> resultSet = null;
+			try {
+				resultSet = manager.findEntity("from PersonagemMO where datanascimento = '" + dataMorte +"' "
+						+ "order by apelido");
+				
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+				}
+				else return resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
 		/**
 		 * Pesquisa todos os personagens 
 		 * @throws UnreachableDataBaseException
@@ -94,68 +204,7 @@ public class PersonagemSearchDAO {
 			}
 		}
 		
-		/**
-		 * Adiciona um personagem 
-		 * @param nome - nome do personagem.
-		 * @param apelido - apelido do personagem.
-		 * @param localNascimento - Local localNascimento personagem.
-		 * @param dataNascimento - dataNascimento personagem.
-		 * @param localMorte - localMorte personagem.
-		 * @param dataMorte - dataMorte personagem.
-		 * @param biografia - biografia personagem.
-		 * @param ocupacao - ocupacao personagem.
-		 * @param formacao -formacao personagem.
-		 * @param referencia_bibliografica - referencia_bibliografica personagem.
-		 * @param religião - religião personagem.
-		 * @param grupo -  grupo personagem.
-		 * @param locaisVisitados - locaisVisitados personagem.
-		 * @param encontro -  encontro personagem.
-		 * @param obras - obras personagem.
-		 * @throws UnreachableDataBaseException
-		 * @throws PersonagemNotFoundException
-		 * @throws DuplicatePersonagemException
-		 */
-		/*public Personagem addPersonagem(String nome, String apelido,
-				Local localNascimento, SimpleDate dataNascimento, Local localMorte,
-				SimpleDate dataMorte, String biografia, String ocupacao,
-				String formacao, FontesObras referencia_bibliografica,
-				List<ReligiaoCrencas> religião, List<GrupoPersonagem> grupo,
-				List<LocaisPersonagens> locaisVisitados, List<Encontro> encontro,
-				List<FontesObras> obras) throws UnreachableDataBaseException, DuplicatePersonagemException {
-			
-			Personagem newId = new Personagem(nome, apelido, localNascimento, dataNascimento,localMorte,
-					dataMorte,biografia,  ocupacao,formacao, referencia_bibliografica,
-					religião, grupo, locaisVisitados, encontro, obras);
-			try{
-				findExactPersonagem(nome);
-				throw new DuplicatePersonagemException("Personagem ja existe.");
-			}catch(DataAccessLayerException e){
-				e.printStackTrace();
-				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");			
-			} catch (PersonagemNotFoundException e) {
-				manager.saveEntity(newId);
-				return newId;
-			}
-			// TODO Auto-generated method stub
-			
-		}*/
-		public Personagem novoaddPersonagem(int id, String apelido, String biografia, SimpleDate dataMorte, SimpleDate dataNascimento,
-				String formacao, String nome, String ocupacao, Local localMorte,Local localNascimento, 			 
-				FontesObras referencia_bibliografica) throws UnreachableDataBaseException, DuplicatePersonagemException {
-			
-			Personagem newId = new Personagem(id,apelido, biografia,dataMorte, dataNascimento,
-					formacao, nome, ocupacao,localMorte, localNascimento,  referencia_bibliografica);
-			try{
-				findExactPersonagem(nome);
-				throw new DuplicatePersonagemException("Personagem ja existe.");
-			}catch(DataAccessLayerException e){
-				e.printStackTrace();
-				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");			
-			} catch (PersonagemNotFoundException e) {
-				manager.saveEntity(newId);
-				return newId;
-			}
-			// TODO Auto-generated method stub
+		
 			
 		}
 }
