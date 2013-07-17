@@ -6,17 +6,13 @@ import datatype.SimpleDate;
 
 
 import business.exceptions.login.UnreachableDataBaseException;
-import business.exceptions.search.DuplicatePersonagemException;
+import business.exceptions.model.ReligionNotFoundException;
 import business.exceptions.search.PersonagemNotFoundException;
+import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 import persistence.PersistenceAccess;
 import persistence.dto.DTO;
-import persistence.dto.Encontro;
 import persistence.dto.FontesObras;
-import persistence.dto.GrupoPersonagem;
-import persistence.dto.LocaisPersonagens;
-import persistence.dto.Local;
 import persistence.dto.Personagem;
-import persistence.dto.ReligiaoCrencas;
 import persistence.util.DataAccessLayerException;
 
 public class PersonagemSearchDAO {
@@ -32,10 +28,10 @@ public class PersonagemSearchDAO {
 		 * @throws UnreachableDataBaseException
 		 * @throws PersonagemNotFoundException
 		 */
-		public Personagem findExactPersonagemByNome(String nome) throws PersonagemNotFoundException, UnreachableDataBaseException{
+		public List<DTO> findExactPersonagemByExactNome(String nome) throws PersonagemNotFoundException, UnreachableDataBaseException{
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("FROM PersonagemMO"+		
+				resultSet = manager.findEntity("FROM personagemMO"+		
 						" where nome = "+nome+" "+
 						" ORDER BY nome ");
 				
@@ -44,7 +40,8 @@ public class PersonagemSearchDAO {
 				}
 				else{
 					
-					return (Personagem) resultSet.get(0);
+					//return (Personagem) resultSet.get(0);
+					return resultSet;
 				}
 			} catch (DataAccessLayerException e) {
 				e.printStackTrace();
@@ -61,11 +58,11 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByNome(String nome) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from PersonagemMO where nome like '%" + nome +"%' "
+				resultSet = manager.findEntity("from personagemMO where nome like '%" + nome +"%' "
 						+ "order by cod, titulo, anoInicio, anoFim");
 				
 				if(resultSet == null) {
-					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+					throw new PersonagemNotFoundException ("Personagem não encontrado.");
 				}
 				else return resultSet;
 			
@@ -84,11 +81,11 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByApelido(String apelido) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from PersonagemMO where apelido like '%" + apelido +"%' "
+				resultSet = manager.findEntity("from personagemMO where apelido like '%" + apelido +"%' "
 						+ "order by apelido");
 				
 				if(resultSet == null) {
-					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+					throw new PersonagemNotFoundException ("Personagem não encontrado.");
 				}
 				else return resultSet;
 			
@@ -106,11 +103,11 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByLocalNascimento(long localnascimento_id ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from PersonagemMO where localnascimento_id  = '" + localnascimento_id +"' "
+				resultSet = manager.findEntity("from personagemMO where localnascimento_id  = '" + localnascimento_id +"' "
 						+ "order by apelido");
 				
 				if(resultSet == null) {
-					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+					throw new PersonagemNotFoundException ("Personagem não encontrado.");
 				}
 				else return resultSet;
 			
@@ -128,11 +125,11 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByLocalMorte(long localmorte_id ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from PersonagemMO where localmorte_id  = '" + localmorte_id +"' "
+				resultSet = manager.findEntity("from personagemMO where localmorte_id  = '" + localmorte_id +"' "
 						+ "order by apelido");
 				
 				if(resultSet == null) {
-					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+					throw new PersonagemNotFoundException ("Personagem não encontrado.");
 				}
 				else return resultSet;
 			
@@ -150,11 +147,11 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByDataNascimento(SimpleDate dataNascimento ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from PersonagemMO where datanascimento = '" + dataNascimento +"' "
+				resultSet = manager.findEntity("from personagemMO where datanascimento = '" + dataNascimento +"' "
 						+ "order by apelido");
 				
 				if(resultSet == null) {
-					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+					throw new PersonagemNotFoundException ("Personagem não encontrado.");
 				}
 				else return resultSet;
 			
@@ -172,9 +169,63 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByDataMorte(SimpleDate dataMorte ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from PersonagemMO where datanascimento = '" + dataMorte +"' "
+				resultSet = manager.findEntity("from personagemMO where datanascimento = '" + dataMorte +"' "
 						+ "order by apelido");
 				
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException ("Personagem não encontrado.");
+				}
+				else return resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
+		/**
+		 * Pesquisa personagens pela religiao
+		 * @param religiao-religiao do personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 * @throws ReligionNotFoundException 
+		 */
+		public List<DTO> findPersonagemByReligiao(String religiao) throws  UnreachableDataBaseException, PersonagemNotFoundException, ReligionNotFoundException {
+			List<DTO> resultSet = null;
+			ReligiaoCrencasSearchDAO dao = new ReligiaoCrencasSearchDAO();
+			try {
+								
+				List<DTO> resultados = dao.findReligiaoCrencaByNome(religiao);
+				for(DTO p : resultados){
+					resultSet = manager.findEntity("from personagemMO_religiaocrencasMO where religiao_id = '" + p +"' "
+							+ "order by nome");
+				}
+				if(resultSet == null) {
+					throw new PersonagemNotFoundException ("Persongem não encontrado.");
+				}
+				else return resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+		}
+		/**
+		 * Pesquisa personagens pela obra do personagem
+		 * @param  obra-titulo da obra do personagem.
+		 * @throws UnreachableDataBaseException
+		 * @throws PersonagemNotFoundException
+		 * @throws FontesObrasNotFoundException 
+		 */
+		public List<DTO> findPersonagemByObra(String obra) throws  UnreachableDataBaseException, PersonagemNotFoundException, FontesObrasNotFoundException{
+			List<DTO> resultSet = null;
+			FontesObrasSearchDAO dao = new FontesObrasSearchDAO();
+			try {
+								
+				List<DTO> resultados = dao.findFontesObrasByTitulo(obra);
+				for(DTO p : resultados){
+					resultSet = manager.findEntity("from personagemMO_fontesobrasMO where obras_id = '" + p +"' "
+							+ "order by nome");
+				}
 				if(resultSet == null) {
 					throw new PersonagemNotFoundException ("Persongem não encontrado.");
 				}
@@ -193,7 +244,7 @@ public class PersonagemSearchDAO {
 		public List<DTO> findAllPersonagem() throws  UnreachableDataBaseException, PersonagemNotFoundException  {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from PersonagemMO order by nome, apelido");
+				resultSet = manager.findEntity("from personagemMO order by nome, apelido");
 				if(resultSet == null) {
 					throw new PersonagemNotFoundException("Não existe nenhum Personagem cadastrado.");
 				}
@@ -206,5 +257,4 @@ public class PersonagemSearchDAO {
 		
 		
 			
-		}
 }
