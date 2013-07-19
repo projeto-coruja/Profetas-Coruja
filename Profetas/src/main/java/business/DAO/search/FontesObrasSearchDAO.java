@@ -52,11 +52,11 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public FontesObras findExactFontesObras(String titulo) throws FontesObrasNotFoundException, UnreachableDataBaseException{
+	public FontesObras findExactFontesObras(String titulo, String editor) throws FontesObrasNotFoundException, UnreachableDataBaseException{
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM FontesObrasMO"+		
-					" where titulo = '"+titulo+"'"+
+					" where titulo = '"+titulo+"' AND editor = '" + editor +"'"+
 					" ORDER BY titulo ");
 			
 			if(resultSet == null) {
