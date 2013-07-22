@@ -84,7 +84,7 @@ public class ReligiaoCrencasSearchDAO {
 	public List<DTO> findReligiaoCrencaByNome(String nome) throws  UnreachableDataBaseException, ReligionNotFoundException {
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from GrupoPersonagemMO where nome like '%" + nome +"%' "
+			resultSet = manager.findEntity("from religiaocrencasmo where nome like '%" + nome +"%' "
 					+ "order by anoIngresso");
 
 			if(resultSet == null) {
@@ -106,7 +106,7 @@ public class ReligiaoCrencasSearchDAO {
 	public List<DTO> findReligiaoCrencaByDescricao(String descricao) throws  UnreachableDataBaseException, ReligionNotFoundException {
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ReligiaoCrencasMO where descricao like '%" + descricao +"%' "
+			resultSet = manager.findEntity("from religiaocrencasmo where descricao like '%" + descricao +"%' "
 					+ "order by descricao");
 			
 			if(resultSet == null) {
@@ -129,7 +129,7 @@ public class ReligiaoCrencasSearchDAO {
 	public List<DTO> findAllReligiaoCrenca() throws  UnreachableDataBaseException, ReligionNotFoundException  {
 		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ReligiaoCrencaMO order by nome");
+			resultSet = manager.findEntity("from religiaocrencamo order by nome");
 			if(resultSet == null) {
 				throw new ReligionNotFoundException("Não existe nenhuma Religiao Crenca cadastrada.");
 			}

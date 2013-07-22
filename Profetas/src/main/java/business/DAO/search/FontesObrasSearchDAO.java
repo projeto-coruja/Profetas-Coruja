@@ -18,6 +18,56 @@ public class FontesObrasSearchDAO {
 	public FontesObrasSearchDAO(){
 		manager= new PersistenceAccess();
 	}
+	private String getQueryNormalization(String var){
+		var.replaceAll("'", "''");
+				
+		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
+	}
+	public List<DTO> mainSearchAND(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
+			SimpleDate dataImpressao, String editor, 
+			String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
+			double latitude_grupomovimento, double longitude_grupomovimento,
+			String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
+			String classificacao, List<DTO> palavraChave, List<DTO> obrasCitadas, List<DTO> leitores, List<DTO> personagens,  List<DTO> autores) throws FontesObrasNotFoundException, UnreachableDataBaseException{
+		
+		List<DTO> resultSet = null;
+		List<DTO> resultgrupoMovimento = null;
+		List<DTO> resultlocalGrupoMovimento = null;
+		List<DTO> resultlocalimpressao = null;
+		List<DTO> resultclassificacao = null;
+		
+
+
+		
+
+
+		try {
+			resultgrupoMovimento = manager.findEntity("from grupomovimentomo where nome like "+ getQueryNormalization("'%" + grupoMovimento +"%'")
+					+  "AND anoincio ="+ anoInicio_grupomovimento+""
+					);
+			resultSet = manager.findEntity("from fontesobrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
+					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
+					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
+					+ "AND url like" + getQueryNormalization("'%" + url +"%'")
+					+ "AND copiasmasnuscritas like" + getQueryNormalization("'%" + copias_manuscritas +"%'")
+					+ "AND traducoes like" + getQueryNormalization("'%" + traducoes +"%'")
+					+ "AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
+					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
+					+ "order by titulo");
+			
+			if(resultSet == null) {
+				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
+			}
+			else return resultSet;
+		
+		} catch (DataAccessLayerException e) {
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+		
+		
+		
+	}
 	
 	/**
 	 * Pesquisa por uma  exata fontesobras pesquisando por "id"
@@ -56,7 +106,7 @@ public class FontesObrasSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("FROM FontesObrasMO"+		
-					" where titulo = '"+titulo+"' AND editor = '" + editor +"'"+
+					" where titulo = '"+titulo+"' AND editor = '" + editor +"'"+ // "o'neil" > "o''neil"
 					" ORDER BY titulo ");
 			
 			if(resultSet == null) {

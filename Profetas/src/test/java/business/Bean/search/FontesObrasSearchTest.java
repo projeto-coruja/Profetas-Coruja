@@ -34,7 +34,7 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	//@Test
+	@Test
 	public void findBygrupoMovimentotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException, GroupMovementNotFoundException {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		GrupoMovimentoSearchDAO dao2 = new GrupoMovimentoSearchDAO();

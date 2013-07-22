@@ -17,6 +17,32 @@ public class LocalSearchDAO {
 		manager = new PersistenceAccess();
 	}
 	
+	
+	public List<DTO> findLocalByAll(String nome, double latitude, double longitude) throws LocalNotFoundException, UnreachableDataBaseException{
+		List<DTO> resultSet = null;
+		try {
+			
+			resultSet = manager.findEntity("FROM localMO WHERE nome like '%"+ nome +"%' AND latitude = '"+ latitude +"'"
+					+ "AND longitude = '"+ longitude +"'"
+					+ " ORDER BY id");
+			
+			if(resultSet == null) {
+				throw new  LocalNotFoundException ("Local não encontrado.");
+			}
+			else{
+				
+				return  (List<DTO>) resultSet;
+			}
+		} catch (DataAccessLayerException e) {
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+		
+		
+		
+	}
+	
+	
 	/**
 	 * Pesquisa por um  Local usando o nome
 	 * @param nome  - nome do local
