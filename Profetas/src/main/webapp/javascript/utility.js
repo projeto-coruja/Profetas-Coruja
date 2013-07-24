@@ -10,6 +10,15 @@ $(window).bind("load",function(){
 		agent = navigator.userAgent,
 		count = 0,
 		browserWhitelist = ["firefox","chrome", "opera", "safari"];
+
+	for(var i = 0; i < browserWhitelist.length; i++ ){
+		count += agent.toLocaleLowerCase().indexOf(browserWhitelist[i], 0);
+	}
+	
+	if(count <= browserWhitelist.length * -1){
+		window.location.replace("updateBrowser.jsp");
+	}
+
 	if ($(".content")[0])	$element = $('.content');
 	else	$element = $('.text');
 	
@@ -19,18 +28,51 @@ $(window).bind("load",function(){
 		$sidebarHeight += $(this).innerHeight();
 	});
 	
-	for(var i = 0; i < browserWhitelist.length; i++ ){
-		count += agent.toLocaleLowerCase().indexOf(browserWhitelist[i], 0);
-	}
+	$sidebarHeight -= 3;
 	
-	if(count <= browserWhitelist.length * -1){
-		window.location.replace("atualizarBrowser.jsp");
-	}
 	
 	if($height < $sidebarHeight){
 		$height = $sidebarHeight;
 	}
 	$('.sidebar1').css({height:$height});
+});
+/**
+ * Collapsible menu
+ * Script é executado quando o documento termina de carregar
+ */
+$(document).ready(function() {
+	$('.collapsible').hide();
+	$('.collapsible:first').show();
+	$('.collapsibleMenu .collapse').click(function(){
+		var selected = $(this).next();
+		if(selected.is('.collapsible') && !selected.is(':visible')){
+			$('.collapsible').hide();
+			selected.show();
+		}
+		var $height = 0,
+			$sidebarHeight = 0,
+			$element;
+
+		if ($(".content")[0])	$element = $('.content');
+		else	$element = $('.text');
+		
+		$height = $element.innerHeight();
+		
+		$('.bordaBox').each(function(){
+			$sidebarHeight += $(this).innerHeight();
+		});
+		
+		$sidebarHeight -= 3;
+		
+		
+		if($height < $sidebarHeight){
+			$height = $sidebarHeight;
+		}
+		$('.sidebar1').css({height:$height});
+	});
+	$('.toogleCollapsibleContent').click(function(){
+		$(this).next().toggle();
+	});
 });
 /**
  * Exibe uma janela de confirmação.

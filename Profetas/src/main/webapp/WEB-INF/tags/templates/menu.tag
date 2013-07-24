@@ -17,7 +17,7 @@
 	<div class="conteudo">
 		<article class="menuLateral">
 			<ul class="nav" id="menu">
-				<li><a class="borderTop" href="<c:url value="/jsp/pesquisa.jsp" />">Pesquisar Documento</a></li>
+				<li><a class="borderTop" href="<c:url value="/jsp/search.jsp" />">Pesquisar Documento</a></li>
 			</ul>
 		</article>
 	</div>
@@ -58,10 +58,10 @@
 	<div class="conteudo">
 		<article class="menuLateral">
 			<ul class="nav" id="menu">
-				<li><a class="borderTop" href="<c:url value="/jsp/tutorialPesquisa.jsp" />">Como pesquisar no acervo</a></li>
-				<li><a href="<c:url value="/jsp/sobre.jsp" />">Sobre</a></li>
-				<li><a href="<c:url value="/jsp/contato.jsp" />">Contato</a></li>
-				<li><a href="<c:url value="/jsp/creditos.jsp" />">Créditos</a></li>
+				<li><a class="borderTop" href="<c:url value="/jsp/tutorial.jsp" />">Como pesquisar no acervo</a></li>
+				<li><a href="<c:url value="/jsp/about.jsp" />">Sobre</a></li>
+				<li><a href="<c:url value="/jsp/contact.jsp" />">Contato</a></li>
+				<li><a href="<c:url value="/jsp/credits.jsp" />">Créditos</a></li>
 			</ul>
 		</article>
 	</div>
