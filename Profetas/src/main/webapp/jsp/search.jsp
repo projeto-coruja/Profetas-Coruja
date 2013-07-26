@@ -25,9 +25,13 @@
 				<h1>Pesquisa de Documento 
 					<label style="font-size: x-small; color: black; padding-left: 10px;">(Os campos são opcionais.)</label>
 				</h1>
-				<div class="collapsibleMenu">
-					<a class="collapse" href="#">Pesquisa Básica</a>
-					<div class="collapsible">
+				<div class="tabbedMenu">
+					<ul>
+						<li><a class="tabItem" href="#tab1">Pesquisa Básica</a></li>
+						<li><a class="tabItem" href="#tab2">Pesquisa Avançada</a></li>
+					</ul>
+					<br>
+					<div class="collapsible" id="tab1">
 						<form action="<c:url value="/jsp/yay.jsp"/>" id="signupform" method="get" name="cadastro">
 							<table class="collapsibleTableForms">
 								<!-- 
@@ -52,9 +56,7 @@
 							</table>
 						</form>
 					</div>
-					<br>
-					<a class="collapse" href="#">Pesquisa Avançada</a>
-					<div class="collapsible">
+					<div class="collapsible" id="tab2">
 						<form action="<c:url value="/jsp/yay.jsp"/>" id="signupform" method="get" name="cadastro">
 							<table class="collapsibleTableForms">
 								<tr>
@@ -66,18 +68,10 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="tdPesquisa"><label class="labelFormsSearch" id="ltitulo" for="titulo">&#8226 Título</label></td>
+									<td class="tdPesquisa"><label class="labelFormsSearch" id="lreferenciasCirculacaoObra" for="referenciasCirculacaoObra">&#8226 Referências de Circulação da Obra</label></td>
 								<tr>	
 								<tr>
-									<td class="field"><input class="input" name="titulo" id="titulo" type="text" size="20" maxlength="1024">
-									<label></label><a href="#"><img class="iconeAjuda" src="<c:url value="/images/icone_ajuda.png"/>" title="Ocupação do autor do documento. Por exemplo, Presidente da Província." /></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="tdPesquisa"><label class="labelFormsSearch" id="ltitulo" for="titulo">&#8226 Título</label></td>
-								<tr>	
-								<tr>
-									<td class="field"><input class="input" name="titulo" id="titulo" type="text" size="20" maxlength="1024">
+									<td class="field"><input class="input" name="referenciasCirculacaoObra" id="referenciasCirculacaoObra" type="text" size="20" maxlength="1024">
 									<label></label><a href="#"><img class="iconeAjuda" src="<c:url value="/images/icone_ajuda.png"/>" title="Ocupação do autor do documento. Por exemplo, Presidente da Província." /></a>
 									</td>
 								</tr>

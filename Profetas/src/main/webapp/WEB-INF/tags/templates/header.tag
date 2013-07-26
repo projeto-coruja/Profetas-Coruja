@@ -23,6 +23,10 @@
 <c:if test="${type == 'full'}">
 
 	<!-- Import dos javascripts -->
+	
+	<script type="text/javascript" src="<c:url value = "/javascript/tabbedMenu.js" />"	charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="<c:url value = "/css/tabbedMenu.css"/>" />
+	
 	<script type="text/javascript" src="<c:url value ="/javascript/ajax.js"/>" charset="utf-8"></script>
 	<script type="text/javascript" src="<c:url value ="/javascript/instrucao.js"/>" charset="utf-8"></script>
 	<script type="text/javascript" src="<c:url value ="/javascript/chili-1.7.pack.js"/>" ></script>

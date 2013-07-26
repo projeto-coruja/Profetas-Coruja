@@ -833,16 +833,3 @@ article.menuLateral section,article.menuLateral section h2 {
 .resultLabel{
 	margin: 0;
 }
-
-/* collapsible content*/
-.collapsibleMenu{
-	border-top: 1px solid;
-}
-
-.collapsibleTableForms {
-	text-align: left;
-	/* margin: 40px 0 0 0px; */
-	margin-left: 78px; /* 100px; */
-	width: 709px; /* 580px; */
-	/*border-top: 1px solid;*/
-}
