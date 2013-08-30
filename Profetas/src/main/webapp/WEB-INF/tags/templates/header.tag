@@ -9,7 +9,7 @@
 
 <!-- Import dos styles CSS -->
 <link rel="stylesheet" type="text/css"	href="<c:url value = "/css/principal.css"/>" />
-<link rel="stylesheet" type="text/css" href="<c:url value = "/css/tabs.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value = "/css/dropDown.css"/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value = "/css/controle.css"/>" />
 
 <!-- CSS das validacoes -->

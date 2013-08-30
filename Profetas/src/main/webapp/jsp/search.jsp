@@ -1,6 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="snp" tagdir="/WEB-INF/tags/templates/"%>
+<%@ taglib prefix="func" tagdir="/WEB-INF/tags/functions/"%>
 
 <html>
 	<head>
@@ -22,7 +23,7 @@
 			</div>
 
 			<div class="content" id="content">
-				<h1>Pesquisa de Documento 
+				<h1 class="h1form">Pesquisa de Documento 
 					<label style="font-size: x-small; color: black; padding-left: 10px;">(Os campos são opcionais.)</label>
 				</h1>
 				<div class="tabbedMenu">
@@ -33,17 +34,12 @@
 					<br>
 					<div class="collapsible" id="tab1">
 						<form action="<c:url value="/jsp/yay.jsp"/>" id="signupform" method="get" name="cadastro">
+							<input type="hidden" name="type" value="basic">
 							<table class="collapsibleTableForms">
-								<!-- 
-								<tr>
-									<td class="tdPesquisa"><label class="labelFormsSearch" id="lautorOcupacao" for="autorOcupacao">&#8226 Ocupação do Autor do Documento</label></td>
-								<tr>	
-								-->
-								<tr>
-									<td class="field"><input class="input" name="autorOcupacao" id="autorOcupacao" type="text" size="20" maxlength="1024">
-									<label></label><a href="#"><img class="iconeAjuda" src="<c:url value="/images/icone_ajuda.png"/>" title="Ocupação do autor do documento. Por exemplo, Presidente da Província." /></a>
-									</td>
-								</tr>
+							
+								<func:field name="generalSearch" tip="Pesquisa geral" title="">
+									<input class="input" name="generalSearch" id="generalSearch" type="text" size="20" maxlength="1024">
+								</func:field>
 								
 								<tr>
 									<td>
@@ -58,31 +54,29 @@
 					</div>
 					<div class="collapsible" id="tab2">
 						<form action="<c:url value="/jsp/yay.jsp"/>" id="signupform" method="get" name="cadastro">
+							<input type="hidden" name="type" value="adv">
 							<table class="collapsibleTableForms">
-								<tr>
-									<td class="tdPesquisa"><label class="labelFormsSearch" id="ltitulo" for="titulo">&#8226 Título</label></td>
-								<tr>	
-								<tr>
-									<td class="field"><input class="input" name="titulo" id="titulo" type="text" size="20" maxlength="1024">
-									<label></label><a href="#"><img class="iconeAjuda" src="<c:url value="/images/icone_ajuda.png"/>" title="Ocupação do autor do documento. Por exemplo, Presidente da Província." /></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="tdPesquisa"><label class="labelFormsSearch" id="lreferenciasCirculacaoObra" for="referenciasCirculacaoObra">&#8226 Referências de Circulação da Obra</label></td>
-								<tr>	
-								<tr>
-									<td class="field"><input class="input" name="referenciasCirculacaoObra" id="referenciasCirculacaoObra" type="text" size="20" maxlength="1024">
-									<label></label><a href="#"><img class="iconeAjuda" src="<c:url value="/images/icone_ajuda.png"/>" title="Ocupação do autor do documento. Por exemplo, Presidente da Província." /></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="tdPesquisa"><label class="labelFormsSearch" id="ltitulo" for="titulo">&#8226 Título</label></td>
-								<tr>	
-								<tr>
-									<td class="field"><input class="input" name="titulo" id="titulo" type="text" size="20" maxlength="1024">
-									<label></label><a href="#"><img class="iconeAjuda" src="<c:url value="/images/icone_ajuda.png"/>" title="Ocupação do autor do documento. Por exemplo, Presidente da Província." /></a>
-									</td>
-								</tr>
+								<func:field name="nome" tip="Instrução do campo" title="Título do campo">
+									<input class="input" name="nome" id="nome" type="text" size="20" maxlength="1024">
+								</func:field>
+								
+								<func:field name="nome" tip="Instrução do campo" title="Título do campo de multiplas seleção">
+									<select name="nome[]" size="7" multiple style="width: 300px;">
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+										<option value="value">Item disponível para seleção</option>
+									</select>
+								</func:field>
+								<func:field name="data" tip="Data" title="Título do campo de data">
+									<snp:date/>
+								</func:field>
 								<tr>
 									<td>
 										<br>

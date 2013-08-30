@@ -48,6 +48,11 @@ h1,h2,h3,h4,h5,h6 {
 	color: #24346F;
 }
 
+.h1form{
+	border-bottom: 1px solid;
+	width: 700px
+}
+
 h1 {
 	font-size: larger;
 }
@@ -116,7 +121,7 @@ a:hover,a:active,a:focus {
 /* ~~ the header is not given a width. It will extend the full width of your layout. It contains an image placeholder that should be replaced with your own linked logo ~~ */
 /* Banner, dentro do código tem o espaço para colocar o logo */
 .header {
-	background-image: url("/GraoPara/images/header2.png");
+	background-image: url("/Profetas/images/header.png");
 	background-repeat: repeat-x;
 	height: 185px;
 }
@@ -506,9 +511,15 @@ label {
 }
 
 /* Div do conteúdo interno do site, onde as outras páginas estão sendo carregadas dentro */
-.content {
+/*.content {
 	padding: 30px 10px 10px 20px;
 	width: 600px;
+	float: left;
+	border: 1px none red;
+}*/
+.content {
+	padding: 30px 10px 10px 10px;
+	width: 882px;
 	float: left;
 	border: 1px none red;
 }
@@ -668,8 +679,8 @@ span.asterisco {
 	text-align: left;
 	/* margin: 40px 0 0 0px; */
 	margin-left: 78px; /* 100px; */
-	width: 709px; /* 580px; */
-	border-top: 1px solid;
+	/*width: 709px; /* 580px; */
+	/*border-top: 1px solid;*/
 }
 
 .tableFormsKey {
