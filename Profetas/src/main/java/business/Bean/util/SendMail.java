@@ -2,6 +2,7 @@ package business.Bean.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -10,7 +11,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import business.DAO.Config.ConfigurationDAO;
 import business.exceptions.MailNotConfiguredException;
 import business.exceptions.general.ConfigNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -29,27 +29,19 @@ public class SendMail {
 	private String port; // Porta para conexão com o servidor de emails
 	private String socketPort;	// Porta do socquet de conexão
 
-	private ConfigurationDAO conf;
+	private Config conf;
 
 	public SendMail() throws UnreachableDataBaseException {
-		conf = new ConfigurationDAO();
+		conf = Config.getInstance();
 		try {
 			// Tentativa para carregar informações.
-			account = conf.getEntry("mailAccount").getValue();
-			password = conf.getEntry("mailPassword").getValue();
+			account = conf.getConfig("mailAccount");
+			password = conf.getConfig("mailPassword");
 
-			host = conf.getEntry("mailHost").getValue();
-			port = conf.getEntry("mailPort").getValue();
-			socketPort = conf.getEntry("mailSocketPort").getValue();
+			host = conf.getConfig("mailHost");
+			port = conf.getConfig("mailPort");
+			socketPort = conf.getConfig("mailSocketPort");
 		} catch (ConfigNotFoundException e) {
-			// Caso a classe está sendo chamado pela primeira vez, executar esta ação
-//			conf.addPropertie("mailAccount", "");
-//			conf.addPropertie("mailPassword", "");
-//
-//			conf.addPropertie("mailHost", "smtp.gmail.com");
-//			conf.addPropertie("mailPort", "465");
-//			conf.addPropertie("mailSocketPort", "465");
-			
 			e.printStackTrace();
 		}
 	}

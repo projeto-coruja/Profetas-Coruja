@@ -47,7 +47,7 @@
 						Cadastro de Local
 					</c:otherwise>
 				</c:choose>
-					<label style="font-size: x-small; color: black; padding-left: 10px;">(<font color="red">*</font> = Campo obrigatório)</label>
+					<label style="font-size: x-small; color: black; padding-left: 10px;">( <font color="red">*</font> = Campo obrigatório)</label>
 				</h1>
 				<form action="<c:url value="/jsp/yay.jsp"/>" id="signupform" method="get" name="cadastro">
 					<table class="tableForms">
