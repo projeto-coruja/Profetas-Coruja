@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import datatype.SimpleDate;
+
 import persistence.dto.DTO;
 import persistence.dto.FontesObras;
 import business.DAO.search.ClassificacaoSearchDAO;
@@ -34,7 +36,7 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	@Test
+	//@Test
 	public void findBygrupoMovimentotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException, GroupMovementNotFoundException {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		GrupoMovimentoSearchDAO dao2 = new GrupoMovimentoSearchDAO();
@@ -52,7 +54,7 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	@Test
+	//@Test
 		public void findByTitulotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException, GroupMovementNotFoundException {
 			FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 			
@@ -77,5 +79,14 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
+	@Test
+	public void findMain(){
+		SimpleDate dataimpressao = new SimpleDate((short) 0);
+		dataimpressao.format();
+		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra	
+		//List<DTO> fontes = dao.mainSearchAND("um belo","bela", "", "www.teste.or.br","","", "0", "tio", 1, "2000", "2012", "um grupo para teste","local1",15.522 ,5233.33 ,"local1",15.522,5233.33,"romance","", "","","","");
+		//List<DTO> fontes = dao.mainSearchAND("um belo", "bela","","www.teste.or.br", "", "",'0/0/0',"tio","grupo",2000,2012, "um grupo para teste", "local1", 15.522 , 5233.33 , "local1", 15.522 , 5233.33 , "romance","","","","","");       
+		
+	} 
 
 }

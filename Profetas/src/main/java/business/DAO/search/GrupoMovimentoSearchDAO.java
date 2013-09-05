@@ -37,7 +37,6 @@ public class GrupoMovimentoSearchDAO {
 
 			resultSetGrupos = manager.findEntity("FROM grupomovimentomo WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 
 					+ "AND anoinicio  = "+ anoinicio + " AND anofim = "+ anofim + "AND descricao like" + getQueryNormalization("'%"+ descricao +"%'") 
-					+ "AND "
 					+ " ORDER BY nome");
 			for(DTO l : resultados){
 				for(DTO g : resultSetGrupos){

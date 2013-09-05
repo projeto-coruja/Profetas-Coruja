@@ -10,6 +10,9 @@ import persistence.dto.FontesObras;
 import persistence.dto.GrupoMovimento;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.model.ClassificationNotFoundException;
+import business.exceptions.model.GroupMovementNotFoundException;
+import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 
 public class FontesObrasSearchDAO {
@@ -28,23 +31,26 @@ public class FontesObrasSearchDAO {
 			String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
 			double latitude_grupomovimento, double longitude_grupomovimento,
 			String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
-			String classificacao, List<DTO> palavraChave, List<DTO> obrasCitadas, List<DTO> leitores, List<DTO> personagens,  List<DTO> autores) throws FontesObrasNotFoundException, UnreachableDataBaseException{
-		
+			String classificacao, List<DTO> palavraChave, List<DTO> obrasCitadas, List<DTO> leitores, List<DTO> personagens,  List<DTO> autores) throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
+		//vamos supor que já recebemos a classificação já vem pronta, vamos apenas pesquisar seu id
 		List<DTO> resultSet = null;
 		List<DTO> resultgrupoMovimento = null;
 		List<DTO> resultlocalGrupoMovimento = null;
-		List<DTO> resultlocalimpressao = null;
 		List<DTO> resultclassificacao = null;
-		
-
-
-		
-
-
+		List<DTO> resultFinal =null;
 		try {
-			resultgrupoMovimento = manager.findEntity("from grupomovimentomo where nome like "+ getQueryNormalization("'%" + grupoMovimento +"%'")
-					+  "AND anoincio ="+ anoInicio_grupomovimento+""
+			/*resultgrupoMovimento = manager.findEntity("from grupomovimentomo where nome like "+ getQueryNormalization("'%" + grupoMovimento +"%'")
+					+  "AND anofim ="+ anoFim_grupomovimento+"AND anoinicio=" +anoInicio_grupomovimento + "AND descricao like" + descricao_grupomovimento
 					);
+			*/
+			//novas modificações comecam aqui
+			///procura por um grupo movimento
+			GrupoMovimentoSearchDAO dao_grupomovimento = new GrupoMovimentoSearchDAO();
+			resultgrupoMovimento = dao_grupomovimento.findGrupoMovimentoByAll(grupoMovimento,anoInicio_grupomovimento, anoFim_grupomovimento, descricao_grupomovimento, local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
+			ClassificacaoSearchDAO dao_classificacao = new ClassificacaoSearchDAO();	
+			resultclassificacao = dao_classificacao.findClassificacaoByTipo(classificacao);
+			//novas modificacoes terminam aqui
+			
 			resultSet = manager.findEntity("from fontesobrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
 					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
 					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
@@ -55,10 +61,61 @@ public class FontesObrasSearchDAO {
 					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
 					+ "order by titulo");
 			
+			//cruzamento de fontes obras e grupo movimento
+			for(DTO l : resultgrupoMovimento){
+				resultSet.addAll(manager.findEntity("FROM fontesobrasMO WHERE grupomovimento_id = "+l.getId()));
+			}
+			//cruzamento de fontes obras e classificacao
+			for(DTO l : resultclassificacao){
+				resultSet.addAll(manager.findEntity("FROM fontesobrasMO WHERE classificacao_id = "+l.getId()));
+			}
+			resultFinal=resultSet;
+			
+			//montar a query de personagem
+			for(DTO p : personagens){
+				for(DTO l : resultFinal){
+					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				}
+			}
+			resultFinal = resultSet;
+			resultSet=null;
+			
+			for(DTO a : autores){
+				for(DTO l : resultFinal){
+					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE autorescitados_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				}
+			}
+			resultFinal = resultSet;
+			resultSet=null;
+			
+			for(DTO a : leitores){
+				for(DTO l : resultFinal){
+					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE leitores_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				}
+			}
+			resultFinal = resultSet;
+			resultSet=null;
+			
+			for(DTO o : obrasCitadas){
+				for(DTO l : resultFinal){
+					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_fontesobrasmmo WHERE obrascitadas_id =" + o.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				}
+			}
+			resultFinal = resultSet;
+			resultSet=null;
+			
+			for(DTO p : palavraChave){
+				for(DTO l : resultFinal){
+					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_palavrachavemmo WHERE palavrachave_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				}
+			}
+			
+			
+			
 			if(resultSet == null) {
 				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
 			}
-			else return resultSet;
+			else return (List<DTO>)resultSet;
 		
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
