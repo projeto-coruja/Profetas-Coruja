@@ -3,7 +3,7 @@
 ==== ex: createUser - Permissão para criar um novo usuário ====
 ===============================================================
 
-
+searchPermission - Permissão para realizar buscas.
 userInfoUpdatePermission - Permissão para atualizar informações de outras contas.
 userRemovalPermission - Permissão para remover um usuário do banco de dados.
 userApprovalPermission - Permissão para aprovar um usuário e atribuir um profile novo para o mesmo.

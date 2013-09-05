@@ -27,8 +27,8 @@
 					<td>
 						<h2>          Contato</h2>
 						
-						Prof. Dr. André Roberto de A. Machado<br />
-						Coordenador Geral do Projeto <br />
+						Prof. Dr. [Nome do Professor]<br />
+						[Cargo (ie: Coordenador, orientador etc)] <br />
 						<br />
 						Endereço:<br />
 						Departamento de História da Universidade Federal de São Paulo – UNIFESP<br />
@@ -37,7 +37,7 @@
 						CEP 07252-312<br />
 						<br />
 						E-mail:<br />
-						<a href="mailto:xxx@unifesp.br">andre.machado@unifesp.br</a><br />
+						<a href="mailto:xxx@unifesp.br">[email]</a><br />
 			
 					</td>
 				</tr>

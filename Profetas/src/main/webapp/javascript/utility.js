@@ -4,12 +4,25 @@
  * ficar de acordo com o tamanho do conteúdo.
  */
 $(window).bind("load",function(){
-	var $height = 0,
-		$sidebarHeight = 0,
-		$element,
-		agent = navigator.userAgent,
+	var	agent = navigator.userAgent,
 		count = 0,
 		browserWhitelist = ["firefox","chrome", "opera", "safari"];
+
+	for(var i = 0; i < browserWhitelist.length; i++ ){
+		count += agent.toLocaleLowerCase().indexOf(browserWhitelist[i], 0);
+	}
+	
+	if(count <= browserWhitelist.length * -1){
+		window.location.replace("updateBrowser.jsp");
+	}
+	adjustSidebar();
+});
+
+function adjustSidebar(){
+	var $height = 0,
+		$sidebarHeight = 0,
+		$element;
+	
 	if ($(".content")[0])	$element = $('.content');
 	else	$element = $('.text');
 	
@@ -19,19 +32,15 @@ $(window).bind("load",function(){
 		$sidebarHeight += $(this).innerHeight();
 	});
 	
-	for(var i = 0; i < browserWhitelist.length; i++ ){
-		count += agent.toLocaleLowerCase().indexOf(browserWhitelist[i], 0);
-	}
+	$sidebarHeight -= 3;
 	
-	if(count <= browserWhitelist.length * -1){
-		window.location.replace("atualizarBrowser.jsp");
-	}
 	
 	if($height < $sidebarHeight){
 		$height = $sidebarHeight;
 	}
-	$('.sidebar1').css({height:$height});
-});
+	$('.sidebar1').css('height',$height);
+	return false;
+}
 /**
  * Exibe uma janela de confirmação.
  * @param msg - Menssagem a ser exibido.

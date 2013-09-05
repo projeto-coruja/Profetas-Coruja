@@ -42,6 +42,24 @@ public class ConfigurationDAO {
 	}
 	
 	/**
+	 * Adiciona uma nova entrada de configuração no banco de dados
+	 * @param entry - Nome da entrada.
+	 * @param value - Valor da entrada.
+	 * @throws ConfigNotFoundException - Exceção caso não exista entrada com o nome.
+	 * @throws UnreachableDataBaseException
+	 */
+	public void updatePropertie(String entry, String value) throws UnreachableDataBaseException, ConfigNotFoundException{
+		try{
+			Configuration c = getEntry(entry);
+			c.setValue(value);
+			manager.updateEntity(c);
+		} catch(DataAccessLayerException e){
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+	}
+	
+	/**
 	 * Remove uma entrada de configuração.
 	 * @param entry - Nome da entrada a ser removido.
 	 * @throws UnreachableDataBaseException

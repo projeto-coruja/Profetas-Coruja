@@ -14,13 +14,14 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 
 import persistence.PersistenceAccess;
-import persistence.dto.Configuration;
 import persistence.dto.DTO;
 import persistence.dto.Profile;
 import persistence.dto.UserAccount;
 import persistence.util.PersistenceUtility;
 import business.Bean.user.TokenValidityChecker;
+import business.Bean.util.Config;
 import business.Bean.util.EJBUtility;
+import business.exceptions.login.UnreachableDataBaseException;
 
 /**
  * Servlet implementation class InitServlet
@@ -101,30 +102,10 @@ public class InitServlet extends HttpServlet {
 		}
 		else user = null;
 		
-		String[] mailDefaultEntry = new String[]{
-				"mailAccount",
-				"mailPassword",
-				"mailHost",
-				"mailPort",
-				"mailSocketPort"
-				};
-		
-		String[] mailDefaultProp = new String[] {
-				"",
-				"",
-				"smtp.gmail.com",
-				"465",
-				"465"
-				};
-		
-		List<DTO> check;
-		for(int i = 0; i < mailDefaultEntry.length; i++){
-			check = pa.findEntity("from ConfigurationMO where entry = '"+mailDefaultEntry[i]+"'");
-			if(check == null){
-				log.info("Criando configurações básicas...");
-				pa.saveEntity(new Configuration(mailDefaultEntry[i], mailDefaultProp[i]));
-			}
-			else check = null;
+		try {
+			Config.getInstance();
+		} catch (UnreachableDataBaseException e) {
+			e.printStackTrace();
 		}
 		
 		log.info("Finalizando inicialização...");
