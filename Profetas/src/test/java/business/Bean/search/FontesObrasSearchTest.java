@@ -3,6 +3,7 @@ package business.Bean.search;
 import static org.junit.Assert.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -11,12 +12,15 @@ import datatype.SimpleDate;
 
 import persistence.dto.DTO;
 import persistence.dto.FontesObras;
+import persistence.dto.PalavraChave;
+import persistence.dto.Personagem;
 import business.DAO.search.ClassificacaoSearchDAO;
 import business.DAO.search.FontesObrasSearchDAO;
 import business.DAO.search.GrupoMovimentoSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.ClassificationNotFoundException;
 import business.exceptions.model.GroupMovementNotFoundException;
+import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 
 
@@ -54,7 +58,7 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	//@Test
+	@Test
 		public void findByTitulotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException, GroupMovementNotFoundException {
 			FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 			
@@ -79,14 +83,31 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	@Test
-	public void findMain(){
+	//@Test
+	public void findMain() throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
 		SimpleDate dataimpressao = new SimpleDate((short) 0);
-		dataimpressao.format();
+		//dataimpressao.format();
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra	
-		//List<DTO> fontes = dao.mainSearchAND("um belo","bela", "", "www.teste.or.br","","", "0", "tio", 1, "2000", "2012", "um grupo para teste","local1",15.522 ,5233.33 ,"local1",15.522,5233.33,"romance","", "","","","");
-		//List<DTO> fontes = dao.mainSearchAND("um belo", "bela","","www.teste.or.br", "", "",'0/0/0',"tio","grupo",2000,2012, "um grupo para teste", "local1", 15.522 , 5233.33 , "local1", 15.522 , 5233.33 , "romance","","","","","");       
+		List<Personagem> leitores = new ArrayList<Personagem>();
+		List<Personagem> autores = new ArrayList<Personagem>();
+		List<Personagem> personagens = new ArrayList<Personagem>();
+		List<PalavraChave> palavras = new ArrayList<PalavraChave>();
+		List<FontesObras> obrascitadas = new ArrayList<FontesObras>();
+		obrascitadas.add(null);
+		personagens.add(new Personagem("hades", null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+		palavras.add(new PalavraChave("obra"));
+		autores.add(new Personagem("ulisses", null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+		leitores.add(new Personagem("hercules", null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		
+		List<DTO> fontes = dao.mainSearchAND("um belo", "bela","","www.teste.or.br", "", "",dataimpressao,"tio","grupo",dataimpressao,dataimpressao, "um grupo para teste", "local1", 15.522 , 5233.33 , "local1", 15.522 , 5233.33 , "romance",null,  null,null,null,null);
+		if(fontes !=null){
+			for(DTO p : fontes){
+				System.out.println(((FontesObras)p).getTitulo());
+			}
+		}else{
+			System.out.println("Lista vazia");
+		}
+	
 	} 
 
 }

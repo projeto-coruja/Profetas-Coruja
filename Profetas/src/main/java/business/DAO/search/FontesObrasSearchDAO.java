@@ -51,7 +51,7 @@ public class FontesObrasSearchDAO {
 			resultclassificacao = dao_classificacao.findClassificacaoByTipo(classificacao);
 			//novas modificacoes terminam aqui
 			
-			resultSet = manager.findEntity("from fontesobrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
+			resultSet = manager.findEntity("from fontesobrasmo where titulo like" + getQueryNormalization("'%" + titulo +"%'")
 					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
 					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
 					+ "AND url like" + getQueryNormalization("'%" + url +"%'")
@@ -63,11 +63,11 @@ public class FontesObrasSearchDAO {
 			
 			//cruzamento de fontes obras e grupo movimento
 			for(DTO l : resultgrupoMovimento){
-				resultSet.addAll(manager.findEntity("FROM fontesobrasMO WHERE grupomovimento_id = "+l.getId()));
+				resultSet.addAll(manager.findEntity("FROM fontesobrasmo WHERE grupomovimento_id = "+l.getId()));
 			}
 			//cruzamento de fontes obras e classificacao
 			for(DTO l : resultclassificacao){
-				resultSet.addAll(manager.findEntity("FROM fontesobrasMO WHERE classificacao_id = "+l.getId()));
+				resultSet.addAll(manager.findEntity("FROM fontesobrasmo WHERE classificacao_id = "+l.getId()));
 			}
 			resultFinal=resultSet;
 			
