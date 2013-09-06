@@ -86,8 +86,8 @@ p {
 .text {
 	padding: 0 20px 10px;
 	width: 862px;
-	float: left;
-	border: 1px none red;
+	float: right;
+	border-top: 3px solid #033454;
 	background: white;
 	/*min-height: 282px;*/
 }
@@ -517,6 +517,7 @@ label {
 	width: 208px; /* Valor anterior: 180px; */
 	/*height: 1300px; /* 1280px; */
 	background-color: #033454; /* #24346F; */
+	position: absolute;
 	/*padding-bottom: 10px;*/
 }
 
@@ -530,8 +531,8 @@ label {
 .content {
 	padding: 30px 10px 10px 10px;
 	width: 882px;
-	float: left;
-	border: 1px none red;
+	float: right;
+	border-top: 3px solid #033454;
 	background: white;
 	min-height: 282px;
 }

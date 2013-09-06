@@ -1,4 +1,21 @@
 /**
+ * 
+ */
+$(window).ready(function(){
+	var top = $('.sidebar1').offset().top - parseFloat($('.sidebar1').css('marginTop').replace(/auto/,0));
+	$(window).scroll(function () {
+		var y = $(this).scrollTop();
+		if (y >= top) {
+			$('.sidebar1').css('position','fixed');
+			$('.sidebar1').css('margin','-185px 0 0 0');
+		} else {
+			$('.sidebar1').css('position','absolute');
+			$('.sidebar1').css('margin','0 0 0 0');
+		}
+	});
+});
+
+/**
  * Função executado durante o carregamento da página.
  * Faz a veriicação se o browser é compatível e redimensiona a barra lateral para 
  * ficar de acordo com o tamanho do conteúdo.
@@ -28,11 +45,11 @@ function adjustToSidebar(){
 	$sidebarHeight = $('.sidebar1').height();
 	
 	if ($(".content")[0]){
-		$sidebarHeight -= 43;
+		$sidebarHeight -= 46;
 		$('.content').css('min-height',$sidebarHeight);
 	}
 	else{
-		$sidebarHeight -= 13;
+		$sidebarHeight -= 16;
 		$('.text').css('min-height',$sidebarHeight);
 	}
 	return false;
