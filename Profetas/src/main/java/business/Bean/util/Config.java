@@ -39,19 +39,21 @@ public class Config {
 	private Config() throws UnreachableDataBaseException {
 		// Carrega as entradas, gravadas no banco de dados, na memória
 		map = new HashMap<String, String>();
-		for(String[] s:entries)
+		dao = new ConfigurationDAO();
+		for(int i = 0; i < entries.length; i++)
 		try {
-			map.put(s[0], dao.getEntry(s[0]).getValue());
+			map.put(entries[i][0], dao.getEntry(entries[i][0]).getValue());
 		} catch (ConfigNotFoundException e) {
 			try {
-				dao.addPropertie(s[0], s[1]);
+				dao.addPropertie(entries[i][0], entries[i][1]);
 			} catch (DuplicatedEntryException e1) {
 				try {
-					dao.updatePropertie(s[0], s[1]);
+					dao.updatePropertie(entries[i][0], entries[i][1]);
 				} catch (ConfigNotFoundException e2) {
 					e2.printStackTrace();
 				}
 			}
+			map.put(entries[i][0], entries[i][1]);
 		}
 		// Carregando lista de permissões.
 		permissions = new ArrayList<String>();

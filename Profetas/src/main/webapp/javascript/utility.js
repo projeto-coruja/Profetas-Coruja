@@ -3,7 +3,7 @@
  * Faz a veriicação se o browser é compatível e redimensiona a barra lateral para 
  * ficar de acordo com o tamanho do conteúdo.
  */
-$(window).bind("load",function(){
+$(window).load(function(){
 	var	agent = navigator.userAgent,
 		count = 0,
 		browserWhitelist = ["firefox","chrome", "opera", "safari"];
@@ -15,30 +15,26 @@ $(window).bind("load",function(){
 	if(count <= browserWhitelist.length * -1){
 		window.location.replace("updateBrowser.jsp");
 	}
-	adjustSidebar();
+	adjustToSidebar();
 });
 
-function adjustSidebar(){
-	var $height = 0,
-		$sidebarHeight = 0,
-		$element;
+function adjustToSidebar(){
+	var $sidebarHeight = 0;
 	
-	if ($(".content")[0])	$element = $('.content');
-	else	$element = $('.text');
+//	$('.bordaBox').each(function(){
+//		$sidebarHeight += $(this).innerHeight();
+//	});
+
+	$sidebarHeight = $('.sidebar1').height();
 	
-	$height = $element.innerHeight();
-	
-	$('.bordaBox').each(function(){
-		$sidebarHeight += $(this).innerHeight();
-	});
-	
-	$sidebarHeight -= 3;
-	
-	
-	if($height < $sidebarHeight){
-		$height = $sidebarHeight;
+	if ($(".content")[0]){
+		$sidebarHeight -= 43;
+		$('.content').css('min-height',$sidebarHeight);
 	}
-	$('.sidebar1').css('height',$height);
+	else{
+		$sidebarHeight -= 13;
+		$('.text').css('min-height',$sidebarHeight);
+	}
 	return false;
 }
 /**

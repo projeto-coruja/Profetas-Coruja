@@ -75,21 +75,6 @@ public class Personagem implements DTO {
 		this.obras = obras;
 	}
 
-	public Personagem(int id, String apelido, String biografia, SimpleDate dataMorte, SimpleDate dataNascimento,
-			String formacao, String nome, String ocupacao, Local localMorte,Local localNascimento, 			 
-			FontesObras referencia_bibliografica) {
-		this.nome = nome;
-		this.apelido = apelido;
-		this.localNascimento = localNascimento;
-		this.dataNascimento = dataNascimento;
-		this.localMorte = localMorte;
-		this.dataMorte = dataMorte;
-		this.biografia = biografia;
-		this.ocupacao = ocupacao;
-		this.formacao = formacao;
-		this.referencia_bibliografica = referencia_bibliografica;		
-	}
-
 	public Long getId() {
 		return id;
 	}

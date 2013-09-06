@@ -17,8 +17,8 @@ $(document).ready(function() {
 			$(this).css({'background-color': '#3E779D', 'color': '#FFFFFF'});	// seta estilo da aba que foi selecionado.
 			window.setTimeout(function(){	// Delay para dar tempo do fadeOut ser executado completamente.
 				selected.fadeIn(200);		// FadeIn do conteúdo que foi selecionado.
-				window.setTimeout(adjustSidebar(),10);	// Delay para ajustar o sidebar.
-			},250);
+				//window.setTimeout(adjustSidebar(),10);	// Delay para ajustar o sidebar.
+			},200);
 			
 		}
 		return false;	// Retorna falso caso não precise fazer nenhuma alteração (i.e. Aba selecionado = aba atual)

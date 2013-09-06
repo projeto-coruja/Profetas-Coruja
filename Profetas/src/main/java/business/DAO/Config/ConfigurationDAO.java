@@ -92,7 +92,7 @@ public class ConfigurationDAO {
 		List<DTO> resultSet = null;
 		try {
 			resultSet = manager.findEntity("from ConfigurationMO where entry = '" + entry +"'");
-			if(resultSet == null) {
+			if(resultSet == null || resultSet.isEmpty()) {
 				throw new ConfigNotFoundException("Entrada inexistente.");
 			}
 			else return (Configuration) resultSet.get(0);

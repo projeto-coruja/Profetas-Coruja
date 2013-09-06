@@ -1,8 +1,8 @@
 <%@ tag language="java" pageEncoding="UTF-8" %>
-<%@ attribute name="type" required="true" type="java.lang.String" description="Tipo de header a ser utilizado (basic / full)" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%@ attribute name="type" required="true" type="java.lang.String" description="Tipo de header a ser utilizado (basic / full)" %>
 
 <meta charset="utf-8">
 <title>Profetas</title>
@@ -18,7 +18,6 @@
 <!-- Import dos javascripts -->
 <script src="<c:url value = "/javascript/jquery.js" />" type="text/javascript"	charset="utf-8"></script>
 <script src="<c:url value = "/javascript/utility.js" />" type="text/javascript" charset="utf-8"></script>
-<script src="<c:url value = "/javascript/cookie.js" />" type="text/javascript"	charset="utf-8"></script>
 
 <c:if test="${type == 'full'}">
 
@@ -38,3 +37,5 @@
 	<script src="<c:url value ="/javascript/validate_pt_br.js"/>" type="text/javascript" charset="utf-8"></script>
 	
 </c:if>
+
+<jsp:doBody/>
