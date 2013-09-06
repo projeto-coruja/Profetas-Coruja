@@ -10,9 +10,11 @@ import persistence.PersistenceAccess;
 
 import persistence.dto.Correspondencia;
 import persistence.dto.DTO;
+import persistence.dto.FontesObras;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.model.CorrespondenceNotFoundException;
 import business.exceptions.model.LocalNotFoundException;
+import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 
 public class CorrespondenciaSearchDAO {
@@ -112,6 +114,11 @@ public class CorrespondenciaSearchDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
+	}
+
+	public FontesObras findExactFontesObrasById(long id) throws FontesObrasNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

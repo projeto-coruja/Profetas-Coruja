@@ -52,7 +52,7 @@ public class CorrespondenciaBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws DuplicateSourceWorkException
 	 */
-	public void addCorrespondence(Personagem remetente, Personagem destinatario, SimpleDate data, Local local) throws UnreachableDataBaseException, DuplicateSCorrespondenceException {
+/*	public void addCorrespondence(Personagem remetente, Personagem destinatario, SimpleDate data, Local local) throws UnreachableDataBaseException, DuplicateSCorrespondenceException {
 
 		try {
 			search.findExactFontesObras(titulo, editor);
@@ -67,7 +67,7 @@ public class CorrespondenciaBean {
 		} 
 
 	}
-	
+	*/
 	public void updateSourceWork (long id, String titulo, String comentarios,
 			String refverenciasirCulacaoObra, String url,
 			String copiasManuscritas, String traducoes,
@@ -111,11 +111,11 @@ public class CorrespondenciaBean {
 	 * @param editor
 	 * @throws UnreachableDataBaseException
 	 */
-	public void removeSourceWork (String titulo, String editor) throws UnreachableDataBaseException{
+	public void removeSourceWork (Long id) throws UnreachableDataBaseException{
 		try {
-			FontesObras check = search.findExactFontesObras(titulo, editor);
-			if(check == null)	throw new FontesObrasNotFoundException("Entrada '"+ titulo +"' não encontrada.");
-			dao.removeSourceWork(check);
+			FontesObras check = search.findExactFontesObrasById(id);
+			if(check == null)	throw new FontesObrasNotFoundException("Entrada '"+ id +"' não encontrada.");
+			//dao.removeSourceWork(check);
 		} catch (FontesObrasNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -130,7 +130,7 @@ public class CorrespondenciaBean {
 		try {
 			FontesObras check = search.findExactFontesObrasById(id);
 			if(check == null)	throw new FontesObrasNotFoundException("Entrada '"+ id +"' não encontrada.");
-			dao.removeSourceWork(check);
+			//dao.removeSourceWork(check);
 		} catch (FontesObrasNotFoundException e) {
 			e.printStackTrace();
 		}
