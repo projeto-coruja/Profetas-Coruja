@@ -22,6 +22,12 @@ public class PersonagemSearchDAO {
 		public PersonagemSearchDAO(){
 			manager= new PersistenceAccess();
 		}
+		
+		//public List<DTO> findPersonagemMain(String apelido, String nome, ){
+			
+			
+			
+	//	}
 		/**
 		 * Pesquisa por um personagem
 		 * @param nome - nome do personagem.

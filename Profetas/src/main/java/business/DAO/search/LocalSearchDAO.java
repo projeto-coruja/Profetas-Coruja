@@ -22,9 +22,12 @@ public class LocalSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localMO WHERE nome like '%"+ nome +"%' AND latitude = '"+ latitude +"'"
-					+ "AND longitude = '"+ longitude +"'"
+			
+			resultSet = manager.findEntity("FROM LocalMO WHERE nome like '%"+ nome +"%' AND latitude = "+ latitude +" "
+					+ "AND longitude = "+ longitude +""
 					+ " ORDER BY id");
+			//resultSet = manager.findEntity("FROM LocalMO");
+			
 			
 			if(resultSet == null) {
 				throw new  LocalNotFoundException ("Local não encontrado.");
@@ -35,7 +38,7 @@ public class LocalSearchDAO {
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados: "+e);
 		}
 		
 		
@@ -54,7 +57,7 @@ public class LocalSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localMO WHERE nome = '"+ nome +"'"
+			resultSet = manager.findEntity("FROM localmo WHERE nome = '"+ nome +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -81,7 +84,7 @@ public class LocalSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localMO WHERE nome like '%" + nome +"%' "
+			resultSet = manager.findEntity("FROM localmo WHERE nome like '%" + nome +"%' "
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -107,7 +110,7 @@ public class LocalSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localMO WHERE latitude = '"+ latitude +"'"
+			resultSet = manager.findEntity("FROM localmo WHERE latitude = '"+ latitude +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -133,7 +136,7 @@ public class LocalSearchDAO {
 		List<DTO> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localMO WHERE lon gitude = '"+ longitude +"'"
+			resultSet = manager.findEntity("FROM localmo WHERE lon gitude = '"+ longitude +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {

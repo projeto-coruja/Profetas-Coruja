@@ -33,6 +33,10 @@ public class FontesObrasSearchDAO {
 			String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
 			String classificacao, List<DTO> palavraChave, List<DTO> obrasCitadas, List<DTO> leitores, List<DTO> personagens,  List<DTO> autores) throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
 		//vamos supor que já recebemos a classificação já vem pronta, vamos apenas pesquisar seu id
+		dataImpressao.format();
+		anoInicio_grupomovimento.format();
+		anoFim_grupomovimento.format();
+		
 		List<DTO> resultSet = null;
 		List<DTO> resultgrupoMovimento = null;
 		List<DTO> resultlocalGrupoMovimento = null;
@@ -46,12 +50,13 @@ public class FontesObrasSearchDAO {
 			//novas modificações comecam aqui
 			///procura por um grupo movimento
 			GrupoMovimentoSearchDAO dao_grupomovimento = new GrupoMovimentoSearchDAO();
+			System.out.println("0 print");
 			resultgrupoMovimento = dao_grupomovimento.findGrupoMovimentoByAll(grupoMovimento,anoInicio_grupomovimento, anoFim_grupomovimento, descricao_grupomovimento, local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
+			System.out.println("print 1");
 			ClassificacaoSearchDAO dao_classificacao = new ClassificacaoSearchDAO();	
 			resultclassificacao = dao_classificacao.findClassificacaoByTipo(classificacao);
 			//novas modificacoes terminam aqui
-			
-			resultSet = manager.findEntity("from fontesobrasmo where titulo like" + getQueryNormalization("'%" + titulo +"%'")
+			String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
 					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
 					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
 					+ "AND url like" + getQueryNormalization("'%" + url +"%'")
@@ -59,15 +64,20 @@ public class FontesObrasSearchDAO {
 					+ "AND traducoes like" + getQueryNormalization("'%" + traducoes +"%'")
 					+ "AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
 					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
-					+ "order by titulo");
+					+ "order by titulo";
+			System.out.println("query; " + query);
+			
+			
+			resultSet = manager.findEntity(query);
+			System.out.println("donEE");
 			
 			//cruzamento de fontes obras e grupo movimento
 			for(DTO l : resultgrupoMovimento){
-				resultSet.addAll(manager.findEntity("FROM fontesobrasmo WHERE grupomovimento_id = "+l.getId()));
+				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE grupomovimento_id = "+l.getId()));
 			}
 			//cruzamento de fontes obras e classificacao
 			for(DTO l : resultclassificacao){
-				resultSet.addAll(manager.findEntity("FROM fontesobrasmo WHERE classificacao_id = "+l.getId()));
+				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE classificacao_id = "+l.getId()));
 			}
 			resultFinal=resultSet;
 			

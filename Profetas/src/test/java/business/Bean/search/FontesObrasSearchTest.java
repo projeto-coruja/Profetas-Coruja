@@ -31,7 +31,23 @@ public class FontesObrasSearchTest {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		ClassificacaoSearchDAO dao2 = new ClassificacaoSearchDAO();
 		
-		DTO tipo  = dao2.findExactClassificacao("romance");
+		DTO tipo  = dao2.findExactClassificacao("matematica");
+	
+		
+		List<DTO> lalala = dao.findFontesObrasByClassificacao(tipo.getId());
+		for(DTO p : lalala){
+			System.out.println(((FontesObras)p).getTitulo());
+		}
+		
+	}
+	
+	
+	//@Test(expected = ClassificationNotFoundException.class)
+	public void findByclassificacaoNotFoundtest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException {
+		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
+		ClassificacaoSearchDAO dao2 = new ClassificacaoSearchDAO();
+		
+		DTO tipo  = dao2.findExactClassificacao("m");
 	
 		
 		List<DTO> lalala = dao.findFontesObrasByClassificacao(tipo.getId());
@@ -45,7 +61,7 @@ public class FontesObrasSearchTest {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		GrupoMovimentoSearchDAO dao2 = new GrupoMovimentoSearchDAO();
 		
-		DTO tipo  = (DTO) dao2.findExactGrupoMovimentoByNome("grupo");
+		DTO tipo  = (DTO) dao2.findExactGrupoMovimentoByNome("escola de pitagoras");
 		//List<DTO> grupo =  dao2.findAllGrupoMovimento();
 		//for(DTO g : grupo){
 		System.out.println(tipo.getId());
@@ -58,14 +74,14 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	@Test
+	//@Test
 		public void findByTitulotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException, GroupMovementNotFoundException {
 			FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 			
 			
 		//	DTO tipo  = (DTO) dao.findExactFontesObras("Tragedia Grega");
 			//DTO tipo  = (DTO) dao.findFontesObrasByTitulo("Tragedia");
-			List<DTO> tipo =  dao.findFontesObrasByTitulo("Tragedia");
+			List<DTO> tipo =  dao.findFontesObrasByTitulo("O triangulo de Pitagoras");
 			for(DTO g : tipo){
 				System.out.println(((DTO) g).getId());
 				System.out.println(((FontesObras)g).getTitulo());
@@ -83,10 +99,11 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	//@Test
+	@Test(expected =  GroupMovementNotFoundException.class)
 	public void findMain() throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
-		SimpleDate dataimpressao = new SimpleDate((short) 0);
-		//dataimpressao.format();
+		SimpleDate dataimpressao = new SimpleDate((short) 2000,(short)02,(short)05);
+		SimpleDate ano_inicioGrupo = new SimpleDate((short) 2000);
+		SimpleDate ano_fimGrupo = new SimpleDate((short) 2012);
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra	
 		List<Personagem> leitores = new ArrayList<Personagem>();
 		List<Personagem> autores = new ArrayList<Personagem>();
@@ -99,7 +116,7 @@ public class FontesObrasSearchTest {
 		autores.add(new Personagem("ulisses", null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		leitores.add(new Personagem("hercules", null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		
-		List<DTO> fontes = dao.mainSearchAND("um belo", "bela","","www.teste.or.br", "", "",dataimpressao,"tio","grupo",dataimpressao,dataimpressao, "um grupo para teste", "local1", 15.522 , 5233.33 , "local1", 15.522 , 5233.33 , "romance",null,  null,null,null,null);
+		List<DTO> fontes = dao.mainSearchAND("O triangulo de pitagoras", "comentario","nenhuma","http://pt.wikipedia.org/wiki/Escola_pitag%C3%B3rica", "nenhuma", "italiano, portugues",dataimpressao,"nenhum","escola de pitagoras",ano_inicioGrupo, ano_fimGrupo, "pai da matematica", "Grecia Central", 38.60, 22.71, "Grecia Central", 38.60, 22.71, "matematica",null,  null,null,null,null);
 		if(fontes !=null){
 			for(DTO p : fontes){
 				System.out.println(((FontesObras)p).getTitulo());

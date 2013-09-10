@@ -35,12 +35,16 @@ public class GrupoMovimentoSearchDAO {
 			List<DTO> resultados = dao.findLocalByAll(local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
 
 
-			resultSetGrupos = manager.findEntity("FROM grupomovimentomo WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 
-					+ "AND anoinicio  = "+ anoinicio + " AND anofim = "+ anofim + "AND descricao like" + getQueryNormalization("'%"+ descricao +"%'") 
+			resultSetGrupos = manager.findEntity("FROM GrupoMovimentoMO WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 
+					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + getQueryNormalization("'%"+ descricao +"%'") 
 					+ " ORDER BY nome");
-			for(DTO l : resultados){
-				for(DTO g : resultSetGrupos){
-					resultSet = manager.findEntity("FROM grupomovimentomo_localmo WHERE grupomovimentomo_id = "+g.getId()+" AND local_id = " + l.getId()+"");
+			if(resultados != null){
+				for(DTO l : resultados){
+					if(resultSetGrupos != null){
+						for(DTO g : resultSetGrupos){
+							resultSet = manager.findEntity("FROM GrupoMovimentoMO_LocalMO WHERE grupomovimentomo_id = "+g.getId()+" AND local_id = " + l.getId()+"");
+						}
+					}
 				}
 			}
 
