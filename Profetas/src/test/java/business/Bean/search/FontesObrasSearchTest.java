@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import datatype.SimpleDate;
 
+import persistence.PersistenceAccess;
 import persistence.dto.DTO;
 import persistence.dto.FontesObras;
 import persistence.dto.PalavraChave;
@@ -17,10 +18,12 @@ import persistence.dto.Personagem;
 import business.DAO.search.ClassificacaoSearchDAO;
 import business.DAO.search.FontesObrasSearchDAO;
 import business.DAO.search.GrupoMovimentoSearchDAO;
+import business.DAO.search.PersonagemSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.ClassificationNotFoundException;
 import business.exceptions.model.GroupMovementNotFoundException;
 import business.exceptions.model.LocalNotFoundException;
+import business.exceptions.search.PersonagemNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 
 
@@ -99,7 +102,25 @@ public class FontesObrasSearchTest {
 		}
 		
 	}
-	@Test(expected =  GroupMovementNotFoundException.class)
+	@Test
+		public void findtest() throws FontesObrasNotFoundException, UnreachableDataBaseException, PersonagemNotFoundException{
+			PersistenceAccess manager = new PersistenceAccess();
+			PersonagemSearchDAO daoPersonagem = new PersonagemSearchDAO();
+			FontesObrasSearchDAO dao =new FontesObrasSearchDAO();
+			System.out.println("antes");
+			List<DTO> p= (List<DTO>) daoPersonagem.findExactPersonagemByExactNome("odisseu");
+			System.out.println("depois");
+			DTO o = dao.findExactFontesObrasById(1);
+			for(DTO j:p){
+				String query = ("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + ((DTO) j).getId() + " AND fontesobrasmo_id="+ o.getId());
+			
+			
+				List<DTO> resultSet = manager.findEntity(query);
+				System.out.println(resultSet);
+			}
+		}
+	
+	//@Test(expected =  GroupMovementNotFoundException.class)
 	public void findMain() throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
 		SimpleDate dataimpressao = new SimpleDate((short) 2000,(short)02,(short)05);
 		SimpleDate ano_inicioGrupo = new SimpleDate((short) 2000);

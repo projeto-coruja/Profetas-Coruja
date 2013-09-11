@@ -6,6 +6,9 @@ import datatype.SimpleDate;
 
 
 import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.model.ClassificationNotFoundException;
+import business.exceptions.model.GroupMovementNotFoundException;
+import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.model.ReligionNotFoundException;
 import business.exceptions.search.PersonagemNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
@@ -22,12 +25,62 @@ public class PersonagemSearchDAO {
 		public PersonagemSearchDAO(){
 			manager= new PersistenceAccess();
 		}
+		private String getQueryNormalization(String var){
+			var.replaceAll("'", "''");
+					
+			return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
+		}
 		
-		//public List<DTO> findPersonagemMain(String apelido, String nome, ){
+		public List<DTO> findPersonagemMainAND(String nome, String apelido, String local_nascimento, double local_nascimento_latitude,
+				double local_nascimento_longitude,SimpleDate data_nascimento, String local_morte, double local_morte_latitude, 
+				double local_morte_longitude, SimpleDate data_morte,
+				String biografia, String ocupacao, String formacao, 
+				String referencia_bibliografica, //procurar por uma fonte obras
+				String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
+				SimpleDate dataImpressao, String editor, 
+				String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
+				double latitude_grupomovimento, double longitude_grupomovimento,
+				String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
+				String classificacao,
+				List<DTO>religiao, List<DTO>grupo, List<DTO> locais_visitados, List<DTO>encontro) throws LocalNotFoundException, UnreachableDataBaseException, FontesObrasNotFoundException, GroupMovementNotFoundException, ClassificationNotFoundException{
+			
+			List<DTO> resultSet = null;
+			String query= "from PersoangemMO where apelido like" + getQueryNormalization("'%" + apelido +"%'")
+					+ "AND biografia like" + getQueryNormalization("'%" + biografia +"%'")
+					+ "AND datamorte like" + getQueryNormalization("'%" + data_morte+"%'")
+					+ "AND datanascimento like" + getQueryNormalization("'%" + data_nascimento+"%'")
+					+ "AND formacao like" + getQueryNormalization("'%" + formacao +"%'")
+					+ "AND nome like" + getQueryNormalization("'%" + nome +"%'")
+					+ "AND ocupacao like" + getQueryNormalization("'%" + ocupacao +"%'")
+					+ "order by nome";
+			resultSet = manager.findEntity(query);
+			LocalSearchDAO local_nascimento_dao = new LocalSearchDAO();
+			LocalSearchDAO local_morte_dao = new LocalSearchDAO();
+			FontesObrasSearchDAO referencia_bibliografica_dao = new FontesObrasSearchDAO();
+			List<DTO> result_localNascimento = local_nascimento_dao.findLocalByAll(local_nascimento, local_nascimento_latitude, local_nascimento_longitude);
+			List<DTO> result_localMorte = local_morte_dao.findLocalByAll(local_morte, local_morte_latitude, local_morte_longitude);
+			List<DTO> result_referencia_bibliografica = referencia_bibliografica_dao.findFontesObrasByAll(referencia_bibliografica, comentario,
+					ref_circ_obra, url, copias_manuscritas, traducoes, dataImpressao, editor, grupoMovimento, anoInicio_grupomovimento,
+					anoFim_grupomovimento, descricao_grupomovimento, local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento,
+					localimpressao, latitude_localimpressao, longitude_localimpressao, classificacao);
+			
+			//cruzamento de personagem  e local nascimento
+			for(DTO l : result_localNascimento){
+				resultSet.addAll(manager.findEntity("FROM PersonagemMO WHERE localnascimento_id = "+l.getId()));
+			}
+			//cruzamento de personagem  e local morte
+			for(DTO l : result_localMorte){
+				resultSet.addAll(manager.findEntity("FROM PersonagemMO WHERE localmorte_id = "+l.getId()));
+			}
+			//cruzamento de personagem  e local morte
+			for(DTO l : result_referencia_bibliografica){
+				resultSet.addAll(manager.findEntity("FROM PersonagemMO WHERE referencia_bibliografica_id = "+l.getId()));
+			}
+			return resultSet;
 			
 			
 			
-	//	}
+		}
 		/**
 		 * Pesquisa por um personagem
 		 * @param nome - nome do personagem.
@@ -37,8 +90,8 @@ public class PersonagemSearchDAO {
 		public List<DTO> findExactPersonagemByExactNome(String nome) throws PersonagemNotFoundException, UnreachableDataBaseException{
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("FROM personagemMO"+		
-						" where nome = "+nome+" "+
+				resultSet = manager.findEntity("FROM PersonagemMO"+		
+						" where nome = '"+nome+"' "+
 						" ORDER BY nome ");
 				
 				if(resultSet == null) {

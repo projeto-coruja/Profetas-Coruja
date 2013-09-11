@@ -27,7 +27,7 @@ public class LocalSearchTest {
 	@Test
 	public void findLocalByAlltest() throws LocalNotFoundException, UnreachableDataBaseException {
 		LocalSearchDAO dao = new LocalSearchDAO();				
-		DTO tipo  = (DTO) dao.findLocalByAll("Grecia Central", 38.60, 22.71);	
+		DTO tipo  = (DTO) dao.findLocalByAll("Grecia Central", 38.6, 22.71);	
 		System.out.println(tipo.getId());
 		
 	

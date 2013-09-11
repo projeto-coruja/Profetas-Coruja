@@ -32,7 +32,7 @@ public class GrupoMovimentoSearchDAO {
 
 		LocalSearchDAO dao = new LocalSearchDAO();
 		try {
-			List<DTO> resultados = dao.findLocalByAll(local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
+			List<DTO> resultados = (List<DTO>) dao.findLocalByAll(local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
 
 
 			resultSetGrupos = manager.findEntity("FROM GrupoMovimentoMO WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 

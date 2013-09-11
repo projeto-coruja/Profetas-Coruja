@@ -43,18 +43,14 @@ public class FontesObrasSearchDAO {
 		List<DTO> resultclassificacao = null;
 		List<DTO> resultFinal =null;
 		try {
-			/*resultgrupoMovimento = manager.findEntity("from grupomovimentomo where nome like "+ getQueryNormalization("'%" + grupoMovimento +"%'")
-					+  "AND anofim ="+ anoFim_grupomovimento+"AND anoinicio=" +anoInicio_grupomovimento + "AND descricao like" + descricao_grupomovimento
-					);
-			*/
 			//novas modificações comecam aqui
 			///procura por um grupo movimento
-			GrupoMovimentoSearchDAO dao_grupomovimento = new GrupoMovimentoSearchDAO();
-			System.out.println("0 print");
+			GrupoMovimentoSearchDAO dao_grupomovimento = new GrupoMovimentoSearchDAO();	
 			resultgrupoMovimento = dao_grupomovimento.findGrupoMovimentoByAll(grupoMovimento,anoInicio_grupomovimento, anoFim_grupomovimento, descricao_grupomovimento, local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
-			System.out.println("print 1");
 			ClassificacaoSearchDAO dao_classificacao = new ClassificacaoSearchDAO();	
 			resultclassificacao = dao_classificacao.findClassificacaoByTipo(classificacao);
+			LocalSearchDAO dao_local_impressao = new LocalSearchDAO();
+			List<DTO> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
 			//novas modificacoes terminam aqui
 			String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
 					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
@@ -70,14 +66,26 @@ public class FontesObrasSearchDAO {
 			
 			resultSet = manager.findEntity(query);
 			System.out.println("donEE");
-			
+			//resultadoTemp
 			//cruzamento de fontes obras e grupo movimento
+			String maisUmAnd = "( ";
+			boolean first = true;
 			for(DTO l : resultgrupoMovimento){
-				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE grupomovimento_id = "+l.getId()));
+				if(! first ){
+					maisUmAnd+=" OR ";
+				} 
+				first = false;
+				maisUmAnd+="grupomovimento_id = "+l.getId()+" ";
+				//resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE grupomovimento_id = "+l.getId()));
 			}
+			maisUmAnd+=" ) ";
 			//cruzamento de fontes obras e classificacao
 			for(DTO l : resultclassificacao){
 				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE classificacao_id = "+l.getId()));
+			}
+			//cruzamento de fontes obras e classificacao
+			for(DTO l : resultlocal_impressao){
+				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE localimpressao_id = "+l.getId()));
 			}
 			resultFinal=resultSet;
 			
@@ -136,6 +144,75 @@ public class FontesObrasSearchDAO {
 		
 	}
 	
+	public List<DTO> findFontesObrasByAll(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
+			SimpleDate dataImpressao, String editor, 
+			String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
+			double latitude_grupomovimento, double longitude_grupomovimento,
+			String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
+			String classificacao) throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
+		//vamos supor que já recebemos a classificação já vem pronta, vamos apenas pesquisar seu id
+				
+		List<DTO> resultSet = null;
+		List<DTO> resultgrupoMovimento = null;
+		List<DTO> resultlocalGrupoMovimento = null;
+		List<DTO> resultclassificacao = null;
+		List<DTO> resultFinal =null;
+		try {
+			
+			//novas modificações comecam aqui
+			///procura por um grupo movimento
+			GrupoMovimentoSearchDAO dao_grupomovimento = new GrupoMovimentoSearchDAO();
+			resultgrupoMovimento = dao_grupomovimento.findGrupoMovimentoByAll(grupoMovimento,anoInicio_grupomovimento, anoFim_grupomovimento, descricao_grupomovimento, local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
+			ClassificacaoSearchDAO dao_classificacao = new ClassificacaoSearchDAO();	
+			resultclassificacao = dao_classificacao.findClassificacaoByTipo(classificacao);
+			LocalSearchDAO dao_local_impressao = new LocalSearchDAO();
+			List<DTO> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
+			//novas modificacoes terminam aqui
+			String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
+					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
+					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
+					+ "AND url like" + getQueryNormalization("'%" + url +"%'")
+					+ "AND copiasmasnuscritas like" + getQueryNormalization("'%" + copias_manuscritas +"%'")
+					+ "AND traducoes like" + getQueryNormalization("'%" + traducoes +"%'")
+					+ "AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
+					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
+					+ "order by titulo";
+			System.out.println("query; " + query);
+			
+			
+			resultSet = manager.findEntity(query);
+			System.out.println("donEE");
+			
+			//cruzamento de fontes obras e grupo movimento
+			for(DTO l : resultgrupoMovimento){
+				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE grupomovimento_id = "+l.getId()));
+			}
+			//cruzamento de fontes obras e classificacao
+			for(DTO l : resultclassificacao){
+				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE classificacao_id = "+l.getId()));
+			}
+			for(DTO l : resultlocal_impressao){
+				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE localimpressao_id = "+l.getId()));
+			}
+			resultFinal=resultSet;
+			
+						
+			
+			
+			if(resultSet == null) {
+				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
+			}
+			else return (List<DTO>)resultSet;
+		
+		} catch (DataAccessLayerException e) {
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+		
+		
+		
+	}
+	
 	/**
 	 * Pesquisa por uma  exata fontesobras pesquisando por "id"
 	 * @param id - id da fontes/obras.
@@ -148,7 +225,7 @@ public class FontesObrasSearchDAO {
 		try {
 			resultSet = manager.findEntity("FROM FontesObrasMO"+		
 					" where id = "+id+" "+
-					" ORDER BY nome ");
+					" ORDER BY titulo");
 			
 			if(resultSet == null) {
 				throw new FontesObrasNotFoundException ("Fontes Obras não encontrado.");

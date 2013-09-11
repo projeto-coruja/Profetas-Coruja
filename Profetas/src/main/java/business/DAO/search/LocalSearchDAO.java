@@ -34,7 +34,7 @@ public class LocalSearchDAO {
 			}
 			else{
 				
-				return  (List<DTO>) resultSet;
+				return (List<DTO>) resultSet;
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();

@@ -30,5 +30,6 @@
 		<mapping class="persistence.model.PersonagemMO" />
 		<mapping class="persistence.model.ReligiaoCrencasMO" />
 		
+		
 	</session-factory>
 </hibernate-configuration>
