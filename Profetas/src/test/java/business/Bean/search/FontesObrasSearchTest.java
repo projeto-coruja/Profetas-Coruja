@@ -29,6 +29,7 @@ import business.exceptions.search.business.DAO.search.FontesObrasNotFoundExcepti
 
 public class FontesObrasSearchTest {
 
+	
 	//@Test
 	public void findByclassificacaotest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra

@@ -25,6 +25,7 @@ public class GrupoMovimentoSearchDAO {
 		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 	}
 
+
 	public List<DTO> findGrupoMovimentoByAll(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, String local_grupomovimento,
 			double latitude_grupomovimento, double longitude_grupomovimento) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
 		List<DTO> resultSetGrupos = null;

@@ -7,7 +7,6 @@ import datatype.SimpleDate;
 import persistence.PersistenceAccess;
 import persistence.dto.DTO;
 import persistence.dto.FontesObras;
-import persistence.dto.GrupoMovimento;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.ClassificationNotFoundException;
@@ -39,9 +38,8 @@ public class FontesObrasSearchDAO {
 		
 		List<DTO> resultSet = null;
 		List<DTO> resultgrupoMovimento = null;
-		List<DTO> resultlocalGrupoMovimento = null;
 		List<DTO> resultclassificacao = null;
-		List<DTO> resultFinal =null;
+		List<DTO> resultTemp =null;
 		try {
 			//novas modificações comecam aqui
 			///procura por um grupo movimento
@@ -52,6 +50,46 @@ public class FontesObrasSearchDAO {
 			LocalSearchDAO dao_local_impressao = new LocalSearchDAO();
 			List<DTO> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
 			//novas modificacoes terminam aqui
+			
+			//resultadoTemp
+			//cruzamento de fontes obras e grupo movimento
+			String grupomovimento_query = "( ";
+			boolean first = true;
+			for(DTO l : resultgrupoMovimento){
+				if(! first ){
+					grupomovimento_query+=" OR ";
+				} 
+				first = false;
+				grupomovimento_query+="grupomovimento_id = "+l.getId()+" ";
+				
+			}
+			grupomovimento_query+=" ) ";
+			//cruzamento de fontes obras e classificacao
+			String classificacao_query = "( ";
+			first = true;
+			for(DTO l : resultclassificacao){
+				if(! first ){
+					classificacao_query+=" OR ";
+				} 
+				first = false;
+				classificacao_query+=" classificacao_id = "+l.getId()+" ";
+				
+			}
+			classificacao_query+=" ) ";
+			
+			//cruzamento de fontes obras e local impressao
+			String localimpressao_query = "( ";
+			first = true;
+			for(DTO l :resultlocal_impressao){
+				if(! first ){
+					localimpressao_query+=" OR ";
+				} 
+				first = false;
+				localimpressao_query+="  localimpressao_id = "+l.getId()+" ";
+				
+			}
+			localimpressao_query+=" ) ";
+			
 			String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
 					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
 					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
@@ -60,74 +98,56 @@ public class FontesObrasSearchDAO {
 					+ "AND traducoes like" + getQueryNormalization("'%" + traducoes +"%'")
 					+ "AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
 					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
+					+ "AND " + grupomovimento_query
+					+ "AND " + classificacao_query
+					+ "AND " + localimpressao_query
+				
 					+ "order by titulo";
-			System.out.println("query; " + query);
-			
 			
 			resultSet = manager.findEntity(query);
-			System.out.println("donEE");
-			//resultadoTemp
-			//cruzamento de fontes obras e grupo movimento
-			String maisUmAnd = "( ";
-			boolean first = true;
-			for(DTO l : resultgrupoMovimento){
-				if(! first ){
-					maisUmAnd+=" OR ";
-				} 
-				first = false;
-				maisUmAnd+="grupomovimento_id = "+l.getId()+" ";
-				//resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE grupomovimento_id = "+l.getId()));
-			}
-			maisUmAnd+=" ) ";
-			//cruzamento de fontes obras e classificacao
-			for(DTO l : resultclassificacao){
-				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE classificacao_id = "+l.getId()));
-			}
-			//cruzamento de fontes obras e classificacao
-			for(DTO l : resultlocal_impressao){
-				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE localimpressao_id = "+l.getId()));
-			}
-			resultFinal=resultSet;
+			
+			
 			
 			//montar a query de personagem
 			for(DTO p : personagens){
-				for(DTO l : resultFinal){
-					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				for(DTO l : resultSet){
+					resultTemp= manager.findEntity("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId());
 				}
 			}
-			resultFinal = resultSet;
-			resultSet=null;
+			resultSet = resultTemp;
+			resultTemp= null;
 			
 			for(DTO a : autores){
-				for(DTO l : resultFinal){
-					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE autorescitados_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				for(DTO l : resultSet){
+					resultTemp=(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE autorescitados_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
-			resultFinal = resultSet;
-			resultSet=null;
+			resultSet = resultTemp;
+			resultTemp= null;
 			
 			for(DTO a : leitores){
-				for(DTO l : resultFinal){
-					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE leitores_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				for(DTO l : resultSet){
+					resultTemp=(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE leitores_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
-			resultFinal = resultSet;
-			resultSet=null;
+			resultSet = resultTemp;
+			resultTemp= null;
 			
 			for(DTO o : obrasCitadas){
-				for(DTO l : resultFinal){
-					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_fontesobrasmmo WHERE obrascitadas_id =" + o.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				for(DTO l : resultSet){
+					resultTemp=(manager.findEntity("FROM fontesobrasmo_fontesobrasmmo WHERE obrascitadas_id =" + o.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
-			resultFinal = resultSet;
-			resultSet=null;
+			resultSet = resultTemp;
+			resultTemp= null;
 			
 			for(DTO p : palavraChave){
-				for(DTO l : resultFinal){
-					resultSet.addAll(manager.findEntity("FROM fontesobrasmo_palavrachavemmo WHERE palavrachave_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId()));
+				for(DTO l : resultSet){
+					resultTemp=(manager.findEntity("FROM fontesobrasmo_palavrachavemmo WHERE palavrachave_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
-			
+			resultSet = resultTemp;
+			resultTemp= null;
 			
 			
 			if(resultSet == null) {
@@ -144,6 +164,7 @@ public class FontesObrasSearchDAO {
 		
 	}
 	
+	
 	public List<DTO> findFontesObrasByAll(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
 			SimpleDate dataImpressao, String editor, 
 			String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
@@ -154,9 +175,8 @@ public class FontesObrasSearchDAO {
 				
 		List<DTO> resultSet = null;
 		List<DTO> resultgrupoMovimento = null;
-		List<DTO> resultlocalGrupoMovimento = null;
 		List<DTO> resultclassificacao = null;
-		List<DTO> resultFinal =null;
+
 		try {
 			
 			//novas modificações comecam aqui
@@ -168,6 +188,43 @@ public class FontesObrasSearchDAO {
 			LocalSearchDAO dao_local_impressao = new LocalSearchDAO();
 			List<DTO> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
 			//novas modificacoes terminam aqui
+			String grupomovimento_query = "( ";
+			boolean first = true;
+			for(DTO l : resultgrupoMovimento){
+				if(! first ){
+					grupomovimento_query+=" OR ";
+				} 
+				first = false;
+				grupomovimento_query+="grupomovimento_id = "+l.getId()+" ";
+				
+			}
+			grupomovimento_query+=" ) ";
+			//cruzamento de fontes obras e classificacao
+			String classificacao_query = "( ";
+			first = true;
+			for(DTO l : resultclassificacao){
+				if(! first ){
+					classificacao_query+=" OR ";
+				} 
+				first = false;
+				classificacao_query+=" classificacao_id = "+l.getId()+" ";
+				
+			}
+			classificacao_query+=" ) ";
+			
+			//cruzamento de fontes obras e local impressao
+			String localimpressao_query = "( ";
+			first = true;
+			for(DTO l :resultlocal_impressao){
+				if(! first ){
+					localimpressao_query+=" OR ";
+				} 
+				first = false;
+				localimpressao_query+="  localimpressao_id = "+l.getId()+" ";
+				
+			}
+			localimpressao_query+=" ) ";
+			
 			String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
 					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
 					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
@@ -176,27 +233,13 @@ public class FontesObrasSearchDAO {
 					+ "AND traducoes like" + getQueryNormalization("'%" + traducoes +"%'")
 					+ "AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
 					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
+					+ "AND " + grupomovimento_query
+					+ "AND " + classificacao_query
+					+ "AND " + localimpressao_query
+				
 					+ "order by titulo";
-			System.out.println("query; " + query);
-			
 			
 			resultSet = manager.findEntity(query);
-			System.out.println("donEE");
-			
-			//cruzamento de fontes obras e grupo movimento
-			for(DTO l : resultgrupoMovimento){
-				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE grupomovimento_id = "+l.getId()));
-			}
-			//cruzamento de fontes obras e classificacao
-			for(DTO l : resultclassificacao){
-				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE classificacao_id = "+l.getId()));
-			}
-			for(DTO l : resultlocal_impressao){
-				resultSet.addAll(manager.findEntity("FROM FontesObrasMO WHERE localimpressao_id = "+l.getId()));
-			}
-			resultFinal=resultSet;
-			
-						
 			
 			
 			if(resultSet == null) {

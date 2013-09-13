@@ -6,6 +6,7 @@ import datatype.SimpleDate;
 
 
 import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.model.CharacterNotFoundException;
 import business.exceptions.model.ClassificationNotFoundException;
 import business.exceptions.model.GroupMovementNotFoundException;
 import business.exceptions.model.LocalNotFoundException;
@@ -14,8 +15,7 @@ import business.exceptions.search.PersonagemNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 import persistence.PersistenceAccess;
 import persistence.dto.DTO;
-import persistence.dto.FontesObras;
-import persistence.dto.Personagem;
+
 import persistence.util.DataAccessLayerException;
 
 public class PersonagemSearchDAO {
@@ -42,41 +42,157 @@ public class PersonagemSearchDAO {
 				double latitude_grupomovimento, double longitude_grupomovimento,
 				String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
 				String classificacao,
-				List<DTO>religiao, List<DTO>grupo, List<DTO> locais_visitados, List<DTO>encontro) throws LocalNotFoundException, UnreachableDataBaseException, FontesObrasNotFoundException, GroupMovementNotFoundException, ClassificationNotFoundException{
+				List<DTO>religiao, List<DTO>grupo, List<DTO> locais_visitados, List<DTO>encontro) throws LocalNotFoundException, UnreachableDataBaseException, FontesObrasNotFoundException, GroupMovementNotFoundException, ClassificationNotFoundException, CharacterNotFoundException{
 			
 			List<DTO> resultSet = null;
-			String query= "from PersoangemMO where apelido like" + getQueryNormalization("'%" + apelido +"%'")
-					+ "AND biografia like" + getQueryNormalization("'%" + biografia +"%'")
-					+ "AND datamorte like" + getQueryNormalization("'%" + data_morte+"%'")
-					+ "AND datanascimento like" + getQueryNormalization("'%" + data_nascimento+"%'")
-					+ "AND formacao like" + getQueryNormalization("'%" + formacao +"%'")
-					+ "AND nome like" + getQueryNormalization("'%" + nome +"%'")
-					+ "AND ocupacao like" + getQueryNormalization("'%" + ocupacao +"%'")
-					+ "order by nome";
-			resultSet = manager.findEntity(query);
-			LocalSearchDAO local_nascimento_dao = new LocalSearchDAO();
-			LocalSearchDAO local_morte_dao = new LocalSearchDAO();
-			FontesObrasSearchDAO referencia_bibliografica_dao = new FontesObrasSearchDAO();
-			List<DTO> result_localNascimento = local_nascimento_dao.findLocalByAll(local_nascimento, local_nascimento_latitude, local_nascimento_longitude);
-			List<DTO> result_localMorte = local_morte_dao.findLocalByAll(local_morte, local_morte_latitude, local_morte_longitude);
-			List<DTO> result_referencia_bibliografica = referencia_bibliografica_dao.findFontesObrasByAll(referencia_bibliografica, comentario,
-					ref_circ_obra, url, copias_manuscritas, traducoes, dataImpressao, editor, grupoMovimento, anoInicio_grupomovimento,
-					anoFim_grupomovimento, descricao_grupomovimento, local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento,
-					localimpressao, latitude_localimpressao, longitude_localimpressao, classificacao);
+			List<DTO> resultTemp=null;
+
 			
-			//cruzamento de personagem  e local nascimento
-			for(DTO l : result_localNascimento){
-				resultSet.addAll(manager.findEntity("FROM PersonagemMO WHERE localnascimento_id = "+l.getId()));
+			PersonagemSearchDAO personagens = new PersonagemSearchDAO();
+			
+			List<DTO> resultPersonagem = personagens.findPersonagemByAll(nome, apelido, local_nascimento, local_nascimento_latitude, 
+					local_nascimento_longitude, data_nascimento, local_morte, local_morte_latitude, local_morte_longitude, data_morte,
+					biografia, ocupacao, formacao, referencia_bibliografica, titulo, comentario, ref_circ_obra, url, copias_manuscritas,
+					traducoes, dataImpressao, editor, grupoMovimento, anoInicio_grupomovimento, anoFim_grupomovimento, descricao_grupomovimento,
+					local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento, localimpressao, latitude_localimpressao, longitude_localimpressao, classificacao);
+					
+			resultSet= resultPersonagem;
+			for(DTO r : religiao){
+				for(DTO l : resultSet){
+					 resultTemp = manager.findEntity("FROM personagemmo_religiaocrencasmo WHERE personagemmo_id =" + l.getId() + "AND religião_id="+ r.getId());
+				}
 			}
-			//cruzamento de personagem  e local morte
-			for(DTO l : result_localMorte){
-				resultSet.addAll(manager.findEntity("FROM PersonagemMO WHERE localmorte_id = "+l.getId()));
+			resultSet = resultTemp;
+			resultTemp= null;
+			for(DTO g : grupo){
+				for(DTO l : resultSet){
+					 resultTemp = manager.findEntity("FROM personagemmo_grupopersonagemmo WHERE personagemmo_id =" + l.getId() + "AND grupo_id="+ g.getId());
+				}
 			}
-			//cruzamento de personagem  e local morte
-			for(DTO l : result_referencia_bibliografica){
-				resultSet.addAll(manager.findEntity("FROM PersonagemMO WHERE referencia_bibliografica_id = "+l.getId()));
+			resultSet = resultTemp;
+			resultTemp= null;
+			
+			for(DTO lv :locais_visitados){
+				for(DTO l : resultSet){
+					 resultTemp = manager.findEntity("FROM personagemmo_locaispersonagensmo WHERE personagemmo_id =" + l.getId() + "AND locaisvisitados_id="+ lv.getId());
+				}
 			}
-			return resultSet;
+			resultSet = resultTemp;
+			resultTemp= null;
+			
+			for(DTO e : encontro){
+				for(DTO l : resultSet){
+					 resultTemp = manager.findEntity("FROM personagemmo_encontromo WHERE personagemmo_id =" + l.getId() + "AND encontro_id="+ e.getId());
+				}
+			}
+			resultSet = resultTemp;
+			resultTemp= null;
+			
+			
+			if(resultSet == null) {
+				throw new CharacterNotFoundException("Personagem não encontrado.");
+			}
+			else return (List<DTO>)resultSet;
+			
+			
+		}
+		public List<DTO> findPersonagemByAll(String nome, String apelido, String local_nascimento, double local_nascimento_latitude,
+				double local_nascimento_longitude,SimpleDate data_nascimento, String local_morte, double local_morte_latitude, 
+				double local_morte_longitude, SimpleDate data_morte,
+				String biografia, String ocupacao, String formacao, 
+				String referencia_bibliografica, //procurar por uma fonte obras
+				String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
+				SimpleDate dataImpressao, String editor, 
+				String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
+				double latitude_grupomovimento, double longitude_grupomovimento,
+				String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
+				String classificacao) throws UnreachableDataBaseException, LocalNotFoundException, FontesObrasNotFoundException, GroupMovementNotFoundException, ClassificationNotFoundException, CharacterNotFoundException{
+			
+					
+			List<DTO> resultSet = null;
+			
+
+			try {
+				
+				//novas modificações comecam aqui
+				///procura por um grupo movimento
+				LocalSearchDAO local_nascimento_dao = new LocalSearchDAO();
+				
+				LocalSearchDAO local_morte_dao = new LocalSearchDAO();
+				
+				FontesObrasSearchDAO referencia_bibliografica_dao = new FontesObrasSearchDAO();
+				
+				List<DTO> result_localNascimento = local_nascimento_dao.findLocalByAll(local_nascimento, local_nascimento_latitude, local_nascimento_longitude);
+				
+				List<DTO> result_localMorte = local_morte_dao.findLocalByAll(local_morte, local_morte_latitude, local_morte_longitude);
+				
+				List<DTO> result_referencia_bibliografica = referencia_bibliografica_dao.findFontesObrasByAll(referencia_bibliografica, comentario,
+						ref_circ_obra, url, copias_manuscritas, traducoes, dataImpressao, editor, grupoMovimento, anoInicio_grupomovimento,
+						anoFim_grupomovimento, descricao_grupomovimento, local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento,
+						localimpressao, latitude_localimpressao, longitude_localimpressao, classificacao);
+				//cruzamento de personagem e local nascimento
+				String localnascimento_query = "( ";
+				boolean first = true;
+				for(DTO l : result_localNascimento){
+					if(! first ){
+						localnascimento_query+=" OR ";
+					} 
+					first = false;
+					localnascimento_query+="localnascimento_id = "+l.getId()+" ";
+					
+				}
+				localnascimento_query+=" ) ";
+				//cruzamento de personagem e local morte
+				String localmorte_query = "( ";
+				first = true;
+				for(DTO l :  result_localMorte){
+					if(! first ){
+						localmorte_query +=" OR ";
+					} 
+					first = false;
+					localmorte_query +=" localmorte_id = "+l.getId()+" ";
+					
+				}
+				localmorte_query +=" ) ";
+				
+				//cruzamento de personagem e fontes obras
+				String refbibliografica_query = "( ";
+				first = true;
+				for(DTO l :result_referencia_bibliografica){
+					if(! first ){
+						refbibliografica_query+=" OR ";
+					} 
+					first = false;
+					refbibliografica_query+="  referencia_bibliografica_id= "+l.getId()+" ";
+					
+				}
+				refbibliografica_query+=" ) ";
+				
+				String query= "from PersoangemMO where apelido like" + getQueryNormalization("'%" + apelido +"%'")
+						+ "AND biografia like" + getQueryNormalization("'%" + biografia +"%'")
+						+ "AND datamorte like" + getQueryNormalization("'%" + data_morte+"%'")
+						+ "AND datanascimento like" + getQueryNormalization("'%" + data_nascimento+"%'")
+						+ "AND formacao like" + getQueryNormalization("'%" + formacao +"%'")
+						+ "AND nome like" + getQueryNormalization("'%" + nome +"%'")
+						+ "AND ocupacao like" + getQueryNormalization("'%" + ocupacao +"%'")
+						+ "AND " + localnascimento_query
+						+ "AND " + localmorte_query
+						+ "AND " + refbibliografica_query						
+						+ "order by nome";
+				resultSet = manager.findEntity(query);
+				
+			
+				
+				if(resultSet == null) {
+					throw new CharacterNotFoundException("Personagem não encontrado.");
+					
+				}
+				else return (List<DTO>)resultSet;
+			
+			} catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
 			
 			
 			
