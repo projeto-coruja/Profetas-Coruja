@@ -40,6 +40,43 @@ public class GrupoMovimentoSearchDAO {
 		}
 		
 	}
+	public List<DTO> mainSearchAND(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, List<DTO> local) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
+		List<DTO> resultSetGrupos = null;
+		List<DTO> resultSet = null;
+
+		try {
+		
+
+
+			resultSetGrupos = manager.findEntity("FROM GrupoMovimentoMO WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 
+					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + getQueryNormalization("'%"+ descricao +"%'") 
+					+ " ORDER BY nome");
+			if(local != null){
+				for(DTO l : local){
+					if(resultSetGrupos!= null){
+						for(DTO g :resultSetGrupos){
+							resultSet = manager.findEntity("FROM GrupoMovimentoMO_LocalMO WHERE grupomovimentomo_id = "+g.getId()+" AND local_id = " + l.getId()+"");
+						}
+					}
+				}
+			}
+
+
+			if(resultSet == null) {
+				throw new GroupMovementNotFoundException ("Grupo  Movimento não encontrado.");
+			}
+			else{
+
+				return  (List<DTO>) resultSet;
+			}
+		} catch (DataAccessLayerException e) {
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+
+
+	}
+
 
 	public List<DTO> findGrupoMovimentoByAll(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, String local_grupomovimento,
 			double latitude_grupomovimento, double longitude_grupomovimento) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
