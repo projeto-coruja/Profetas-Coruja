@@ -25,6 +25,31 @@ public class FontesObrasSearchDAO {
 				
 		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 	}
+	 public List<DTO> findFontesObrasGeneric(String string) throws FontesObrasNotFoundException, UnreachableDataBaseException{
+		 List <DTO> resultSet = null;
+		 try {
+			 String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + string +"%'")
+						+ "OR comentario like" + getQueryNormalization("'%" +string +"%'")
+						+ "OR refverenciasirculacaoobras like" + getQueryNormalization("'%" +string+"%'")
+						+ "OR url like" + getQueryNormalization("'%" + string +"%'")
+						+ "OR copiasmasnuscritas like" + getQueryNormalization("'%" + string +"%'")
+						+ "OR traducoes like" + getQueryNormalization("'%" + string +"%'")
+						+ "OR editor like" + getQueryNormalization("'%" + string +"%'")
+						+ "order by titulo";
+				
+			resultSet = manager.findEntity(query);
+			
+			if(resultSet==null){
+				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
+			}else return resultSet;
+		}catch (DataAccessLayerException e) {
+			e.printStackTrace();
+			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+		}
+		 
+	 }
+	
+	
 	public List<DTO> mainSearchAND(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
 			SimpleDate dataImpressao, String editor, 
 			String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,

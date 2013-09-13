@@ -30,6 +30,27 @@ public class PersonagemSearchDAO {
 					
 			return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 		}
+		public List<DTO> findPersonagemGeneric(String string) throws  UnreachableDataBaseException, CharacterNotFoundException{
+			 List <DTO> resultSet = null;
+			 try {
+				 String query= "from PersoangemMO where apelido like" + getQueryNormalization("'%" + string +"%'")
+							+ "OR biografia like" + getQueryNormalization("'%" + string +"%'")
+							+ "OR formacao like" + getQueryNormalization("'%" +string +"%'")
+							+ "OR nome like" + getQueryNormalization("'%" + string +"%'")
+							+ "OR ocupacao like" + getQueryNormalization("'%" + string +"%'")				
+							+ "order by nome";
+					
+				resultSet = manager.findEntity(query);
+				
+				if(resultSet==null){
+					throw new CharacterNotFoundException("Personagem não encontrado.");
+				}else return resultSet;
+			}catch (DataAccessLayerException e) {
+				e.printStackTrace();
+				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
+			}
+			 
+		 }
 		
 		public List<DTO> findPersonagemMainAND(String nome, String apelido, String local_nascimento, double local_nascimento_latitude,
 				double local_nascimento_longitude,SimpleDate data_nascimento, String local_morte, double local_morte_latitude, 

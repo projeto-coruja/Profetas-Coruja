@@ -24,7 +24,22 @@ public class GrupoMovimentoSearchDAO {
 
 		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 	}
+	
+	public List<DTO> findGrupoMovimentoGeneric(String busca) throws GroupMovementNotFoundException{
+		
+		List<DTO>resultSet;
+		resultSet = manager.findEntity("FROM GrupoMovimentoMO WHERE nome like "+ getQueryNormalization("'%"+ busca +"%'") 
+				+ "' OR descricao like " + getQueryNormalization("'%"+ busca +"%'") 
+				+ " ORDER BY nome");
+		if(resultSet == null) {
+			throw new GroupMovementNotFoundException ("Grupo  Movimento não encontrado.");
+		}
+		else{
 
+			return  (List<DTO>) resultSet;
+		}
+		
+	}
 
 	public List<DTO> findGrupoMovimentoByAll(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, String local_grupomovimento,
 			double latitude_grupomovimento, double longitude_grupomovimento) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
