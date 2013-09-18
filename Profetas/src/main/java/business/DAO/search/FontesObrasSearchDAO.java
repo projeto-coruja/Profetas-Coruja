@@ -136,7 +136,8 @@ public class FontesObrasSearchDAO {
 			//montar a query de personagem
 			for(DTO p : personagens){
 				for(DTO l : resultSet){
-					resultTemp= manager.findEntity("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId());
+					//resultTemp= manager.findEntity("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId());
+					resultTemp= manager.findEntity("FROM FontesObrasMO fontes INNER JOIN fontes.personagens list WHERE FontesObrasMO.id =" + p.getId() + "AND list.id="+ l.getId());
 				}
 			}
 			resultSet = resultTemp;

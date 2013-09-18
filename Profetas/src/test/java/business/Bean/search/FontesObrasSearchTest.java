@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.junit.Test;
 
 import datatype.SimpleDate;
@@ -113,11 +115,15 @@ public class FontesObrasSearchTest {
 			System.out.println("depois");
 			DTO o = dao.findExactFontesObrasById(1);
 			for(DTO j:p){
-				String query = ("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + ((DTO) j).getId() + " AND fontesobrasmo_id="+ o.getId());
+				String query = ("FROM FontesObrasMO fontes INNER JOIN fontes.personagens pers WHERE fontes.id =" + j.getId()); //+ " AND pers.id="+ o.getId());
 			
-			
+				System.out.println(query);
 				List<DTO> resultSet = manager.findEntity(query);
-				System.out.println(resultSet);
+				if(resultSet == null){
+					JOptionPane.showMessageDialog(null, "é nulo :(");
+				} else{
+					JOptionPane.showMessageDialog(null,resultSet);
+				}
 			}
 		}
 	
