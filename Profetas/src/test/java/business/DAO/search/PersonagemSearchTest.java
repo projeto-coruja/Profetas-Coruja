@@ -1,4 +1,4 @@
-package business.Bean.search;
+package business.DAO.search;
 
 import static org.junit.Assert.*;
 

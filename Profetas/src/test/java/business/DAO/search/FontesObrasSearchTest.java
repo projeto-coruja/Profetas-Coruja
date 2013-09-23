@@ -1,4 +1,4 @@
-package business.Bean.search;
+package business.DAO.search;
 
 import static org.junit.Assert.*;
 
@@ -115,7 +115,7 @@ public class FontesObrasSearchTest {
 			System.out.println("depois");
 			DTO o = dao.findExactFontesObrasById(1);
 			for(DTO j:p){
-				String query = ("FROM FontesObrasMO fontes INNER JOIN fontes.personagens pers WHERE fontes.id =" + j.getId()); //+ " AND pers.id="+ o.getId());
+				String query = ("FROM FontesObrasMO fontes INNER JOIN fontes.personagens list WHERE FontesObrasMO.id =" + 1+ " AND list.id="+ 1);
 			
 				System.out.println(query);
 				List<DTO> resultSet = manager.findEntity(query);
