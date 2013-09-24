@@ -78,32 +78,38 @@ public class PersonagemSearchDAO {
 					local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento, localimpressao, latitude_localimpressao, longitude_localimpressao, classificacao);
 					
 			resultSet= resultPersonagem;
-			for(DTO r : religiao){
-				for(DTO l : resultSet){
-					 resultTemp = manager.findEntity("FROM personagemmo_religiaocrencasmo WHERE personagemmo_id =" + l.getId() + "AND religião_id="+ r.getId());
+			if(religiao!=null && resultSet!=null){
+				for(DTO r : religiao){
+					for(DTO l : resultSet){
+						 resultTemp = manager.findEntity("FROM personagemmo_religiaocrencasmo WHERE personagemmo_id =" + l.getId() + "AND religião_id="+ r.getId());
+					}
 				}
 			}
 			resultSet = resultTemp;
 			resultTemp= null;
-			for(DTO g : grupo){
-				for(DTO l : resultSet){
-					 resultTemp = manager.findEntity("FROM personagemmo_grupopersonagemmo WHERE personagemmo_id =" + l.getId() + "AND grupo_id="+ g.getId());
+			if(grupo!=null && resultSet!=null){
+				for(DTO g : grupo){
+					for(DTO l : resultSet){
+						 resultTemp = manager.findEntity("FROM personagemmo_grupopersonagemmo WHERE personagemmo_id =" + l.getId() + "AND grupo_id="+ g.getId());
+					}
 				}
 			}
 			resultSet = resultTemp;
 			resultTemp= null;
-			
-			for(DTO lv :locais_visitados){
-				for(DTO l : resultSet){
-					 resultTemp = manager.findEntity("FROM personagemmo_locaispersonagensmo WHERE personagemmo_id =" + l.getId() + "AND locaisvisitados_id="+ lv.getId());
+			if(locais_visitados!=null && resultSet!=null){
+				for(DTO lv :locais_visitados){
+					for(DTO l : resultSet){
+						 resultTemp = manager.findEntity("FROM personagemmo_locaispersonagensmo WHERE personagemmo_id =" + l.getId() + "AND locaisvisitados_id="+ lv.getId());
+					}
 				}
 			}
 			resultSet = resultTemp;
 			resultTemp= null;
-			
-			for(DTO e : encontro){
-				for(DTO l : resultSet){
-					 resultTemp = manager.findEntity("FROM personagemmo_encontromo WHERE personagemmo_id =" + l.getId() + "AND encontro_id="+ e.getId());
+			if(encontro!=null && resultSet!=null){
+				for(DTO e : encontro){
+					for(DTO l : resultSet){
+						 resultTemp = manager.findEntity("FROM personagemmo_encontromo WHERE personagemmo_id =" + l.getId() + "AND encontro_id="+ e.getId());
+					}
 				}
 			}
 			resultSet = resultTemp;
@@ -189,13 +195,13 @@ public class PersonagemSearchDAO {
 				}
 				refbibliografica_query+=" ) ";
 				
-				String query= "from PersoangemMO where apelido like" + getQueryNormalization("'%" + apelido +"%'")
-						+ "AND biografia like" + getQueryNormalization("'%" + biografia +"%'")
-						+ "AND datamorte like" + getQueryNormalization("'%" + data_morte+"%'")
-						+ "AND datanascimento like" + getQueryNormalization("'%" + data_nascimento+"%'")
-						+ "AND formacao like" + getQueryNormalization("'%" + formacao +"%'")
-						+ "AND nome like" + getQueryNormalization("'%" + nome +"%'")
-						+ "AND ocupacao like" + getQueryNormalization("'%" + ocupacao +"%'")
+				String query= "from PersoangemMO where apelido like" + (apelido==null || apelido.equals("")?"%":getQueryNormalization("'%" + apelido +"%'"))
+						+ (biografia==null || biografia.equals("")?"": " AND biografia like" + getQueryNormalization("'%" + biografia +"%'"))
+						+ (data_morte==null?"": " AND datamorte like" + getQueryNormalization("'%" + data_morte+"%'"))
+						+ (data_nascimento==null?"": " AND datanascimento like" + getQueryNormalization("'%" + data_nascimento+"%'"))
+						+ (formacao==null || formacao.equals("")?"":" AND formacao like" + getQueryNormalization("'%" + formacao +"%'"))
+						+ (nome==null || nome.equals("")? "": " AND nome like" + getQueryNormalization("'%" + nome +"%'"))
+						+ (ocupacao==null || ocupacao.equals("")? "": " AND ocupacao like" + getQueryNormalization("'%" + ocupacao +"%'"))
 						+ "AND " + localnascimento_query
 						+ "AND " + localmorte_query
 						+ "AND " + refbibliografica_query						
@@ -254,7 +260,7 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByNome(String nome) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from personagemMO where nome like '%" + nome +"%' "
+				resultSet = manager.findEntity("from PersonagemMO where nome like '%" + nome +"%' "
 						+ "order by cod, titulo, anoInicio, anoFim");
 				
 				if(resultSet == null) {
@@ -277,7 +283,7 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByApelido(String apelido) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from personagemMO where apelido like '%" + apelido +"%' "
+				resultSet = manager.findEntity("from PersonagemMO where apelido like '%" + apelido +"%' "
 						+ "order by apelido");
 				
 				if(resultSet == null) {
@@ -299,7 +305,7 @@ public class PersonagemSearchDAO {
 		public List<DTO> findPersonagemByLocalNascimento(long localnascimento_id ) throws  UnreachableDataBaseException, PersonagemNotFoundException {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from personagemMO where localnascimento_id  = '" + localnascimento_id +"' "
+				resultSet = manager.findEntity("from PersonagemMO where localnascimento_id  = '" + localnascimento_id +"' "
 						+ "order by apelido");
 				
 				if(resultSet == null) {
@@ -440,7 +446,7 @@ public class PersonagemSearchDAO {
 		public List<DTO> findAllPersonagem() throws  UnreachableDataBaseException, PersonagemNotFoundException  {
 			List<DTO> resultSet = null;
 			try {
-				resultSet = manager.findEntity("from personagemMO order by nome, apelido");
+				resultSet = manager.findEntity("from PersonagemMO order by nome, apelido");
 				if(resultSet == null) {
 					throw new PersonagemNotFoundException("Não existe nenhum Personagem cadastrado.");
 				}

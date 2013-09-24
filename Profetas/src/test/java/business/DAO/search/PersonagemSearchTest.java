@@ -21,12 +21,17 @@ import persistence.dto.ReligiaoCrencas;
 
 import business.DAO.search.PersonagemSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
+import business.exceptions.model.CharacterNotFoundException;
+import business.exceptions.model.ClassificationNotFoundException;
+import business.exceptions.model.GroupMovementNotFoundException;
+import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.search.DuplicatePersonagemException;
 import business.exceptions.search.PersonagemNotFoundException;
+import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 
 
 public class PersonagemSearchTest {
-	@Test
+	//@Test
 	public void personagemSearchTest() throws UnreachableDataBaseException, PersonagemNotFoundException, DuplicatePersonagemException{
 		PersonagemSearchDAO dao = new PersonagemSearchDAO();
 		Local grecia =new Local("Grecia", 1.0, 1.0);
@@ -47,8 +52,29 @@ public class PersonagemSearchTest {
 			System.out.println(((Personagem)p).getNome());
 		}
 		//assertEquals("joao", p.getNome());
+	}
+	@Test(expected =  LocalNotFoundException.class)
+	public void findPersonagemMainANDTest() throws LocalNotFoundException, UnreachableDataBaseException, FontesObrasNotFoundException, GroupMovementNotFoundException, Exception, CharacterNotFoundException{
+		PersonagemSearchDAO dao = new PersonagemSearchDAO();
+		Local nascimento = new Local();
+		nascimento.setNome("Atenas");
+		SimpleDate nascimento1 = null;
+		Local impressao = new Local();;
+		//impressao.setNome("");
+		List<DTO> religiao = null;
+		List<DTO> grupo = null;
+		List<DTO> locais_visitados = null;
+		List<DTO> encontro = null;
 		
-
+		
+		
+		dao.findPersonagemMainAND("Aristocles", "Platão",nascimento.getNome(), nascimento.getLatitude(),nascimento.getLongitude(), nascimento1,
+				 nascimento.getNome(), nascimento.getLatitude(), nascimento.getLongitude(),  nascimento1, "", "","",
+				 "", "","", "","","","", nascimento1,
+				 "","",nascimento1,nascimento1, "", impressao.getNome(),
+				impressao.getLatitude(),impressao.getLongitude(), impressao.getNome(), impressao.getLatitude(),impressao.getLongitude(),
+				"", religiao, grupo, locais_visitados, encontro);
+		
 		
 		
 	}

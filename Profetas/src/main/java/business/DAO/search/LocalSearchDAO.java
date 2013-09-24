@@ -1,5 +1,6 @@
 package business.DAO.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import persistence.PersistenceAccess;
@@ -30,7 +31,8 @@ public class LocalSearchDAO {
 			
 			
 			if(resultSet == null) {
-				throw new  LocalNotFoundException ("Local não encontrado.");
+				//throw new  LocalNotFoundException ("Local não encontrado.");
+				return new ArrayList<DTO>();
 			}
 			else{
 				

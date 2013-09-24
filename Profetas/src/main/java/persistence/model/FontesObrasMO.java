@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -58,6 +60,9 @@ public class FontesObrasMO implements EntityModel {
 	private List<PersonagemMO> leitores;
 
 	@ManyToMany
+	@JoinTable(name = "fontesobrasmo_personagemmo", 
+    joinColumns = {@JoinColumn(name = "fontesobrasmo_id") }, 
+    inverseJoinColumns = { @JoinColumn(name = "personagens_id") })
 	private List<PersonagemMO> personagens;
 
 	@ManyToMany

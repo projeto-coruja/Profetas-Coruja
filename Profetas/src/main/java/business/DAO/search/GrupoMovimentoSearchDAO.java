@@ -1,5 +1,6 @@
 package business.DAO.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import datatype.SimpleDate;
@@ -103,7 +104,8 @@ public class GrupoMovimentoSearchDAO {
 
 
 			if(resultSet == null) {
-				throw new GroupMovementNotFoundException ("Grupo  Movimento não encontrado.");
+				//throw new GroupMovementNotFoundException ("Grupo  Movimento não encontrado.");
+				return new ArrayList<DTO>();
 			}
 			else{
 
