@@ -1,25 +1,37 @@
-package persistence.dto;
+package persistence.model;
 
-import org.jdto.annotation.DTOCascade;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Type;
 
 import datatype.SimpleDate;
 
-public class Correspondencia implements DTO {
+@Entity
+public class Correspondencia implements EntityModel {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 
-	@DTOCascade
+	@NotNull
+	@ManyToOne
 	private Personagem remetente;
 
-	@DTOCascade
+	@NotNull
+	@ManyToOne
 	private Personagem destinatario;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate data;
 
-	@DTOCascade
+	@ManyToOne
 	private Local local;
 
-	public Correspondencia() {} // JDTO
+	public Correspondencia() {} // Hibernate
 
 	public Correspondencia(Personagem remetente, Personagem destinatario, SimpleDate data, Local local) {
 		this.remetente = remetente;

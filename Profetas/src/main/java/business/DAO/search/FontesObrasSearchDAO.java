@@ -3,10 +3,9 @@ package business.DAO.search;
 import java.util.List;
 
 import datatype.SimpleDate;
-
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.FontesObras;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.FontesObras;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.ClassificationNotFoundException;
@@ -15,18 +14,18 @@ import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 
 public class FontesObrasSearchDAO {
-	private PersistenceAccess manager;
+	private EntityManager manager;
 	
 	public FontesObrasSearchDAO(){
-		manager= new PersistenceAccess();
+		manager= new EntityManager();
 	}
 	private String getQueryNormalization(String var){
 		var.replaceAll("'", "''");
 				
 		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 	}
-	 public List<DTO> findFontesObrasGeneric(String string) throws FontesObrasNotFoundException, UnreachableDataBaseException{
-		 List <DTO> resultSet = null;
+	 public List<EntityModel> findFontesObrasGeneric(String string) throws FontesObrasNotFoundException, UnreachableDataBaseException{
+		 List <EntityModel> resultSet = null;
 		 try {
 			 String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + string +"%'")
 						+ "OR comentario like" + getQueryNormalization("'%" +string +"%'")
@@ -37,7 +36,7 @@ public class FontesObrasSearchDAO {
 						+ "OR editor like" + getQueryNormalization("'%" + string +"%'")
 						+ "order by titulo";
 				
-			resultSet = manager.findEntity(query);
+			resultSet = manager.find(query);
 			
 			if(resultSet==null){
 				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
@@ -50,21 +49,21 @@ public class FontesObrasSearchDAO {
 	 }
 	
 	
-	public List<DTO> mainSearchAND(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
+	public List<EntityModel> mainSearchAND(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
 			SimpleDate dataImpressao, String editor, 
 			String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
 			double latitude_grupomovimento, double longitude_grupomovimento,
 			String localimpressao, double latitude_localimpressao, double longitude_localimpressao,
-			String classificacao, List<DTO> palavraChave, List<DTO> obrasCitadas, List<DTO> leitores, List<DTO> personagens,  List<DTO> autores) throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
+			String classificacao, List<EntityModel> palavraChave, List<EntityModel> obrasCitadas, List<EntityModel> leitores, List<EntityModel> personagens,  List<EntityModel> autores) throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
 		//vamos supor que já recebemos a classificação já vem pronta, vamos apenas pesquisar seu id
 		dataImpressao.format();
 		anoInicio_grupomovimento.format();
 		anoFim_grupomovimento.format();
 		
-		List<DTO> resultSet = null;
-		List<DTO> resultgrupoMovimento = null;
-		List<DTO> resultclassificacao = null;
-		List<DTO> resultTemp =null;
+		List<EntityModel> resultSet = null;
+		List<EntityModel> resultgrupoMovimento = null;
+		List<EntityModel> resultclassificacao = null;
+		List<EntityModel> resultTemp =null;
 		try {
 			//novas modificações comecam aqui
 			///procura por um grupo movimento
@@ -73,14 +72,14 @@ public class FontesObrasSearchDAO {
 			ClassificacaoSearchDAO dao_classificacao = new ClassificacaoSearchDAO();	
 			resultclassificacao = dao_classificacao.findClassificacaoByTipo(classificacao);
 			LocalSearchDAO dao_local_impressao = new LocalSearchDAO();
-			List<DTO> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
+			List<EntityModel> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
 			//novas modificacoes terminam aqui
 			
 			//resultadoTemp
 			//cruzamento de fontes obras e grupo movimento
 			String grupomovimento_query = "( ";
 			boolean first = true;
-			for(DTO l : resultgrupoMovimento){
+			for(EntityModel l : resultgrupoMovimento){
 				if(! first ){
 					grupomovimento_query+=" OR ";
 				} 
@@ -92,7 +91,7 @@ public class FontesObrasSearchDAO {
 			//cruzamento de fontes obras e classificacao
 			String classificacao_query = "( ";
 			first = true;
-			for(DTO l : resultclassificacao){
+			for(EntityModel l : resultclassificacao){
 				if(! first ){
 					classificacao_query+=" OR ";
 				} 
@@ -105,7 +104,7 @@ public class FontesObrasSearchDAO {
 			//cruzamento de fontes obras e local impressao
 			String localimpressao_query = "( ";
 			first = true;
-			for(DTO l :resultlocal_impressao){
+			for(EntityModel l :resultlocal_impressao){
 				if(! first ){
 					localimpressao_query+=" OR ";
 				} 
@@ -129,47 +128,47 @@ public class FontesObrasSearchDAO {
 				
 					+ "order by titulo";
 			
-			resultSet = manager.findEntity(query);
+			resultSet = manager.find(query);
 			
 			
 			
 			//montar a query de personagem
-			for(DTO p : personagens){
-				for(DTO l : resultSet){
+			for(EntityModel p : personagens){
+				for(EntityModel l : resultSet){
 					//resultTemp= manager.findEntity("FROM fontesobrasmo_personagemmo WHERE personagens_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId());
-					resultTemp= manager.findEntity("FROM FontesObrasMO fontes INNER JOIN fontes.personagens list WHERE FontesObrasMO.id =" + p.getId() + "AND list.id="+ l.getId());
+					resultTemp= manager.find("FROM FontesObras fontes INNER JOIN fontes.personagens list WHERE FontesObrasMO.id =" + p.getId() + "AND list.id="+ l.getId());
 				}
 			}
 			resultSet = resultTemp;
 			resultTemp= null;
 			
-			for(DTO a : autores){
-				for(DTO l : resultSet){
-					resultTemp=(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE autorescitados_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
+			for(EntityModel a : autores){
+				for(EntityModel l : resultSet){
+					resultTemp=(manager.find("FROM fontesobrasmo_personagemmo WHERE autorescitados_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
 			resultSet = resultTemp;
 			resultTemp= null;
 			
-			for(DTO a : leitores){
-				for(DTO l : resultSet){
-					resultTemp=(manager.findEntity("FROM fontesobrasmo_personagemmo WHERE leitores_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
+			for(EntityModel a : leitores){
+				for(EntityModel l : resultSet){
+					resultTemp=(manager.find("FROM fontesobrasmo_personagemmo WHERE leitores_id =" + a.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
 			resultSet = resultTemp;
 			resultTemp= null;
 			
-			for(DTO o : obrasCitadas){
-				for(DTO l : resultSet){
-					resultTemp=(manager.findEntity("FROM fontesobrasmo_fontesobrasmmo WHERE obrascitadas_id =" + o.getId() + "AND fontesobrasmo_id="+ l.getId()));
+			for(EntityModel o : obrasCitadas){
+				for(EntityModel l : resultSet){
+					resultTemp=(manager.find("FROM fontesobrasmo_fontesobrasmmo WHERE obrascitadas_id =" + o.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
 			resultSet = resultTemp;
 			resultTemp= null;
 			
-			for(DTO p : palavraChave){
-				for(DTO l : resultSet){
-					resultTemp=(manager.findEntity("FROM fontesobrasmo_palavrachavemmo WHERE palavrachave_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId()));
+			for(EntityModel p : palavraChave){
+				for(EntityModel l : resultSet){
+					resultTemp=(manager.find("FROM fontesobrasmo_palavrachavemmo WHERE palavrachave_id =" + p.getId() + "AND fontesobrasmo_id="+ l.getId()));
 				}
 			}
 			resultSet = resultTemp;
@@ -179,7 +178,7 @@ public class FontesObrasSearchDAO {
 			if(resultSet == null) {
 				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
 			}
-			else return (List<DTO>)resultSet;
+			else return (List<EntityModel>)resultSet;
 		
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
@@ -191,7 +190,7 @@ public class FontesObrasSearchDAO {
 	}
 	
 	
-	public List<DTO> findFontesObrasByAll(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
+	public List<EntityModel> findFontesObrasByAll(String titulo, String comentario, String ref_circ_obra, String url, String copias_manuscritas, String traducoes, 
 			SimpleDate dataImpressao, String editor, 
 			String grupoMovimento, SimpleDate anoInicio_grupomovimento, SimpleDate anoFim_grupomovimento, String descricao_grupomovimento, String local_grupomovimento,
 			double latitude_grupomovimento, double longitude_grupomovimento,
@@ -199,9 +198,9 @@ public class FontesObrasSearchDAO {
 			String classificacao) throws FontesObrasNotFoundException, UnreachableDataBaseException, GroupMovementNotFoundException, LocalNotFoundException, ClassificationNotFoundException{
 		//vamos supor que já recebemos a classificação já vem pronta, vamos apenas pesquisar seu id
 				
-		List<DTO> resultSet = null;
-		List<DTO> resultgrupoMovimento = null;
-		List<DTO> resultclassificacao = null;
+		List<EntityModel> resultSet = null;
+		List<EntityModel> resultgrupoMovimento = null;
+		List<EntityModel> resultclassificacao = null;
 
 		try {
 			
@@ -212,11 +211,11 @@ public class FontesObrasSearchDAO {
 			ClassificacaoSearchDAO dao_classificacao = new ClassificacaoSearchDAO();	
 			resultclassificacao = dao_classificacao.findClassificacaoByTipo(classificacao);
 			LocalSearchDAO dao_local_impressao = new LocalSearchDAO();
-			List<DTO> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
+			List<EntityModel> resultlocal_impressao = dao_local_impressao.findLocalByAll(localimpressao, latitude_localimpressao, longitude_localimpressao);
 			//novas modificacoes terminam aqui
 			String grupomovimento_query = "( ";
 			boolean first = true;
-			for(DTO l : resultgrupoMovimento){
+			for(EntityModel l : resultgrupoMovimento){
 				if(! first ){
 					grupomovimento_query+=" OR ";
 				} 
@@ -228,7 +227,7 @@ public class FontesObrasSearchDAO {
 			//cruzamento de fontes obras e classificacao
 			String classificacao_query = "( ";
 			first = true;
-			for(DTO l : resultclassificacao){
+			for(EntityModel l : resultclassificacao){
 				if(! first ){
 					classificacao_query+=" OR ";
 				} 
@@ -241,7 +240,7 @@ public class FontesObrasSearchDAO {
 			//cruzamento de fontes obras e local impressao
 			String localimpressao_query = "( ";
 			first = true;
-			for(DTO l :resultlocal_impressao){
+			for(EntityModel l :resultlocal_impressao){
 				if(! first ){
 					localimpressao_query+=" OR ";
 				} 
@@ -265,13 +264,13 @@ public class FontesObrasSearchDAO {
 				
 					+ "order by titulo";
 			
-			resultSet = manager.findEntity(query);
+			resultSet = manager.find(query);
 			
 			
 			if(resultSet == null) {
 				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
 			}
-			else return (List<DTO>)resultSet;
+			else return (List<EntityModel>)resultSet;
 		
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
@@ -290,9 +289,9 @@ public class FontesObrasSearchDAO {
 	 */
 	public FontesObras findExactFontesObrasById(long id) throws FontesObrasNotFoundException, UnreachableDataBaseException{
 		
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM FontesObrasMO"+		
+			resultSet = manager.find("FROM FontesObras"+		
 					" where id = "+id+" "+
 					" ORDER BY titulo");
 			
@@ -316,9 +315,9 @@ public class FontesObrasSearchDAO {
 	 * @throws FontesObrasNotFoundException
 	 */
 	public FontesObras findExactFontesObras(String titulo, String editor) throws FontesObrasNotFoundException, UnreachableDataBaseException{
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM FontesObrasMO"+		
+			resultSet = manager.find("FROM FontesObras"+		
 					" where titulo = '"+titulo+"' AND editor = '" + editor +"'"+ // "o'neil" > "o''neil"
 					" ORDER BY titulo ");
 			
@@ -341,10 +340,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException 
 	 */
-	public List<DTO> findFontesObrasByTitulo(String titulo) throws  UnreachableDataBaseException, FontesObrasNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByTitulo(String titulo) throws  UnreachableDataBaseException, FontesObrasNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where titulo like '%" + titulo +"%' "
+			resultSet = manager.find("from FontesObrasMO where titulo like '%" + titulo +"%' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -364,10 +363,10 @@ public class FontesObrasSearchDAO {
 	 * @throws FontesObrasNotFoundException 
 	 */
 	
-	public List<DTO> findFontesObrasByComentario(String comentario) throws  UnreachableDataBaseException, FontesObrasNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByComentario(String comentario) throws  UnreachableDataBaseException, FontesObrasNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where comentario like '%" +comentario +"%' "
+			resultSet = manager.find("from FontesObrasMO where comentario like '%" +comentario +"%' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -386,10 +385,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findAllFontesObras() throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findAllFontesObras() throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO order by titulo");
+			resultSet = manager.find("from FontesObrasMO order by titulo");
 			if(resultSet == null) {
 				throw new FontesObrasNotFoundException("Não existe nenhuma Fontes/Obras cadastrado.");
 			}
@@ -405,10 +404,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByURL(String url) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByURL(String url) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where url like '%" + url +"%' "
+			resultSet = manager.find("from FontesObrasMO where url like '%" + url +"%' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -427,10 +426,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByCopiasManuscritas(String copiasManuscritas) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByCopiasManuscritas(String copiasManuscritas) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where copiasManuscritas like '%" + copiasManuscritas +"%' "
+			resultSet = manager.find("from FontesObrasMO where copiasManuscritas like '%" + copiasManuscritas +"%' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -449,10 +448,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByTraducoes(String traducoes) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByTraducoes(String traducoes) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where traducoes like '%" + traducoes +"%' "
+			resultSet = manager.find("from FontesObrasMO where traducoes like '%" + traducoes +"%' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -471,10 +470,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByDataImpressao(SimpleDate dataImpressao) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByDataImpressao(SimpleDate dataImpressao) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where dataImpressao like '%" + dataImpressao +"%' "
+			resultSet = manager.find("from FontesObrasMO where dataImpressao like '%" + dataImpressao +"%' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -493,10 +492,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByEditor(String editor) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByEditor(String editor) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where editor like '%" + editor +"%' "
+			resultSet = manager.find("from FontesObrasMO where editor like '%" + editor +"%' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -515,10 +514,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByClassificacao(long id) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByClassificacao(long id) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where classificao_id = '" + id +"' "
+			resultSet = manager.find("from FontesObrasMO where classificao_id = '" + id +"' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -537,10 +536,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByGrupoMovimento(long id) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByGrupoMovimento(long id) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where grupomovimento_id = '" + id +"' "
+			resultSet = manager.find("from FontesObrasMO where grupomovimento_id = '" + id +"' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {
@@ -559,10 +558,10 @@ public class FontesObrasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws FontesObrasNotFoundException
 	 */
-	public List<DTO> findFontesObrasByLocal(long id) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findFontesObrasByLocal(long id) throws  UnreachableDataBaseException, FontesObrasNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from FontesObrasMO where localimpressao_id = '" + id +"' "
+			resultSet = manager.find("from FontesObrasMO where localimpressao_id = '" + id +"' "
 					+ "order by titulo");
 			
 			if(resultSet == null) {

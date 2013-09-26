@@ -7,18 +7,18 @@ import javax.persistence.Id;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class ClassificacaoMO implements EntityModel {
-
+public class Classificacao implements EntityModel {
+	
 	@Id
 	@GeneratedValue
 	private Long id;
 
 	@NotEmpty
 	private String tipo;
-	
-	public ClassificacaoMO() {} // Hibernate
 
-	public ClassificacaoMO(String tipo) {
+	public Classificacao() {} // Hibernate
+
+	public Classificacao(String tipo) {
 		this.tipo = tipo;
 	}
 

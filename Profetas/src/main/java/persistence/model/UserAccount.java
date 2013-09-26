@@ -1,28 +1,43 @@
-package persistence.dto;
+package persistence.model;
 
 import java.util.GregorianCalendar;
 
-import org.jdto.annotation.DTOCascade;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserAccount implements DTO{
+@Entity
+public class UserAccount implements EntityModel{
 	
+	@Id
+	@GeneratedValue
 	private Long id;
 	
+	@NotEmpty
 	private String name;
 	
-	@DTOCascade
+	@ManyToOne
+	@NotNull
 	private Profile profile;
 	
+	@NaturalId(mutable=true)
+	@Email
 	private String email;
 	
+	@NotEmpty
 	private String password;
 	
 	private String generatedToken;
 	
 	private GregorianCalendar tokenDate;
 	
-	public UserAccount() {} // JDTO
+	public UserAccount() {} // Hibernate
 
 	public UserAccount(String name, Profile profile, String email,	String password, String generatedToken, GregorianCalendar tokenDate) {
 		this.name = name;

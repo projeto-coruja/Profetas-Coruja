@@ -1,6 +1,6 @@
 package business.DAO.Config;
 
-import persistence.dto.Configuration;
+import persistence.model.Configuration;
 import business.exceptions.general.ConfigNotFoundException;
 import business.exceptions.general.DuplicatedEntryException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -8,7 +8,7 @@ import business.exceptions.login.UnreachableDataBaseException;
 public class ConfigurationDAOTest {
 	public static void main(String[] args) throws UnreachableDataBaseException, ConfigNotFoundException, DuplicatedEntryException {
 		ConfigurationDAO d = new ConfigurationDAO();
-		d.addPropertie("email", "lalala@lalala.com");
+		d.addProperty("email", "lalala@lalala.com");
 		Configuration c;
 		c = d.getEntry("email");
 		d.removeEntry("email");

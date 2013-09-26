@@ -1,21 +1,31 @@
-package persistence.dto;
+package persistence.model;
 
-import org.jdto.annotation.DTOCascade;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Type;
 
 import datatype.SimpleDate;
 
-public class LocaisPersonagens implements DTO {
+@Entity
+public class LocaisPersonagens implements EntityModel {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoChegada;
-
+	
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoSaida;
 
-	@DTOCascade
+	@ManyToOne
 	private Local local;
 
-	public LocaisPersonagens() {} // JDTO
+	public LocaisPersonagens() {} // Hibernate
 
 	public LocaisPersonagens(SimpleDate anoChegada, SimpleDate anoSaida, Local local) {
 		this.anoChegada = anoChegada;
@@ -23,7 +33,7 @@ public class LocaisPersonagens implements DTO {
 		this.local = local;
 	}
 
-	@Override
+	
 	public Long getId() {
 		return id;
 	}

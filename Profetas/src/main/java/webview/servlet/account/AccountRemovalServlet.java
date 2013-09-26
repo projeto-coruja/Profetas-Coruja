@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import persistence.dto.UserAccount;
+import persistence.model.UserAccount;
 import webview.util.AlertsUtility;
 import business.Bean.user.AdminBean;
 import business.Bean.user.AuthBean;

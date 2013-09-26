@@ -1,8 +1,8 @@
 package business.Bean.user;
 
-import persistence.dto.Profile;
-import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.Profile;
+import persistence.model.UserAccount;
 import business.Bean.util.EJBUtility;
 import business.Bean.util.Regex;
 import business.DAO.login.ProfileDAO;

@@ -1,6 +1,6 @@
 package business.DAO.login;
 
-import persistence.dto.Profile;
+import persistence.model.Profile;
 import business.exceptions.login.ProfileNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 

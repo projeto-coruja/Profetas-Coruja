@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class AcervoReferenciaMO implements EntityModel {
+public class AcervoReferencia implements EntityModel {
 
 	@Id
 	@GeneratedValue
@@ -15,14 +15,13 @@ public class AcervoReferenciaMO implements EntityModel {
 
 	@NotEmpty
 	public String nome;
-
-	public AcervoReferenciaMO(){}; // Hibernate
 	
-	public AcervoReferenciaMO(String nome) {
+	public AcervoReferencia(){} // Hibernate
+	
+	public AcervoReferencia(String nome) {
 		this.nome = nome;
 	}
-	
-	@Override
+
 	public Long getId() {
 		return null;
 	}

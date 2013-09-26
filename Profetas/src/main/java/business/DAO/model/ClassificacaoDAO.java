@@ -2,9 +2,9 @@ package business.DAO.model;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.Classificacao;
-import persistence.dto.DTO;
+import persistence.EntityManager;
+import persistence.model.Classificacao;
+import persistence.model.EntityModel;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.ClassificationNotFoundException;
@@ -12,10 +12,10 @@ import business.exceptions.model.DuplicateClassificationException;
 
 public class ClassificacaoDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public ClassificacaoDAO() {
-		manager = new PersistenceAccess();	
+		manager = new EntityManager();	
 	}
 	
 	public Classificacao addClassification(String type) throws UnreachableDataBaseException, DuplicateClassificationException {
@@ -28,23 +28,23 @@ public class ClassificacaoDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
 		} catch (ClassificationNotFoundException e) {
-			manager.saveEntity(newClassificacao);
+			manager.save(newClassificacao);
 			return newClassificacao;
 		}
 	}
 	
 	public void removeClassification(String type) throws UnreachableDataBaseException, ClassificationNotFoundException {
 		if(type.isEmpty() || type == null) throw new IllegalArgumentException("Tipo vazio ou nulo.");
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		Classificacao select = null;
 		try {
 			check = findClassificationByType(type);
-			for(DTO dto : check) {
+			for(EntityModel dto : check) {
 				if (((Classificacao) dto).getTipo().equals(type))
 					select = (Classificacao) dto;
 			}
 			if(select == null)	throw new ClassificationNotFoundException("Classificação não encontrada.");
-			manager.deleteEntity(select);
+			manager.delete(select);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -53,17 +53,17 @@ public class ClassificacaoDAO {
 	
 	public Classificacao updateClassification(String oldType, String newType) throws UnreachableDataBaseException, ClassificationNotFoundException {
 		if(oldType.isEmpty() || oldType == null || newType.isEmpty() || newType == null)	throw new IllegalArgumentException("Tipo vazio ou nulo.");
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		Classificacao select = null;
 		try{
 			check = findClassificationByType(oldType);
-			for(DTO dto : check) {
+			for(EntityModel dto : check) {
 				if (((Classificacao) dto).getTipo().equals(oldType))
 					select = (Classificacao) dto;
 			}
 			try {
 				check = findClassificationByType(newType);
-				for(DTO dto : check) {
+				for(EntityModel dto : check) {
 					if (((Classificacao) dto).getTipo().equals(newType))
 						throw new IllegalArgumentException("Classificação já existente.");
 				}
@@ -71,7 +71,7 @@ public class ClassificacaoDAO {
 
 			select.setTipo(newType);
 
-			manager.updateEntity(select);
+			manager.update(select);
 			return select;
 			
 		} catch(DataAccessLayerException e) {
@@ -80,10 +80,10 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	public List<DTO> findClassificationByType(String type) throws  UnreachableDataBaseException, ClassificationNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findClassificationByType(String type) throws  UnreachableDataBaseException, ClassificationNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ClassificacaoMO WHERE tipo LIKE '%" + type + "%' ORDER BY tipo");
+			resultSet = manager.find("FROM Classificacao WHERE tipo LIKE '%" + type + "%' ORDER BY tipo");
 			if(resultSet == null) {
 				throw new ClassificationNotFoundException ("Classificação não encontrada.");
 			}
@@ -94,10 +94,10 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	public List<DTO> getAllClassification() throws UnreachableDataBaseException, ClassificationNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllClassification() throws UnreachableDataBaseException, ClassificationNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ClassificacaoMO ORDER BY tipo");
+			resultSet = manager.find("FROM Classificacao ORDER BY tipo");
 			if(resultSet == null) {
 				throw new ClassificationNotFoundException ("Não existe nenhuma classificação cadastrada.");
 			}

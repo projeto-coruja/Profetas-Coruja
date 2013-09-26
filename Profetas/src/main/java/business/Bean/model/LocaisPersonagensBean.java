@@ -2,9 +2,9 @@ package business.Bean.model;
 
 import java.util.List;
 
-import persistence.dto.DTO;
-import persistence.dto.LocaisPersonagens;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.LocaisPersonagens;
 import business.DAO.model.LocaisPersonagensDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.LocalNotFoundException;
@@ -31,8 +31,8 @@ public class LocaisPersonagensBean {
 	public synchronized void addLocalsCharacters(String localName, SimpleDate arrivalYear, SimpleDate leaveYear) throws UnreachableDataBaseException, LocalNotFoundException {
 		//localName = localName.toLowerCase();
 		try {
-			List<DTO> check = dao.findLocalsCharacters(localName);
-			for (DTO dto : check) {
+			List<EntityModel> check = dao.findLocalsCharacters(localName);
+			for (EntityModel dto : check) {
 				if (((LocaisPersonagens) dto).getAnoChegada().equals(arrivalYear) && ((LocaisPersonagens) dto).getAnoSaida().equals(leaveYear))
 					throw new IllegalArgumentException("Dado já existe.");
 			}
@@ -73,8 +73,8 @@ public class LocaisPersonagensBean {
 		oldLocal = oldLocal.toLowerCase();
 		newLocal = newLocal.toLowerCase();
 		try{
-			List<DTO> check = dao.findLocalsCharacters(newLocal);
-			for (DTO dto : check) {
+			List<EntityModel> check = dao.findLocalsCharacters(newLocal);
+			for (EntityModel dto : check) {
 				if (((LocaisPersonagens) dto).getLocal().equals(newLocal))
 					throw new IllegalArgumentException("Encontro já existe.");
 			}
@@ -90,7 +90,7 @@ public class LocaisPersonagensBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws LocalsCharactersNotFoundException
 	 */
-	public List<DTO> listAllEncounters() throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
+	public List<EntityModel> listAllEncounters() throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
 		return dao.getAllLocalsCharacters();
 	}
 

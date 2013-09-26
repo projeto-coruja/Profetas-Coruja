@@ -2,29 +2,26 @@ package business.DAO.search;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-
-import persistence.dto.Classificacao;
-import persistence.dto.DTO;
+import persistence.EntityManager;
+import persistence.model.Classificacao;
+import persistence.model.EntityModel;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.model.ClassificationNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 
 public class ClassificacaoSearchDAO {
-private PersistenceAccess manager;
+	
+	private EntityManager manager;
 	
 	public ClassificacaoSearchDAO() {
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
-	
-	
 	
 	public Classificacao findExactClassificacao(String tipo) 
 			throws  UnreachableDataBaseException, ClassificationNotFoundException  {
-		
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ClassificacaoMO WHERE tipo = '"+ tipo +"'"
+			resultSet = manager.find("FROM Classificacao WHERE tipo = '"+ tipo +"'"
 					+ " ORDER BY id, tipo");
 			if(resultSet == null) {
 				throw new ClassificationNotFoundException ("Classificacao não encontrada.");
@@ -36,10 +33,10 @@ private PersistenceAccess manager;
 		}
 	}
 	
-	public List<DTO> findClassificacaoByTipo(String tipo) throws  UnreachableDataBaseException,ClassificationNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findClassificacaoByTipo(String tipo) throws  UnreachableDataBaseException, ClassificationNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ClassificacaoMO where tipo like '%" + tipo +"%' "
+			resultSet = manager.find("from ClassificacaoMO where tipo like '%" + tipo +"%' "
 					+ "order by id, tipo");
 			
 			if(resultSet == null) {
@@ -53,10 +50,10 @@ private PersistenceAccess manager;
 		}
 	}
 	
-	public List<DTO> findClassificacaoById(int id) throws  UnreachableDataBaseException,ClassificationNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findClassificacaoById(int id) throws  UnreachableDataBaseException,ClassificationNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ClassificacaoMO where id =" + id +"order by id, tipo");
+			resultSet = manager.find("from ClassificacaoMO where id =" + id +"order by id, tipo");
 			if(resultSet == null) {
 				throw new ClassificationNotFoundException ("Id de Classificacao não encontrado.");
 			}
@@ -67,10 +64,10 @@ private PersistenceAccess manager;
 		}
 	}
 	
-	public List<DTO> findAllClassificacao() throws  UnreachableDataBaseException, ClassificationNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findAllClassificacao() throws  UnreachableDataBaseException, ClassificationNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ClassificacaoMO order by tipo");
+			resultSet = manager.find("from ClassificacaoMO order by tipo");
 			if(resultSet == null) {
 				throw new ClassificationNotFoundException("Não existe nenhuma Classificacao cadastrada.");
 			}

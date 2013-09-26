@@ -2,9 +2,9 @@ package business.DAO.Config;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.Configuration;
-import persistence.dto.DTO;
+import persistence.EntityManager;
+import persistence.model.Configuration;
+import persistence.model.EntityModel;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.general.ConfigNotFoundException;
 import business.exceptions.general.DuplicatedEntryException;
@@ -15,12 +15,12 @@ import business.exceptions.login.UnreachableDataBaseException;
  */
 public class ConfigurationDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 	/**
 	 * Construtor
 	 */
 	public ConfigurationDAO(){
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	/**
 	 * Adiciona uma nova entrada de configuração no banco de dados
@@ -29,7 +29,7 @@ public class ConfigurationDAO {
 	 * @throws DuplicatedEntryException - Exceção caso já exista entrada com o mesmo nome.
 	 * @throws UnreachableDataBaseException
 	 */
-	public void addPropertie(String entry, String value) throws UnreachableDataBaseException, DuplicatedEntryException{
+	public void addProperty(String entry, String value) throws UnreachableDataBaseException, DuplicatedEntryException{
 		try{
 			getEntry(entry);
 			throw new DuplicatedEntryException("Entrada já existe!");
@@ -37,7 +37,7 @@ public class ConfigurationDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		} catch (ConfigNotFoundException e) {
-			manager.saveEntity(new Configuration(entry,value));
+			manager.save(new Configuration(entry,value));
 		}
 	}
 	
@@ -48,11 +48,11 @@ public class ConfigurationDAO {
 	 * @throws ConfigNotFoundException - Exceção caso não exista entrada com o nome.
 	 * @throws UnreachableDataBaseException
 	 */
-	public void updatePropertie(String entry, String value) throws UnreachableDataBaseException, ConfigNotFoundException{
+	public void updateProperty(String entry, String value) throws UnreachableDataBaseException, ConfigNotFoundException{
 		try{
 			Configuration c = getEntry(entry);
 			c.setValue(value);
-			manager.updateEntity(c);
+			manager.update(c);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
@@ -66,16 +66,13 @@ public class ConfigurationDAO {
 	 * @throws ConfigNotFoundException
 	 */
 	public void removeEntry(String entry) throws UnreachableDataBaseException, ConfigNotFoundException{
-		List<DTO> resultSet = null;
-		try{
-			resultSet = manager.findEntity("from ConfigurationMO where entry = '" + entry +"'");
-			if(resultSet == null) {
+		try {
+			Configuration result = manager.find(Configuration.class, entry);
+			if(result == null) {
 				throw new ConfigNotFoundException("Entrada inexistente.");
 			}
-			for(DTO check : resultSet){
-				if(((Configuration)check).getEntry().equals(entry)) manager.deleteEntity(check);
-			}
-		} catch(DataAccessLayerException e) {
+			else manager.delete(result);
+		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
@@ -89,13 +86,12 @@ public class ConfigurationDAO {
 	 * @throws ConfigNotFoundException
 	 */
 	public Configuration getEntry(String entry) throws UnreachableDataBaseException, ConfigNotFoundException {
-		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ConfigurationMO where entry = '" + entry +"'");
-			if(resultSet == null || resultSet.isEmpty()) {
+			Configuration result = manager.find(Configuration.class, entry);
+			if(result == null) {
 				throw new ConfigNotFoundException("Entrada inexistente.");
 			}
-			else return (Configuration) resultSet.get(0);
+			else return result;
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
@@ -108,10 +104,10 @@ public class ConfigurationDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws ConfigNotFoundException
 	 */
-	public List<DTO> getAllEntries() throws UnreachableDataBaseException, ConfigNotFoundException{
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllEntries() throws UnreachableDataBaseException, ConfigNotFoundException{
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from ConfigurationMO order by entry");
+			resultSet = manager.find("from Configuration order by entry");
 			if(resultSet == null) {
 				throw new ConfigNotFoundException("Entrada inexistente.");
 			}

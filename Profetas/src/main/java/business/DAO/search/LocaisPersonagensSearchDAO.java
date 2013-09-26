@@ -3,11 +3,9 @@ package business.DAO.search;
 import java.util.List;
 
 import datatype.SimpleDate;
-
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-
-import persistence.dto.LocaisPersonagens;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.LocaisPersonagens;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.LocalsCharactersNotFoundException;
@@ -15,10 +13,10 @@ import business.exceptions.model.LocalsCharactersNotFoundException;
 
 
 public class LocaisPersonagensSearchDAO {
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public LocaisPersonagensSearchDAO(){
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	
 	/**
@@ -29,10 +27,10 @@ public class LocaisPersonagensSearchDAO {
 	 */
 	public LocaisPersonagens findExactLocaisPersonagensByAnoChegada(SimpleDate anoChegada) throws LocalsCharactersNotFoundException, UnreachableDataBaseException{
 		//nome = getQueryNormalization(nome);
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM locaispersonagensMO WHERE anochegada = '"+ anoChegada +"'"
+			resultSet = manager.find("FROM locaispersonagens WHERE anochegada = '"+ anoChegada +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -56,10 +54,10 @@ public class LocaisPersonagensSearchDAO {
 	 */
 	public LocaisPersonagens findLocaisPersonagensByAnoSaida(SimpleDate anoSaida) throws LocalsCharactersNotFoundException, UnreachableDataBaseException{
 		//nome = getQueryNormalization(nome);
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM locaispersonagensMO WHERE anosaida = '"+ anoSaida +"'"
+			resultSet = manager.find("FROM locaispersonagens WHERE anosaida = '"+ anoSaida +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -83,10 +81,10 @@ public class LocaisPersonagensSearchDAO {
 	 */
 	public LocaisPersonagens findLocaisPersonagensByLocal(long idLocal) throws LocalsCharactersNotFoundException, UnreachableDataBaseException{
 		//nome = getQueryNormalization(nome);
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM locaispersonagensMO WHERE local_id = '"+ idLocal +"'"
+			resultSet = manager.find("FROM locaispersonagens WHERE local_id = '"+ idLocal +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {

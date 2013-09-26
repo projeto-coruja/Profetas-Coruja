@@ -1,28 +1,49 @@
-package persistence.dto;
+package persistence.model;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import datatype.SimpleDate;
 
-public class ReligiaoCrencas implements DTO {
+@Entity
+public class GrupoMovimento implements EntityModel {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 
+	@NotEmpty
 	private String nome;
 
+	@Type(type="persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoInicio;
 
+	@Type(type="persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoFim;
 
 	private String descricao;
 
-	public ReligiaoCrencas() {} // JDTO
+	@ManyToMany
+	private List<Local> local;
 
-	public ReligiaoCrencas(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao) {
+	public GrupoMovimento() {} // Hibernate
+
+	public GrupoMovimento(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao, List<Local> local) {
 		this.nome = nome;
 		this.anoInicio = anoInicio;
 		this.anoFim = anoFim;
 		this.descricao = descricao;
+		this.local = local;
 	}
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +82,14 @@ public class ReligiaoCrencas implements DTO {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public List<Local> getLocal() {
+		return local;
+	}
+
+	public void setLocal(List<Local> local) {
+		this.local = local;
 	}
 
 }

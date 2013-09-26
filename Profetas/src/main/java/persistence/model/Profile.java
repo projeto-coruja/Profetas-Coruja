@@ -8,7 +8,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class ProfileMO implements EntityModel  {
+public class Profile implements EntityModel {
 	
 	@Id
 	@GeneratedValue
@@ -19,17 +19,16 @@ public class ProfileMO implements EntityModel  {
 	private String profile;
 
 	private String[] permissions;
-	
+
 	private boolean isDefault;
 	
-	public ProfileMO(String profile, String[] permissions, boolean isDefault) {
+	public Profile(String profile, String[] permissions, boolean isDefault) {
 		this.profile = profile;
 		this.permissions = permissions;
 		this.isDefault = isDefault;
 	}
 	
-	public ProfileMO() {} // JDTO
-
+	public Profile() {} // Hibernate
 
 	public Long getId() {
 		return id;

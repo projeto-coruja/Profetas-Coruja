@@ -2,18 +2,18 @@ package business.DAO.search;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.Encontro;
+import persistence.EntityManager;
+import persistence.model.Encontro;
+import persistence.model.EntityModel;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.EncounterNotFoundException;
 import datatype.SimpleDate;
 
 public class EncontroSearchDAO {
-	private PersistenceAccess manager;
+	private EntityManager manager;
 	public EncontroSearchDAO(){
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	
 	/**
@@ -24,10 +24,10 @@ public class EncontroSearchDAO {
 	 */
 	public Encontro findEncontroByData(SimpleDate data) throws EncounterNotFoundException, UnreachableDataBaseException{
 		
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM encontroMO WHERE data = '"+ data +"'"
+			resultSet = manager.find("FROM encontro WHERE data = '"+ data +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -50,10 +50,10 @@ public class EncontroSearchDAO {
 	 * @throws EncounterNotFoundException
 	 */
 	public Encontro findEncontroByLocal (long id) throws EncounterNotFoundException, UnreachableDataBaseException{
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM encontroMO WHERE local_id = '"+ id +"'"
+			resultSet = manager.find("FROM encontro WHERE local_id = '"+ id +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {

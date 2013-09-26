@@ -1,19 +1,20 @@
 package business.DAO.search;
 
 import java.util.List;
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.ReligiaoCrencas;
+
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.ReligiaoCrencas;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.ReligionNotFoundException;
 import business.exceptions.search.PersonagemNotFoundException;
 
 public class ReligiaoCrencasSearchDAO {
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public ReligiaoCrencasSearchDAO(){
-		manager= new PersistenceAccess();
+		manager= new EntityManager();
 	}
 	private String getQueryNormalization(String var){
 		var.replace("'", "\'");
@@ -28,9 +29,9 @@ public class ReligiaoCrencasSearchDAO {
 	 */
 	public ReligiaoCrencas findExactReligiaoCrencas(String nome) throws ReligionNotFoundException, UnreachableDataBaseException{
 		nome = getQueryNormalization(nome);
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ReligiaoCrencasMO"+		
+			resultSet = manager.find("FROM ReligiaoCrencas"+		
 					" where nome = "+nome+" "+
 					" ORDER BY nome ");
 
@@ -56,9 +57,9 @@ public class ReligiaoCrencasSearchDAO {
 	 */
 	public ReligiaoCrencas findExactReligiaoCrencaById(int id) throws ReligionNotFoundException, UnreachableDataBaseException{
 
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ReligiaoCrencasMO"+		
+			resultSet = manager.find("FROM ReligiaoCrencas"+		
 					" where id = "+id+" "+
 					" ORDER BY nome ");
 
@@ -81,10 +82,10 @@ public class ReligiaoCrencasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<DTO> findReligiaoCrencaByNome(String nome) throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findReligiaoCrencaByNome(String nome) throws  UnreachableDataBaseException, ReligionNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from religiaocrencasmo where nome like '%" + nome +"%' "
+			resultSet = manager.find("from religiaocrencasmo where nome like '%" + nome +"%' "
 					+ "order by anoIngresso");
 
 			if(resultSet == null) {
@@ -103,10 +104,10 @@ public class ReligiaoCrencasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<DTO> findReligiaoCrencaByDescricao(String descricao) throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findReligiaoCrencaByDescricao(String descricao) throws  UnreachableDataBaseException, ReligionNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from religiaocrencasmo where descricao like '%" + descricao +"%' "
+			resultSet = manager.find("from religiaocrencasmo where descricao like '%" + descricao +"%' "
 					+ "order by descricao");
 			
 			if(resultSet == null) {
@@ -126,10 +127,10 @@ public class ReligiaoCrencasSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<DTO> findAllReligiaoCrenca() throws  UnreachableDataBaseException, ReligionNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findAllReligiaoCrenca() throws  UnreachableDataBaseException, ReligionNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from religiaocrencamo order by nome");
+			resultSet = manager.find("from religiaocrencamo order by nome");
 			if(resultSet == null) {
 				throw new ReligionNotFoundException("Não existe nenhuma Religiao Crenca cadastrada.");
 			}

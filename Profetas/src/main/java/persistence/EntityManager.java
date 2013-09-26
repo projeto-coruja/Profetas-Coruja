@@ -1,5 +1,6 @@
-package persistence.util;
+package persistence;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -12,10 +13,10 @@ import persistence.util.DataAccessLayerException;
 import persistence.util.PersistenceUtility;
 
 /**
- *	Classe que faz a persistencia no banco de dados. 
+ * Classe de acesso a persistencia. 
  */
 public class EntityManager {
-
+	
 	private Session session;
 	
 	private Transaction transaction;
@@ -82,19 +83,19 @@ public class EntityManager {
 	 * @return Objeto instacia de EntityModel.
 	 * @throws DataAccessLayerException
 	 */
-	@SuppressWarnings("rawtypes")
-	public EntityModel find(Class table, long id) throws DataAccessLayerException{
-		Object obj = null;
+	@SuppressWarnings({ "unchecked" })
+	public <T extends EntityModel> T find(Class<T> table, Serializable id) throws DataAccessLayerException{
+		T obj = null;
 		try{
 			startOperation();
-			obj = (Object) session.get(table, id);
+			obj = (T) session.get(table, id);
 			transaction.commit();
 		}catch(HibernateException e){
 			handleException(e);
 		}finally{
 			finishOperation();
 		}
-		return (EntityModel) obj;
+		return obj;
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class EntityManager {
 	 * @throws DataAccessLayerException
 	 */
 	@SuppressWarnings({ "unchecked"})
-	public List<Object> find(String criteria) throws DataAccessLayerException{
+	public <T extends EntityModel> List<T> find(String criteria) throws DataAccessLayerException{
 		List<Object> obj = null;
 		try{
 			startOperation();
@@ -113,8 +114,10 @@ public class EntityManager {
 			transaction.commit();
 		}catch(HibernateException e){
 			handleException(e);
+		}finally{
+			finishOperation();
 		}
-		return obj;
+		return (List<T>) obj;
 	}
 	
 	/**

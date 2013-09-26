@@ -2,11 +2,11 @@ package business.DAO.login;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.Profile;
-import persistence.dto.UserAccount;
+import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.Profile;
+import persistence.model.UserAccount;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.IncorrectProfileInformationException;
 import business.exceptions.login.NoDefaultProfileException;
@@ -20,10 +20,10 @@ import business.exceptions.login.UserNotFoundException;
  */
 public class UserDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public UserDAO() {
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	
 	/**
@@ -34,19 +34,17 @@ public class UserDAO {
 	 * @throws UserNotFoundException
 	 */
 	public UserAccount findUserByEmail(String email) throws UnreachableDataBaseException, UserNotFoundException {
-		List<DTO> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from UserAccountMO where email = '" + email +"'");
-			if(resultSet == null) {
+			UserAccount result = manager.find(UserAccount.class, email);
+			if(result == null) {
 				throw new UserNotFoundException("Email não encontrado");
 			}
-			else return (UserAccount) resultSet.get(0);
+			else return result;
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
 	}
-	
 	
 	/**
 	 * Adiciona um novo usuário.
@@ -68,7 +66,7 @@ public class UserDAO {
 			newUser = new UserAccount(name, profile, email, password, null, null);
 		}
 		try {
-			manager.saveEntity(newUser);
+			manager.save(newUser);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
@@ -81,11 +79,10 @@ public class UserDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws UserNotFoundException
 	 */
-	public List<DTO> listAllUsers() throws UnreachableDataBaseException, UserNotFoundException {
-		List<DTO> resultSet;
+	public List<EntityModel> listAllUsers() throws UnreachableDataBaseException, UserNotFoundException {
+		List<EntityModel> resultSet;
 		try{
-			resultSet = null;
-			resultSet = manager.findEntity("from UserAccountMO order by name");
+			resultSet = manager.find("from UserAccount order by name");
 			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário encontrado");
 		}catch(DataAccessLayerException e){
 			e.printStackTrace();
@@ -104,7 +101,7 @@ public class UserDAO {
 		UserAccount check = null;
 		try{
 			check = findUserByEmail(email);
-			manager.deleteEntity(check);
+			manager.delete(check);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
@@ -129,7 +126,7 @@ public class UserDAO {
 			String old_profile = check.getProfile().getProfile();
 			if(old_profile != new_profile.getProfile()) check.setProfile(new_profile);
 			else throw new IncorrectProfileInformationException("Perfil já definido para esse usuário, escolha outro.");
-			manager.updateEntity(check);
+			manager.update(check);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
@@ -147,11 +144,11 @@ public class UserDAO {
 	public void updateUser(UserAccount user) throws UnreachableDataBaseException, UserNotFoundException, IllegalArgumentException, UpdateEntityException{
 		if(user.getId() == null){
 			user = this.findUserByEmail(user.getEmail());
-			if(user == null)	throw new UserNotFoundException("Usuário não encontrado");
+			if(user == null)throw new UserNotFoundException("Usuário não encontrado");
 		}
 		else{
 			try{
-				manager.updateEntity(user);
+				manager.update(user);
 			}catch(DataAccessLayerException e){
 				e.printStackTrace();
 				throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
@@ -167,8 +164,8 @@ public class UserDAO {
 	 * @throws ProfileNotFoundException
 	 * @throws UserNotFoundException
 	 */
-	public List<DTO> listUsersByProfile(String profileName) throws UnreachableDataBaseException, ProfileNotFoundException, UserNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> listUsersByProfile(String profileName) throws UnreachableDataBaseException, ProfileNotFoundException, UserNotFoundException {
+		List<EntityModel> resultSet = null;
 		ProfileDAO profileDAO = null;
 		
 		try{
@@ -176,7 +173,7 @@ public class UserDAO {
 			Profile profile = profileDAO.findProfileByName(profileName);
 			if(profile == null)	throw new ProfileNotFoundException();
 			resultSet = null;
-			resultSet = manager.findEntity("from UserAccountMO where profile = '" + profile.getId() + "' order by name");
+			resultSet = manager.find("from UserAccount where profile = '" + profile.getId() + "' order by name");
 			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário encontrado");
 		}catch(DataAccessLayerException e){
 			e.printStackTrace();
@@ -185,10 +182,10 @@ public class UserDAO {
 		return resultSet;
 	}
 	
-	public List<DTO> listUsersWithExpiredTokens(String threshold) throws UnreachableDataBaseException, UserNotFoundException{
-		List<DTO> resultSet = null;
+	public List<EntityModel> listUsersWithExpiredTokens(String threshold) throws UnreachableDataBaseException, UserNotFoundException{
+		List<EntityModel> resultSet = null;
 		try{
-			resultSet = manager.findEntity("FROM UserAccountMO WHERE tokendate <= '"+ threshold +"'");
+			resultSet = manager.find("FROM UserAccount WHERE tokendate <= '"+ threshold +"'");
 			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário com chave expirado");
 		}catch(DataAccessLayerException e){
 			e.printStackTrace();

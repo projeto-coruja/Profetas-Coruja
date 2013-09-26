@@ -4,20 +4,19 @@ import java.util.List;
 
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.KeywordNotFoundException;
-
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.PalavraChave;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.PalavraChave;
 import persistence.util.DataAccessLayerException;
 
 public class PalavraChaveSearchDAO {
 
 
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public PalavraChaveSearchDAO() {
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 
 
@@ -25,9 +24,9 @@ public class PalavraChaveSearchDAO {
 	public  PalavraChave findExactPalavraChave(String nome) 
 			throws  UnreachableDataBaseException, KeywordNotFoundException  {
 
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM PalavraChaveMO WHERE tipo = '"+ nome +"'"
+			resultSet = manager.find("FROM PalavraChave WHERE tipo = '"+ nome +"'"
 					+ " ORDER BY id, tipo");
 			if(resultSet == null) {
 				throw new KeywordNotFoundException ("PalavraChave não encontrada.");
@@ -39,10 +38,10 @@ public class PalavraChaveSearchDAO {
 		}
 	}
 
-	public List<DTO> findPalavraChaveByNome(String nome) throws  UnreachableDataBaseException, KeywordNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findPalavraChaveByNome(String nome) throws  UnreachableDataBaseException, KeywordNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from PalavraChaveMO where nome like '%" + nome +"%' "
+			resultSet = manager.find("from PalavraChaveMO where nome like '%" + nome +"%' "
 					+ "order by id, nome");
 
 			if(resultSet == null) {
@@ -56,10 +55,10 @@ public class PalavraChaveSearchDAO {
 		}
 	}
 
-	public List<DTO> findPalavraChaveById(int id) throws  UnreachableDataBaseException, KeywordNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findPalavraChaveById(int id) throws  UnreachableDataBaseException, KeywordNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from PalavraChaveMO where id =" + id +"order by id, nome");
+			resultSet = manager.find("from PalavraChaveMO where id =" + id +"order by id, nome");
 			if(resultSet == null) {
 				throw new KeywordNotFoundException ("Id de PalavraChave não encontrado.");
 			}
@@ -70,10 +69,10 @@ public class PalavraChaveSearchDAO {
 		}
 	}
 
-	public List<DTO> findAllPalavraChave() throws  UnreachableDataBaseException, KeywordNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findAllPalavraChave() throws  UnreachableDataBaseException, KeywordNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from PalavraChaveMO order by nome");
+			resultSet = manager.find("from PalavraChaveMO order by nome");
 			if(resultSet == null) {
 				throw new KeywordNotFoundException("Não existe nenhuma PalavraChave cadastrada.");
 			}

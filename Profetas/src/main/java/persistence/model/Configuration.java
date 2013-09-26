@@ -1,9 +1,15 @@
-package persistence.dto;
+package persistence.model;
 
-public class Configuration implements DTO {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-	private Long id;
-	
+import org.hibernate.annotations.NaturalId;
+
+@Entity
+public class Configuration implements EntityModel {
+
+	@Id
+	@NaturalId
 	private String entry;
 	
 	private String value;
@@ -13,18 +19,8 @@ public class Configuration implements DTO {
 		this.value = value;
 	}
 	
-	public Configuration(){} // JDTO
+	public Configuration(){} // Hibernate
 	
-	@Override
-	public Long getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getEntry() {
 		return entry;
 	}

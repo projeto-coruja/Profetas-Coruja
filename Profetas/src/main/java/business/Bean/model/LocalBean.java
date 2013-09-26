@@ -2,9 +2,9 @@ package business.Bean.model;
 
 import java.util.List;
 
-import persistence.dto.DTO;
-import persistence.dto.Local;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.Local;
 import business.DAO.model.LocalDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateLocalException;
@@ -84,7 +84,7 @@ public class LocalBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws LocalNotFoundException
 	 */
-	public List<DTO> listAllLocals() throws UnreachableDataBaseException, LocalNotFoundException {
+	public List<EntityModel> listAllLocals() throws UnreachableDataBaseException, LocalNotFoundException {
 		return dao.findAllLocal();
 	}
 	

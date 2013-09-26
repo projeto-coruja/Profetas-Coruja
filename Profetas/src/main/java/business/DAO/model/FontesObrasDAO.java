@@ -2,26 +2,26 @@ package business.DAO.model;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.FontesObras;
+import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.FontesObras;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.SourceWorkNotFoundException;
 
 public class FontesObrasDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public FontesObrasDAO() {
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	
 	public void addSourceWork(FontesObras newSourceWork) throws UnreachableDataBaseException {
 		if(newSourceWork == null)	throw new IllegalArgumentException("newSourceWork is null.");
 		try {
-			manager.saveEntity(newSourceWork);
+			manager.save(newSourceWork);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -31,7 +31,7 @@ public class FontesObrasDAO {
 	public void removeSourceWork(FontesObras sourceWork) throws UnreachableDataBaseException {
 		if(sourceWork == null)	throw new IllegalArgumentException("Nenhuma Fonte/Obra especificada.");
 		try{
-			manager.deleteEntity(sourceWork);
+			manager.delete(sourceWork);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -42,18 +42,18 @@ public class FontesObrasDAO {
 		if(sourceWork == null) throw new IllegalArgumentException("Fonte/Obra inexistente.");
 		try { 
 			if(sourceWork.getId() == null) addSourceWork(sourceWork);	
-			else manager.updateEntity(sourceWork);
+			else manager.update(sourceWork);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
 	}
 
-	public List<DTO> findSourceWorkByQuery(String query) throws SourceWorkNotFoundException, UnreachableDataBaseException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findSourceWorkByQuery(String query) throws SourceWorkNotFoundException, UnreachableDataBaseException {
+		List<EntityModel> resultSet = null;
 		if(query == null)	throw new IllegalArgumentException("Query não pode ser null.");
 		try {
-			resultSet = manager.findEntity(query);
+			resultSet = manager.find(query);
 			if(resultSet == null) {
 				throw new  SourceWorkNotFoundException("Nenhuma Fonte/Obra encontrada.");
 			}

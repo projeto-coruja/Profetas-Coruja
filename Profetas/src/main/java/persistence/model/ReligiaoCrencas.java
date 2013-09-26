@@ -1,10 +1,8 @@
 package persistence.model;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -12,37 +10,32 @@ import org.hibernate.validator.constraints.NotEmpty;
 import datatype.SimpleDate;
 
 @Entity
-public class GrupoMovimentoMO implements EntityModel {
+public class ReligiaoCrencas implements EntityModel {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@NotEmpty
 	private String nome;
 
-	@Type(type="persistence.util.SimpleDateHibernateType")
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoInicio;
 
-	@Type(type="persistence.util.SimpleDateHibernateType")
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate anoFim;
 
 	private String descricao;
 
-	@ManyToMany
-	private List<LocalMO> local;
+	public ReligiaoCrencas() {} // Hibernate
 
-	public GrupoMovimentoMO() {} // Hibernate
-	
-	public GrupoMovimentoMO(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao, List<LocalMO> local) {
+	public ReligiaoCrencas(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao) {
 		this.nome = nome;
 		this.anoInicio = anoInicio;
 		this.anoFim = anoFim;
 		this.descricao = descricao;
-		this.local = local;
 	}
-	
-	@Override
+
 	public Long getId() {
 		return id;
 	}
@@ -81,14 +74,6 @@ public class GrupoMovimentoMO implements EntityModel {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public List<LocalMO> getLocal() {
-		return local;
-	}
-
-	public void setLocal(List<LocalMO> local) {
-		this.local = local;
 	}
 
 }

@@ -45,10 +45,10 @@ public class Config {
 			map.put(entries[i][0], dao.getEntry(entries[i][0]).getValue());
 		} catch (ConfigNotFoundException e) {
 			try {
-				dao.addPropertie(entries[i][0], entries[i][1]);
+				dao.addProperty(entries[i][0], entries[i][1]);
 			} catch (DuplicatedEntryException e1) {
 				try {
-					dao.updatePropertie(entries[i][0], entries[i][1]);
+					dao.updateProperty(entries[i][0], entries[i][1]);
 				} catch (ConfigNotFoundException e2) {
 					e2.printStackTrace();
 				}
@@ -104,7 +104,7 @@ public class Config {
 		if(!map.containsKey(entry))	throw new IllegalArgumentException("Entrada não existe.");
 		map.put(entry, value);
 		try {
-			dao.updatePropertie(entry, value);
+			dao.updateProperty(entry, value);
 		} catch (ConfigNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -118,7 +118,7 @@ public class Config {
 		for(String[] s : entries){
 			map.put(s[0], s[1]);
 			try {
-				dao.updatePropertie(s[0], s[1]);
+				dao.updateProperty(s[0], s[1]);
 			} catch (ConfigNotFoundException e) {
 				e.printStackTrace();
 			}

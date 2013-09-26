@@ -13,10 +13,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.Profile;
-import persistence.dto.UserAccount;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.Profile;
+import persistence.model.UserAccount;
 import persistence.util.PersistenceUtility;
 import business.Bean.user.TokenValidityChecker;
 import business.Bean.util.Config;
@@ -46,19 +46,19 @@ public class InitServlet extends HttpServlet {
 		TokenValidityChecker.getInstance();
 
 		log.info("Iniciando sistema Profetas...");
-		PersistenceAccess pa = new PersistenceAccess();
+		EntityManager pa = new EntityManager();
 		String[] profiles_names = {"user", "admin"};
 
-		List<DTO> profile;
+		List<EntityModel> profile;
 		for (String p : profiles_names) {
-			profile = pa.findEntity("from ProfileMO where profile = '" + p + "'");
+			profile = pa.find("from ProfileMO where profile = '" + p + "'");
 			if(profile == null) {
 				log.info("Profile '" + p + "' não encontrado, recriando..." );
 				if(p.equals("user")) {
-					pa.saveEntity(new Profile("user", new String[]{"default"}, true));
+					pa.save(new Profile("user", new String[]{"default"}, true));
 				}
 				else if(p.equals("admin")) {
-					pa.saveEntity(new Profile("admin", new String[]{"default","admin"}, false));
+					pa.save(new Profile("admin", new String[]{"default","admin"}, false));
 				}
 			}
 			else if(profile.size() > 1) {
@@ -67,14 +67,14 @@ public class InitServlet extends HttpServlet {
 		}
 
 		//TODO: MUDAR SENHA
-		List<DTO> user = pa.findEntity("from UserAccountMO where email = 'admin@coruja.com'");
+		List<EntityModel> user = pa.find("from UserAccountMO where email = 'admin@coruja.com'");
 		if(user == null)
 		{
 			log.info("Criando usuário de admin...");
-			pa.saveEntity(
+			pa.save(
 					new UserAccount(
 							"Admin", 
-							(Profile) (pa.findEntity("from ProfileMO where profile = 'admin'").get(0)),
+							(Profile) (pa.find("from ProfileMO where profile = 'admin'").get(0)),
 							"admin@coruja.com",
 							EJBUtility.getHash("null","MD5"), 
 							null,
@@ -84,14 +84,14 @@ public class InitServlet extends HttpServlet {
 		}
 		else user = null;
 
-		user = pa.findEntity("from UserAccountMO where email = 'user@coruja.com'");
+		user = pa.find("from UserAccountMO where email = 'user@coruja.com'");
 		if(user == null)
 		{
 			log.info("Criando usuário de teste...");
-			pa.saveEntity(
+			pa.save(
 					new UserAccount(
 							"Usuário Padrão", 
-							(Profile) (pa.findEntity("from ProfileMO where profile = 'user'").get(0)),
+							(Profile) (pa.find("from ProfileMO where profile = 'user'").get(0)),
 							"user@coruja.com",
 							EJBUtility.getHash("null","MD5"),
 							null,

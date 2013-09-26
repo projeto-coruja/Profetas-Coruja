@@ -2,10 +2,10 @@ package business.Bean.user;
 
 import java.util.List;
 
-import persistence.dto.DTO;
-import persistence.dto.Profile;
-import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.Profile;
+import persistence.model.UserAccount;
 import business.Bean.util.EJBUtility;
 import business.Bean.util.Regex;
 import business.DAO.login.ProfileDAO;
@@ -183,7 +183,7 @@ public class AdminBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws ProfileNotFoundException - Exceção para quando não há perfils registrado no banco.
 	 */
-	public List<DTO> getAllAvailableProfiles() throws UnreachableDataBaseException, ProfileNotFoundException{
+	public List<EntityModel> getAllAvailableProfiles() throws UnreachableDataBaseException, ProfileNotFoundException{
 		return profileDAO.getAllProfiles();
 	}
 	

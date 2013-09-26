@@ -1,19 +1,28 @@
-package persistence.dto;
+package persistence.model;
 
-import org.jdto.annotation.DTOCascade;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Type;
 
 import datatype.SimpleDate;
 
-public class Encontro implements DTO {
+@Entity
+public class Encontro implements EntityModel {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate data;
 
-	@DTOCascade
+	@ManyToOne
 	private Local local;
 
-	public Encontro() {} //JDTO
+	public Encontro() {} //Hibernate
 
 	public Encontro(SimpleDate data, Local local) {
 		this.data = data;

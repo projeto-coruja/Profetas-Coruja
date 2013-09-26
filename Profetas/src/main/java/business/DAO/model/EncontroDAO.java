@@ -3,31 +3,30 @@ package business.DAO.model;
 import java.util.List;
 
 import datatype.SimpleDate;
-
 import business.exceptions.model.EncounterNotFoundException;
 import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.Encontro;
-import persistence.dto.Local;
+import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.Encontro;
+import persistence.model.EntityModel;
+import persistence.model.Local;
 import persistence.util.DataAccessLayerException;
 
 public class EncontroDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public EncontroDAO() {
-		manager = new PersistenceAccess();	
+		manager = new EntityManager();	
 	}
 	
 	public Encontro addEncounter(SimpleDate date, String localName) throws UnreachableDataBaseException, LocalNotFoundException {
 		LocalDAO newLocalDAO = new LocalDAO();
 		Local newLocal = null;
 		
-		List<DTO> check = newLocalDAO.findLocalByName(localName);
-		for (DTO dto : check) {
+		List<EntityModel> check = newLocalDAO.findLocalByName(localName);
+		for (EntityModel dto : check) {
 			if(((Local) dto).getNome().equals(localName)) {
 				newLocal = (Local) dto;
 			}
@@ -36,7 +35,7 @@ public class EncontroDAO {
 		Encontro newEncounter = new Encontro(date, newLocal);
 		
 		try {
-			manager.saveEntity(newEncounter);
+			manager.save(newEncounter);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
@@ -45,16 +44,16 @@ public class EncontroDAO {
 	}
 	
 	public void removeEncounter(String localName) throws UnreachableDataBaseException, EncounterNotFoundException {
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		Encontro select = null;
 		try {
 			check = findEncounterByLocalName(localName);
-			for(DTO dto : check) {
+			for(EntityModel dto : check) {
 				if (((Encontro) dto).getLocal().getNome().equals(localName))
 					select = (Encontro) dto;
 			}
 			if(select == null)	throw new EncounterNotFoundException("Encontro não encontrado.");
-			manager.deleteEntity(select);
+			manager.delete(select);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -62,7 +61,7 @@ public class EncontroDAO {
 	}
 	
 	public Encontro updateEncounter(String oldEncounterLocal, String newEncounterLocal, SimpleDate newDate) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, EncounterNotFoundException {
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		Encontro selectEncontro = null;
 		Local selectLocal = null;
 		
@@ -71,7 +70,7 @@ public class EncontroDAO {
 			if(newEncounterLocal != null && !newEncounterLocal.isEmpty()) {
 				try {	
 					check = (new LocalDAO()).findLocalByName(newEncounterLocal);
-					for(DTO dto : check) {
+					for(EntityModel dto : check) {
 						if(((Local) dto).getNome().equals(newEncounterLocal))
 							selectLocal = (Local) dto;
 					}
@@ -85,14 +84,14 @@ public class EncontroDAO {
 			else unmodifiedEncounterLocal = true;
 			
 			check = findEncounterByLocalName(oldEncounterLocal);
-			for(DTO dto : check) {
+			for(EntityModel dto : check) {
 				if(((Encontro) dto).getLocal().getNome().equals(oldEncounterLocal))
 					selectEncontro = (Encontro) dto;
 			}
 			
 			if(!unmodifiedEncounterLocal) selectEncontro.setLocal(selectLocal);
 			selectEncontro.setData(newDate);
-			manager.updateEntity(selectEncontro);
+			manager.update(selectEncontro);
 
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
@@ -102,10 +101,10 @@ public class EncontroDAO {
 		return selectEncontro;
 	}
 	
-	public List<DTO> findEncounterByDate(SimpleDate date) throws UnreachableDataBaseException, EncounterNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findEncounterByDate(SimpleDate date) throws UnreachableDataBaseException, EncounterNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM EncontroMO WHERE data = '" + date + "' ORDER BY data, local.nome");
+			resultSet = manager.find("FROM Encontro WHERE data = '" + date + "' ORDER BY data, local.nome");
 			if(resultSet == null) {
 				throw new EncounterNotFoundException ("Encontro não encontrado.");
 			}
@@ -116,10 +115,10 @@ public class EncontroDAO {
 		}
 	}
 	
-	public List<DTO> findEncounterByLocalName(String localName) throws UnreachableDataBaseException, EncounterNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findEncounterByLocalName(String localName) throws UnreachableDataBaseException, EncounterNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM EncontroMO WHERE local.nome = '" + localName + "' ORDER BY local.nome, data");
+			resultSet = manager.find("FROM Encontro WHERE local.nome = '" + localName + "' ORDER BY local.nome, data");
 			if(resultSet == null) {
 				throw new EncounterNotFoundException ("Encontro não encontrado.");
 			}
@@ -130,10 +129,10 @@ public class EncontroDAO {
 		}
 	}
 	
-	public List<DTO> getAllEncounters() throws  UnreachableDataBaseException, EncounterNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllEncounters() throws  UnreachableDataBaseException, EncounterNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM EncontroMO ORDER BY local.nome, data");
+			resultSet = manager.find("FROM Encontro ORDER BY local.nome, data");
 			if(resultSet == null) {
 				throw new EncounterNotFoundException ("Não existe nenhum encontro cadastrado.");
 			}

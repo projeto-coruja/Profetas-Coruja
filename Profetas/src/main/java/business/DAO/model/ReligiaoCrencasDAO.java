@@ -2,9 +2,9 @@ package business.DAO.model;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.ReligiaoCrencas;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.ReligiaoCrencas;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateReligionException;
@@ -13,16 +13,16 @@ import datatype.SimpleDate;
 
 public class ReligiaoCrencasDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public ReligiaoCrencasDAO() {
-		manager = new PersistenceAccess();	
+		manager = new EntityManager();	
 	}
 	
 	public ReligiaoCrencas addReligion(String name, SimpleDate yearBegin, SimpleDate yearEnd, String description) throws UnreachableDataBaseException {
 		ReligiaoCrencas newReligiaoCrencas = new ReligiaoCrencas(name, yearBegin, yearEnd, description);
 		try {
-			manager.saveEntity(newReligiaoCrencas);
+			manager.save(newReligiaoCrencas);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
@@ -33,7 +33,7 @@ public class ReligiaoCrencasDAO {
 	public void removeReligion(ReligiaoCrencas religion) throws UnreachableDataBaseException {
 		if(religion == null) throw new IllegalArgumentException("Nenhuma Religião/Crença especificada.");
 		try{
-			manager.deleteEntity(religion);
+			manager.delete(religion);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -41,16 +41,16 @@ public class ReligiaoCrencasDAO {
 	}
 	
 	public void removeReligionByName(String name) throws UnreachableDataBaseException, ReligionNotFoundException {
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		ReligiaoCrencas select = null;
 		try {
 			check = findReligionByName(name);
-			for(DTO dto : check){
+			for(EntityModel dto : check){
 				if (((ReligiaoCrencas) dto).getNome().equals(name))
 					select = (ReligiaoCrencas) dto;
 			}
 			if(select == null) throw new ReligionNotFoundException("Religião/Crença não encontrada.");
-			manager.deleteEntity(select);
+			manager.delete(select);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -61,17 +61,17 @@ public class ReligiaoCrencasDAO {
 		if(religion == null) throw new IllegalArgumentException("Nenhuma Religião/Crença especificada.");
 		try { 
 			if(religion.getId() == null) addReligion(religion.getNome(), religion.getAnoInicio(), religion.getAnoFim(), religion.getDescricao());
-			else manager.updateEntity(religion);
+			else manager.update(religion);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
 	}
 	
-	public List<DTO> findReligionByName(String religionName) throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findReligionByName(String religionName) throws  UnreachableDataBaseException, ReligionNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ReligiaoCrencasMO WHERE nome LIKE '%" + religionName + "%' ORDER BY nome");
+			resultSet = manager.find("FROM ReligiaoCrencas WHERE nome LIKE '%" + religionName + "%' ORDER BY nome");
 			if(resultSet == null) {
 				throw new ReligionNotFoundException ("Religião/Crença não encontrada.");
 			}
@@ -83,9 +83,9 @@ public class ReligiaoCrencasDAO {
 	}
 	
 	public ReligiaoCrencas findSingleReligionByName(String religionName) throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ReligiaoCrencasMO WHERE nome LIKE '%" + religionName + "%' ORDER BY nome");
+			resultSet = manager.find("FROM ReligiaoCrencas WHERE nome LIKE '%" + religionName + "%' ORDER BY nome");
 			if(resultSet == null) {
 				throw new ReligionNotFoundException ("Religião/Crença não encontrada.");
 			}
@@ -96,10 +96,10 @@ public class ReligiaoCrencasDAO {
 		}
 	}
 	
-	public List<DTO> getAllReligions() throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllReligions() throws  UnreachableDataBaseException, ReligionNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM ReligiaoCrencasMO ORDER BY nome");
+			resultSet = manager.find("FROM ReligiaoCrencas ORDER BY nome");
 			if(resultSet == null) {
 				throw new ReligionNotFoundException ("Não existe nenhuma religião/crença cadastrada.");
 			}

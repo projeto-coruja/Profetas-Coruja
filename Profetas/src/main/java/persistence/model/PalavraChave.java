@@ -1,33 +1,23 @@
 package persistence.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class PalavraChaveMO implements EntityModel {
+public class PalavraChave implements EntityModel {
 
 	@Id
-	@GeneratedValue
-	private Long id;
-
+	@NaturalId
 	@NotEmpty
 	private String palavraChave;
 
-	public PalavraChaveMO() {} // Hibernate
+	public PalavraChave() {} // Hibernate
 
-	public PalavraChaveMO(String palavraChave) {
+	public PalavraChave(String palavraChave) {
 		this.palavraChave = palavraChave;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getPalavraChave() {

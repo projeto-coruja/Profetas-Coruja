@@ -2,9 +2,8 @@ package business.Bean.user;
 
 import java.util.List;
 
-import persistence.dto.DTO;
-import persistence.dto.UserAccount;
-
+import persistence.model.EntityModel;
+import persistence.model.UserAccount;
 import business.DAO.login.UserDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -17,7 +16,7 @@ public class SearchUserBean {
 		user = new UserDAO();
 	}
 
-	public List<DTO> listUsers() throws UnreachableDataBaseException, UserNotFoundException{
+	public List<EntityModel> listUsers() throws UnreachableDataBaseException, UserNotFoundException{
 		return user.listAllUsers();
 	}
 

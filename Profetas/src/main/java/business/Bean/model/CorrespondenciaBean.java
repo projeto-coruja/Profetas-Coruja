@@ -2,16 +2,15 @@ package business.Bean.model;
 
 import java.util.List;
 
-import persistence.dto.Classificacao;
-import persistence.dto.FontesObras;
-import persistence.dto.GrupoMovimento;
-import persistence.dto.Local;
-import persistence.dto.PalavraChave;
-import persistence.dto.Personagem;
+import persistence.model.Classificacao;
+import persistence.model.FontesObras;
+import persistence.model.GrupoMovimento;
+import persistence.model.Local;
+import persistence.model.PalavraChave;
+import persistence.model.Personagem;
 import business.DAO.model.CorrespondenciaDAO;
 import business.DAO.search.CorrespondenciaSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
-import business.exceptions.model.DuplicateSCorrespondenceException;
 import business.exceptions.model.DuplicateSourceWorkException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 import datatype.SimpleDate;

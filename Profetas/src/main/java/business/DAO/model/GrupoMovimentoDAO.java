@@ -4,23 +4,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import datatype.SimpleDate;
-
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateGroupMovementException;
 import business.exceptions.model.GroupMovementNotFoundException;
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.GrupoMovimento;
-import persistence.dto.Local;
+import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.GrupoMovimento;
+import persistence.model.Local;
 import persistence.util.DataAccessLayerException;
 
 public class GrupoMovimentoDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public GrupoMovimentoDAO() {
-		manager = new PersistenceAccess();	
+		manager = new EntityManager();	
 	}
 	
 	public GrupoMovimento addGroupMovement(String name, SimpleDate yearBegin, SimpleDate yearEnd, String description, List<Local> local) throws UnreachableDataBaseException, DuplicateGroupMovementException {
@@ -32,7 +31,7 @@ public class GrupoMovimentoDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
 		} catch (GroupMovementNotFoundException e) {
-			manager.saveEntity(newGrupoMovimento);
+			manager.save(newGrupoMovimento);
 			return newGrupoMovimento;
 		}
 	}
@@ -40,7 +39,7 @@ public class GrupoMovimentoDAO {
 	public void removeGroupMovement(GrupoMovimento groupMovement) throws UnreachableDataBaseException {
 		if(groupMovement == null) throw new IllegalArgumentException("Nenhum Grupo/Movimento especificado.");
 		try{
-			manager.deleteEntity(groupMovement);
+			manager.delete(groupMovement);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -71,7 +70,7 @@ public class GrupoMovimentoDAO {
 		if(groupMovement == null) throw new IllegalArgumentException("Nenhum Grupo/Movimento especificado.");
 		try { 
 			if(groupMovement.getId() == null) addGroupMovement(groupMovement.getNome(), groupMovement.getAnoInicio(), groupMovement.getAnoFim(), groupMovement.getDescricao(), groupMovement.getLocal());
-			else manager.updateEntity(groupMovement);
+			else manager.update(groupMovement);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -79,9 +78,9 @@ public class GrupoMovimentoDAO {
 	}
 	
 	public GrupoMovimento findGroupMovementByName(String groupMovementName) throws  UnreachableDataBaseException, GroupMovementNotFoundException {
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoMovimentoMO WHERE nome LIKE '%" + groupMovementName + "%' ORDER BY nome");
+			resultSet = manager.find("FROM GrupoMovimento WHERE nome LIKE '%" + groupMovementName + "%' ORDER BY nome");
 			if(resultSet == null) {
 				throw new GroupMovementNotFoundException ("Grupo/Movimento não encontrado.");
 			}
@@ -92,10 +91,10 @@ public class GrupoMovimentoDAO {
 		}
 	}
 	
-	public List<DTO> getAllGroupsMovement() throws  UnreachableDataBaseException, GroupMovementNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllGroupsMovement() throws  UnreachableDataBaseException, GroupMovementNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoMovimentoMO ORDER BY nome");
+			resultSet = manager.find("FROM GrupoMovimento ORDER BY nome");
 			if(resultSet == null) {
 				throw new GroupMovementNotFoundException ("Não existe nenhum grupo/movimento cadastrado.");
 			}

@@ -3,10 +3,9 @@ package business.DAO.search;
 import java.util.List;
 
 import datatype.SimpleDate;
-
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.GrupoPersonagem;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.GrupoPersonagem;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.GroupCharacterNotFoundException;
@@ -14,10 +13,10 @@ import business.exceptions.search.PersonagemNotFoundException;
 
 public class GrupoPersonagemSearchDAO {
 	
-	private PersistenceAccess manager;
+	private EntityManager manager;
 	
 	public GrupoPersonagemSearchDAO(){
-		manager= new PersistenceAccess();
+		manager= new EntityManager();
 	}
 	private String getQueryNormalization(String var){
 		var.replace("'", "\'");
@@ -32,9 +31,9 @@ public class GrupoPersonagemSearchDAO {
 	 */
 	public GrupoPersonagem findExactGrupoByAnoIngresso(SimpleDate anoIngresso) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
 	
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoPersonagemMO"+		
+			resultSet = manager.find("FROM GrupoPersonagem"+		
 					" where anoingresso = '"+ anoIngresso+ "'"+
 					" ORDER BY anoingresso ");
 			
@@ -60,9 +59,9 @@ public class GrupoPersonagemSearchDAO {
 	 */
 	public GrupoPersonagem findExactGrupoPersonagem(int id) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
 		
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoPersonagemMO"+		
+			resultSet = manager.find("FROM GrupoPersonagem"+		
 					" where id = "+id+" "+
 					" ORDER BY nome ");
 			
@@ -86,10 +85,10 @@ public class GrupoPersonagemSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<DTO> findAllGrupoPersonagem() throws  UnreachableDataBaseException, GroupCharacterNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findAllGrupoPersonagem() throws  UnreachableDataBaseException, GroupCharacterNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("from GrupoPersonagemMO order by nome");
+			resultSet = manager.find("from GrupoPersonagemMO order by nome");
 			if(resultSet == null) {
 				throw new GroupCharacterNotFoundException("Não existe nenhum GrupoPersonagem cadastrado.");
 			}

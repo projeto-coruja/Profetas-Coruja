@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import persistence.dto.Classificacao;
-import persistence.dto.FontesObras;
-import persistence.dto.Local;
-import persistence.dto.Personagem;
+import persistence.model.Classificacao;
+import persistence.model.FontesObras;
+import persistence.model.Local;
+import persistence.model.Personagem;
 import datatype.SimpleDate;
 
 /**

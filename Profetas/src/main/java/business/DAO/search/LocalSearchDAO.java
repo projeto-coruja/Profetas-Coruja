@@ -3,40 +3,40 @@ package business.DAO.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.Local;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.Local;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.LocalNotFoundException;
 
 public class LocalSearchDAO {
 	
-	private PersistenceAccess manager;
+	private EntityManager manager;
 	
 	public LocalSearchDAO(){
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	
 	
-	public List<DTO> findLocalByAll(String nome, double latitude, double longitude) throws LocalNotFoundException, UnreachableDataBaseException{
-		List<DTO> resultSet = null;
+	public List<EntityModel> findLocalByAll(String nome, double latitude, double longitude) throws LocalNotFoundException, UnreachableDataBaseException{
+		List<EntityModel> resultSet = null;
 		try {
 			
 			
-			resultSet = manager.findEntity("FROM LocalMO WHERE nome like '%"+ nome +"%' AND latitude = "+ latitude +" "
+			resultSet = manager.find("FROM Local WHERE nome like '%"+ nome +"%' AND latitude = "+ latitude +" "
 					+ "AND longitude = "+ longitude +""
 					+ " ORDER BY id");
-			//resultSet = manager.findEntity("FROM LocalMO");
+			//resultSet = manager.findEntity("FROM Local");
 			
 			
 			if(resultSet == null) {
 				//throw new  LocalNotFoundException ("Local não encontrado.");
-				return new ArrayList<DTO>();
+				return new ArrayList<EntityModel>();
 			}
 			else{
 				
-				return (List<DTO>) resultSet;
+				return (List<EntityModel>) resultSet;
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
@@ -56,10 +56,10 @@ public class LocalSearchDAO {
 	 */
 	public Local findExactLocalByNome(String nome) throws LocalNotFoundException, UnreachableDataBaseException{
 		
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localmo WHERE nome = '"+ nome +"'"
+			resultSet = manager.find("FROM localmo WHERE nome = '"+ nome +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -83,10 +83,10 @@ public class LocalSearchDAO {
 	 */
 	public Local findLocalByNome(String nome) throws LocalNotFoundException, UnreachableDataBaseException{
 		
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localmo WHERE nome like '%" + nome +"%' "
+			resultSet = manager.find("FROM localmo WHERE nome like '%" + nome +"%' "
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -109,10 +109,10 @@ public class LocalSearchDAO {
 	 * @throws LocalNotFoundException
 	 */
 	public Local findLocalByLatitude(double latitude) throws LocalNotFoundException, UnreachableDataBaseException{
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localmo WHERE latitude = '"+ latitude +"'"
+			resultSet = manager.find("FROM localmo WHERE latitude = '"+ latitude +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {
@@ -135,10 +135,10 @@ public class LocalSearchDAO {
 	 * @throws LocalNotFoundException
 	 */
 	public Local findLocalByLongitude(double longitude) throws LocalNotFoundException, UnreachableDataBaseException{
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
 			
-			resultSet = manager.findEntity("FROM localmo WHERE lon gitude = '"+ longitude +"'"
+			resultSet = manager.find("FROM localmo WHERE lon gitude = '"+ longitude +"'"
 					+ " ORDER BY id");
 			
 			if(resultSet == null) {

@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import persistence.dto.UserAccount;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.UserAccount;
 import business.Bean.util.EJBUtility;
 import business.DAO.login.UserDAO;
 import business.exceptions.DisallowedOperationException;

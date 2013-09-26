@@ -1,20 +1,32 @@
-package persistence.dto;
+package persistence.model;
 
 import java.util.List;
 
-import org.jdto.annotation.DTOCascade;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import datatype.SimpleDate;
 
-public class FontesObras implements DTO {
+@Entity
+public class FontesObras implements EntityModel {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 
+	@NotEmpty
 	private String titulo;
 
 	private String comentarios;
 
-	private String refverenciasirCulacaoObra;// trocar este nome para referenciasCirculacaoObra
+	private String referenciasCirculacaoObra;// trocar este nome para referenciasCirculacaoObra
 
 	private String URL;
 
@@ -22,35 +34,36 @@ public class FontesObras implements DTO {
 
 	private String traducoes;
 
+	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate dataImpressao;
 
 	private String editor;
 
-	@DTOCascade
+	@ManyToOne
 	private GrupoMovimento grupoMovimento;
 
-	@DTOCascade
+	@ManyToOne
 	private Local localImpressao;
 
-	@DTOCascade
+	@ManyToOne
 	private Classificacao classificao;
 
-	@DTOCascade
+	@OneToMany
 	private List<PalavraChave> palavraChave;
 
-	@DTOCascade
+	@ManyToMany
 	private List<FontesObras> obrasCitadas;
 
-	@DTOCascade
+	@ManyToMany
 	private List<Personagem> leitores;
 
-	@DTOCascade
+	@ManyToMany
 	private List<Personagem> personagens;
 
-	@DTOCascade
+	@ManyToMany
 	private List<Personagem> autoresCitados;
 
-	public FontesObras() {} // JDTO
+	public FontesObras() {} // Hibernate
 
 	public FontesObras(String titulo, String comentarios,
 			String refverenciasirCulacaoObra, String uRL,
@@ -62,7 +75,7 @@ public class FontesObras implements DTO {
 			List<Personagem> personagens, List<Personagem> autoresCitados) {
 		this.titulo = titulo;
 		this.comentarios = comentarios;
-		this.refverenciasirCulacaoObra = refverenciasirCulacaoObra;
+		this.referenciasCirculacaoObra = refverenciasirCulacaoObra;
 		URL = uRL;
 		this.copiasManuscritas = copiasManuscritas;
 		this.traducoes = traducoes;
@@ -103,11 +116,11 @@ public class FontesObras implements DTO {
 	}
 
 	public String getRefverenciasirCulacaoObra() {
-		return refverenciasirCulacaoObra;
+		return referenciasCirculacaoObra;
 	}
 
 	public void setRefverenciasirCulacaoObra(String refverenciasirCulacaoObra) {
-		this.refverenciasirCulacaoObra = refverenciasirCulacaoObra;
+		this.referenciasCirculacaoObra = refverenciasirCulacaoObra;
 	}
 
 	public String getURL() {

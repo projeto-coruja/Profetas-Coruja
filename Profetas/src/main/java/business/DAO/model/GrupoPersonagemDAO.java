@@ -3,23 +3,22 @@ package business.DAO.model;
 import java.util.List;
 
 import datatype.SimpleDate;
-
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.GroupCharacterNotFoundException;
 import business.exceptions.model.GroupMovementNotFoundException;
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.GrupoMovimento;
-import persistence.dto.GrupoPersonagem;
+import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.GrupoMovimento;
+import persistence.model.GrupoPersonagem;
 import persistence.util.DataAccessLayerException;
 
 public class GrupoPersonagemDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public GrupoPersonagemDAO() {
-		manager = new PersistenceAccess();	
+		manager = new EntityManager();	
 	}
 	
 	public GrupoPersonagem addGroupCharacter(SimpleDate entryYear, String groupMovementName) throws UnreachableDataBaseException, GroupMovementNotFoundException {
@@ -27,7 +26,7 @@ public class GrupoPersonagemDAO {
 		GrupoPersonagem newGroupCharacter = new GrupoPersonagem(entryYear, newGrupoMovimento);
 		
 		try {
-			manager.saveEntity(newGrupoMovimento);
+			manager.save(newGrupoMovimento);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
@@ -36,16 +35,16 @@ public class GrupoPersonagemDAO {
 	}
 	
 	public void removeGroupCharacter(String groupMovementName) throws UnreachableDataBaseException, GroupCharacterNotFoundException {
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		GrupoMovimento select = null;
 		try {
 			check = findGroupCharacterByGroupName(groupMovementName);
-			for(DTO dto : check) {
+			for(EntityModel dto : check) {
 				if (((GrupoMovimento) dto).getNome().equals(groupMovementName))
 					select = (GrupoMovimento) dto;
 			}
 			if(select == null)	throw new GroupCharacterNotFoundException("Grupo-Personagem não encontrado.");
-			manager.deleteEntity(select);
+			manager.delete(select);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -53,7 +52,7 @@ public class GrupoPersonagemDAO {
 	}
 	
 	public GrupoPersonagem updateGroupCharacter(String oldGroupMovementName, String newGroupMovementName, SimpleDate newEntryYear) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, GroupCharacterNotFoundException {
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		GrupoPersonagem selectGrupoPersonagem = null;
 		GrupoMovimento selectGrupoMovimento = null;
 		
@@ -72,14 +71,14 @@ public class GrupoPersonagemDAO {
 			else unmodifiedGroupMovement = true;
 			
 			check = findGroupCharacterByGroupName(oldGroupMovementName);
-			for(DTO dto : check) {
+			for(EntityModel dto : check) {
 				if(((GrupoPersonagem) dto).getGrupoMovimento().getNome().equals(oldGroupMovementName))
 					selectGrupoPersonagem = (GrupoPersonagem) dto;
 			}
 			
 			if(!unmodifiedGroupMovement) selectGrupoPersonagem.setGrupoMovimento(selectGrupoMovimento);
 			selectGrupoPersonagem.setAnoIngresso(newEntryYear);
-			manager.updateEntity(selectGrupoPersonagem);
+			manager.update(selectGrupoPersonagem);
 
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
@@ -89,10 +88,10 @@ public class GrupoPersonagemDAO {
 		return selectGrupoPersonagem;
 	}
 	
-	public List<DTO> findGroupCharacterByEntryYear(SimpleDate year) throws UnreachableDataBaseException, GroupCharacterNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findGroupCharacterByEntryYear(SimpleDate year) throws UnreachableDataBaseException, GroupCharacterNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoPersonagemMO WHERE anoIngresso = '" + year + "' ORDER BY anoIngresso, grupoMovimento.nome");
+			resultSet = manager.find("FROM GrupoPersonagem WHERE anoIngresso = '" + year + "' ORDER BY anoIngresso, grupoMovimento.nome");
 			if(resultSet == null) {
 				throw new GroupCharacterNotFoundException ("Grupo-Personagem não encontrado.");
 			}
@@ -103,10 +102,10 @@ public class GrupoPersonagemDAO {
 		}
 	}
 	
-	public List<DTO> findGroupCharacterByGroupName(String groupName) throws UnreachableDataBaseException, GroupCharacterNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findGroupCharacterByGroupName(String groupName) throws UnreachableDataBaseException, GroupCharacterNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoPersonagemMO WHERE grupoMovimento.nome = '" + groupName + "' ORDER BY grupoMovimento.nome, anoIngresso");
+			resultSet = manager.find("FROM GrupoPersonagem WHERE grupoMovimento.nome = '" + groupName + "' ORDER BY grupoMovimento.nome, anoIngresso");
 			if(resultSet == null) {
 				throw new GroupCharacterNotFoundException ("Grupo-Personagem não encontrado.");
 			}
@@ -117,10 +116,10 @@ public class GrupoPersonagemDAO {
 		}
 	}
 	
-	public List<DTO> getAllGroupsCharacters() throws  UnreachableDataBaseException, GroupCharacterNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllGroupsCharacters() throws  UnreachableDataBaseException, GroupCharacterNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM GrupoPersonagemMO ORDER BY grupoMovimento.nome, anoIngresso");
+			resultSet = manager.find("FROM GrupoPersonagem ORDER BY grupoMovimento.nome, anoIngresso");
 			if(resultSet == null) {
 				throw new GroupCharacterNotFoundException ("Não existe nenhum Grupo-Personagem cadastrado.");
 			}

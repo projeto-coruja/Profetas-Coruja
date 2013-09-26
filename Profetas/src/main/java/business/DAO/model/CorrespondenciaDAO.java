@@ -2,26 +2,26 @@ package business.DAO.model;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.Correspondencia;
+import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.Correspondencia;
+import persistence.model.EntityModel;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.model.CorrespondenceNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
 
 public class CorrespondenciaDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public CorrespondenciaDAO() {
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	
 	public void addCorrespondence(Correspondencia newCor) throws UnreachableDataBaseException {
 		if(newCor == null)	throw new IllegalArgumentException("newCorrespondencia is null.");
 		try {
-			manager.saveEntity(newCor);
+			manager.save(newCor);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -31,7 +31,7 @@ public class CorrespondenciaDAO {
 	public void removeCorrespondence(Correspondencia cor) throws UnreachableDataBaseException {
 		if(cor == null)	throw new IllegalArgumentException("Nenhuma correspondência especificada.");
 		try{
-			manager.deleteEntity(cor);
+			manager.delete(cor);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -42,18 +42,18 @@ public class CorrespondenciaDAO {
 		if(cor == null) throw new IllegalArgumentException("Correspondência inexistente.");
 		try { 
 			if(cor.getId() == null) addCorrespondence(cor);	
-			else manager.updateEntity(cor);
+			else manager.update(cor);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
 	}
 
-	public List<DTO> findCorrespondenceByQuery(String query) throws CorrespondenceNotFoundException, UnreachableDataBaseException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findCorrespondenceByQuery(String query) throws CorrespondenceNotFoundException, UnreachableDataBaseException {
+		List<EntityModel> resultSet = null;
 		if(query == null)	throw new IllegalArgumentException("Query não pode ser null.");
 		try {
-			resultSet = manager.findEntity(query);
+			resultSet = manager.find(query);
 			if(resultSet == null) {
 				throw new  CorrespondenceNotFoundException("Nenhuma correspondência encontrada.");
 			}

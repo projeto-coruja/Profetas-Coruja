@@ -2,9 +2,9 @@ package business.DAO.model;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.AcervoReferencia;
-import persistence.dto.DTO;
+import persistence.EntityManager;
+import persistence.model.AcervoReferencia;
+import persistence.model.EntityModel;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateReferenceException;
@@ -12,10 +12,10 @@ import business.exceptions.model.ReferenceNotFoundException;
 
 public class AcervoReferenciaDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public AcervoReferenciaDAO() {
-		manager = new PersistenceAccess();	
+		manager = new EntityManager();	
 	}
 	
 	public AcervoReferencia addReference(String name) throws UnreachableDataBaseException, DuplicateReferenceException {
@@ -28,7 +28,7 @@ public class AcervoReferenciaDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
 		} catch (ReferenceNotFoundException e) {
-			manager.saveEntity(newAcervoReferencia);
+			manager.save(newAcervoReferencia);
 			return newAcervoReferencia;
 		}
 	}
@@ -39,7 +39,7 @@ public class AcervoReferenciaDAO {
 		try{
 			select = findReferenceByName(name);
 			if(select == null) throw new ReferenceNotFoundException ("Referência não encontrada.");
-			manager.deleteEntity(select);
+			manager.delete(select);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -63,7 +63,7 @@ public class AcervoReferenciaDAO {
 			select = findReferenceByName(oldName);
 			if(select == null) throw new ReferenceNotFoundException ("Referência não encontrada.");
 			select.setNome(newName);
-			manager.updateEntity(select);
+			manager.update(select);
 		} catch(DataAccessLayerException e){
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -80,9 +80,9 @@ public class AcervoReferenciaDAO {
 	}*/	
 	
 	public AcervoReferencia findReferenceByName(String name) throws  UnreachableDataBaseException, ReferenceNotFoundException {
-		List<DTO> resultSet = null;
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM AcervoReferenciaMO WHERE nome LIKE '%" + name + "%' ORDER BY nome");
+			resultSet = manager.find("FROM AcervoReferencia WHERE nome LIKE '%" + name + "%' ORDER BY nome");
 			if(resultSet == null) {
 				throw new ReferenceNotFoundException ("Referência não encontrada.");
 			}
@@ -93,10 +93,10 @@ public class AcervoReferenciaDAO {
 		}
 	}
 	
-	public List<DTO> getAllReferences() throws  UnreachableDataBaseException, ReferenceNotFoundException  {
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllReferences() throws  UnreachableDataBaseException, ReferenceNotFoundException  {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM AcervoReferenciaMO ORDER BY nome");
+			resultSet = manager.find("FROM AcervoReferencia ORDER BY nome");
 			if(resultSet == null) {
 				throw new ReferenceNotFoundException ("Não existe nenhuma referência cadastrada.");
 			}

@@ -2,26 +2,26 @@ package business.DAO.model;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.Personagem;
+import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.Personagem;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.CharacterNotFoundException;
 
 public class PersonagemDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public PersonagemDAO() {
-		manager = new PersistenceAccess();
+		manager = new EntityManager();
 	}
 	
 	public void addCharacter(Personagem newCharacter) throws UnreachableDataBaseException {
 		if(newCharacter == null)	throw new IllegalArgumentException("newCharacter is null.");
 		try {
-			manager.saveEntity(newCharacter);
+			manager.save(newCharacter);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -31,7 +31,7 @@ public class PersonagemDAO {
 	public void removeCharacter(Personagem character) throws UnreachableDataBaseException {
 		if(character == null)	throw new IllegalArgumentException("Nenhum Personagem especificado.");
 		try{
-			manager.deleteEntity(character);
+			manager.delete(character);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -42,18 +42,18 @@ public class PersonagemDAO {
 		if(character == null) throw new IllegalArgumentException("Personagem inexistente.");
 		try { 
 			if(character.getId() == null) addCharacter(character);	
-			else manager.updateEntity(character);
+			else manager.update(character);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
 	}
 
-	public List<DTO> findCharacterByQuery(String query) throws CharacterNotFoundException, UnreachableDataBaseException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findCharacterByQuery(String query) throws CharacterNotFoundException, UnreachableDataBaseException {
+		List<EntityModel> resultSet = null;
 		if(query == null)	throw new IllegalArgumentException("Query não pode ser null.");
 		try {
-			resultSet = manager.findEntity(query);
+			resultSet = manager.find(query);
 			if(resultSet == null) {
 				throw new  CharacterNotFoundException("Nenhum Personagem encontrado.");
 			}

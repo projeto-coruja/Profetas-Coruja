@@ -9,16 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import datatype.SimpleDate;
-
-import persistence.dto.DTO;
-import persistence.dto.Encontro;
-import persistence.dto.FontesObras;
-import persistence.dto.GrupoPersonagem;
-import persistence.dto.LocaisPersonagens;
-import persistence.dto.Local;
-import persistence.dto.Personagem;
-import persistence.dto.ReligiaoCrencas;
-
+import persistence.model.Encontro;
+import persistence.model.EntityModel;
+import persistence.model.FontesObras;
+import persistence.model.GrupoPersonagem;
+import persistence.model.LocaisPersonagens;
+import persistence.model.Local;
+import persistence.model.Personagem;
+import persistence.model.ReligiaoCrencas;
 import business.DAO.search.PersonagemSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.CharacterNotFoundException;
@@ -47,8 +45,8 @@ public class PersonagemSearchTest {
 		SimpleDate nasci = null;
 		//dao.novoaddPersonagem("joao", "joazinho", grecia, nasci, roma, nasci, "ajsidjiasdji", "pensador", "nenhuma", referencia_bibliografica, religiao, grupo, locaisVisitados, encontro, obras);
 		//Personagem p = (Personagem) dao.findPersonagem("joao");
-		List<DTO> lalala = dao.findAllPersonagem();
-		for(DTO p : lalala){
+		List<EntityModel> lalala = dao.findAllPersonagem();
+		for(EntityModel p : lalala){
 			System.out.println(((Personagem)p).getNome());
 		}
 		//assertEquals("joao", p.getNome());
@@ -61,10 +59,10 @@ public class PersonagemSearchTest {
 		SimpleDate nascimento1 = null;
 		Local impressao = new Local();;
 		//impressao.setNome("");
-		List<DTO> religiao = null;
-		List<DTO> grupo = null;
-		List<DTO> locais_visitados = null;
-		List<DTO> encontro = null;
+		List<EntityModel> religiao = null;
+		List<EntityModel> grupo = null;
+		List<EntityModel> locais_visitados = null;
+		List<EntityModel> encontro = null;
 		
 		
 		

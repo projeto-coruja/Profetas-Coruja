@@ -3,10 +3,10 @@ package business.Bean.model;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import persistence.dto.DTO;
-import persistence.dto.GrupoMovimento;
-import persistence.dto.Local;
 import persistence.exceptions.UpdateEntityException;
+import persistence.model.EntityModel;
+import persistence.model.GrupoMovimento;
+import persistence.model.Local;
 import business.DAO.model.GrupoMovimentoDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateGroupMovementException;
@@ -92,7 +92,7 @@ public class GrupoMovimentoBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws GroupMovementNotFoundException
 	 */
-	public List<DTO> listAllGroupsMovement() throws UnreachableDataBaseException, GroupMovementNotFoundException {
+	public List<EntityModel> listAllGroupsMovement() throws UnreachableDataBaseException, GroupMovementNotFoundException {
 		return dao.getAllGroupsMovement();
 	}
 

@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -17,7 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import datatype.SimpleDate;
 
 @Entity
-public class PersonagemMO implements EntityModel {
+public class Personagem implements EntityModel {
 
 	@Id
 	@GeneratedValue
@@ -29,13 +27,13 @@ public class PersonagemMO implements EntityModel {
 	private String apelido;
 
 	@ManyToOne
-	private LocalMO localNascimento;
+	private Local localNascimento;
 
 	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate dataNascimento;
 
 	@ManyToOne
-	private LocalMO localMorte;
+	private Local localMorte;
 
 	@Type(type = "persistence.util.SimpleDateHibernateType")
 	private SimpleDate dataMorte;
@@ -47,35 +45,32 @@ public class PersonagemMO implements EntityModel {
 	private String formacao;
 
 	@ManyToOne
-	private FontesObrasMO referencia_bibliografica;
+	private FontesObras referencia_bibliografica;
 
 	@ManyToMany
-	private List<ReligiaoCrencasMO> religião;
+	private List<ReligiaoCrencas> religião;
 
 	@ManyToMany
-	private List<GrupoPersonagemMO> grupo;
+	private List<GrupoPersonagem> grupo;
 
 	@OneToMany
-	private List<LocaisPersonagensMO> locaisVisitados;
+	private List<LocaisPersonagens> locaisVisitados;
 
 	@ManyToMany
-	private List<EncontroMO> encontro;
+	private List<Encontro> encontro;
 
 	@ManyToMany
-	@JoinTable(name = "fontesobrasmo_personagemmo", 
-    joinColumns = {@JoinColumn(name = "personagens_id") }, 
-    inverseJoinColumns = { @JoinColumn(name = "fontesobrasmo_id") })
-	private List<FontesObrasMO> obras;
+	private List<FontesObras> obras;
 
-	public PersonagemMO() {} //JDTO
+	public Personagem() {} // Hibernate
 
-	public PersonagemMO(String nome, String apelido,
-			LocalMO localNascimento, SimpleDate dataNascimento, LocalMO localMorte,
+	public Personagem(String nome, String apelido,
+			Local localNascimento, SimpleDate dataNascimento, Local localMorte,
 			SimpleDate dataMorte, String biografia, String ocupacao,
-			String formacao, FontesObrasMO referencia_bibliografica,
-			List<ReligiaoCrencasMO> religião, List<GrupoPersonagemMO> grupo,
-			List<LocaisPersonagensMO> locaisVisitados, List<EncontroMO> encontro,
-			List<FontesObrasMO> obras) {
+			String formacao, FontesObras referencia_bibliografica,
+			List<ReligiaoCrencas> religião, List<GrupoPersonagem> grupo,
+			List<LocaisPersonagens> locaisVisitados, List<Encontro> encontro,
+			List<FontesObras> obras) {
 		this.nome = nome;
 		this.apelido = apelido;
 		this.localNascimento = localNascimento;
@@ -92,7 +87,7 @@ public class PersonagemMO implements EntityModel {
 		this.encontro = encontro;
 		this.obras = obras;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -117,11 +112,11 @@ public class PersonagemMO implements EntityModel {
 		this.apelido = apelido;
 	}
 
-	public LocalMO getLocalNascimento() {
+	public Local getLocalNascimento() {
 		return localNascimento;
 	}
 
-	public void setLocalNascimento(LocalMO localNascimento) {
+	public void setLocalNascimento(Local localNascimento) {
 		this.localNascimento = localNascimento;
 	}
 
@@ -133,11 +128,11 @@ public class PersonagemMO implements EntityModel {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public LocalMO getLocalMorte() {
+	public Local getLocalMorte() {
 		return localMorte;
 	}
 
-	public void setLocalMorte(LocalMO localMorte) {
+	public void setLocalMorte(Local localMorte) {
 		this.localMorte = localMorte;
 	}
 
@@ -173,52 +168,51 @@ public class PersonagemMO implements EntityModel {
 		this.formacao = formacao;
 	}
 
-	public FontesObrasMO getReferencia_bibliografica() {
+	public FontesObras getReferencia_bibliografica() {
 		return referencia_bibliografica;
 	}
 
-	public void setReferencia_bibliografica(
-			FontesObrasMO referencia_bibliografica) {
+	public void setReferencia_bibliografica(FontesObras referencia_bibliografica) {
 		this.referencia_bibliografica = referencia_bibliografica;
 	}
 
-	public List<ReligiaoCrencasMO> getReligião() {
+	public List<ReligiaoCrencas> getReligião() {
 		return religião;
 	}
 
-	public void setReligião(List<ReligiaoCrencasMO> religião) {
+	public void setReligião(List<ReligiaoCrencas> religião) {
 		this.religião = religião;
 	}
 
-	public List<GrupoPersonagemMO> getGrupo() {
+	public List<GrupoPersonagem> getGrupo() {
 		return grupo;
 	}
 
-	public void setGrupo(List<GrupoPersonagemMO> grupo) {
+	public void setGrupo(List<GrupoPersonagem> grupo) {
 		this.grupo = grupo;
 	}
 
-	public List<LocaisPersonagensMO> getLocaisVisitados() {
+	public List<LocaisPersonagens> getLocaisVisitados() {
 		return locaisVisitados;
 	}
 
-	public void setLocaisVisitados(List<LocaisPersonagensMO> locaisVisitados) {
+	public void setLocaisVisitados(List<LocaisPersonagens> locaisVisitados) {
 		this.locaisVisitados = locaisVisitados;
 	}
 
-	public List<EncontroMO> getEncontro() {
+	public List<Encontro> getEncontro() {
 		return encontro;
 	}
 
-	public void setEncontro(List<EncontroMO> encontro) {
+	public void setEncontro(List<Encontro> encontro) {
 		this.encontro = encontro;
 	}
 
-	public List<FontesObrasMO> getObras() {
+	public List<FontesObras> getObras() {
 		return obras;
 	}
 
-	public void setObras(List<FontesObrasMO> obras) {
+	public void setObras(List<FontesObras> obras) {
 		this.obras = obras;
 	}
 

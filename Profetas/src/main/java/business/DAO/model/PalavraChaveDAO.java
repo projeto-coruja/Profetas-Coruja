@@ -2,9 +2,9 @@ package business.DAO.model;
 
 import java.util.List;
 
-import persistence.PersistenceAccess;
-import persistence.dto.DTO;
-import persistence.dto.PalavraChave;
+import persistence.EntityManager;
+import persistence.model.EntityModel;
+import persistence.model.PalavraChave;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateKeywordException;
@@ -12,10 +12,10 @@ import business.exceptions.model.KeywordNotFoundException;
 
 public class PalavraChaveDAO {
 
-	private PersistenceAccess manager;
+	private EntityManager manager;
 
 	public PalavraChaveDAO() {
-		manager = new PersistenceAccess();	
+		manager = new EntityManager();	
 	}
 	
 	public PalavraChave addKeyword(String keyword) throws UnreachableDataBaseException, DuplicateKeywordException {
@@ -28,23 +28,23 @@ public class PalavraChaveDAO {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
 		} catch (KeywordNotFoundException e) {
-			manager.saveEntity(newPalavraChave);
+			manager.save(newPalavraChave);
 			return newPalavraChave;
 		}
 	}
 	
 	public void removeKeyWord(String keyword) throws UnreachableDataBaseException, KeywordNotFoundException {
 		if(keyword.isEmpty() || keyword == null)	throw new IllegalArgumentException("Palavra-chave vazia ou nula.");
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		PalavraChave select = null;
 		try {
 			check = findKeyword(keyword);
-			for(DTO dto : check){
+			for(EntityModel dto : check){
 				if (((PalavraChave) dto).getPalavraChave().equals(keyword))
 					select = (PalavraChave) dto;
 			}
 			if(select == null)	throw new KeywordNotFoundException("Palavra-chave não encontrada.");
-			manager.deleteEntity(select);
+			manager.delete(select);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -53,17 +53,17 @@ public class PalavraChaveDAO {
 	
 	public PalavraChave updateKeyword(String oldKeyword, String newKeyword) throws UnreachableDataBaseException, KeywordNotFoundException {
 		if(oldKeyword.isEmpty() || oldKeyword == null || newKeyword.isEmpty() || newKeyword == null)	throw new IllegalArgumentException("Palavra-chave vazia ou nula.");
-		List<DTO> check = null;
+		List<EntityModel> check = null;
 		PalavraChave select = null;
 		try{
 			check = findKeyword(oldKeyword);
-			for(DTO dto : check){
+			for(EntityModel dto : check){
 				if (((PalavraChave) dto).getPalavraChave().equals(oldKeyword))
 					select = (PalavraChave) dto;
 			}
 			try{
 				check = findKeyword(newKeyword);
-				for(DTO dto : check) {
+				for(EntityModel dto : check) {
 					if (((PalavraChave) dto).getPalavraChave().equals(newKeyword))
 						throw new IllegalArgumentException("Palavra-chave nova já existente.");
 				}
@@ -71,7 +71,7 @@ public class PalavraChaveDAO {
 
 			select.setPalavraChave(newKeyword);
 
-			manager.updateEntity(select);
+			manager.update(select);
 			return select;
 			
 		} catch(DataAccessLayerException e) {
@@ -80,10 +80,10 @@ public class PalavraChaveDAO {
 		}
 	}
 	
-	public List<DTO> findKeyword(String keyword) throws  UnreachableDataBaseException, KeywordNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> findKeyword(String keyword) throws  UnreachableDataBaseException, KeywordNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM PalavraChaveMO WHERE palavraChave LIKE '%" + keyword + "%' ORDER BY palavraChave");
+			resultSet = manager.find("FROM PalavraChave WHERE palavraChave LIKE '%" + keyword + "%' ORDER BY palavraChave");
 			if(resultSet == null) {
 				throw new KeywordNotFoundException ("Palavra-chave não encontrada.");
 			}
@@ -94,10 +94,10 @@ public class PalavraChaveDAO {
 		}
 	}
 	
-	public List<DTO> getAllKeywords() throws  UnreachableDataBaseException, KeywordNotFoundException {
-		List<DTO> resultSet = null;
+	public List<EntityModel> getAllKeywords() throws  UnreachableDataBaseException, KeywordNotFoundException {
+		List<EntityModel> resultSet = null;
 		try {
-			resultSet = manager.findEntity("FROM PalavraChaveMO ORDER BY palavraChave");
+			resultSet = manager.find("FROM PalavraChave ORDER BY palavraChave");
 			if(resultSet == null) {
 				throw new KeywordNotFoundException ("Não existe nenhuma palavra-chave cadastrada.");
 			}
