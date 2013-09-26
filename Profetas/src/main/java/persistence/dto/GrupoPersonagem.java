@@ -13,8 +13,7 @@ public class GrupoPersonagem implements DTO {
 	@DTOCascade
 	private GrupoMovimento grupoMovimento;
 
-	public GrupoPersonagem() {
-	}
+	public GrupoPersonagem() {} // JDTO
 
 	public GrupoPersonagem(SimpleDate anoIngresso, GrupoMovimento grupoMovimento) {
 		this.anoIngresso = anoIngresso;

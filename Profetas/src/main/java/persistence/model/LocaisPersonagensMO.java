@@ -25,6 +25,14 @@ public class LocaisPersonagensMO implements EntityModel {
 	@ManyToOne
 	private LocalMO local;
 
+	public LocaisPersonagensMO() {} // Hibernate
+
+	public LocaisPersonagensMO(SimpleDate anoChegada, SimpleDate anoSaida, LocalMO local) {
+		this.anoChegada = anoChegada;
+		this.anoSaida = anoSaida;
+		this.local = local;
+	}
+	
 	@Override
 	public Long getId() {
 		return id;

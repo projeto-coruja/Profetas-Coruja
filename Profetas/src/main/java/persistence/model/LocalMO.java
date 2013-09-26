@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class LocalMO implements EntityModel {
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -19,6 +20,14 @@ public class LocalMO implements EntityModel {
 
 	private double longitude;
 
+	public LocalMO() {} // JDTO
+
+	public LocalMO(String nome, double latitude, double longitude) {
+		this.nome = nome;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+	
 	public Long getId() {
 		return id;
 	}

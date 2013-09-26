@@ -32,6 +32,16 @@ public class GrupoMovimentoMO implements EntityModel {
 	@ManyToMany
 	private List<LocalMO> local;
 
+	public GrupoMovimentoMO() {} // Hibernate
+	
+	public GrupoMovimentoMO(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao, List<LocalMO> local) {
+		this.nome = nome;
+		this.anoInicio = anoInicio;
+		this.anoFim = anoFim;
+		this.descricao = descricao;
+		this.local = local;
+	}
+	
 	@Override
 	public Long getId() {
 		return id;

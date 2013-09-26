@@ -21,8 +21,7 @@ public class GrupoMovimento implements DTO {
 	@DTOCascade
 	private List<Local> local;
 
-	public GrupoMovimento() {
-	}
+	public GrupoMovimento() {} // JDTO
 
 	public GrupoMovimento(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao, List<Local> local) {
 		this.nome = nome;

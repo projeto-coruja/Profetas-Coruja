@@ -67,6 +67,32 @@ public class PersonagemMO implements EntityModel {
     inverseJoinColumns = { @JoinColumn(name = "fontesobrasmo_id") })
 	private List<FontesObrasMO> obras;
 
+	public PersonagemMO() {} //JDTO
+
+	public PersonagemMO(String nome, String apelido,
+			LocalMO localNascimento, SimpleDate dataNascimento, LocalMO localMorte,
+			SimpleDate dataMorte, String biografia, String ocupacao,
+			String formacao, FontesObrasMO referencia_bibliografica,
+			List<ReligiaoCrencasMO> religião, List<GrupoPersonagemMO> grupo,
+			List<LocaisPersonagensMO> locaisVisitados, List<EncontroMO> encontro,
+			List<FontesObrasMO> obras) {
+		this.nome = nome;
+		this.apelido = apelido;
+		this.localNascimento = localNascimento;
+		this.dataNascimento = dataNascimento;
+		this.localMorte = localMorte;
+		this.dataMorte = dataMorte;
+		this.biografia = biografia;
+		this.ocupacao = ocupacao;
+		this.formacao = formacao;
+		this.referencia_bibliografica = referencia_bibliografica;
+		this.religião = religião;
+		this.grupo = grupo;
+		this.locaisVisitados = locaisVisitados;
+		this.encontro = encontro;
+		this.obras = obras;
+	}
+	
 	public Long getId() {
 		return id;
 	}

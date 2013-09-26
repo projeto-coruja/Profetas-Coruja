@@ -21,6 +21,13 @@ public class GrupoPersonagemMO implements EntityModel {
 	@ManyToOne
 	private GrupoMovimentoMO grupoMovimento;
 
+	public GrupoPersonagemMO() {} // Hibernate
+
+	public GrupoPersonagemMO(SimpleDate anoIngresso, GrupoMovimentoMO grupoMovimento) {
+		this.anoIngresso = anoIngresso;
+		this.grupoMovimento = grupoMovimento;
+	}
+	
 	@Override
 	public Long getId() {
 		return id;

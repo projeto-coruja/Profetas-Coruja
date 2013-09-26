@@ -28,7 +28,7 @@
 				<version>2.2</version>
 				<configuration>
 					<webXml>${basedir}/src/main/webapp/web.xml</webXml>
-					<warName>GraoPara</warName>
+					<warName>Profetas</warName>
 				</configuration>
 			</plugin>
 

@@ -1,7 +1,0 @@
--- List of annotated classes to be managed by Hibernate
--- Used on HibernateConfiguration
--- Lines starting in ++ define a prefix for the mapped classes
-++ persistence.model
-UserMO
-GroupMO
-PermissionMO

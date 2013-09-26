@@ -1,3 +1,0 @@
--- Simple file listing all the user roles used by the metaproject
-ROLE_USER
-ROLE_ADMIN

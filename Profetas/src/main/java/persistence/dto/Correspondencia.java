@@ -19,8 +19,7 @@ public class Correspondencia implements DTO {
 	@DTOCascade
 	private Local local;
 
-	public Correspondencia() {
-	}
+	public Correspondencia() {} // JDTO
 
 	public Correspondencia(Personagem remetente, Personagem destinatario, SimpleDate data, Local local) {
 		this.remetente = remetente;

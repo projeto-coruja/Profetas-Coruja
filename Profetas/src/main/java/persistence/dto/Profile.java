@@ -17,9 +17,7 @@ public class Profile implements DTO {
 		this.isDefault = isDefault;
 	}
 	
-	public Profile() {
-		//JDTO
-	}
+	public Profile() {} // JDTO
 
 	public Long getId() {
 		return id;

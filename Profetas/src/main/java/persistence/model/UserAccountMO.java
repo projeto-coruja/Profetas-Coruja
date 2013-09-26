@@ -36,6 +36,17 @@ public class UserAccountMO implements EntityModel  {
 	private String generatedToken;
 	
 	private GregorianCalendar tokenDate;
+	
+	public UserAccountMO() {} // Hibernate
+
+	public UserAccountMO(String name, ProfileMO profile, String email, String password, String generatedToken, GregorianCalendar tokenDate) {
+		this.name = name;
+		this.profile = profile;
+		this.email = email;
+		this.password = password;
+		this.generatedToken = generatedToken;
+		this.tokenDate = tokenDate;
+	}
 
 	public Long getId() {
 		return id;

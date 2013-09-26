@@ -10,8 +10,7 @@ public class Local implements DTO {
 
 	private double longitude;
 
-	public Local() {
-	}
+	public Local() {} // JDTO
 
 	public Local(String nome, double latitude, double longitude) {
 		this.nome = nome;

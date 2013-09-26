@@ -16,6 +16,12 @@ public class AcervoReferenciaMO implements EntityModel {
 	@NotEmpty
 	public String nome;
 
+	public AcervoReferenciaMO(){}; // Hibernate
+	
+	public AcervoReferenciaMO(String nome) {
+		this.nome = nome;
+	}
+	
 	@Override
 	public Long getId() {
 		return null;

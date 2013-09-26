@@ -14,8 +14,7 @@ public class ReligiaoCrencas implements DTO {
 
 	private String descricao;
 
-	public ReligiaoCrencas() {
-	}
+	public ReligiaoCrencas() {} // JDTO
 
 	public ReligiaoCrencas(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao) {
 		this.nome = nome;

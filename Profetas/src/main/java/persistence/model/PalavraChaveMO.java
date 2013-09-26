@@ -16,6 +16,12 @@ public class PalavraChaveMO implements EntityModel {
 	@NotEmpty
 	private String palavraChave;
 
+	public PalavraChaveMO() {} // Hibernate
+
+	public PalavraChaveMO(String palavraChave) {
+		this.palavraChave = palavraChave;
+	}
+	
 	public Long getId() {
 		return id;
 	}

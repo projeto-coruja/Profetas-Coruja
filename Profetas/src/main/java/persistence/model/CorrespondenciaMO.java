@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
+import persistence.dto.Local;
+import persistence.dto.Personagem;
 import datatype.SimpleDate;
 
 @Entity
@@ -30,6 +32,15 @@ public class CorrespondenciaMO implements EntityModel {
 
 	@ManyToOne
 	private LocalMO local;
+	
+	public CorrespondenciaMO() {} // Hibernate
+
+	public CorrespondenciaMO(PersonagemMO remetente, PersonagemMO destinatario, SimpleDate data, LocalMO local) {
+		this.remetente = remetente;
+		this.destinatario = destinatario;
+		this.data = data;
+		this.local = local;
+	}
 
 	public Long getId() {
 		return id;

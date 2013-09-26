@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -67,6 +67,34 @@ public class FontesObrasMO implements EntityModel {
 
 	@ManyToMany
 	private List<PersonagemMO> autoresCitados;
+	
+	public FontesObrasMO() {} // Hibernate
+
+	public FontesObrasMO(String titulo, String comentarios,
+			String refverenciasirCulacaoObra, String uRL,
+			String copiasManuscritas, String traducoes,
+			SimpleDate dataImpressao, String editor,
+			GrupoMovimentoMO grupoMovimento, LocalMO localImpressao,
+			ClassificacaoMO classificao, List<PalavraChaveMO> palavraChave,
+			List<FontesObrasMO> obrasCitadas, List<PersonagemMO> leitores,
+			List<PersonagemMO> personagens, List<PersonagemMO> autoresCitados) {
+		this.titulo = titulo;
+		this.comentarios = comentarios;
+		this.refverenciasirCulacaoObra = refverenciasirCulacaoObra;
+		URL = uRL;
+		this.copiasManuscritas = copiasManuscritas;
+		this.traducoes = traducoes;
+		this.dataImpressao = dataImpressao;
+		this.editor = editor;
+		this.grupoMovimento = grupoMovimento;
+		this.localImpressao = localImpressao;
+		this.classificao = classificao;
+		this.palavraChave = palavraChave;
+		this.obrasCitadas = obrasCitadas;
+		this.leitores = leitores;
+		this.personagens = personagens;
+		this.autoresCitados = autoresCitados;
+	}
 
 	public Long getId() {
 		return id;

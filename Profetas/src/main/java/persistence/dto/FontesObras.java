@@ -50,8 +50,7 @@ public class FontesObras implements DTO {
 	@DTOCascade
 	private List<Personagem> autoresCitados;
 
-	public FontesObras() {
-	}
+	public FontesObras() {} // JDTO
 
 	public FontesObras(String titulo, String comentarios,
 			String refverenciasirCulacaoObra, String uRL,

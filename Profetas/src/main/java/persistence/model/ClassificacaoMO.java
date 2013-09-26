@@ -15,6 +15,12 @@ public class ClassificacaoMO implements EntityModel {
 
 	@NotEmpty
 	private String tipo;
+	
+	public ClassificacaoMO() {} // Hibernate
+
+	public ClassificacaoMO(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public Long getId() {
 		return id;

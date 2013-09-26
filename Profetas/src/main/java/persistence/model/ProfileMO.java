@@ -21,6 +21,15 @@ public class ProfileMO implements EntityModel  {
 	private String[] permissions;
 	
 	private boolean isDefault;
+	
+	public ProfileMO(String profile, String[] permissions, boolean isDefault) {
+		this.profile = profile;
+		this.permissions = permissions;
+		this.isDefault = isDefault;
+	}
+	
+	public ProfileMO() {} // JDTO
+
 
 	public Long getId() {
 		return id;

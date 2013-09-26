@@ -13,8 +13,7 @@ public class Encontro implements DTO {
 	@DTOCascade
 	private Local local;
 
-	public Encontro() {
-	}
+	public Encontro() {} //JDTO
 
 	public Encontro(SimpleDate data, Local local) {
 		this.data = data;

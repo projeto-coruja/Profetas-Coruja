@@ -6,8 +6,7 @@ public class PalavraChave implements DTO {
 
 	private String palavraChave;
 
-	public PalavraChave() {
-	}
+	public PalavraChave() {} // JDTO
 
 	public PalavraChave(String palavraChave) {
 		this.palavraChave = palavraChave;

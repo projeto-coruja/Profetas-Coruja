@@ -15,8 +15,7 @@ public class LocaisPersonagens implements DTO {
 	@DTOCascade
 	private Local local;
 
-	public LocaisPersonagens() {
-	}
+	public LocaisPersonagens() {} // JDTO
 
 	public LocaisPersonagens(SimpleDate anoChegada, SimpleDate anoSaida, Local local) {
 		this.anoChegada = anoChegada;

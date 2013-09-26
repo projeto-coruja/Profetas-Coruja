@@ -48,8 +48,7 @@ public class Personagem implements DTO {
 	@DTOCascade
 	private List<FontesObras> obras;
 
-	public Personagem() {
-	}
+	public Personagem() {} //JDTO
 
 	public Personagem(String nome, String apelido,
 			Local localNascimento, SimpleDate dataNascimento, Local localMorte,

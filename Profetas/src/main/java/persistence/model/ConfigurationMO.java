@@ -18,6 +18,13 @@ public class ConfigurationMO implements EntityModel {
 
 	private String value;
 
+	public ConfigurationMO(String entry, String value){
+		this.entry = entry;
+		this.value = value;
+	}
+	
+	public ConfigurationMO(){} // Hibernate
+	
 	@Override
 	public Long getId() {
 		return id;

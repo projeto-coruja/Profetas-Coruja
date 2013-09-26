@@ -6,8 +6,7 @@ public class Classificacao implements DTO {
 
 	private String tipo;
 
-	public Classificacao() {
-	}
+	public Classificacao() {} // JDTO
 
 	public Classificacao(String tipo) {
 		this.tipo = tipo;

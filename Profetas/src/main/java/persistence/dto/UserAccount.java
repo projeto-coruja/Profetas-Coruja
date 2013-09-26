@@ -22,9 +22,7 @@ public class UserAccount implements DTO{
 	
 	private GregorianCalendar tokenDate;
 	
-	public UserAccount() {
-		//Para o JDTO
-	}
+	public UserAccount() {} // JDTO
 
 	public UserAccount(String name, Profile profile, String email,	String password, String generatedToken, GregorianCalendar tokenDate) {
 		this.name = name;

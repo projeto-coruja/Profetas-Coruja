@@ -11,6 +11,7 @@ import datatype.SimpleDate;
 
 @Entity
 public class ReligiaoCrencasMO implements EntityModel {
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -24,6 +25,15 @@ public class ReligiaoCrencasMO implements EntityModel {
 	private SimpleDate anoFim;
 
 	private String descricao;
+	
+	public ReligiaoCrencasMO() {} // Hibernate
+
+	public ReligiaoCrencasMO(String nome, SimpleDate anoInicio, SimpleDate anoFim, String descricao) {
+		this.nome = nome;
+		this.anoInicio = anoInicio;
+		this.anoFim = anoFim;
+		this.descricao = descricao;
+	}
 
 	public Long getId() {
 		return id;

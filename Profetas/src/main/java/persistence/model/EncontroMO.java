@@ -21,6 +21,13 @@ public class EncontroMO implements EntityModel {
 
 	@ManyToOne
 	private LocalMO local;
+	
+	public EncontroMO() {} // Hibernate
+
+	public EncontroMO(SimpleDate data, LocalMO local) {
+		this.data = data;
+		this.local = local;
+	}
 
 	public Long getId() {
 		return id;
