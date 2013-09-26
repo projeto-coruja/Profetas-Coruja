@@ -6,7 +6,7 @@ import java.util.List;
 import datatype.SimpleDate;
 import persistence.EntityManager;
 import persistence.model.Correspondencia;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.FontesObras;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.model.CorrespondenceNotFoundException;
@@ -33,7 +33,7 @@ public class CorrespondenciaSearchDAO {
 
 	public Correspondencia findCorrespondenciaByRemetente(long id) throws  UnreachableDataBaseException, CorrespondenceNotFoundException  {
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM correspondencia WHERE remetente_id = '"+ id +"'"
 					+ " ORDER BY id");
@@ -55,7 +55,7 @@ public class CorrespondenciaSearchDAO {
 
 	public Correspondencia findCorrespondenciaByDestinatario(long id) throws  UnreachableDataBaseException, CorrespondenceNotFoundException  {
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM correspondencia WHERE destinatario_id = '"+ id +"'"
 					+ " ORDER BY id");
@@ -77,7 +77,7 @@ public class CorrespondenciaSearchDAO {
 
 	public Correspondencia findCorrespondenciaByLocal(long id) throws  UnreachableDataBaseException, CorrespondenceNotFoundException  {
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM correspondencia WHERE local_id = '"+ id +"'"
 					+ " ORDER BY id");
@@ -99,7 +99,7 @@ public class CorrespondenciaSearchDAO {
 
 	public Correspondencia findCorrespondenciaByData(SimpleDate data) throws  UnreachableDataBaseException, CorrespondenceNotFoundException  {
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM correspondencia WHERE data = '"+ data +"'"
 					+ " ORDER BY id");

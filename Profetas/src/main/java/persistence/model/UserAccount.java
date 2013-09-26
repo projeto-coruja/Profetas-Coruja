@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class UserAccount implements EntityModel{
+public class UserAccount implements IdentifiedEntity{
 	
 	@Id
 	@GeneratedValue

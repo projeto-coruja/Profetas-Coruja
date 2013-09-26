@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import datatype.SimpleDate;
 
 @Entity
-public class GrupoMovimento implements EntityModel {
+public class GrupoMovimento implements IdentifiedEntity {
 
 	@Id
 	@GeneratedValue

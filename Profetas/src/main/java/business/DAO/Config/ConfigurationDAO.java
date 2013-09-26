@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.EntityManager;
 import persistence.model.Configuration;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.general.ConfigNotFoundException;
 import business.exceptions.general.DuplicatedEntryException;
@@ -104,8 +104,8 @@ public class ConfigurationDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws ConfigNotFoundException
 	 */
-	public List<EntityModel> getAllEntries() throws UnreachableDataBaseException, ConfigNotFoundException{
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> getAllEntries() throws UnreachableDataBaseException, ConfigNotFoundException{
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from Configuration order by entry");
 			if(resultSet == null) {

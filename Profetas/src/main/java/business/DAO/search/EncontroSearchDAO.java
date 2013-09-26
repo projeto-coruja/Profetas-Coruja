@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.EntityManager;
 import persistence.model.Encontro;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.EncounterNotFoundException;
@@ -24,7 +24,7 @@ public class EncontroSearchDAO {
 	 */
 	public Encontro findEncontroByData(SimpleDate data) throws EncounterNotFoundException, UnreachableDataBaseException{
 		
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			
 			resultSet = manager.find("FROM encontro WHERE data = '"+ data +"'"
@@ -50,7 +50,7 @@ public class EncontroSearchDAO {
 	 * @throws EncounterNotFoundException
 	 */
 	public Encontro findEncontroByLocal (long id) throws EncounterNotFoundException, UnreachableDataBaseException{
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			
 			resultSet = manager.find("FROM encontro WHERE local_id = '"+ id +"'"

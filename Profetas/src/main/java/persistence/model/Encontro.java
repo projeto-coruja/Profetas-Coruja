@@ -10,7 +10,7 @@ import org.hibernate.annotations.Type;
 import datatype.SimpleDate;
 
 @Entity
-public class Encontro implements EntityModel {
+public class Encontro implements IdentifiedEntity {
 
 	@Id
 	@GeneratedValue

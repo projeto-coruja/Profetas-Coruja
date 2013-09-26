@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.Timer;
 
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.UserAccount;
 import business.DAO.login.UserDAO;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -79,8 +79,8 @@ public class TokenValidityChecker {
 	 */
 	private synchronized void CheckIfExpired() throws UserNotFoundException{
 		try {
-			List<EntityModel> users = dao.listUsersWithExpiredTokens(threshold);
-			for(EntityModel dto : users){
+			List<IdentifiedEntity> users = dao.listUsersWithExpiredTokens(threshold);
+			for(IdentifiedEntity dto : users){
 				((UserAccount)dto).setTokenDate(null);
 				((UserAccount)dto).setGeneratedToken(null);
 				dao.updateUser((UserAccount)dto);

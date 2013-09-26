@@ -9,7 +9,7 @@ import business.exceptions.login.UnreachableDataBaseException;
 import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
 import persistence.model.Encontro;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.LocaisPersonagens;
 import persistence.model.Local;
 import persistence.util.DataAccessLayerException;
@@ -26,8 +26,8 @@ public class LocaisPersonagensDAO {
 		LocalDAO newLocalDAO = new LocalDAO();
 		Local newLocal = null;
 		
-		List<EntityModel> check = newLocalDAO.findLocalByName(localName);
-		for (EntityModel dto : check) {
+		List<IdentifiedEntity> check = newLocalDAO.findLocalByName(localName);
+		for (IdentifiedEntity dto : check) {
 			if(((Local) dto).getNome().equals(localName)) {
 				newLocal = (Local) dto;
 			}
@@ -45,11 +45,11 @@ public class LocaisPersonagensDAO {
 	}
 	
 	public void removeLocalsCharacters(String localName) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
-		List<EntityModel> check = null;
+		List<IdentifiedEntity> check = null;
 		LocaisPersonagens select = null;
 		try {
 			check = findLocalsCharacters(localName);
-			for(EntityModel dto : check) {
+			for(IdentifiedEntity dto : check) {
 				if (((LocaisPersonagens) dto).getLocal().getNome().equals(localName))
 					select = (LocaisPersonagens) dto;
 			}
@@ -62,7 +62,7 @@ public class LocaisPersonagensDAO {
 	}
 	
 	public LocaisPersonagens updateLocalsCharacters(String oldLocal, String newLocal, SimpleDate arrivalYear, SimpleDate leaveYear) throws UnreachableDataBaseException, IllegalArgumentException, UpdateEntityException, LocalsCharactersNotFoundException {
-		List<EntityModel> check = null;
+		List<IdentifiedEntity> check = null;
 		LocaisPersonagens selectLocalsCharacters = null;
 		Local selectLocal = null;
 		
@@ -71,7 +71,7 @@ public class LocaisPersonagensDAO {
 			if(newLocal != null && !newLocal.isEmpty()) {
 				try {	
 					check = (new LocalDAO()).findLocalByName(newLocal);
-					for(EntityModel dto : check) {
+					for(IdentifiedEntity dto : check) {
 						if(((Local) dto).getNome().equals(newLocal))
 							selectLocal = (Local) dto;
 					}
@@ -85,7 +85,7 @@ public class LocaisPersonagensDAO {
 			else unmodifiedLocal = true;
 			
 			check = findLocalsCharacters(oldLocal);
-			for(EntityModel dto : check) {
+			for(IdentifiedEntity dto : check) {
 				if(((Encontro) dto).getLocal().getNome().equals(oldLocal))
 					selectLocalsCharacters = (LocaisPersonagens) dto;
 			}
@@ -103,8 +103,8 @@ public class LocaisPersonagensDAO {
 		return selectLocalsCharacters;
 	}
 	
-	public List<EntityModel> findLocalsCharacters(String localName) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findLocalsCharacters(String localName) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM LocaisPersonagens WHERE local.nome = '" + localName + "' ORDER BY local.nome, anoChegada, anoSaida");
 			if(resultSet == null) {
@@ -117,8 +117,8 @@ public class LocaisPersonagensDAO {
 		}
 	}
 	
-	public List<EntityModel> findLocalsCharactersByArrivalYear(SimpleDate arrivalYear) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findLocalsCharactersByArrivalYear(SimpleDate arrivalYear) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM LocaisPersonagens WHERE data = '" + arrivalYear + "' ORDER BY anoChegada, local.nome");
 			if(resultSet == null) {
@@ -131,8 +131,8 @@ public class LocaisPersonagensDAO {
 		}
 	}
 	
-	public List<EntityModel> findLocalsCharactersByLeaveYear(SimpleDate leaveYear) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findLocalsCharactersByLeaveYear(SimpleDate leaveYear) throws UnreachableDataBaseException, LocalsCharactersNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM LocaisPersonagens WHERE data = '" + leaveYear + "' ORDER BY anoSaida, local.nome");
 			if(resultSet == null) {
@@ -145,8 +145,8 @@ public class LocaisPersonagensDAO {
 		}
 	}
 	
-	public List<EntityModel> getAllLocalsCharacters() throws  UnreachableDataBaseException, LocalsCharactersNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> getAllLocalsCharacters() throws  UnreachableDataBaseException, LocalsCharactersNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM LocaisPersonagens ORDER BY ORDER BY local.nome, anoChegada, anoSaida");
 			if(resultSet == null) {

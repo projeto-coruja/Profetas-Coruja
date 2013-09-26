@@ -4,7 +4,7 @@ import java.util.List;
 
 import datatype.SimpleDate;
 import persistence.EntityManager;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.LocaisPersonagens;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -27,7 +27,7 @@ public class LocaisPersonagensSearchDAO {
 	 */
 	public LocaisPersonagens findExactLocaisPersonagensByAnoChegada(SimpleDate anoChegada) throws LocalsCharactersNotFoundException, UnreachableDataBaseException{
 		//nome = getQueryNormalization(nome);
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			
 			resultSet = manager.find("FROM locaispersonagens WHERE anochegada = '"+ anoChegada +"'"
@@ -54,7 +54,7 @@ public class LocaisPersonagensSearchDAO {
 	 */
 	public LocaisPersonagens findLocaisPersonagensByAnoSaida(SimpleDate anoSaida) throws LocalsCharactersNotFoundException, UnreachableDataBaseException{
 		//nome = getQueryNormalization(nome);
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			
 			resultSet = manager.find("FROM locaispersonagens WHERE anosaida = '"+ anoSaida +"'"
@@ -81,7 +81,7 @@ public class LocaisPersonagensSearchDAO {
 	 */
 	public LocaisPersonagens findLocaisPersonagensByLocal(long idLocal) throws LocalsCharactersNotFoundException, UnreachableDataBaseException{
 		//nome = getQueryNormalization(nome);
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			
 			resultSet = manager.find("FROM locaispersonagens WHERE local_id = '"+ idLocal +"'"

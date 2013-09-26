@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.EntityManager;
 import persistence.model.Classificacao;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.model.ClassificationNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -19,7 +19,7 @@ public class ClassificacaoSearchDAO {
 	
 	public Classificacao findExactClassificacao(String tipo) 
 			throws  UnreachableDataBaseException, ClassificationNotFoundException  {
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Classificacao WHERE tipo = '"+ tipo +"'"
 					+ " ORDER BY id, tipo");
@@ -33,8 +33,8 @@ public class ClassificacaoSearchDAO {
 		}
 	}
 	
-	public List<EntityModel> findClassificacaoByTipo(String tipo) throws  UnreachableDataBaseException, ClassificationNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findClassificacaoByTipo(String tipo) throws  UnreachableDataBaseException, ClassificationNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from ClassificacaoMO where tipo like '%" + tipo +"%' "
 					+ "order by id, tipo");
@@ -50,8 +50,8 @@ public class ClassificacaoSearchDAO {
 		}
 	}
 	
-	public List<EntityModel> findClassificacaoById(int id) throws  UnreachableDataBaseException,ClassificationNotFoundException  {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findClassificacaoById(int id) throws  UnreachableDataBaseException,ClassificationNotFoundException  {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from ClassificacaoMO where id =" + id +"order by id, tipo");
 			if(resultSet == null) {
@@ -64,8 +64,8 @@ public class ClassificacaoSearchDAO {
 		}
 	}
 	
-	public List<EntityModel> findAllClassificacao() throws  UnreachableDataBaseException, ClassificationNotFoundException  {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findAllClassificacao() throws  UnreachableDataBaseException, ClassificationNotFoundException  {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from ClassificacaoMO order by tipo");
 			if(resultSet == null) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.exceptions.UpdateEntityException;
 import persistence.model.Encontro;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import business.DAO.model.EncontroDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.EncounterNotFoundException;
@@ -31,8 +31,8 @@ public class EncontroBean {
 	public synchronized void addEncounter(SimpleDate date, String localName) throws UnreachableDataBaseException, LocalNotFoundException {
 		//localName = localName.toLowerCase();
 		try {
-			List<EntityModel> check = dao.findEncounterByDate(date);
-			for (EntityModel dto : check) {
+			List<IdentifiedEntity> check = dao.findEncounterByDate(date);
+			for (IdentifiedEntity dto : check) {
 				if (((Encontro) dto).getLocal().getNome().equals(localName))
 					throw new IllegalArgumentException("Encontro já existe.");
 			}
@@ -96,8 +96,8 @@ public class EncontroBean {
 		oldEncounterLocal = oldEncounterLocal.toLowerCase();
 		newEncounterLocal = newEncounterLocal.toLowerCase();
 		try{
-			List<EntityModel> check = dao.findEncounterByLocalName(newEncounterLocal);
-			for (EntityModel dto : check) {
+			List<IdentifiedEntity> check = dao.findEncounterByLocalName(newEncounterLocal);
+			for (IdentifiedEntity dto : check) {
 				if (((Encontro) dto).getLocal().equals(newEncounterLocal))
 					throw new IllegalArgumentException("Encontro já existe.");
 			}
@@ -113,7 +113,7 @@ public class EncontroBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws EncounterNotFoundException
 	 */
-	public List<EntityModel> listAllEncounters() throws UnreachableDataBaseException, EncounterNotFoundException {
+	public List<IdentifiedEntity> listAllEncounters() throws UnreachableDataBaseException, EncounterNotFoundException {
 		return dao.getAllEncounters();
 	}
 

@@ -14,7 +14,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
 
 import persistence.EntityManager;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.Profile;
 import persistence.model.UserAccount;
 import persistence.util.PersistenceUtility;
@@ -49,7 +49,7 @@ public class InitServlet extends HttpServlet {
 		EntityManager pa = new EntityManager();
 		String[] profiles_names = {"user", "admin"};
 
-		List<EntityModel> profile;
+		List<IdentifiedEntity> profile;
 		for (String p : profiles_names) {
 			profile = pa.find("from ProfileMO where profile = '" + p + "'");
 			if(profile == null) {
@@ -67,7 +67,7 @@ public class InitServlet extends HttpServlet {
 		}
 
 		//TODO: MUDAR SENHA
-		List<EntityModel> user = pa.find("from UserAccountMO where email = 'admin@coruja.com'");
+		List<IdentifiedEntity> user = pa.find("from UserAccountMO where email = 'admin@coruja.com'");
 		if(user == null)
 		{
 			log.info("Criando usuário de admin...");

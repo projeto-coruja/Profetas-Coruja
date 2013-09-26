@@ -8,7 +8,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Profile implements EntityModel {
+public class Profile implements IdentifiedEntity {
 	
 	@Id
 	@GeneratedValue

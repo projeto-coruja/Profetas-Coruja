@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.GrupoMovimento;
 import persistence.model.Local;
 import business.DAO.model.GrupoMovimentoDAO;
@@ -92,7 +92,7 @@ public class GrupoMovimentoBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws GroupMovementNotFoundException
 	 */
-	public List<EntityModel> listAllGroupsMovement() throws UnreachableDataBaseException, GroupMovementNotFoundException {
+	public List<IdentifiedEntity> listAllGroupsMovement() throws UnreachableDataBaseException, GroupMovementNotFoundException {
 		return dao.getAllGroupsMovement();
 	}
 

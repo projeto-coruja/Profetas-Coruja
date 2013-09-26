@@ -9,7 +9,7 @@ import business.exceptions.model.DuplicateGroupMovementException;
 import business.exceptions.model.GroupMovementNotFoundException;
 import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.GrupoMovimento;
 import persistence.model.Local;
 import persistence.util.DataAccessLayerException;
@@ -78,7 +78,7 @@ public class GrupoMovimentoDAO {
 	}
 	
 	public GrupoMovimento findGroupMovementByName(String groupMovementName) throws  UnreachableDataBaseException, GroupMovementNotFoundException {
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM GrupoMovimento WHERE nome LIKE '%" + groupMovementName + "%' ORDER BY nome");
 			if(resultSet == null) {
@@ -91,8 +91,8 @@ public class GrupoMovimentoDAO {
 		}
 	}
 	
-	public List<EntityModel> getAllGroupsMovement() throws  UnreachableDataBaseException, GroupMovementNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> getAllGroupsMovement() throws  UnreachableDataBaseException, GroupMovementNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM GrupoMovimento ORDER BY nome");
 			if(resultSet == null) {

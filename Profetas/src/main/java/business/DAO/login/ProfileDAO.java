@@ -3,7 +3,7 @@ package business.DAO.login;
 import java.util.List;
 
 import persistence.EntityManager;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.Profile;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.NoDefaultProfileException;
@@ -142,8 +142,8 @@ public class ProfileDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws ProfileNotFoundException
 	 */
-	public List<EntityModel> getAllProfiles() throws UnreachableDataBaseException, ProfileNotFoundException{
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> getAllProfiles() throws UnreachableDataBaseException, ProfileNotFoundException{
+		List<IdentifiedEntity> resultSet = null;
 		try{
 			resultSet = manager.find("from ProfileMO order by profile");
 			if(resultSet == null)	throw new ProfileNotFoundException("Nenhum perfil encontrado");

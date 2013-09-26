@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.Local;
 import business.DAO.search.LocalSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -18,7 +18,7 @@ public class LocalSearchTest {
 	@Test(expected =LocalNotFoundException.class)
 	public void notfindLocalByAlltest() throws LocalNotFoundException, UnreachableDataBaseException {
 		LocalSearchDAO dao = new LocalSearchDAO();				
-		EntityModel tipo  = (EntityModel) dao.findLocalByAll("local",0,0);	
+		IdentifiedEntity tipo  = (IdentifiedEntity) dao.findLocalByAll("local",0,0);	
 		System.out.println(tipo.getId());
 		
 	
@@ -27,7 +27,7 @@ public class LocalSearchTest {
 	@Test
 	public void findLocalByAlltest() throws LocalNotFoundException, UnreachableDataBaseException {
 		LocalSearchDAO dao = new LocalSearchDAO();				
-		EntityModel tipo  = (EntityModel) dao.findLocalByAll("Grecia Central", 38.6, 22.71);	
+		IdentifiedEntity tipo  = (IdentifiedEntity) dao.findLocalByAll("Grecia Central", 38.6, 22.71);	
 		System.out.println(tipo.getId());
 		
 	

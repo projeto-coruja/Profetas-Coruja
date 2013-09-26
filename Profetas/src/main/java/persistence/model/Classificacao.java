@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Classificacao implements EntityModel {
+public class Classificacao implements IdentifiedEntity {
 	
 	@Id
 	@GeneratedValue

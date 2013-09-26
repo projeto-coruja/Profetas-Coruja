@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import datatype.SimpleDate;
 import persistence.EntityManager;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.FontesObras;
 import persistence.model.PalavraChave;
 import persistence.model.Personagem;
@@ -35,11 +35,11 @@ public class FontesObrasSearchTest {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		ClassificacaoSearchDAO dao2 = new ClassificacaoSearchDAO();
 		
-		EntityModel tipo  = dao2.findExactClassificacao("matematica");
+		IdentifiedEntity tipo  = dao2.findExactClassificacao("matematica");
 	
 		
-		List<EntityModel> lalala = dao.findFontesObrasByClassificacao(tipo.getId());
-		for(EntityModel p : lalala){
+		List<IdentifiedEntity> lalala = dao.findFontesObrasByClassificacao(tipo.getId());
+		for(IdentifiedEntity p : lalala){
 			System.out.println(((FontesObras)p).getTitulo());
 		}
 		
@@ -51,11 +51,11 @@ public class FontesObrasSearchTest {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		ClassificacaoSearchDAO dao2 = new ClassificacaoSearchDAO();
 		
-		EntityModel tipo  = dao2.findExactClassificacao("m");
+		IdentifiedEntity tipo  = dao2.findExactClassificacao("m");
 	
 		
-		List<EntityModel> lalala = dao.findFontesObrasByClassificacao(tipo.getId());
-		for(EntityModel p : lalala){
+		List<IdentifiedEntity> lalala = dao.findFontesObrasByClassificacao(tipo.getId());
+		for(IdentifiedEntity p : lalala){
 			System.out.println(((FontesObras)p).getTitulo());
 		}
 		
@@ -65,15 +65,15 @@ public class FontesObrasSearchTest {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra
 		GrupoMovimentoSearchDAO dao2 = new GrupoMovimentoSearchDAO();
 		
-		EntityModel tipo  = (EntityModel) dao2.findExactGrupoMovimentoByNome("escola de pitagoras");
+		IdentifiedEntity tipo  = (IdentifiedEntity) dao2.findExactGrupoMovimentoByNome("escola de pitagoras");
 		//List<DTO> grupo =  dao2.findAllGrupoMovimento();
 		//for(DTO g : grupo){
 		System.out.println(tipo.getId());
 		//}
 		
 		
-		List<EntityModel> lalala = dao.findFontesObrasByGrupoMovimento(tipo.getId());
-		for(EntityModel p : lalala){
+		List<IdentifiedEntity> lalala = dao.findFontesObrasByGrupoMovimento(tipo.getId());
+		for(IdentifiedEntity p : lalala){
 			System.out.println(((FontesObras)p).getTitulo());
 		}
 		
@@ -85,9 +85,9 @@ public class FontesObrasSearchTest {
 			
 		//	DTO tipo  = (DTO) dao.findExactFontesObras("Tragedia Grega");
 			//DTO tipo  = (DTO) dao.findFontesObrasByTitulo("Tragedia");
-			List<EntityModel> tipo =  dao.findFontesObrasByTitulo("O triangulo de Pitagoras");
-			for(EntityModel g : tipo){
-				System.out.println(((EntityModel) g).getId());
+			List<IdentifiedEntity> tipo =  dao.findFontesObrasByTitulo("O triangulo de Pitagoras");
+			for(IdentifiedEntity g : tipo){
+				System.out.println(((IdentifiedEntity) g).getId());
 				System.out.println(((FontesObras)g).getTitulo());
 			}
 			
@@ -97,8 +97,8 @@ public class FontesObrasSearchTest {
 	//@Test
 	public void findAlltest() throws UnreachableDataBaseException, FontesObrasNotFoundException, ClassificationNotFoundException {
 		FontesObrasSearchDAO dao = new FontesObrasSearchDAO();//pesquisa pela fonte/obra	
-		List<EntityModel> lalala = dao.findAllFontesObras();
-		for(EntityModel p : lalala){
+		List<IdentifiedEntity> lalala = dao.findAllFontesObras();
+		for(IdentifiedEntity p : lalala){
 			System.out.println(((FontesObras)p).getTitulo());
 		}
 		
@@ -109,14 +109,14 @@ public class FontesObrasSearchTest {
 			PersonagemSearchDAO daoPersonagem = new PersonagemSearchDAO();
 			FontesObrasSearchDAO dao =new FontesObrasSearchDAO();
 			System.out.println("antes");
-			List<EntityModel> p= (List<EntityModel>) daoPersonagem.findExactPersonagemByExactNome("odisseu");
+			List<IdentifiedEntity> p= (List<IdentifiedEntity>) daoPersonagem.findExactPersonagemByExactNome("odisseu");
 			System.out.println("depois");
-			EntityModel o = dao.findExactFontesObrasById(1);
-			for(EntityModel j:p){
+			IdentifiedEntity o = dao.findExactFontesObrasById(1);
+			for(IdentifiedEntity j:p){
 				String query = ("FROM FontesObrasMO fontes INNER JOIN fontes.personagens list WHERE FontesObrasMO.id =" + 1+ " AND list.id="+ 1);
 			
 				System.out.println(query);
-				List<EntityModel> resultSet = manager.find(query);
+				List<IdentifiedEntity> resultSet = manager.find(query);
 				if(resultSet == null){
 					JOptionPane.showMessageDialog(null, "é nulo :(");
 				} else{
@@ -142,9 +142,9 @@ public class FontesObrasSearchTest {
 		autores.add(new Personagem("ulisses", null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		leitores.add(new Personagem("hercules", null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 		
-		List<EntityModel> fontes = dao.mainSearchAND("O triangulo de pitagoras", "comentario","nenhuma","http://pt.wikipedia.org/wiki/Escola_pitag%C3%B3rica", "nenhuma", "italiano, portugues",dataimpressao,"nenhum","escola de pitagoras",ano_inicioGrupo, ano_fimGrupo, "pai da matematica", "Grecia Central", 38.60, 22.71, "Grecia Central", 38.60, 22.71, "matematica",null,  null,null,null,null);
+		List<IdentifiedEntity> fontes = dao.mainSearchAND("O triangulo de pitagoras", "comentario","nenhuma","http://pt.wikipedia.org/wiki/Escola_pitag%C3%B3rica", "nenhuma", "italiano, portugues",dataimpressao,"nenhum","escola de pitagoras",ano_inicioGrupo, ano_fimGrupo, "pai da matematica", "Grecia Central", 38.60, 22.71, "Grecia Central", 38.60, 22.71, "matematica",null,  null,null,null,null);
 		if(fontes !=null){
-			for(EntityModel p : fontes){
+			for(IdentifiedEntity p : fontes){
 				System.out.println(((FontesObras)p).getTitulo());
 			}
 		}else{

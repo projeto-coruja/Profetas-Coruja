@@ -11,6 +11,7 @@ import org.junit.Test;
 import datatype.SimpleDate;
 import persistence.model.Encontro;
 import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.FontesObras;
 import persistence.model.GrupoPersonagem;
 import persistence.model.LocaisPersonagens;
@@ -45,8 +46,8 @@ public class PersonagemSearchTest {
 		SimpleDate nasci = null;
 		//dao.novoaddPersonagem("joao", "joazinho", grecia, nasci, roma, nasci, "ajsidjiasdji", "pensador", "nenhuma", referencia_bibliografica, religiao, grupo, locaisVisitados, encontro, obras);
 		//Personagem p = (Personagem) dao.findPersonagem("joao");
-		List<EntityModel> lalala = dao.findAllPersonagem();
-		for(EntityModel p : lalala){
+		List<IdentifiedEntity> lalala = dao.findAllPersonagem();
+		for(IdentifiedEntity p : lalala){
 			System.out.println(((Personagem)p).getNome());
 		}
 		//assertEquals("joao", p.getNome());
@@ -59,14 +60,14 @@ public class PersonagemSearchTest {
 		SimpleDate nascimento1 = null;
 		Local impressao = new Local();;
 		//impressao.setNome("");
-		List<EntityModel> religiao = null;
-		List<EntityModel> grupo = null;
-		List<EntityModel> locais_visitados = null;
-		List<EntityModel> encontro = null;
+		List<IdentifiedEntity> religiao = null;
+		List<IdentifiedEntity> grupo = null;
+		List<IdentifiedEntity> locais_visitados = null;
+		List<IdentifiedEntity> encontro = null;
 		
 		
 		
-		List<DTO> lalala = dao.findPersonagemMainAND("Aristocles", "Platão",nascimento.getNome(), nascimento.getLatitude(),nascimento.getLongitude(), nascimento1,
+		List<IdentifiedEntity> lalala = dao.findPersonagemMainAND("Aristocles", "Platão",nascimento.getNome(), nascimento.getLatitude(),nascimento.getLongitude(), nascimento1,
 				 nascimento.getNome(), nascimento.getLatitude(), nascimento.getLongitude(),  nascimento1, "", "","",
 				 "", "","", "","","","", nascimento1,
 				 "","",nascimento1,nascimento1, "", impressao.getNome(),
@@ -76,7 +77,7 @@ public class PersonagemSearchTest {
 		if(lalala.isEmpty()){
 			System.out.println("Empty");
 		}else{
-			for(DTO p : lalala){
+			for(EntityModel p : lalala){
 				System.out.println(((Personagem)p).getNome());
 			}
 		}

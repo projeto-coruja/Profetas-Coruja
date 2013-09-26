@@ -7,7 +7,7 @@ import business.exceptions.model.DuplicateLocalException;
 import business.exceptions.login.UnreachableDataBaseException;
 import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.Local;
 import persistence.util.DataAccessLayerException;
 
@@ -52,7 +52,7 @@ public class LocalDAO {
 	}
 	
 	public Local findExactLocal(double latitude, double longitude) throws  UnreachableDataBaseException, LocalNotFoundException {		
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Local WHERE latitude = '"+ latitude +"'"
 					+ " AND longitude = '" + longitude +"'"
@@ -67,8 +67,8 @@ public class LocalDAO {
 		}
 	}
 	
-	public List<EntityModel> findLocalByName(String name) throws  UnreachableDataBaseException, LocalNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findLocalByName(String name) throws  UnreachableDataBaseException, LocalNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Local WHERE nome LIKE '%" + name +"%' ORDER BY nome, latitude, longitude");
 			if(resultSet == null) {
@@ -81,8 +81,8 @@ public class LocalDAO {
 		}
 	}
 	
-	public List<EntityModel> findAllLocal() throws  UnreachableDataBaseException, LocalNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findAllLocal() throws  UnreachableDataBaseException, LocalNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Local ORDER BY nome, latitude, longitude");
 			if(resultSet == null) {

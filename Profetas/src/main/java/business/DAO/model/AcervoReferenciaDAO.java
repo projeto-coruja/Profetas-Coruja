@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.EntityManager;
 import persistence.model.AcervoReferencia;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.DuplicateReferenceException;
@@ -80,7 +80,7 @@ public class AcervoReferenciaDAO {
 	}*/	
 	
 	public AcervoReferencia findReferenceByName(String name) throws  UnreachableDataBaseException, ReferenceNotFoundException {
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM AcervoReferencia WHERE nome LIKE '%" + name + "%' ORDER BY nome");
 			if(resultSet == null) {
@@ -93,8 +93,8 @@ public class AcervoReferenciaDAO {
 		}
 	}
 	
-	public List<EntityModel> getAllReferences() throws  UnreachableDataBaseException, ReferenceNotFoundException  {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> getAllReferences() throws  UnreachableDataBaseException, ReferenceNotFoundException  {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM AcervoReferencia ORDER BY nome");
 			if(resultSet == null) {

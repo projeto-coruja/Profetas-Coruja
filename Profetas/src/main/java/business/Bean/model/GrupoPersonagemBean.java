@@ -3,7 +3,7 @@ package business.Bean.model;
 import java.util.List;
 
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.GrupoPersonagem;
 import business.DAO.model.GrupoPersonagemDAO;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -29,8 +29,8 @@ public class GrupoPersonagemBean {
 	 */
 	public synchronized void addGroupCharacter(SimpleDate entryYear, String groupMovementName) throws UnreachableDataBaseException, GroupMovementNotFoundException {
 		try {
-			List<EntityModel> check = dao.findGroupCharacterByEntryYear(entryYear);
-			for (EntityModel dto : check) {
+			List<IdentifiedEntity> check = dao.findGroupCharacterByEntryYear(entryYear);
+			for (IdentifiedEntity dto : check) {
 				if (((GrupoPersonagem) dto).getGrupoMovimento().getNome().equals(groupMovementName))
 					throw new IllegalArgumentException("Encontro já existe.");
 			}			
@@ -66,8 +66,8 @@ public class GrupoPersonagemBean {
 			throw new IllegalArgumentException("Argumentos não podem ser nulos/vazios.");
 		
 		try{
-			List<EntityModel> check = dao.findGroupCharacterByGroupName(newGroupMovementName);
-			for (EntityModel dto : check) {
+			List<IdentifiedEntity> check = dao.findGroupCharacterByGroupName(newGroupMovementName);
+			for (IdentifiedEntity dto : check) {
 				if (((GrupoPersonagem) dto).getGrupoMovimento().getNome().equals(newGroupMovementName))
 					throw new IllegalArgumentException("Dado já existe.");
 			}
@@ -83,7 +83,7 @@ public class GrupoPersonagemBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws GroupCharacterNotFoundException
 	 */
-	public List<EntityModel> listAllGroupsCharacters() throws UnreachableDataBaseException, GroupCharacterNotFoundException {
+	public List<IdentifiedEntity> listAllGroupsCharacters() throws UnreachableDataBaseException, GroupCharacterNotFoundException {
 		return dao.getAllGroupsCharacters();
 	}
 

@@ -5,7 +5,7 @@ import java.util.List;
 import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
 import persistence.model.Correspondencia;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.model.CorrespondenceNotFoundException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -49,8 +49,8 @@ public class CorrespondenciaDAO {
 		}
 	}
 
-	public List<EntityModel> findCorrespondenceByQuery(String query) throws CorrespondenceNotFoundException, UnreachableDataBaseException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findCorrespondenceByQuery(String query) throws CorrespondenceNotFoundException, UnreachableDataBaseException {
+		List<IdentifiedEntity> resultSet = null;
 		if(query == null)	throw new IllegalArgumentException("Query não pode ser null.");
 		try {
 			resultSet = manager.find(query);

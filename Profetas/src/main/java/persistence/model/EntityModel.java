@@ -1,10 +1,8 @@
 package persistence.model;
 
 /**
- * Interface de marcação para todos as entidades<br>
- * Todas as entidades DEVEM implementar esta interface.
- * 
+ * Interface de marcação para todos as entidades.<br>
  */
 public interface EntityModel {
-
+	//Vazio
 }

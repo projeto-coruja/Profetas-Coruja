@@ -5,7 +5,7 @@ import java.util.List;
 
 import datatype.SimpleDate;
 import persistence.EntityManager;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.GrupoMovimento;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -25,9 +25,9 @@ public class GrupoMovimentoSearchDAO {
 		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 	}
 	
-	public List<EntityModel> findGrupoMovimentoGeneric(String busca) throws GroupMovementNotFoundException{
+	public List<IdentifiedEntity> findGrupoMovimentoGeneric(String busca) throws GroupMovementNotFoundException{
 		
-		List<EntityModel>resultSet;
+		List<IdentifiedEntity>resultSet;
 		resultSet = manager.find("FROM GrupoMovimento WHERE nome like "+ getQueryNormalization("'%"+ busca +"%'") 
 				+ "' OR descricao like " + getQueryNormalization("'%"+ busca +"%'") 
 				+ " ORDER BY nome");
@@ -36,13 +36,13 @@ public class GrupoMovimentoSearchDAO {
 		}
 		else{
 
-			return  (List<EntityModel>) resultSet;
+			return  (List<IdentifiedEntity>) resultSet;
 		}
 		
 	}
-	public List<EntityModel> mainSearchAND(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, List<EntityModel> local) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
-		List<EntityModel> resultSetGrupos = null;
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> mainSearchAND(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, List<IdentifiedEntity> local) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
+		List<IdentifiedEntity> resultSetGrupos = null;
+		List<IdentifiedEntity> resultSet = null;
 
 		try {
 		
@@ -52,9 +52,9 @@ public class GrupoMovimentoSearchDAO {
 					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + getQueryNormalization("'%"+ descricao +"%'") 
 					+ " ORDER BY nome");
 			if(local != null){
-				for(EntityModel l : local){
+				for(IdentifiedEntity l : local){
 					if(resultSetGrupos!= null){
-						for(EntityModel g :resultSetGrupos){
+						for(IdentifiedEntity g :resultSetGrupos){
 							resultSet = manager.find("FROM GrupoMovimentoMO_Local WHERE grupomovimentomo_id = "+g.getId()+" AND local_id = " + l.getId()+"");
 						}
 					}
@@ -67,7 +67,7 @@ public class GrupoMovimentoSearchDAO {
 			}
 			else{
 
-				return  (List<EntityModel>) resultSet;
+				return  (List<IdentifiedEntity>) resultSet;
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
@@ -78,23 +78,23 @@ public class GrupoMovimentoSearchDAO {
 	}
 
 
-	public List<EntityModel> findGrupoMovimentoByAll(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, String local_grupomovimento,
+	public List<IdentifiedEntity> findGrupoMovimentoByAll(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, String local_grupomovimento,
 			double latitude_grupomovimento, double longitude_grupomovimento) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
-		List<EntityModel> resultSetGrupos = null;
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSetGrupos = null;
+		List<IdentifiedEntity> resultSet = null;
 
 		LocalSearchDAO dao = new LocalSearchDAO();
 		try {
-			List<EntityModel> resultados = (List<EntityModel>) dao.findLocalByAll(local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
+			List<IdentifiedEntity> resultados = (List<IdentifiedEntity>) dao.findLocalByAll(local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
 
 
 			resultSetGrupos = manager.find("FROM GrupoMovimento WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 
 					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + getQueryNormalization("'%"+ descricao +"%'") 
 					+ " ORDER BY nome");
 			if(resultados != null){
-				for(EntityModel l : resultados){
+				for(IdentifiedEntity l : resultados){
 					if(resultSetGrupos != null){
-						for(EntityModel g : resultSetGrupos){
+						for(IdentifiedEntity g : resultSetGrupos){
 							resultSet = manager.find("FROM GrupoMovimentoMO_Local WHERE grupomovimentomo_id = "+g.getId()+" AND local_id = " + l.getId()+"");
 						}
 					}
@@ -104,11 +104,11 @@ public class GrupoMovimentoSearchDAO {
 
 			if(resultSet == null) {
 				//throw new GroupMovementNotFoundException ("Grupo  Movimento não encontrado.");
-				return new ArrayList<EntityModel>();
+				return new ArrayList<IdentifiedEntity>();
 			}
 			else{
 
-				return  (List<EntityModel>) resultSet;
+				return  (List<IdentifiedEntity>) resultSet;
 			}
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
@@ -125,7 +125,7 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws PersonagemNotFoundException
 	 */
 	public GrupoMovimento findExactGrupoMovimentoByNome(String nome) throws GroupMovementNotFoundException, UnreachableDataBaseException{
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 
 			resultSet = manager.find("FROM GrupoMovimento WHERE nome = "+ getQueryNormalization("'"+ nome +"'") 
@@ -153,7 +153,7 @@ public class GrupoMovimentoSearchDAO {
 	 */
 	public GrupoMovimento findExactGrupoMovimentoById(int id) throws GroupMovementNotFoundException, UnreachableDataBaseException{
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM GrupoMovimento"+		
 					" where id = "+id+" "+
@@ -178,9 +178,9 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<EntityModel> findExactGrupoMovimentoByAnoInicio(SimpleDate anoInicio) throws GroupMovementNotFoundException, UnreachableDataBaseException{
+	public List<IdentifiedEntity> findExactGrupoMovimentoByAnoInicio(SimpleDate anoInicio) throws GroupMovementNotFoundException, UnreachableDataBaseException{
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM GrupoMovimento"+		
 					" where anoinicio = "+anoInicio+" "+
@@ -205,9 +205,9 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<EntityModel> findExactGrupoMovimentoByAnoFim(SimpleDate anofim) throws GroupMovementNotFoundException, UnreachableDataBaseException{
+	public List<IdentifiedEntity> findExactGrupoMovimentoByAnoFim(SimpleDate anofim) throws GroupMovementNotFoundException, UnreachableDataBaseException{
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM GrupoMovimento"+		
 					" where anoinicio = "+anofim+" "+
@@ -232,8 +232,8 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<EntityModel> findGrupoMovimento(String nome) throws  UnreachableDataBaseException,GroupMovementNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findGrupoMovimento(String nome) throws  UnreachableDataBaseException,GroupMovementNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from GrupoMovimentoMO where nome like '%" + nome +"%' "
 					+ "order by nome");
@@ -254,8 +254,8 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<EntityModel> findGrupoMovimentoByDescricao(String descricao) throws  UnreachableDataBaseException,GroupMovementNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findGrupoMovimentoByDescricao(String descricao) throws  UnreachableDataBaseException,GroupMovementNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from GrupoMovimentoMO where descricao like '%" + descricao +"%' "
 					+ "order by descricao");
@@ -276,8 +276,8 @@ public class GrupoMovimentoSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<EntityModel> findAllGrupoMovimento() throws  UnreachableDataBaseException, GroupMovementNotFoundException  {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findAllGrupoMovimento() throws  UnreachableDataBaseException, GroupMovementNotFoundException  {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from GrupoMovimentoMO order by nome");
 			if(resultSet == null) {

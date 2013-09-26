@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.Profile;
 import persistence.model.UserAccount;
 import persistence.util.DataAccessLayerException;
@@ -79,8 +79,8 @@ public class UserDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws UserNotFoundException
 	 */
-	public List<EntityModel> listAllUsers() throws UnreachableDataBaseException, UserNotFoundException {
-		List<EntityModel> resultSet;
+	public List<IdentifiedEntity> listAllUsers() throws UnreachableDataBaseException, UserNotFoundException {
+		List<IdentifiedEntity> resultSet;
 		try{
 			resultSet = manager.find("from UserAccount order by name");
 			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário encontrado");
@@ -164,8 +164,8 @@ public class UserDAO {
 	 * @throws ProfileNotFoundException
 	 * @throws UserNotFoundException
 	 */
-	public List<EntityModel> listUsersByProfile(String profileName) throws UnreachableDataBaseException, ProfileNotFoundException, UserNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> listUsersByProfile(String profileName) throws UnreachableDataBaseException, ProfileNotFoundException, UserNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		ProfileDAO profileDAO = null;
 		
 		try{
@@ -182,8 +182,8 @@ public class UserDAO {
 		return resultSet;
 	}
 	
-	public List<EntityModel> listUsersWithExpiredTokens(String threshold) throws UnreachableDataBaseException, UserNotFoundException{
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> listUsersWithExpiredTokens(String threshold) throws UnreachableDataBaseException, UserNotFoundException{
+		List<IdentifiedEntity> resultSet = null;
 		try{
 			resultSet = manager.find("FROM UserAccount WHERE tokendate <= '"+ threshold +"'");
 			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário com chave expirado");

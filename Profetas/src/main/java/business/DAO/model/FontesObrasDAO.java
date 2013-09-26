@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.EntityManager;
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.FontesObras;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -49,8 +49,8 @@ public class FontesObrasDAO {
 		}
 	}
 
-	public List<EntityModel> findSourceWorkByQuery(String query) throws SourceWorkNotFoundException, UnreachableDataBaseException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findSourceWorkByQuery(String query) throws SourceWorkNotFoundException, UnreachableDataBaseException {
+		List<IdentifiedEntity> resultSet = null;
 		if(query == null)	throw new IllegalArgumentException("Query não pode ser null.");
 		try {
 			resultSet = manager.find(query);

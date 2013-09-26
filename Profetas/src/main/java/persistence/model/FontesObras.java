@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import datatype.SimpleDate;
 
 @Entity
-public class FontesObras implements EntityModel {
+public class FontesObras implements IdentifiedEntity {
 
 	@Id
 	@GeneratedValue

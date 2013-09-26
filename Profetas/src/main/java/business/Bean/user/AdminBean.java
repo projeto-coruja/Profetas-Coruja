@@ -3,7 +3,7 @@ package business.Bean.user;
 import java.util.List;
 
 import persistence.exceptions.UpdateEntityException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.Profile;
 import persistence.model.UserAccount;
 import business.Bean.util.EJBUtility;
@@ -183,7 +183,7 @@ public class AdminBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws ProfileNotFoundException - Exceção para quando não há perfils registrado no banco.
 	 */
-	public List<EntityModel> getAllAvailableProfiles() throws UnreachableDataBaseException, ProfileNotFoundException{
+	public List<IdentifiedEntity> getAllAvailableProfiles() throws UnreachableDataBaseException, ProfileNotFoundException{
 		return profileDAO.getAllProfiles();
 	}
 	

@@ -11,7 +11,7 @@ import org.hibernate.annotations.Type;
 import datatype.SimpleDate;
 
 @Entity
-public class Correspondencia implements EntityModel {
+public class Correspondencia implements IdentifiedEntity {
 
 	@Id
 	@GeneratedValue

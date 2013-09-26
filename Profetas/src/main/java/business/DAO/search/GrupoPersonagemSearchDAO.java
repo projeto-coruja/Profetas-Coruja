@@ -4,7 +4,7 @@ import java.util.List;
 
 import datatype.SimpleDate;
 import persistence.EntityManager;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.GrupoPersonagem;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -31,7 +31,7 @@ public class GrupoPersonagemSearchDAO {
 	 */
 	public GrupoPersonagem findExactGrupoByAnoIngresso(SimpleDate anoIngresso) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
 	
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM GrupoPersonagem"+		
 					" where anoingresso = '"+ anoIngresso+ "'"+
@@ -59,7 +59,7 @@ public class GrupoPersonagemSearchDAO {
 	 */
 	public GrupoPersonagem findExactGrupoPersonagem(int id) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
 		
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM GrupoPersonagem"+		
 					" where id = "+id+" "+
@@ -85,8 +85,8 @@ public class GrupoPersonagemSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public List<EntityModel> findAllGrupoPersonagem() throws  UnreachableDataBaseException, GroupCharacterNotFoundException  {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findAllGrupoPersonagem() throws  UnreachableDataBaseException, GroupCharacterNotFoundException  {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from GrupoPersonagemMO order by nome");
 			if(resultSet == null) {

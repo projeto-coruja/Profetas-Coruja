@@ -4,7 +4,7 @@ import java.util.List;
 
 import persistence.EntityManager;
 import persistence.model.Classificacao;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.ClassificationNotFoundException;
@@ -35,11 +35,11 @@ public class ClassificacaoDAO {
 	
 	public void removeClassification(String type) throws UnreachableDataBaseException, ClassificationNotFoundException {
 		if(type.isEmpty() || type == null) throw new IllegalArgumentException("Tipo vazio ou nulo.");
-		List<EntityModel> check = null;
+		List<IdentifiedEntity> check = null;
 		Classificacao select = null;
 		try {
 			check = findClassificationByType(type);
-			for(EntityModel dto : check) {
+			for(IdentifiedEntity dto : check) {
 				if (((Classificacao) dto).getTipo().equals(type))
 					select = (Classificacao) dto;
 			}
@@ -53,17 +53,17 @@ public class ClassificacaoDAO {
 	
 	public Classificacao updateClassification(String oldType, String newType) throws UnreachableDataBaseException, ClassificationNotFoundException {
 		if(oldType.isEmpty() || oldType == null || newType.isEmpty() || newType == null)	throw new IllegalArgumentException("Tipo vazio ou nulo.");
-		List<EntityModel> check = null;
+		List<IdentifiedEntity> check = null;
 		Classificacao select = null;
 		try{
 			check = findClassificationByType(oldType);
-			for(EntityModel dto : check) {
+			for(IdentifiedEntity dto : check) {
 				if (((Classificacao) dto).getTipo().equals(oldType))
 					select = (Classificacao) dto;
 			}
 			try {
 				check = findClassificationByType(newType);
-				for(EntityModel dto : check) {
+				for(IdentifiedEntity dto : check) {
 					if (((Classificacao) dto).getTipo().equals(newType))
 						throw new IllegalArgumentException("Classificação já existente.");
 				}
@@ -80,8 +80,8 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	public List<EntityModel> findClassificationByType(String type) throws  UnreachableDataBaseException, ClassificationNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findClassificationByType(String type) throws  UnreachableDataBaseException, ClassificationNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Classificacao WHERE tipo LIKE '%" + type + "%' ORDER BY tipo");
 			if(resultSet == null) {
@@ -94,8 +94,8 @@ public class ClassificacaoDAO {
 		}
 	}
 	
-	public List<EntityModel> getAllClassification() throws UnreachableDataBaseException, ClassificationNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> getAllClassification() throws UnreachableDataBaseException, ClassificationNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Classificacao ORDER BY tipo");
 			if(resultSet == null) {

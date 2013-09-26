@@ -2,7 +2,7 @@ package business.Bean.model;
 
 import java.util.List;
 
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.ReligiaoCrencas;
 import business.DAO.model.ReligiaoCrencasDAO;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -81,7 +81,7 @@ public class ReligiaoCrencasBean {
 	 * @throws UnreachableDataBaseException
 	 * @throws ReligionNotFoundException
 	 */
-	public List<EntityModel> listAllReligions() throws UnreachableDataBaseException, ReligionNotFoundException {
+	public List<IdentifiedEntity> listAllReligions() throws UnreachableDataBaseException, ReligionNotFoundException {
 		return dao.getAllReligions();
 	}
 	

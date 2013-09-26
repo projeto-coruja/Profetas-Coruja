@@ -7,7 +7,7 @@ import business.DAO.search.PersonagemSearchDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.search.DuplicatePersonagemException;
 import business.exceptions.search.PersonagemNotFoundException;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.Personagem;
 
 
@@ -20,26 +20,26 @@ public class PersonagemSearchBean {
 	}
 
 	
-	public List<EntityModel> findPersonagemByNome(String nome) throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public List<IdentifiedEntity> findPersonagemByNome(String nome) throws UnreachableDataBaseException, PersonagemNotFoundException{
 		return dao.findPersonagemByNome(nome);
 	}
-	public List<EntityModel> findPersonagemByApelido(String apelido) throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public List<IdentifiedEntity> findPersonagemByApelido(String apelido) throws UnreachableDataBaseException, PersonagemNotFoundException{
 		return dao.findPersonagemByApelido(apelido);
 	}
-	public List<EntityModel> findPersonagemByLocalNascimento(long localNascimento) throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public List<IdentifiedEntity> findPersonagemByLocalNascimento(long localNascimento) throws UnreachableDataBaseException, PersonagemNotFoundException{
 		return dao.findPersonagemByLocalNascimento(localNascimento);
 	}
-	public List<EntityModel> findPersonagemByLocalMorte(long localMorte) throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public List<IdentifiedEntity> findPersonagemByLocalMorte(long localMorte) throws UnreachableDataBaseException, PersonagemNotFoundException{
 		return dao.findPersonagemByLocalMorte(localMorte);
 	}
-	public List<EntityModel> findPersonagemByDataNascimento(SimpleDate dataNascimento) throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public List<IdentifiedEntity> findPersonagemByDataNascimento(SimpleDate dataNascimento) throws UnreachableDataBaseException, PersonagemNotFoundException{
 		return dao.findPersonagemByDataNascimento(dataNascimento);
 	}
-	public List<EntityModel> findPersonagemByDataMorte(SimpleDate dataMorte) throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public List<IdentifiedEntity> findPersonagemByDataMorte(SimpleDate dataMorte) throws UnreachableDataBaseException, PersonagemNotFoundException{
 		return dao.findPersonagemByDataMorte(dataMorte);
 	}
 
-	public List<EntityModel> getAllEntries() throws UnreachableDataBaseException, PersonagemNotFoundException{
+	public List<IdentifiedEntity> getAllEntries() throws UnreachableDataBaseException, PersonagemNotFoundException{
 		return dao.findAllPersonagem();
 	}
 
@@ -63,9 +63,9 @@ public class PersonagemSearchBean {
 	
 
 	public Personagem findPersonagemByExactNome(String nome) throws UnreachableDataBaseException, PersonagemNotFoundException{
-		List<EntityModel> resultSet;
+		List<IdentifiedEntity> resultSet;
 		resultSet =  dao.findExactPersonagemByExactNome(nome);
-		for(EntityModel dto : resultSet){
+		for(IdentifiedEntity dto : resultSet){
 			if(((Personagem)dto).getNome().equals(nome));
 					return (Personagem) dto;
 		}

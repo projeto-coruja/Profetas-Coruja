@@ -10,7 +10,7 @@ import org.hibernate.annotations.Type;
 import datatype.SimpleDate;
 
 @Entity
-public class LocaisPersonagens implements EntityModel {
+public class LocaisPersonagens implements IdentifiedEntity {
 
 	@Id
 	@GeneratedValue

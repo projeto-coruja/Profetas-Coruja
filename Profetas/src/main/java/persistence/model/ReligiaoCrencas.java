@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import datatype.SimpleDate;
 
 @Entity
-public class ReligiaoCrencas implements EntityModel {
+public class ReligiaoCrencas implements IdentifiedEntity {
 
 	@Id
 	@GeneratedValue

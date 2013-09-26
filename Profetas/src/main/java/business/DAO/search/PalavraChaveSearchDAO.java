@@ -5,7 +5,7 @@ import java.util.List;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.KeywordNotFoundException;
 import persistence.EntityManager;
-import persistence.model.EntityModel;
+import persistence.model.IdentifiedEntity;
 import persistence.model.PalavraChave;
 import persistence.util.DataAccessLayerException;
 
@@ -24,7 +24,7 @@ public class PalavraChaveSearchDAO {
 	public  PalavraChave findExactPalavraChave(String nome) 
 			throws  UnreachableDataBaseException, KeywordNotFoundException  {
 
-		List<EntityModel> resultSet = null;
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("FROM PalavraChave WHERE tipo = '"+ nome +"'"
 					+ " ORDER BY id, tipo");
@@ -38,8 +38,8 @@ public class PalavraChaveSearchDAO {
 		}
 	}
 
-	public List<EntityModel> findPalavraChaveByNome(String nome) throws  UnreachableDataBaseException, KeywordNotFoundException {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findPalavraChaveByNome(String nome) throws  UnreachableDataBaseException, KeywordNotFoundException {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from PalavraChaveMO where nome like '%" + nome +"%' "
 					+ "order by id, nome");
@@ -55,8 +55,8 @@ public class PalavraChaveSearchDAO {
 		}
 	}
 
-	public List<EntityModel> findPalavraChaveById(int id) throws  UnreachableDataBaseException, KeywordNotFoundException  {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findPalavraChaveById(int id) throws  UnreachableDataBaseException, KeywordNotFoundException  {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from PalavraChaveMO where id =" + id +"order by id, nome");
 			if(resultSet == null) {
@@ -69,8 +69,8 @@ public class PalavraChaveSearchDAO {
 		}
 	}
 
-	public List<EntityModel> findAllPalavraChave() throws  UnreachableDataBaseException, KeywordNotFoundException  {
-		List<EntityModel> resultSet = null;
+	public List<IdentifiedEntity> findAllPalavraChave() throws  UnreachableDataBaseException, KeywordNotFoundException  {
+		List<IdentifiedEntity> resultSet = null;
 		try {
 			resultSet = manager.find("from PalavraChaveMO order by nome");
 			if(resultSet == null) {
