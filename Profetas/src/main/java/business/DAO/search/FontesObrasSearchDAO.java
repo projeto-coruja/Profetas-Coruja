@@ -115,17 +115,17 @@ public class FontesObrasSearchDAO {
 			}
 			localimpressao_query+=" ) ";
 			
-			String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
-					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
-					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
-					+ "AND url like" + getQueryNormalization("'%" + url +"%'")
-					+ "AND copiasmasnuscritas like" + getQueryNormalization("'%" + copias_manuscritas +"%'")
-					+ "AND traducoes like" + getQueryNormalization("'%" + traducoes +"%'")
-					+ "AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
-					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
-					+ "AND " + grupomovimento_query
-					+ "AND " + classificacao_query
-					+ "AND " + localimpressao_query
+			String query= "from FontesObrasMO where titulo like " + getQueryNormalization("'%" + titulo +"%'")
+					+ " AND comentario like " + getQueryNormalization("'%" + comentario +"%'")
+					+ " AND refverenciasirculacaoobras like " + getQueryNormalization("'%" + ref_circ_obra +"%'")
+					+ " AND url like" + getQueryNormalization("'%" + url +"%'")
+					+ " AND copiasmasnuscritas like " + getQueryNormalization("'%" + copias_manuscritas +"%'")
+					+ " AND traducoes like " + getQueryNormalization("'%" + traducoes +"%'")
+					+ " AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
+					+ " AND editor like " + getQueryNormalization("'%" + editor +"%'")
+					+ " AND " + grupomovimento_query
+					+ " AND " + classificacao_query
+					+ " AND " + localimpressao_query
 				
 					+ "order by titulo";
 			
@@ -233,7 +233,7 @@ public class FontesObrasSearchDAO {
 					classificacao_query+=" OR ";
 				} 
 				first = false;
-				classificacao_query+=" classificacao_id = "+l.getId()+" ";
+				classificacao_query+=" classificao_id = "+l.getId()+" ";
 				
 			}
 			classificacao_query+=" ) ";
@@ -251,17 +251,17 @@ public class FontesObrasSearchDAO {
 			}
 			localimpressao_query+=" ) ";
 			
-			String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + titulo +"%'")
-					+ "AND comentario like" + getQueryNormalization("'%" + comentario +"%'")
-					+ "AND refverenciasirculacaoobras like" + getQueryNormalization("'%" + ref_circ_obra +"%'")
-					+ "AND url like" + getQueryNormalization("'%" + url +"%'")
-					+ "AND copiasmasnuscritas like" + getQueryNormalization("'%" + copias_manuscritas +"%'")
-					+ "AND traducoes like" + getQueryNormalization("'%" + traducoes +"%'")
-					+ "AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
-					+ "AND editor like" + getQueryNormalization("'%" + editor +"%'")
-					+ "AND " + grupomovimento_query
-					+ "AND " + classificacao_query
-					+ "AND " + localimpressao_query
+			String query= "from FontesObrasMO where titulo like " + (titulo == null || titulo.equals("")? "'%_%'":getQueryNormalization("'%" + titulo +"%'")) 
+					+ (comentario == null || comentario.equals("")?"":" AND comentario like " + getQueryNormalization("'%" + comentario +"%'"))
+					+ ( ref_circ_obra ==null ||  ref_circ_obra.equals(" ")?"":" AND refverenciasirCulacaoObra like " + getQueryNormalization("'%" + ref_circ_obra +"%'"))
+					+ (url== null|| url.equals(" ")?"":" AND url like " + getQueryNormalization("'%" + url +"%'"))
+					+ (copias_manuscritas ==null || copias_manuscritas.equals("")?"": "AND copiasmasnuscritas like " + getQueryNormalization("'%" + copias_manuscritas +"%'"))
+					+ (traducoes==null|| traducoes.equals(" ")?"": " AND traducoes like " + getQueryNormalization("'%" + traducoes +"%'"))
+					+ (dataImpressao ==null || dataImpressao.equals(" ")?"":" AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'"))
+					+ (editor == null|| editor.equals(" ")?"":" AND editor like " + getQueryNormalization("'%" + editor +"%'"))
+					+ (grupomovimento_query ==null|| grupomovimento_query.equals("(  ) ")?"":" AND " + grupomovimento_query)
+					+ (classificacao_query==null||classificacao_query.equals("(  ) ")?"":" AND " + classificacao_query)
+					+ (localimpressao_query==null||localimpressao_query.equals("(  ) ")?"":" AND " + localimpressao_query)
 				
 					+ "order by titulo";
 			

@@ -68,12 +68,21 @@ public class PersonagemSearchTest {
 		
 		
 		
-		dao.findPersonagemMainAND("Aristocles", "Platão",nascimento.getNome(), nascimento.getLatitude(),nascimento.getLongitude(), nascimento1,
+		List<DTO> lalala = dao.findPersonagemMainAND("Aristocles", "Platão",nascimento.getNome(), nascimento.getLatitude(),nascimento.getLongitude(), nascimento1,
 				 nascimento.getNome(), nascimento.getLatitude(), nascimento.getLongitude(),  nascimento1, "", "","",
 				 "", "","", "","","","", nascimento1,
 				 "","",nascimento1,nascimento1, "", impressao.getNome(),
 				impressao.getLatitude(),impressao.getLongitude(), impressao.getNome(), impressao.getLatitude(),impressao.getLongitude(),
 				"", religiao, grupo, locais_visitados, encontro);
+		
+		if(lalala.isEmpty()){
+			System.out.println("Empty");
+		}else{
+			for(DTO p : lalala){
+				System.out.println(((Personagem)p).getNome());
+			}
+		}
+		
 		
 		
 		

@@ -1,5 +1,6 @@
 package business.DAO.search;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import datatype.SimpleDate;
@@ -117,7 +118,8 @@ public class PersonagemSearchDAO {
 			
 			
 			if(resultSet == null) {
-				throw new CharacterNotFoundException("Personagem não encontrado.");
+				return new ArrayList<DTO>();
+				//throw new CharacterNotFoundException("Personagem não encontrado.");
 			}
 			else return (List<DTO>)resultSet;
 			
@@ -195,23 +197,24 @@ public class PersonagemSearchDAO {
 				}
 				refbibliografica_query+=" ) ";
 				
-				String query= "from PersoangemMO where apelido like" + (apelido==null || apelido.equals("")?"%":getQueryNormalization("'%" + apelido +"%'"))
-						+ (biografia==null || biografia.equals("")?"": " AND biografia like" + getQueryNormalization("'%" + biografia +"%'"))
-						+ (data_morte==null?"": " AND datamorte like" + getQueryNormalization("'%" + data_morte+"%'"))
-						+ (data_nascimento==null?"": " AND datanascimento like" + getQueryNormalization("'%" + data_nascimento+"%'"))
-						+ (formacao==null || formacao.equals("")?"":" AND formacao like" + getQueryNormalization("'%" + formacao +"%'"))
-						+ (nome==null || nome.equals("")? "": " AND nome like" + getQueryNormalization("'%" + nome +"%'"))
-						+ (ocupacao==null || ocupacao.equals("")? "": " AND ocupacao like" + getQueryNormalization("'%" + ocupacao +"%'"))
-						+ "AND " + localnascimento_query
-						+ "AND " + localmorte_query
-						+ "AND " + refbibliografica_query						
+				String query= "from PersonagemMO where apelido like " + (apelido==null || apelido.equals("")?"%":getQueryNormalization("'%" + apelido +"%'"))
+						+ (biografia==null || biografia.equals("")?"": " AND biografia like " + getQueryNormalization("'%" + biografia +"%'"))
+						+ (data_morte==null?"": " AND datamorte like " + getQueryNormalization("'%" + data_morte+"%'"))
+						+ (data_nascimento==null?"": " AND datanascimento like " + getQueryNormalization("'%" + data_nascimento+"%'"))
+						+ (formacao==null || formacao.equals("")?"":" AND formacao like " + getQueryNormalization("'%" + formacao +"%'"))
+						+ (nome==null || nome.equals("")? "": " AND nome like " + getQueryNormalization("'%" + nome +"%'"))
+						+ (ocupacao==null || ocupacao.equals("")? "": " AND ocupacao like " + getQueryNormalization("'%" + ocupacao +"%'"))
+						+ (localnascimento_query == null || localnascimento_query.equals("(  ) ")?"":" AND " + localnascimento_query)
+						+ (localmorte_query==null || localmorte_query.equals("(  ) ")?"":" AND " + localmorte_query)
+						+ (refbibliografica_query == null|| refbibliografica_query.equals("(  ) ")?"":" AND " + refbibliografica_query)						
 						+ "order by nome";
 				resultSet = manager.findEntity(query);
 				
 			
 				
 				if(resultSet == null) {
-					throw new CharacterNotFoundException("Personagem não encontrado.");
+					//throw new CharacterNotFoundException("Personagem não encontrado.");
+					return new ArrayList<DTO>();
 					
 				}
 				else return (List<DTO>)resultSet;
