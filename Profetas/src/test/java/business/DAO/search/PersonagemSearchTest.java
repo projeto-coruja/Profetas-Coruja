@@ -1,90 +1,81 @@
 package business.DAO.search;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import datatype.SimpleDate;
-import persistence.model.Encontro;
-import persistence.model.EntityModel;
 import persistence.model.IdentifiedEntity;
-import persistence.model.FontesObras;
-import persistence.model.GrupoPersonagem;
-import persistence.model.LocaisPersonagens;
 import persistence.model.Local;
 import persistence.model.Personagem;
 import persistence.model.ReligiaoCrencas;
-import business.DAO.search.PersonagemSearchDAO;
+import business.DAO.model.LocalDAO;
+import business.DAO.model.PersonagemDAO;
+import business.DAO.model.ReligiaoCrencasDAO;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.CharacterNotFoundException;
-import business.exceptions.model.ClassificationNotFoundException;
 import business.exceptions.model.GroupMovementNotFoundException;
 import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.search.DuplicatePersonagemException;
 import business.exceptions.search.PersonagemNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 
+import com.google.common.collect.Lists;
+
 
 public class PersonagemSearchTest {
-	//@Test
-	public void personagemSearchTest() throws UnreachableDataBaseException, PersonagemNotFoundException, DuplicatePersonagemException{
-		PersonagemSearchDAO dao = new PersonagemSearchDAO();
-		Local grecia =new Local("Grecia", 1.0, 1.0);
-		Local roma= new Local("Roma", 1.0,1.0);
-		FontesObras referencia_bibliografica = null;
-		List<ReligiaoCrencas> religiao = new ArrayList<ReligiaoCrencas>();
-		religiao.add(new ReligiaoCrencas("ateu", null, null, null));
-		religiao.add(new ReligiaoCrencas("ilusionista", null, null, null));
-		List<GrupoPersonagem> grupo = null;
-		List<LocaisPersonagens> locaisVisitados = null;
-		List<Encontro> encontro = null;
-		List<FontesObras> obras = null;
-		SimpleDate nasci = null;
-		//dao.novoaddPersonagem("joao", "joazinho", grecia, nasci, roma, nasci, "ajsidjiasdji", "pensador", "nenhuma", referencia_bibliografica, religiao, grupo, locaisVisitados, encontro, obras);
-		//Personagem p = (Personagem) dao.findPersonagem("joao");
-		List<IdentifiedEntity> lalala = dao.findAllPersonagem();
-		for(IdentifiedEntity p : lalala){
-			System.out.println(((Personagem)p).getNome());
+	
+	PersonagemSearchDAO charSearch = new PersonagemSearchDAO();
+	LocalSearchDAO localSearch = new LocalSearchDAO();
+	PersonagemDAO charCreator = new PersonagemDAO();
+	LocalDAO localCreator = new LocalDAO();
+	ReligiaoCrencasDAO religCreator = new ReligiaoCrencasDAO();
+	
+	@Before
+	public void setUp() {
+		try {
+			// Criar personagems, locais e religiões
+			Local grecia = localCreator.addLocal(new Local("Grécia", 1.0, 1.0));
+			
+			List<ReligiaoCrencas> religioes = Lists.newArrayList(
+					religCreator.addReligion(new ReligiaoCrencas("ateu", null, null, null)),
+					religCreator.addReligion(new ReligiaoCrencas("ilusionista", null, null, null)));
+			
+			Personagem joaozinho = new Personagem(
+					"joão",
+					"joãozinho",
+					grecia,
+					null,
+					grecia,
+					null,
+					null,
+					null,
+					null,
+					null,
+					religioes,
+					null,
+					null,
+					null,
+					null);
+			charCreator.addCharacter(joaozinho);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		//assertEquals("joao", p.getNome());
 	}
-	@Test(expected =  LocalNotFoundException.class)
-	public void findPersonagemMainANDTest() throws LocalNotFoundException, UnreachableDataBaseException, FontesObrasNotFoundException, GroupMovementNotFoundException, Exception, CharacterNotFoundException{
-		PersonagemSearchDAO dao = new PersonagemSearchDAO();
-		Local nascimento = new Local();
-		nascimento.setNome("Atenas");
-		SimpleDate nascimento1 = null;
-		Local impressao = new Local();;
-		//impressao.setNome("");
-		List<IdentifiedEntity> religiao = null;
-		List<IdentifiedEntity> grupo = null;
-		List<IdentifiedEntity> locais_visitados = null;
-		List<IdentifiedEntity> encontro = null;
-		
-		
-		
-		List<IdentifiedEntity> lalala = dao.findPersonagemMainAND("Aristocles", "Platão",nascimento.getNome(), nascimento.getLatitude(),nascimento.getLongitude(), nascimento1,
-				 nascimento.getNome(), nascimento.getLatitude(), nascimento.getLongitude(),  nascimento1, "", "","",
-				 "", "","", "","","","", nascimento1,
-				 "","",nascimento1,nascimento1, "", impressao.getNome(),
-				impressao.getLatitude(),impressao.getLongitude(), impressao.getNome(), impressao.getLatitude(),impressao.getLongitude(),
-				"", religiao, grupo, locais_visitados, encontro);
-		
-		if(lalala.isEmpty()){
-			System.out.println("Empty");
-		}else{
-			for(EntityModel p : lalala){
-				System.out.println(((Personagem)p).getNome());
-			}
-		}
-		
-		
-		
-		
+	
+	@Test
+	public void findPersonagemByNameTest() throws UnreachableDataBaseException, PersonagemNotFoundException, DuplicatePersonagemException{
+		List<IdentifiedEntity> result = charSearch.findExactPersonagemByExactNome("joão");
+		assertEquals(1, result.size());
+		assertEquals("joão",  ((Personagem) result.get(0)).getNome());
 	}
-
+	
+	public void findPersonagemByLocalTest() throws LocalNotFoundException, UnreachableDataBaseException, FontesObrasNotFoundException, GroupMovementNotFoundException, Exception, CharacterNotFoundException{
+		Local local = localSearch.findExactLocalByNome("Grécia");
+		List<IdentifiedEntity> result = charSearch.findPersonagemByLocalNascimento(local.getId());
+		assertEquals(1, result.size());
+		assertEquals("joão", ((Personagem) result.get(0)).getNome());
+	}
 }

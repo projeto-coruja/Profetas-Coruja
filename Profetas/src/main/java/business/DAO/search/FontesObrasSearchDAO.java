@@ -14,38 +14,39 @@ import business.exceptions.model.LocalNotFoundException;
 import business.exceptions.search.business.DAO.search.FontesObrasNotFoundException;
 
 public class FontesObrasSearchDAO {
+	
 	private EntityManager manager;
 	
 	public FontesObrasSearchDAO(){
 		manager= new EntityManager();
 	}
-	private String getQueryNormalization(String var){
+	
+	private String normalize(String var){
 		var.replaceAll("'", "''");
-				
 		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 	}
-	 public List<IdentifiedEntity> findFontesObrasGeneric(String string) throws FontesObrasNotFoundException, UnreachableDataBaseException{
+	
+	public List<IdentifiedEntity> findFontesObrasGeneric(String string) throws FontesObrasNotFoundException, UnreachableDataBaseException{
 		 List <IdentifiedEntity> resultSet = null;
+		 string = normalize("'%" + string +"%'");
 		 try {
-			 String query= "from FontesObrasMO where titulo like" + getQueryNormalization("'%" + string +"%'")
-						+ "OR comentario like" + getQueryNormalization("'%" +string +"%'")
-						+ "OR refverenciasirculacaoobras like" + getQueryNormalization("'%" +string+"%'")
-						+ "OR url like" + getQueryNormalization("'%" + string +"%'")
-						+ "OR copiasmasnuscritas like" + getQueryNormalization("'%" + string +"%'")
-						+ "OR traducoes like" + getQueryNormalization("'%" + string +"%'")
-						+ "OR editor like" + getQueryNormalization("'%" + string +"%'")
+			 String query= "from FontesObras where titulo like" + string
+						+ "OR comentario like" + string
+						+ "OR referenciacirculacaoobras like" + string
+						+ "OR url like" + string
+						+ "OR copiasmasnuscritas like" + string
+						+ "OR traducoes like" + string
+						+ "OR editor like" + string
 						+ "order by titulo";
-				
 			resultSet = manager.find(query);
 			
-			if(resultSet==null){
+			if(resultSet.isEmpty()){
 				throw new FontesObrasNotFoundException ("Fontes/Obras não encontrado.");
 			}else return resultSet;
 		}catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
-		 
 	 }
 	
 	
@@ -114,14 +115,14 @@ public class FontesObrasSearchDAO {
 			}
 			localimpressao_query+=" ) ";
 			
-			String query= "from FontesObrasMO where titulo like " + getQueryNormalization("'%" + titulo +"%'")
-					+ " AND comentario like " + getQueryNormalization("'%" + comentario +"%'")
-					+ " AND refverenciasirculacaoobras like " + getQueryNormalization("'%" + ref_circ_obra +"%'")
-					+ " AND url like" + getQueryNormalization("'%" + url +"%'")
-					+ " AND copiasmasnuscritas like " + getQueryNormalization("'%" + copias_manuscritas +"%'")
-					+ " AND traducoes like " + getQueryNormalization("'%" + traducoes +"%'")
-					+ " AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'")
-					+ " AND editor like " + getQueryNormalization("'%" + editor +"%'")
+			String query= "from FontesObrasMO where titulo like " + normalize("'%" + titulo +"%'")
+					+ " AND comentario like " + normalize("'%" + comentario +"%'")
+					+ " AND refverenciasirculacaoobras like " + normalize("'%" + ref_circ_obra +"%'")
+					+ " AND url like" + normalize("'%" + url +"%'")
+					+ " AND copiasmasnuscritas like " + normalize("'%" + copias_manuscritas +"%'")
+					+ " AND traducoes like " + normalize("'%" + traducoes +"%'")
+					+ " AND dataimpressao =" + normalize("'" + dataImpressao  +"'")
+					+ " AND editor like " + normalize("'%" + editor +"%'")
 					+ " AND " + grupomovimento_query
 					+ " AND " + classificacao_query
 					+ " AND " + localimpressao_query
@@ -250,14 +251,14 @@ public class FontesObrasSearchDAO {
 			}
 			localimpressao_query+=" ) ";
 			
-			String query= "from FontesObrasMO where titulo like " + (titulo == null || titulo.equals("")? "'%_%'":getQueryNormalization("'%" + titulo +"%'")) 
-					+ (comentario == null || comentario.equals("")?"":" AND comentario like " + getQueryNormalization("'%" + comentario +"%'"))
-					+ ( ref_circ_obra ==null ||  ref_circ_obra.equals(" ")?"":" AND refverenciasirCulacaoObra like " + getQueryNormalization("'%" + ref_circ_obra +"%'"))
-					+ (url== null|| url.equals(" ")?"":" AND url like " + getQueryNormalization("'%" + url +"%'"))
-					+ (copias_manuscritas ==null || copias_manuscritas.equals("")?"": "AND copiasmasnuscritas like " + getQueryNormalization("'%" + copias_manuscritas +"%'"))
-					+ (traducoes==null|| traducoes.equals(" ")?"": " AND traducoes like " + getQueryNormalization("'%" + traducoes +"%'"))
-					+ (dataImpressao ==null || dataImpressao.equals(" ")?"":" AND dataimpressao =" + getQueryNormalization("'" + dataImpressao  +"'"))
-					+ (editor == null|| editor.equals(" ")?"":" AND editor like " + getQueryNormalization("'%" + editor +"%'"))
+			String query= "from FontesObrasMO where titulo like " + (titulo == null || titulo.equals("")? "'%_%'":normalize("'%" + titulo +"%'")) 
+					+ (comentario == null || comentario.equals("")?"":" AND comentario like " + normalize("'%" + comentario +"%'"))
+					+ ( ref_circ_obra ==null ||  ref_circ_obra.equals(" ")?"":" AND refverenciasirCulacaoObra like " + normalize("'%" + ref_circ_obra +"%'"))
+					+ (url== null|| url.equals(" ")?"":" AND url like " + normalize("'%" + url +"%'"))
+					+ (copias_manuscritas ==null || copias_manuscritas.equals("")?"": "AND copiasmasnuscritas like " + normalize("'%" + copias_manuscritas +"%'"))
+					+ (traducoes==null|| traducoes.equals(" ")?"": " AND traducoes like " + normalize("'%" + traducoes +"%'"))
+					+ (dataImpressao ==null || dataImpressao.equals(" ")?"":" AND dataimpressao =" + normalize("'" + dataImpressao  +"'"))
+					+ (editor == null|| editor.equals(" ")?"":" AND editor like " + normalize("'%" + editor +"%'"))
 					+ (grupomovimento_query ==null|| grupomovimento_query.equals("(  ) ")?"":" AND " + grupomovimento_query)
 					+ (classificacao_query==null||classificacao_query.equals("(  ) ")?"":" AND " + classificacao_query)
 					+ (localimpressao_query==null||localimpressao_query.equals("(  ) ")?"":" AND " + localimpressao_query)

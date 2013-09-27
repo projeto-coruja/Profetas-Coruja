@@ -34,7 +34,7 @@ public class ProfileDAO {
 		List<Profile> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Profile WHERE isDefault = 'TRUE'");
-			if(resultSet == null) {
+			if(resultSet.isEmpty()) {
 				throw new NoDefaultProfileException();
 			}
 			else return resultSet.get(0);

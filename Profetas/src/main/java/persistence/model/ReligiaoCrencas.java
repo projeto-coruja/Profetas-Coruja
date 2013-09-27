@@ -1,9 +1,9 @@
 package persistence.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,9 +13,9 @@ import datatype.SimpleDate;
 public class ReligiaoCrencas implements IdentifiedEntity {
 
 	@Id
-	@GeneratedValue
 	private Long id;
-
+	
+	@NaturalId
 	@NotEmpty
 	private String nome;
 

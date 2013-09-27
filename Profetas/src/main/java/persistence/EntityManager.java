@@ -97,6 +97,28 @@ public class EntityManager {
 		}
 		return obj;
 	}
+	
+	/**
+	 * Busca um objeto a partir do id natural.
+	 * @param table - Classe que o objeto faz parte
+	 * @param id - ID natural do objeto.
+	 * @return Objeto instacia de EntityModel.
+	 * @throws DataAccessLayerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	public <T extends EntityModel> T findByNaturalId(Class<T> table, Serializable id) throws DataAccessLayerException{
+		T obj = null;
+		try{
+			startOperation();
+			obj = (T) session.bySimpleNaturalId(table).load(id);
+			transaction.commit();
+		}catch(HibernateException e){
+			handleException(e);
+		}finally{
+			finishOperation();
+		}
+		return obj;
+	}
 
 	/**
 	 * Busca através de query.

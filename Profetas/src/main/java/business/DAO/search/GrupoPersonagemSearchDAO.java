@@ -1,15 +1,17 @@
 package business.DAO.search;
 
+import static business.DAO.search.DAOUtility.queryList;
+
 import java.util.List;
 
-import datatype.SimpleDate;
 import persistence.EntityManager;
-import persistence.model.IdentifiedEntity;
 import persistence.model.GrupoPersonagem;
+import persistence.model.IdentifiedEntity;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.GroupCharacterNotFoundException;
 import business.exceptions.search.PersonagemNotFoundException;
+import datatype.SimpleDate;
 
 public class GrupoPersonagemSearchDAO {
 	
@@ -18,37 +20,15 @@ public class GrupoPersonagemSearchDAO {
 	public GrupoPersonagemSearchDAO(){
 		manager= new EntityManager();
 	}
-	private String getQueryNormalization(String var){
-		var.replace("'", "\'");
-				
-		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
-	}
+
 	/**
 	 * Pesquisa por um  grupo personagem
 	 * @param anoIngresso - ano de ingresso do grupo personagem.
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public GrupoPersonagem findExactGrupoByAnoIngresso(SimpleDate anoIngresso) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
-	
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			resultSet = manager.find("FROM GrupoPersonagem"+		
-					" where anoingresso = '"+ anoIngresso+ "'"+
-					" ORDER BY anoingresso ");
-			
-			if(resultSet == null) {
-				throw new GroupCharacterNotFoundException ("Grupo  de  Personagem não encontrado.");
-			}
-			else{
-				
-				return (GrupoPersonagem) resultSet.get(0);
-			}
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
-		}
-		
+	public List<GrupoPersonagem> findGrupoByAnoIngresso(SimpleDate anoIngresso) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
+		return executeQuery("anoingresso", anoIngresso);
 	}
 	
 	/**
@@ -57,28 +37,19 @@ public class GrupoPersonagemSearchDAO {
 	 * @throws UnreachableDataBaseException
 	 * @throws PersonagemNotFoundException
 	 */
-	public GrupoPersonagem findExactGrupoPersonagem(int id) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
-		
-		List<IdentifiedEntity> resultSet = null;
+	public GrupoPersonagem findExactGrupoPersonagem(Long id) throws GroupCharacterNotFoundException, UnreachableDataBaseException{
 		try {
-			resultSet = manager.find("FROM GrupoPersonagem"+		
-					" where id = "+id+" "+
-					" ORDER BY nome ");
-			
-			if(resultSet == null) {
+			GrupoPersonagem result = manager.find(GrupoPersonagem.class, id);
+			if(result == null) {
 				throw new GroupCharacterNotFoundException ("Grupo  de  Personagem não encontrado.");
 			}
-			else{
-				
-				return (GrupoPersonagem) resultSet.get(0);
-			}
+			else return result;
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
 		}
 		
 	}
-	
 	
 	/**
 	 * Pesquisa todos os Grupos personagens 
@@ -99,9 +70,12 @@ public class GrupoPersonagemSearchDAO {
 		}
 	}
 	
-	
-	
-		
-	
+	private List<GrupoPersonagem> executeQuery(String field, Object info) throws GroupCharacterNotFoundException, UnreachableDataBaseException {
+		List<GrupoPersonagem> resultSet = queryList(manager, "grupopersonagem", field, info);
+		if(resultSet.isEmpty()) {
+			throw new  GroupCharacterNotFoundException("Grupo de Personagem não encontrado.");
+		}
+		else return resultSet;
+	}
 
 }

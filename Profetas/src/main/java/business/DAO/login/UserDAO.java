@@ -173,7 +173,7 @@ public class UserDAO {
 			Profile profile = profileDAO.findProfileByName(profileName);
 			if(profile == null)	throw new ProfileNotFoundException();
 			resultSet = null;
-			resultSet = manager.find("from UserAccount where profile = '" + profile.getId() + "' order by name");
+			resultSet = manager.find("from UserAccount where profile = '" + profile.getProfile() + "' order by name");
 			if(resultSet == null)	throw new UserNotFoundException("Nenhum usuário encontrado");
 		}catch(DataAccessLayerException e){
 			e.printStackTrace();

@@ -1,74 +1,60 @@
 package business.DAO.search;
 
+import static business.DAO.search.DAOUtility.queryList;
+
 import java.util.List;
 
 import persistence.EntityManager;
 import persistence.model.Encontro;
-import persistence.model.IdentifiedEntity;
-import persistence.util.DataAccessLayerException;
+import persistence.model.Local;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.EncounterNotFoundException;
 import datatype.SimpleDate;
 
 public class EncontroSearchDAO {
+	
 	private EntityManager manager;
+	
 	public EncontroSearchDAO(){
 		manager = new EntityManager();
 	}
 	
 	/**
-	 * Pesquisa por um  Encontro usando a data
+	 * Pesquisa por Encontros usando a data
 	 * @param data - data do encontro
 	 * @throws UnreachableDataBaseException
 	 * @throws EncounterNotFoundException
 	 */
-	public Encontro findEncontroByData(SimpleDate data) throws EncounterNotFoundException, UnreachableDataBaseException{
-		
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			
-			resultSet = manager.find("FROM encontro WHERE data = '"+ data +"'"
-					+ " ORDER BY id");
-			
-			if(resultSet == null) {
-				throw new  EncounterNotFoundException ("Encontro não encontrado.");
-			}
-			else{
-				
-				return  (Encontro) resultSet.get(0);
-			}
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
-		}
-		
+	public List<Encontro> findEncontroByData(SimpleDate data) throws EncounterNotFoundException, UnreachableDataBaseException{
+		return executeQuery("data", data);
 	}
+	
 	/**
 	 * Pesquisa por um Encontro usando o local
 	 * @param id - id do local do encontro
 	 * @throws UnreachableDataBaseException
 	 * @throws EncounterNotFoundException
 	 */
-	public Encontro findEncontroByLocal (long id) throws EncounterNotFoundException, UnreachableDataBaseException{
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			
-			resultSet = manager.find("FROM encontro WHERE local_id = '"+ id +"'"
-					+ " ORDER BY id");
-			
-			if(resultSet == null) {
-				throw new  EncounterNotFoundException ("Encontro não encontrado.");
-			}
-			else{
-				
-				return  (Encontro) resultSet.get(0);
-			}
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
-		}
-		
+	public List<Encontro> findEncontroByLocal(Long id) throws EncounterNotFoundException, UnreachableDataBaseException{
+		return executeQuery("local", id);
 	}
 	
+	/**
+	 * Pesquisa por um Encontro usando o local
+	 * @param l - local do encontro
+	 * @throws UnreachableDataBaseException
+	 * @throws EncounterNotFoundException
+	 */
+	public List<Encontro> findEncontroByLocal(Local l) throws EncounterNotFoundException, UnreachableDataBaseException{
+		return executeQuery("local", l.getId());
+	}
+	
+	private List<Encontro> executeQuery(String field, Object info) throws EncounterNotFoundException, UnreachableDataBaseException {
+		List<Encontro> resultSet = queryList(manager, "encontro", field, info);
+		if(resultSet.isEmpty()) {
+			throw new EncounterNotFoundException ("Encontro não encontrada.");
+		}
+		else return resultSet;
+	}
 
 }

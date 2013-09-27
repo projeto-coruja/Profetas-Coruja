@@ -51,7 +51,7 @@ public class InitServlet extends HttpServlet {
 
 		List<IdentifiedEntity> profile;
 		for (String p : profiles_names) {
-			profile = pa.find("from ProfileMO where profile = '" + p + "'");
+			profile = pa.find("from Profile where profile = '" + p + "'");
 			if(profile == null) {
 				log.info("Profile '" + p + "' não encontrado, recriando..." );
 				if(p.equals("user")) {
@@ -67,14 +67,14 @@ public class InitServlet extends HttpServlet {
 		}
 
 		//TODO: MUDAR SENHA
-		List<IdentifiedEntity> user = pa.find("from UserAccountMO where email = 'admin@coruja.com'");
+		List<IdentifiedEntity> user = pa.find("from UserAccount where email = 'admin@coruja.com'");
 		if(user == null)
 		{
 			log.info("Criando usuário de admin...");
 			pa.save(
 					new UserAccount(
 							"Admin", 
-							(Profile) (pa.find("from ProfileMO where profile = 'admin'").get(0)),
+							(Profile) (pa.find("from Profile where profile = 'admin'").get(0)),
 							"admin@coruja.com",
 							EJBUtility.getHash("null","MD5"), 
 							null,
@@ -84,14 +84,14 @@ public class InitServlet extends HttpServlet {
 		}
 		else user = null;
 
-		user = pa.find("from UserAccountMO where email = 'user@coruja.com'");
+		user = pa.find("from UserAccount where email = 'user@coruja.com'");
 		if(user == null)
 		{
 			log.info("Criando usuário de teste...");
 			pa.save(
 					new UserAccount(
 							"Usuário Padrão", 
-							(Profile) (pa.find("from ProfileMO where profile = 'user'").get(0)),
+							(Profile) (pa.find("from Profile where profile = 'user'").get(0)),
 							"user@coruja.com",
 							EJBUtility.getHash("null","MD5"),
 							null,

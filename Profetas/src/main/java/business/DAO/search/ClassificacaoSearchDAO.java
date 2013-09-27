@@ -19,45 +19,12 @@ public class ClassificacaoSearchDAO {
 	
 	public Classificacao findExactClassificacao(String tipo) 
 			throws  UnreachableDataBaseException, ClassificationNotFoundException  {
-		List<IdentifiedEntity> resultSet = null;
 		try {
-			resultSet = manager.find("FROM Classificacao WHERE tipo = '"+ tipo +"'"
-					+ " ORDER BY id, tipo");
-			if(resultSet == null) {
+			Classificacao result = manager.find(Classificacao.class, tipo);
+			if(result == null) {
 				throw new ClassificationNotFoundException ("Classificacao não encontrada.");
 			}
-			else return (Classificacao) resultSet.get(0);
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
-		}
-	}
-	
-	public List<IdentifiedEntity> findClassificacaoByTipo(String tipo) throws  UnreachableDataBaseException, ClassificationNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			resultSet = manager.find("from ClassificacaoMO where tipo like '%" + tipo +"%' "
-					+ "order by id, tipo");
-			
-			if(resultSet == null) {
-				throw new ClassificationNotFoundException ("Classificacao não encontrada.");
-			}
-			else return resultSet;
-		
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
-		}
-	}
-	
-	public List<IdentifiedEntity> findClassificacaoById(int id) throws  UnreachableDataBaseException,ClassificationNotFoundException  {
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			resultSet = manager.find("from ClassificacaoMO where id =" + id +"order by id, tipo");
-			if(resultSet == null) {
-				throw new ClassificationNotFoundException ("Id de Classificacao não encontrado.");
-			}
-			else return resultSet;
+			return result;
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados");
@@ -67,7 +34,7 @@ public class ClassificacaoSearchDAO {
 	public List<IdentifiedEntity> findAllClassificacao() throws  UnreachableDataBaseException, ClassificationNotFoundException  {
 		List<IdentifiedEntity> resultSet = null;
 		try {
-			resultSet = manager.find("from ClassificacaoMO order by tipo");
+			resultSet = manager.find("from Classificacao order by tipo");
 			if(resultSet == null) {
 				throw new ClassificationNotFoundException("Não existe nenhuma Classificacao cadastrada.");
 			}

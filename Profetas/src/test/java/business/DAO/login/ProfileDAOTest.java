@@ -21,7 +21,5 @@ public class ProfileDAOTest {
 			System.out.println(s);
 		}
 		System.out.println(l.getProfile());
-		
-		
 	}
 }

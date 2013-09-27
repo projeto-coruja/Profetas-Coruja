@@ -20,14 +20,17 @@ public class ReligiaoCrencasDAO {
 	}
 	
 	public ReligiaoCrencas addReligion(String name, SimpleDate yearBegin, SimpleDate yearEnd, String description) throws UnreachableDataBaseException {
-		ReligiaoCrencas newReligiaoCrencas = new ReligiaoCrencas(name, yearBegin, yearEnd, description);
+		return addReligion(new ReligiaoCrencas(name, yearBegin, yearEnd, description));
+	}
+	
+	public ReligiaoCrencas addReligion(ReligiaoCrencas religion) throws UnreachableDataBaseException {
 		try {
-			manager.save(newReligiaoCrencas);
+			manager.save(religion);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
 		}
-			return newReligiaoCrencas;
+		return religion;
 	}
 	
 	public void removeReligion(ReligiaoCrencas religion) throws UnreachableDataBaseException {

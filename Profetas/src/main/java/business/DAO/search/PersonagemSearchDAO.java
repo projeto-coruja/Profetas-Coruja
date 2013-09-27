@@ -25,11 +25,12 @@ public class PersonagemSearchDAO {
 		public PersonagemSearchDAO(){
 			manager= new EntityManager();
 		}
+		
 		private String getQueryNormalization(String var){
 			var.replaceAll("'", "''");
-					
 			return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
 		}
+		
 		public List<IdentifiedEntity> findPersonagemGeneric(String string) throws  UnreachableDataBaseException, CharacterNotFoundException{
 			 List <IdentifiedEntity> resultSet = null;
 			 try {
@@ -243,7 +244,6 @@ public class PersonagemSearchDAO {
 					throw new PersonagemNotFoundException ("Personagem não encontrado.");
 				}
 				else{
-					
 					//return (Personagem) resultSet.get(0);
 					return resultSet;
 				}

@@ -19,18 +19,21 @@ public class LocalDAO {
 		manager = new EntityManager();	
 	}
 	
-	public Local addLocal(String name, double latitude, double longitude) throws UnreachableDataBaseException, DuplicateLocalException {
-		Local newLocal = new Local(name, latitude, longitude);
+	public Local addLocal(Local local) throws UnreachableDataBaseException, DuplicateLocalException {
 		try {
-			findExactLocal(latitude, longitude);
+			findExactLocal(local.getLatitude(), local.getLongitude());
 			throw new DuplicateLocalException("Local já existente.");
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");			
 		} catch (LocalNotFoundException e) {
-			manager.save(newLocal);
-			return newLocal;
+			manager.save(local);
+			return local;
 		}
+	}
+	
+	public Local addLocal(String name, double latitude, double longitude) throws UnreachableDataBaseException, DuplicateLocalException {
+		return addLocal(new Local(name, latitude, longitude));
 	}
 	
 	public void removeLocal(Local local) throws UnreachableDataBaseException {
@@ -57,7 +60,7 @@ public class LocalDAO {
 			resultSet = manager.find("FROM Local WHERE latitude = '"+ latitude +"'"
 					+ " AND longitude = '" + longitude +"'"
 					+ " ORDER BY nome, latitude, longitude");
-			if(resultSet == null) {
+			if(resultSet == null || resultSet.isEmpty()) {
 				throw new LocalNotFoundException ("Local não encontrado.");
 			}
 			else return (Local) resultSet.get(0);

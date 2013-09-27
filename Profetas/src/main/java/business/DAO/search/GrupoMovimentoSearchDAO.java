@@ -12,6 +12,8 @@ import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.model.GroupMovementNotFoundException;
 import business.exceptions.model.LocalNotFoundException;
 
+import static business.DAO.search.DAOUtility.*;
+
 public class GrupoMovimentoSearchDAO {
 
 	private EntityManager manager;
@@ -19,37 +21,25 @@ public class GrupoMovimentoSearchDAO {
 	public GrupoMovimentoSearchDAO(){
 		manager= new EntityManager();
 	}
-	private String getQueryNormalization(String var){
-		var.replaceAll("'", "''");
-
-		return "LOWER(TRANSLATE("+var+",'áàãâäÁÀÃÂÄéèêëÉÈÊËíìîïÍÌÎÏóòõôöÓÒÕÔÖúùûüÚÙÛÜñÑçÇÿýÝ','aaaaaAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyyY'))";
-	}
 	
-	public List<IdentifiedEntity> findGrupoMovimentoGeneric(String busca) throws GroupMovementNotFoundException{
-		
-		List<IdentifiedEntity>resultSet;
-		resultSet = manager.find("FROM GrupoMovimento WHERE nome like "+ getQueryNormalization("'%"+ busca +"%'") 
-				+ "' OR descricao like " + getQueryNormalization("'%"+ busca +"%'") 
+	public List<GrupoMovimento> findGrupoMovimentoGeneric(String busca) throws GroupMovementNotFoundException {
+		busca = normalize("'%"+ busca +"%'");
+		List<GrupoMovimento> resultSet = manager.find("FROM GrupoMovimento WHERE nome like " + busca 
+				+ "' OR descricao like " + busca 
 				+ " ORDER BY nome");
 		if(resultSet == null) {
 			throw new GroupMovementNotFoundException ("Grupo  Movimento não encontrado.");
 		}
-		else{
-
-			return  (List<IdentifiedEntity>) resultSet;
-		}
-		
+		else return resultSet;
 	}
+	
 	public List<IdentifiedEntity> mainSearchAND(String nome, SimpleDate anoinicio, SimpleDate anofim, String descricao, List<IdentifiedEntity> local) throws GroupMovementNotFoundException, UnreachableDataBaseException, LocalNotFoundException{
 		List<IdentifiedEntity> resultSetGrupos = null;
 		List<IdentifiedEntity> resultSet = null;
 
 		try {
-		
-
-
-			resultSetGrupos = manager.find("FROM GrupoMovimento WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 
-					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + getQueryNormalization("'%"+ descricao +"%'") 
+			resultSetGrupos = manager.find("FROM GrupoMovimento WHERE nome like "+ normalize("'%"+ nome +"%'") 
+					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + normalize("'%"+ descricao +"%'") 
 					+ " ORDER BY nome");
 			if(local != null){
 				for(IdentifiedEntity l : local){
@@ -88,8 +78,8 @@ public class GrupoMovimentoSearchDAO {
 			List<IdentifiedEntity> resultados = (List<IdentifiedEntity>) dao.findLocalByAll(local_grupomovimento, latitude_grupomovimento, longitude_grupomovimento);
 
 
-			resultSetGrupos = manager.find("FROM GrupoMovimento WHERE nome like "+ getQueryNormalization("'%"+ nome +"%'") 
-					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + getQueryNormalization("'%"+ descricao +"%'") 
+			resultSetGrupos = manager.find("FROM GrupoMovimento WHERE nome like "+ normalize("'%"+ nome +"%'") 
+					+ "AND anoinicio  = '"+ anoinicio + "' AND anofim = '"+ anofim + "' AND descricao like " + normalize("'%"+ descricao +"%'") 
 					+ " ORDER BY nome");
 			if(resultados != null){
 				for(IdentifiedEntity l : resultados){
@@ -128,7 +118,7 @@ public class GrupoMovimentoSearchDAO {
 		List<IdentifiedEntity> resultSet = null;
 		try {
 
-			resultSet = manager.find("FROM GrupoMovimento WHERE nome = "+ getQueryNormalization("'"+ nome +"'") 
+			resultSet = manager.find("FROM GrupoMovimento WHERE nome = "+ normalize("'"+ nome +"'") 
 					+ " ORDER BY nome");
 
 			if(resultSet == null) {
