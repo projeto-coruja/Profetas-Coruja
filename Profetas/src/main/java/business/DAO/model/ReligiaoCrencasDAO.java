@@ -1,9 +1,6 @@
 package business.DAO.model;
 
-import java.util.List;
-
 import persistence.EntityManager;
-import persistence.model.IdentifiedEntity;
 import persistence.model.ReligiaoCrencas;
 import persistence.util.DataAccessLayerException;
 import business.exceptions.login.UnreachableDataBaseException;
@@ -24,6 +21,7 @@ public class ReligiaoCrencasDAO {
 	}
 	
 	public ReligiaoCrencas addReligion(ReligiaoCrencas religion) throws UnreachableDataBaseException {
+		if(religion == null)	throw new IllegalArgumentException("Religiao nula.");
 		try {
 			manager.save(religion);
 		} catch(DataAccessLayerException e) {
@@ -44,16 +42,9 @@ public class ReligiaoCrencasDAO {
 	}
 	
 	public void removeReligionByName(String name) throws UnreachableDataBaseException, ReligionNotFoundException {
-		List<IdentifiedEntity> check = null;
-		ReligiaoCrencas select = null;
 		try {
-			check = findReligionByName(name);
-			for(IdentifiedEntity dto : check){
-				if (((ReligiaoCrencas) dto).getNome().equals(name))
-					select = (ReligiaoCrencas) dto;
-			}
-			if(select == null) throw new ReligionNotFoundException("Religião/Crença não encontrada.");
-			manager.delete(select);
+			ReligiaoCrencas result = findReligionByName(name);
+			manager.delete(result);
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
@@ -63,18 +54,17 @@ public class ReligiaoCrencasDAO {
 	public void updateReligion(ReligiaoCrencas religion) throws UnreachableDataBaseException, DuplicateReligionException  {		
 		if(religion == null) throw new IllegalArgumentException("Nenhuma Religião/Crença especificada.");
 		try { 
-			if(religion.getId() == null) addReligion(religion.getNome(), religion.getAnoInicio(), religion.getAnoFim(), religion.getDescricao());
-			else manager.update(religion);
+			manager.update(religion);
 		} catch (DataAccessLayerException e) {
 			e.printStackTrace();
 			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
 		}
 	}
 	
-	public List<IdentifiedEntity> findReligionByName(String religionName) throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
+	public ReligiaoCrencas findReligionByName(String religionName) throws  UnreachableDataBaseException, ReligionNotFoundException {
+		ReligiaoCrencas resultSet = null;
 		try {
-			resultSet = manager.find("FROM ReligiaoCrencas WHERE nome LIKE '%" + religionName + "%' ORDER BY nome");
+			resultSet = manager.findByNaturalId(ReligiaoCrencas.class, religionName);
 			if(resultSet == null) {
 				throw new ReligionNotFoundException ("Religião/Crença não encontrada.");
 			}
@@ -85,31 +75,7 @@ public class ReligiaoCrencasDAO {
 		}
 	}
 	
-	public ReligiaoCrencas findSingleReligionByName(String religionName) throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			resultSet = manager.find("FROM ReligiaoCrencas WHERE nome LIKE '%" + religionName + "%' ORDER BY nome");
-			if(resultSet == null) {
-				throw new ReligionNotFoundException ("Religião/Crença não encontrada.");
-			}
-			else return (ReligiaoCrencas)resultSet.get(0);
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
-		}
-	}
 	
-	public List<IdentifiedEntity> getAllReligions() throws  UnreachableDataBaseException, ReligionNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			resultSet = manager.find("FROM ReligiaoCrencas ORDER BY nome");
-			if(resultSet == null) {
-				throw new ReligionNotFoundException ("Não existe nenhuma religião/crença cadastrada.");
-			}
-			else return resultSet;
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
-		}
-	}	
+	
+		
 }

@@ -20,8 +20,9 @@ public class LocalDAO {
 	}
 	
 	public Local addLocal(Local local) throws UnreachableDataBaseException, DuplicateLocalException {
+		if(local == null)	throw new IllegalArgumentException("Local nulo.");
 		try {
-			findExactLocal(local.getLatitude(), local.getLongitude());
+			findExactLocal(local.getNome(), local.getLatitude(), local.getLongitude());
 			throw new DuplicateLocalException("Local já existente.");
 		} catch(DataAccessLayerException e) {
 			e.printStackTrace();
@@ -54,11 +55,12 @@ public class LocalDAO {
 		}
 	}
 	
-	public Local findExactLocal(double latitude, double longitude) throws  UnreachableDataBaseException, LocalNotFoundException {		
-		List<IdentifiedEntity> resultSet = null;
+	public Local findExactLocal(String nome, double latitude, double longitude) throws  UnreachableDataBaseException, LocalNotFoundException {		
+		List<Local> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Local WHERE latitude = '"+ latitude +"'"
 					+ " AND longitude = '" + longitude +"'"
+					+ " AND nome = '"+ nome +"'"
 					+ " ORDER BY nome, latitude, longitude");
 			if(resultSet == null || resultSet.isEmpty()) {
 				throw new LocalNotFoundException ("Local não encontrado.");
@@ -70,8 +72,8 @@ public class LocalDAO {
 		}
 	}
 	
-	public List<IdentifiedEntity> findLocalByName(String name) throws  UnreachableDataBaseException, LocalNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
+	public List<Local> findLocalByName(String name) throws  UnreachableDataBaseException, LocalNotFoundException {
+		List<Local> resultSet = null;
 		try {
 			resultSet = manager.find("FROM Local WHERE nome LIKE '%" + name +"%' ORDER BY nome, latitude, longitude");
 			if(resultSet == null) {
@@ -84,17 +86,5 @@ public class LocalDAO {
 		}
 	}
 	
-	public List<IdentifiedEntity> findAllLocal() throws  UnreachableDataBaseException, LocalNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
-		try {
-			resultSet = manager.find("FROM Local ORDER BY nome, latitude, longitude");
-			if(resultSet == null) {
-				throw new LocalNotFoundException("Não existe nenhum local cadastrado.");
-			}
-			else return resultSet;
-		} catch (DataAccessLayerException e) {
-			e.printStackTrace();
-			throw new UnreachableDataBaseException("Erro ao acessar o banco de dados.");
-		}
-	}	
+	
 }

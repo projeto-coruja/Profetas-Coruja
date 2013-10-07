@@ -35,11 +35,11 @@ public class PalavraChaveDAO {
 	
 	public void removeKeyWord(String keyword) throws UnreachableDataBaseException, KeywordNotFoundException {
 		if(keyword.isEmpty() || keyword == null)	throw new IllegalArgumentException("Palavra-chave vazia ou nula.");
-		List<IdentifiedEntity> check = null;
+		List<PalavraChave> check = null;
 		PalavraChave select = null;
 		try {
 			check = findKeyword(keyword);
-			for(IdentifiedEntity dto : check){
+			for(PalavraChave dto : check){
 				if (((PalavraChave) dto).getPalavraChave().equals(keyword))
 					select = (PalavraChave) dto;
 			}
@@ -53,17 +53,17 @@ public class PalavraChaveDAO {
 	
 	public PalavraChave updateKeyword(String oldKeyword, String newKeyword) throws UnreachableDataBaseException, KeywordNotFoundException {
 		if(oldKeyword.isEmpty() || oldKeyword == null || newKeyword.isEmpty() || newKeyword == null)	throw new IllegalArgumentException("Palavra-chave vazia ou nula.");
-		List<IdentifiedEntity> check = null;
+		List<PalavraChave> check = null;
 		PalavraChave select = null;
 		try{
 			check = findKeyword(oldKeyword);
-			for(IdentifiedEntity dto : check){
+			for(PalavraChave dto : check){
 				if (((PalavraChave) dto).getPalavraChave().equals(oldKeyword))
 					select = (PalavraChave) dto;
 			}
 			try{
 				check = findKeyword(newKeyword);
-				for(IdentifiedEntity dto : check) {
+				for(PalavraChave dto : check) {
 					if (((PalavraChave) dto).getPalavraChave().equals(newKeyword))
 						throw new IllegalArgumentException("Palavra-chave nova já existente.");
 				}
@@ -80,8 +80,8 @@ public class PalavraChaveDAO {
 		}
 	}
 	
-	public List<IdentifiedEntity> findKeyword(String keyword) throws  UnreachableDataBaseException, KeywordNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
+	public List<PalavraChave> findKeyword(String keyword) throws  UnreachableDataBaseException, KeywordNotFoundException {
+		List<PalavraChave> resultSet = null;
 		try {
 			resultSet = manager.find("FROM PalavraChave WHERE palavraChave LIKE '%" + keyword + "%' ORDER BY palavraChave");
 			if(resultSet == null) {
@@ -94,8 +94,8 @@ public class PalavraChaveDAO {
 		}
 	}
 	
-	public List<IdentifiedEntity> getAllKeywords() throws  UnreachableDataBaseException, KeywordNotFoundException {
-		List<IdentifiedEntity> resultSet = null;
+	public List<PalavraChave> getAllKeywords() throws  UnreachableDataBaseException, KeywordNotFoundException {
+		List<PalavraChave> resultSet = null;
 		try {
 			resultSet = manager.find("FROM PalavraChave ORDER BY palavraChave");
 			if(resultSet == null) {
