@@ -7,50 +7,74 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
+import persistence.EntityManager;
+import persistence.model.base.EntityModel;
+import persistence.model.exceptions.EntityPersistenceException;
+import persistence.model.exceptions.GroupCharacterNotFoundException;
 import datatype.SimpleDate;
 
 @Entity
-public class GrupoPersonagem implements IdentifiedEntity {
+public class GrupoPersonagem extends EntityModel {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@Type(type="persistence.util.SimpleDateHibernateType")
-	private SimpleDate anoIngresso;
+    @Type(type = "persistence.util.SimpleDateHibernateType")
+    private SimpleDate anoIngresso;
 
-	@ManyToOne
-	private GrupoMovimento grupoMovimento;
+    @ManyToOne
+    private GrupoMovimento grupoMovimento;
 
-	public GrupoPersonagem() {} // Hibernate
+    public GrupoPersonagem() {
+    } // Hibernate
 
-	public GrupoPersonagem(SimpleDate anoIngresso, GrupoMovimento grupoMovimento) {
-		this.anoIngresso = anoIngresso;
-		this.grupoMovimento = grupoMovimento;
+    public GrupoPersonagem(SimpleDate anoIngresso, GrupoMovimento grupoMovimento) {
+	this.anoIngresso = anoIngresso;
+	this.grupoMovimento = grupoMovimento;
+    }
+
+    public Long getId() {
+	return id;
+    }
+
+    public SimpleDate getAnoIngresso() {
+	return anoIngresso;
+    }
+
+    public void setAnoIngresso(SimpleDate anoIngresso) {
+	this.anoIngresso = anoIngresso;
+    }
+
+    public GrupoMovimento getGrupoMovimento() {
+	return grupoMovimento;
+    }
+
+    public void setGrupoMovimento(GrupoMovimento grupoMovimento) {
+	this.grupoMovimento = grupoMovimento;
+    }
+
+    @Override
+    protected void checkSave(EntityManager em) throws EntityPersistenceException {
+	if (isPersisted(em)) {
+	    throw new EntityPersistenceException("Grupo/Personagem já existente!", null);
 	}
-	
-	public Long getId() {
-		return id;
-	}
+    }
 
-	public void setId(Long id) {
-		this.id = id;
+    @Override
+    protected void checkUpdate(EntityManager em) throws EntityPersistenceException {
+	if (!isPersisted(em)) {
+	    throw new EntityPersistenceException(new GroupCharacterNotFoundException(
+		    "Grupo não encontrado!"));
 	}
+    }
 
-	public SimpleDate getAnoIngresso() {
-		return anoIngresso;
+    @Override
+    protected void checkRemove(EntityManager em) throws EntityPersistenceException {
+	if (!isPersisted(em)) {
+	    throw new EntityPersistenceException(new GroupCharacterNotFoundException(
+		    "Grupo não encontrado!"));
 	}
-
-	public void setAnoIngresso(SimpleDate anoIngresso) {
-		this.anoIngresso = anoIngresso;
-	}
-
-	public GrupoMovimento getGrupoMovimento() {
-		return grupoMovimento;
-	}
-
-	public void setGrupoMovimento(GrupoMovimento grupoMovimento) {
-		this.grupoMovimento = grupoMovimento;
-	}
+    }
 
 }

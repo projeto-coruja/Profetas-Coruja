@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import business.Bean.user.AuthBean;
+import business.bean.user.AuthBean;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
 
@@ -24,45 +24,48 @@ import business.exceptions.login.UserNotFoundException;
 public class LoginCheckerFilter implements Filter {
 
     /**
-     * Default constructor. 
+     * Default constructor.
      */
     public LoginCheckerFilter() {
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
-	public void destroy() {
-	}
+    /**
+     * @see Filter#destroy()
+     */
+    @Override
+    public void destroy() {
+    }
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpSession session = ((HttpServletRequest)request).getSession();
-		AuthBean auth = new AuthBean();
-		if(auth.isLoggedIn(session)){
-			long time = new GregorianCalendar().getTimeInMillis();
-			long created = (Long) session.getAttribute(AuthBean.sessionUserAccessTokenCreatedTime);
-			int expire = (Integer) session.getAttribute(AuthBean.sessionUserAccessTokenLifeTime);
-			
-			if(expire != 0 && (time - created) >= expire){
-				try {
-					auth.logOut(session);
-				} catch (UserNotFoundException e) {
-					e.printStackTrace();
-				} catch (UnreachableDataBaseException e) {
-					e.printStackTrace();
-				}
-			}
+    /**
+     * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	HttpSession session = ((HttpServletRequest) request).getSession();
+	AuthBean auth = new AuthBean();
+	if (auth.isLoggedIn(session)) {
+	    long time = new GregorianCalendar().getTimeInMillis();
+	    long created = (Long) session.getAttribute(AuthBean.sessionUserAccessTokenCreatedTime);
+	    int expire = (Integer) session.getAttribute(AuthBean.sessionUserAccessTokenLifeTime);
+
+	    if (expire != 0 && (time - created) >= expire) {
+		try {
+		    auth.logOut(session);
+		} catch (UserNotFoundException e) {
+		    e.printStackTrace();
+		} catch (UnreachableDataBaseException e) {
+		    e.printStackTrace();
 		}
-		chain.doFilter(request, response);
+	    }
 	}
+	chain.doFilter(request, response);
+    }
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+    /**
+     * @see Filter#init(FilterConfig)
+     */
+    @Override
+    public void init(FilterConfig fConfig) throws ServletException {
+    }
 
 }

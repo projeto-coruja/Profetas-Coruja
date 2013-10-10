@@ -7,63 +7,86 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
+import persistence.EntityManager;
+import persistence.model.base.EntityModel;
+import persistence.model.exceptions.EntityPersistenceException;
+import persistence.model.exceptions.LocalsCharactersNotFoundException;
 import datatype.SimpleDate;
 
 @Entity
-public class LocaisPersonagens implements IdentifiedEntity {
+public class LocaisPersonagens extends EntityModel {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	@Type(type = "persistence.util.SimpleDateHibernateType")
-	private SimpleDate anoChegada;
-	
-	@Type(type = "persistence.util.SimpleDateHibernateType")
-	private SimpleDate anoSaida;
+    @Type(type = "persistence.util.SimpleDateHibernateType")
+    private SimpleDate anoChegada;
 
-	@ManyToOne
-	private Local local;
+    @Type(type = "persistence.util.SimpleDateHibernateType")
+    private SimpleDate anoSaida;
 
-	public LocaisPersonagens() {} // Hibernate
+    @ManyToOne
+    private Local local;
 
-	public LocaisPersonagens(SimpleDate anoChegada, SimpleDate anoSaida, Local local) {
-		this.anoChegada = anoChegada;
-		this.anoSaida = anoSaida;
-		this.local = local;
+    public LocaisPersonagens() {
+    } // Hibernate
+
+    public LocaisPersonagens(SimpleDate anoChegada, SimpleDate anoSaida, Local local) {
+	this.anoChegada = anoChegada;
+	this.anoSaida = anoSaida;
+	this.local = local;
+    }
+
+    public Long getId() {
+	return id;
+    }
+
+    public SimpleDate getAnoChegada() {
+	return anoChegada;
+    }
+
+    public void setAnoChegada(SimpleDate anoChegada) {
+	this.anoChegada = anoChegada;
+    }
+
+    public SimpleDate getAnoSaida() {
+	return anoSaida;
+    }
+
+    public void setAnoSaida(SimpleDate anoSaida) {
+	this.anoSaida = anoSaida;
+    }
+
+    public Local getLocal() {
+	return local;
+    }
+
+    public void setLocal(Local local) {
+	this.local = local;
+    }
+
+    @Override
+    protected void checkSave(EntityManager em) throws EntityPersistenceException {
+	if (isPersisted(em)) {
+	    throw new EntityPersistenceException("Instância duplicada!", null);
 	}
+    }
 
-	
-	public Long getId() {
-		return id;
+    @Override
+    protected void checkUpdate(EntityManager em) throws EntityPersistenceException {
+	if (!isPersisted(em)) {
+	    throw new EntityPersistenceException(new LocalsCharactersNotFoundException(
+		    "Local/Personagens não existente!"));
 	}
+    }
 
-	public void setId(Long id) {
-		this.id = id;
+    @Override
+    protected void checkRemove(EntityManager em) throws EntityPersistenceException {
+	if (!isPersisted(em)) {
+	    throw new EntityPersistenceException(new LocalsCharactersNotFoundException(
+		    "Local/Personagens não existente!"));
 	}
-
-	public SimpleDate getAnoChegada() {
-		return anoChegada;
-	}
-
-	public void setAnoChegada(SimpleDate anoChegada) {
-		this.anoChegada = anoChegada;
-	}
-
-	public SimpleDate getAnoSaida() {
-		return anoSaida;
-	}
-
-	public void setAnoSaida(SimpleDate anoSaida) {
-		this.anoSaida = anoSaida;
-	}
-
-	public Local getLocal() {
-		return local;
-	}
-
-	public void setLocal(Local local) {
-		this.local = local;
-	}
+    }
 
 }

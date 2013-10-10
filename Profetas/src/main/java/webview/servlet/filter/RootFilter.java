@@ -1,6 +1,7 @@
 package webview.servlet.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,28 +18,31 @@ import javax.servlet.http.HttpServletResponse;
 public class RootFilter implements Filter {
 
     /**
-     * Default constructor. 
+     * Default constructor.
      */
     public RootFilter() {
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
-	public void destroy() {
-	}
+    /**
+     * @see Filter#destroy()
+     */
+    @Override
+    public void destroy() {
+    }
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		((HttpServletResponse) response).sendRedirect("public/index.jsp");
-	}
+    /**
+     * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	((HttpServletResponse) response).sendRedirect("public/index.jsp");
+    }
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+    /**
+     * @see Filter#init(FilterConfig)
+     */
+    @Override
+    public void init(FilterConfig fConfig) throws ServletException {
+    }
 
 }

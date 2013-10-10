@@ -15,7 +15,6 @@
 		<mapping class="persistence.model.Profile" />
 		<mapping class="persistence.model.Configuration" />
 		
-		<mapping class="persistence.model.AcervoReferencia" />
 		<mapping class="persistence.model.Classificacao" />
 		<mapping class="persistence.model.Correspondencia" />
 		<mapping class="persistence.model.Encontro" />

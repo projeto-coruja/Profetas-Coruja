@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import persistence.model.UserAccount;
 import webview.util.AlertsUtility;
-import business.Bean.user.AdminBean;
-import business.Bean.user.AuthBean;
-import business.Bean.user.Permissions;
-import business.DAO.login.UserDAO;
+import business.bean.user.AdminBean;
+import business.bean.user.AuthBean;
+import business.bean.user.Permissions;
+import business.dao.login.UserDAO;
 import business.exceptions.DisallowedOperationException;
 import business.exceptions.login.UnreachableDataBaseException;
 import business.exceptions.login.UserNotFoundException;
@@ -23,51 +23,53 @@ import business.exceptions.login.UserNotFoundException;
  */
 @WebServlet("/protected/admin/removeAccount")
 public class AccountRemovalServlet extends HttpServlet {
-	
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public AccountRemovalServlet() {
-		super();
-	}
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		UserDAO loginDAO = new UserDAO();
-		AuthBean auth = new AuthBean();
-		UserAccount userToRemove = null;
-		
-		AdminBean adm = new AdminBean();
-		
-		String email = request.getParameter("email");
-		
-		try {
-			if(auth.allowedOperation(Permissions.userRemovalPermission, request.getSession(), true)){
-				
-				userToRemove = loginDAO.findUserByEmail(email);
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public AccountRemovalServlet() {
+	super();
+    }
 
-				adm.removeUser(email);
-				// TODO: Tratar os redirecionamentos!
-				if(userToRemove.getProfile().equals("default"))
-					response.sendRedirect("public/index.jsp"); 
-				else
-					response.sendRedirect("public/index.jsp");
-			}
-			else{
-				// Alertar a falta de permissão.
-			}
-		} catch (UnreachableDataBaseException e) {
-			e.printStackTrace();
-		} catch (UserNotFoundException e) {
-			e.printStackTrace();
-		} catch (DisallowedOperationException e) {
-			AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "public/index.jsp");
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	UserDAO loginDAO = new UserDAO();
+	AuthBean auth = new AuthBean();
+	UserAccount userToRemove = null;
+
+	AdminBean adm = new AdminBean();
+
+	String email = request.getParameter("email");
+
+	try {
+	    if (auth.allowedOperation(Permissions.userRemovalPermission, request.getSession(), true)) {
+
+		userToRemove = loginDAO.findUserByEmail(email);
+
+		adm.removeUser(email);
+		// TODO: Tratar os redirecionamentos!
+		if (userToRemove.getProfile().equals("default")) {
+		    response.sendRedirect("public/index.jsp");
+		} else {
+		    response.sendRedirect("public/index.jsp");
 		}
+	    } else {
+		// Alertar a falta de permissão.
+	    }
+	} catch (UnreachableDataBaseException e) {
+	    e.printStackTrace();
+	} catch (UserNotFoundException e) {
+	    e.printStackTrace();
+	} catch (DisallowedOperationException e) {
+	    AlertsUtility.alertAndRedirectPage(response, "Operação inválido!", "public/index.jsp");
 	}
-	
+    }
+
 }
