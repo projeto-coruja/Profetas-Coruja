@@ -1,0 +1,13 @@
+/* DELETE */
+
+.LoginArea loginDefault{
+	display: block;
+}
+
+.LoginArea loginUser{
+	display: none;
+}
+
+.LoginArea loginAdmin{
+	display: none;
+}

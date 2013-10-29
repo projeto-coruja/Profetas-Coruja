@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+    <definition name="template-main" template="/WEB-INF/views/templates/main.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/includes/header.jsp" />
+        <put-attribute name="messages" value="/WEB-INF/views/includes/messages.jsp" />     
+        <put-attribute name="menu" value="/WEB-INF/views/includes/menu.jsp" />
+        <put-attribute name="content" value="/WEB-INF/views/includes/blank.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/includes/footer.jsp" />
+    </definition>
+    
+    <!-- Index/login page -->
+    <definition name="index_login" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/index/index.jsp" />
+    </definition>
+    
+    <!-- Register a new user -->
+    <definition name="register_user" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/account/registerUser.jsp" />
+    </definition>
+    
+    <!-- Religiao Crencas -->
+    <definition name="religiao_crencas" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/religiao/religiaoCrencas.jsp" />
+    </definition>
+    
+    <!-- Local -->
+    <definition name="local" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/local/local.jsp" />
+    </definition>
+    
+    <!-- Encontro -->
+    <definition name="encontro" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/encontro/encontro.jsp" />
+    </definition>
+    
+    <!-- Grupo Movimento -->
+    <definition name="grupo_movimento" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/gMovimento/grupoMovimento.jsp" />
+    </definition>
+    
+    <!-- anothers -->
+    <definition name="page_tutorial" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/others/tutorial.jsp" />
+    </definition>
+    <definition name="page_about" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/others/about.jsp" />
+    </definition>
+    <definition name="page_contact" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/others/contact.jsp" />
+    </definition>
+    <definition name="page_credits" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/others/credits.jsp" />
+    </definition>
+    
+</tiles-definitions>

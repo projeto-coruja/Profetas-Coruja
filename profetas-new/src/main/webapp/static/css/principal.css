@@ -1,0 +1,243 @@
+@charset "utf-8";
+
+.keyInf {	
+	border: 1px solid gray;
+	width: 130px;
+	height: 22px; /* 20px */
+	margin: 0px 0;
+	color: #000;
+	padding: 0 0 0 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	letter-spacing: 1px;
+}
+
+.scroll {
+	height: 25em;
+	overflow: auto;
+}
+
+.scrollLong {
+	height: 55em;
+	width: 709px; /* 859px; */
+    /* border: 1px solid black; */
+    margin-left: 78px;
+	overflow: auto;
+	font-size: small;
+}
+
+
+.legenda {
+    font-size: small;
+    margin-left: 78px;
+    overflow: auto;
+    width: 709px;
+}
+
+.buttonPesquisa {
+	width: 185px;
+	height: 24px;
+	text-align: center;
+	border: none;
+	float: right;
+	background: #6F7D94;
+	background: -webkit-gradient(linear, left top);
+	-webkit-border-radius: .3em;
+	-moz-border-radius: .3em;
+	border-radius: .3em;
+	-webkit-box-shadow: 0 0px 1px rgba(255, 255, 255);
+	-moz-box-shadow: 0 0px 1px rgba(255, 255, 255);
+	box-shadow: 0 0px 1px rgba(255, 255, 255);
+	color: #fff;
+	cursor: pointer;
+}
+
+fieldset {
+	padding: 0 0 0 0;
+	margin: 10px;
+	border: 0;
+}
+
+label {
+	padding: 0 0 0 0;
+}
+
+/* ~~ miscellaneous float/clear classes ~~ */
+.fltrt {
+	/* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+
+.fltlft {
+	/* this class can be used to float an element left in your page. The floated element must precede the element it should be next to on the page. */
+	float: left;
+	margin-right: 8px;
+}
+
+.clearfloat {
+	/* this class can be placed on a <br /> or empty div as the final element following the last floated div (within the #container) if the #footer is removed or taken out of the #container */
+	clear: both;
+	height: 0;
+	font-size: 1px;
+	line-height: 0px;
+}
+
+.loginText {
+	font-size: 80%;
+}
+
+/* Parametros para personalizar mais fácil o texto de descrição dos formulários, em alguns sites eles substituem o label por um texto dentro do input que é
+apagado quando o usuário digitar algo dentro, para isso use o atributo placeholder="texto" dentro da tag do input no html */
+.labelForms {
+	font-size: small;
+	/* font-weight: bold; */
+	text-align: left;
+}
+
+.fieldDocInf {
+	padding-bottom: 0px;
+	padding-left: 0px;
+	width: 120px;
+	white-space: nowrap;
+	/* border: 1px solid; */
+	text-align: left;
+}
+
+.labelFormsSearch {
+	font-size: small;
+	text-align: left;
+}
+
+span.asterisco {
+	font-size: 11px;
+	text-align: left;
+	color: red;
+}
+
+.labelExibe {
+	font-size: small;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+.coluna {
+	width: 120;
+	height: 20;
+}
+
+.digitosTexts {
+	font-size: 60%;
+}
+
+.tableForms {
+	text-align: left;
+	/* margin: 40px 0 0 0px; */
+	margin-left: 78px; /* 100px; */
+	/*width: 709px; /* 580px; */
+	/*border-top: 1px solid;*/
+}
+
+.tableFormsKey {
+	text-align: left;
+	/* margin: 40px 0 0 0px; */
+	margin-left: 78px; /* 100px; */
+	width: 411px;
+ 	/* border: 1px solid; */
+}
+
+.tablePesquisa {
+	text-align: left;
+	margin: 40px 0 0 0px;
+	width: 420px;
+	border: 0px;
+}
+
+.tdForms {
+	text-align: left;
+	width: 100px; /* 130px; */
+	border: 0px;
+}
+
+
+.tdPesquisa {
+	text-align: left;
+	width: 100px /* 200px; */
+	border: 0px;
+}
+
+.tdMinilink {
+	text-align: left;
+	width: 400px;
+	border: 0px;
+	font-size: 11px;
+}
+
+.tdForms2 {
+	text-align: left;
+	width: 100px;
+	border: 0px;
+}
+
+.tableEditar {
+	text-align: left;
+	margin: 40px 0 0 30px;
+	width: 700px;
+	border: 0px;
+}
+
+.tablePainel {
+	font-size:small;
+	text-align: center;
+	width: 540px;
+}
+
+.tableList {
+	border: 1px solid;
+	text-align: center;
+	width: 585px;
+}
+
+.tableResultList {
+	border: 1px solid;
+	margin: 0 0 0 5px;
+	/*text-align: center;*/
+	width: 870px;
+}
+
+.tdResultCenterList{
+	border: 1px solid;
+	width: 320px;
+}
+
+.tableList,.trList,.tdList,.tableResultList,.tdResultCenterList {
+	border-collapse: collapse;
+	border: 1px solid;
+}
+
+
+/* Banner rules xD */
+.banner {
+	margin-bottom: 0px;
+	width: 700px;
+	height: 100px;
+	display: block;
+	background: transparent url('../../images/bannerCoruja.png') center top
+		no-repeat;
+	text-align: center;
+}
+
+.banner:hover {
+	background-image: url('../../images/bannerMouseOver.png');
+}
+
+article.menuLateral section,article.menuLateral section h2 {
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
+}
+.resultLabel{
+	margin: 0;
+}
