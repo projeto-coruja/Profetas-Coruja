@@ -19,7 +19,7 @@ import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.util.UtilValidator;
 
-@Service("mgrupoMovimento")
+@Service("mGrupoMovimento")
 public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements ManagementGrupoMovimento {
 	
 	@Autowired private GrupoMovimentoDAO grupoMovimentoDAO;
@@ -44,10 +44,6 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 		return null;
 	}
 
-	public List<Local> getAllLocal() {
-		return localDAO.listLocal();
-	}
-
 	public MessageDTO createGrupoMovimento(GrupoMovimentoDTO gMovimentoDTO) {
 		if(!UtilValidator.validateNotEmptyField(gMovimentoDTO.getNome())){
 			return new MessageDTO(getText("err_religiao_nome_required"), MessageType.ERROR);
@@ -67,11 +63,14 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			if(locais_length > 0){
 				List<Local> locals = new ArrayList<Local>(locais_length);
 				for(int i = 0; i < locais_length; i++){
-					Local local = new Local();
-					local.setId(Long.parseLong(gMovimentoDTO.getIdLocais()[i]));
-					locals.add(local);
+					Local local = localDAO.getLocalById(Long.parseLong(gMovimentoDTO.getIdLocais()[i]));
+					if(local != null){
+						locals.add(local);
+					} else {
+						//TODO: Error ?
+					}
 				}
-				grupoMovimento.setLocais(new HashSet<Local>());
+				grupoMovimento.setLocais(new HashSet<Local>(locals));
 			}
 			
 			grupoMovimentoDAO.saveGrupoMovimento(grupoMovimento);
@@ -125,5 +124,17 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 		
 		int total = list == null ? 0 : list.size();//TODO: count
 		return getWrapper(listGmDTO, orderBy, orderType, page, numRows, total, null);
+	}
+	
+	public List<LocalDTO> getLocals() {
+		List<Local> locals = localDAO.listLocal();
+		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
+		for(Local l : locals){
+			LocalDTO lDTO = new LocalDTO();
+			lDTO.setId(l.getId());
+			lDTO.setNome(l.getNome());
+			listDTO.add(lDTO);
+		}
+		return listDTO;
 	}
 }

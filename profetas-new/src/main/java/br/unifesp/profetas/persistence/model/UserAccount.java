@@ -6,13 +6,14 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
@@ -22,8 +23,9 @@ import org.hibernate.annotations.NaturalId;
 public class UserAccount implements Serializable {
 
 	@Id
-    @GeneratedValue
-    @Column(name="id_user", unique = true, nullable = false)
+    @Column(name="id_user", unique = true, nullable = false, insertable=false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_name")
+	@SequenceGenerator(name = "user_seq_name", sequenceName = "user_seq", allocationSize = 1)
     private Long id;
 
 	@Column(name="u_name", nullable = false, length = 100)
@@ -36,7 +38,6 @@ public class UserAccount implements Serializable {
 	@Column(name = "u_password", nullable = false, length = 32)
     private String password;
 	
-	//@Temporal(TemporalType.DATE)
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "u_creation_date", nullable = false, length = 10)
 	private Date creationDate;
@@ -44,7 +45,6 @@ public class UserAccount implements Serializable {
 	@ManyToOne
 	@PrimaryKeyJoinColumn
 	@ForeignKey(name = "fk_user_profile")
-	@NotNull
     private Profile profile;
 
 	public UserAccount() {}

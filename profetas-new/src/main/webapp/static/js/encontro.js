@@ -19,11 +19,7 @@ function fillLocals(){
         	combo.empty();
         	combo.append('<option value="-1">Selecione um</option>');
             for (var i = 0; i < data.length; i++) {
-            	var _place = data[i].place;
-            	var str_place = '';
-            	if(_place != undefined && _place != null)
-            		str_place = ' ('+ _place+')';
-            	combo.append('<option value="' + data[i].id + '">' + data[i].nome +str_place+ '</option>');
+            	combo.append('<option value="' + data[i].id + '">' + data[i].nome +'</option>');
             }
         }
     });

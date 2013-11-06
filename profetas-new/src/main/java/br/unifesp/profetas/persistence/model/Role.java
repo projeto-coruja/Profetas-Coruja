@@ -4,15 +4,37 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "role")
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+    @Column(name="id_role", unique = true, nullable = false, insertable=false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq_name")
+	@SequenceGenerator(name = "role_seq_name", sequenceName = "role_seq", allocationSize = 1)
 	private Integer id;
+	
+	@Column(name="r_name", nullable = false, length = 20)
     private String name;
+	
+	@Column(name="r_description", nullable = true, length = 100)
     private String description;
-    private Set profiles = new HashSet(0);
-    
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+	private Set<Profile> profiles = new HashSet<Profile>(0);
+	
 	public Role() {}
 
 	public Integer getId() {
@@ -33,10 +55,10 @@ public class Role implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Set getProfiles() {
+	public Set<Profile> getProfiles() {
 		return profiles;
 	}
-	public void setProfiles(Set profiles) {
+	public void setProfiles(Set<Profile> profiles) {
 		this.profiles = profiles;
 	}	
 }

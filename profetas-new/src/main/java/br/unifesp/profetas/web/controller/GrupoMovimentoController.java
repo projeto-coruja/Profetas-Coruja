@@ -19,15 +19,14 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.business.grupomovimento.GrupoMovimentoDTO;
 import br.unifesp.profetas.business.grupomovimento.ManagementGrupoMovimento;
-import br.unifesp.profetas.business.religiao.ReligiaoCrencasDTO;
-import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.web.AbstractController;
 
 @Controller
 public class GrupoMovimentoController extends AbstractController {
 	
-	@Autowired private ManagementGrupoMovimento mgrupoMovimento;
+	@Autowired private ManagementGrupoMovimento mGrupoMovimento;
 	
 	private static final String LOCAL = "grupoMovimento";
 	private static final String TILES_DEF	= "grupo_movimento";
@@ -42,7 +41,7 @@ public class GrupoMovimentoController extends AbstractController {
     		ModelMap model, HttpServletRequest request) {
 		
 		if(id != null) {
-			GrupoMovimentoDTO gMoDTO = mgrupoMovimento.getGrupoMovimentoById(Long.parseLong(id));
+			GrupoMovimentoDTO gMoDTO = mGrupoMovimento.getGrupoMovimentoById(Long.parseLong(id));
 			if(gMoDTO != null) {
 				model.addAttribute(LOCAL, gMoDTO);
 			}
@@ -54,9 +53,9 @@ public class GrupoMovimentoController extends AbstractController {
 			headers = {"content-type=application/json"})
     public @ResponseBody MessageDTO saveGrupoMovimento(HttpServletRequest request, @RequestBody GrupoMovimentoDTO gMoDTO){
 		if(gMoDTO.getId() == null){
-			return mgrupoMovimento.createGrupoMovimento(gMoDTO);
+			return mGrupoMovimento.createGrupoMovimento(gMoDTO);
 		} else {
-			return mgrupoMovimento.updateGrupoMovimento(gMoDTO);
+			return mGrupoMovimento.updateGrupoMovimento(gMoDTO);
 		}
 	}
 	
@@ -64,7 +63,7 @@ public class GrupoMovimentoController extends AbstractController {
 			headers = {"content-type=application/json"})
     public @ResponseBody MessageDTO deleteGrupoMovimento(HttpServletRequest request, @RequestBody GrupoMovimentoDTO gMoDTO){
 		if(gMoDTO.getId() != null){
-			return mgrupoMovimento.deleteGrupoMovimento(gMoDTO);
+			return mGrupoMovimento.deleteGrupoMovimento(gMoDTO);
 		}
 		return null;
 	}
@@ -77,12 +76,12 @@ public class GrupoMovimentoController extends AbstractController {
 			@RequestParam(value = "searchBy", required = false) String search) {
 		
 		OrderType orderType = OrderType.getOrderType(strOrderType);
-		WrapperGrid<GrupoMovimentoDTO> wrapper = mgrupoMovimento.getGrupoMovimentoList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
+		WrapperGrid<GrupoMovimentoDTO> wrapper = mGrupoMovimento.getGrupoMovimentoList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 		return wrapper;
 	}
 	
 	@RequestMapping(value = "/grupo-movimento/local", method = RequestMethod.GET)
-	public @ResponseBody List<Local> listAllLocal() {
-		return mgrupoMovimento.getAllLocal();
+	public @ResponseBody List<LocalDTO> listAllLocal() {
+		return mGrupoMovimento.getLocals();
 	}
 }

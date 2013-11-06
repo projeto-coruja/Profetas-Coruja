@@ -9,10 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -20,8 +22,9 @@ import javax.persistence.Table;
 public class GrupoMovimento implements Serializable {
 	
 	@Id
-    @GeneratedValue
-    @Column(name="id_gru_movimento", unique = true, nullable = false)
+	@Column(name="id_gru_movimento", unique = true, nullable = false, insertable=false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grmo_seq_name")
+	@SequenceGenerator(name = "grmo_seq_name", sequenceName = "grmo_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(name="gm_name", nullable = false, length = 100)

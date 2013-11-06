@@ -10,13 +10,13 @@
 <div class="content">
 	<span class="title"><spring:message code="ttl_encontro"/></span>
 	
-	<form:form id="local" modelAttribute="encontro">
+	<form:form id="encontro" modelAttribute="encontro">
 		<form:hidden id="id" path="id" />
 		<div class="label-box"><label for="data"><spring:message code="lbl_data"/></label></div>
 	    <div class="input-box"><form:input id="data" path="data" size="50" maxlength="100" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="local"><spring:message code="lbl_local"/></label></div>
+		<div class="label-box"><label for="idLocal"><spring:message code="lbl_local"/></label></div>
 	    <div class="input-box">
 	    	<select id="idLocal" name="idLocal">
 				<option value="-1">Choose one</option>	    	

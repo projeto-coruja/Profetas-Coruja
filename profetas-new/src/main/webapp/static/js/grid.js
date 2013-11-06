@@ -90,6 +90,9 @@ var CorujaGrid = function CorujaGrid() {
 		this.total_rows		= data.total;
 		this.search_words	= data.search;
 		
+		console.log('this.data: ' + this.data);
+		console.log('this.data.length: ' + this.data.length);
+		
 		if(this.data != undefined && this.data != null && this.data.length != 0){
 			html += this.openGrid();
 			html += this.buildHeader();
@@ -159,6 +162,7 @@ var CorujaGrid = function CorujaGrid() {
     	    if(i % 2 == 0) bgcolor = even;
     	    else bgcolor = odd;
     	    var obj = this.data[i];
+    	    
     	    var t;
     	    html += '<tr id="'+obj['id']+'" class="'+bgcolor+'">';
     	    for(t = 0; t < this.num_titles; t++) {

@@ -19,13 +19,14 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.business.encontro.EncontroDTO;
 import br.unifesp.profetas.business.encontro.ManagementEncontro;
-import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.web.AbstractController;
-@Controller
-public class EncontroController extends AbstractController  {
 
-@Autowired private ManagementEncontro mEncontro;
+@Controller
+public class EncontroController extends AbstractController {
+
+	@Autowired private ManagementEncontro mEncontro;
 	
 	private static final String MODEL		= "encontro";
 	private static final String TILES_DEF	= "encontro";
@@ -79,7 +80,7 @@ public class EncontroController extends AbstractController  {
 	}
 	
 	@RequestMapping(value = "/encontro/local", method = RequestMethod.GET)
-	public @ResponseBody List<Local> listAllLocal() {
-		return mEncontro.getAllLocal();
+	public @ResponseBody List<LocalDTO> listAllLocal() {
+		return mEncontro.getLocals();
 	}
 }

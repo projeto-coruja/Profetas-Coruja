@@ -9,7 +9,7 @@ public class EncontroDTO extends CommonDTO {
 	private String data;
 	
 	private Long idLocal;
-	private LocalDTO local;
+	private String desclocal;
 	
 	public EncontroDTO() {}
 
@@ -17,12 +17,6 @@ public class EncontroDTO extends CommonDTO {
 		this.id = id;
 		this.data = data;
 		this.idLocal = idLocal;
-	}
-
-	public EncontroDTO(Long id, String data, LocalDTO local) {
-		this.id = id;
-		this.data = data;
-		this.local = local;
 	}
 
 	public Long getId() {
@@ -43,10 +37,10 @@ public class EncontroDTO extends CommonDTO {
 	public void setIdLocal(Long idLocal) {
 		this.idLocal = idLocal;
 	}
-	public LocalDTO getLocal() {
-		return local;
+	public String getDesclocal() {
+		return desclocal;
 	}
-	public void setLocal(LocalDTO local) {
-		this.local = local;
+	public void setDesclocal(String desclocal) {
+		this.desclocal = desclocal;
 	}
 }

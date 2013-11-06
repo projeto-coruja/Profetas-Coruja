@@ -18,9 +18,19 @@
         <put-attribute name="content" value="/WEB-INF/views/index/index.jsp" />
     </definition>
     
-    <!-- Register a new user -->
-    <definition name="register_user" extends="template-main">
-        <put-attribute name="content" value="/WEB-INF/views/account/registerUser.jsp" />
+    <!-- Account -->
+    <definition name="account" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/account/account.jsp" />
+    </definition>
+    <definition name="list_users" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/account/listUsers.jsp" />
+    </definition>
+    <definition name="account-profile" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/account/userProfile.jsp" />
+    </definition>
+    <!-- Profile -->
+    <definition name="profile" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/profile/profile.jsp" />
     </definition>
     
     <!-- Religiao Crencas -->
@@ -41,6 +51,21 @@
     <!-- Grupo Movimento -->
     <definition name="grupo_movimento" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/gMovimento/grupoMovimento.jsp" />
+    </definition>
+    
+    <!-- Personagem -->
+    <definition name="personagem" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/personagem/personagem.jsp" />
+    </definition>
+    
+    <!-- Correspondencia -->
+    <definition name="correspondencia" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/correspondencia/correspondencia.jsp" />
+    </definition>
+    
+    <!-- Fontes/Obras -->
+    <definition name="fontes_obras" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/fontes/fontesObras.jsp" />
     </definition>
     
     <!-- anothers -->

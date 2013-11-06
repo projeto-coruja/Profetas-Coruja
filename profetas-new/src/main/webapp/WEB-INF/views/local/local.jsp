@@ -11,7 +11,7 @@
 <div class="content">
 	<span class="title"><spring:message code="ttl_local"/></span>
 
-	<div id="mapdiv"  style="width:100%; height:300px"></div>
+	<div id="mapdiv" style="width:100%; height:300px"></div>
 	
 	<form:form id="local" modelAttribute="local">
 		<form:hidden id="id" path="id" />
@@ -19,8 +19,14 @@
 	    <div class="input-box"><form:input id="nome" path="nome" size="50" maxlength="100" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="place"><spring:message code="lbl_place"/></label></div>
-	    <div class="input-box"><form:input id="place" path="place" size="50" maxlength="100" /></div>		
+		<div class="label-box"><label for="country"><spring:message code="lbl_country"/></label></div>
+	    <div class="input-box"><form:input id="country" path="country" size="50" maxlength="100" /></div>		
+		<br />
+		<div class="label-box"><label for="state"><spring:message code="lbl_state"/></label></div>
+	    <div class="input-box"><form:input id="state" path="state" size="50" maxlength="100" /></div>		
+		<br />
+		<div class="label-box"><label for="city"><spring:message code="lbl_city"/></label></div>
+	    <div class="input-box"><form:input id="city" path="city" size="50" maxlength="100" /></div>		
 		<br />
 		
 	    <form:hidden id="latitude" path="latitude" />		

@@ -5,7 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -13,8 +15,9 @@ import javax.persistence.Table;
 public class ReligiaoCrencas implements Serializable {
 	
 	@Id
-    @GeneratedValue
-    @Column(name="id_religiao", unique = true, nullable = false)
+    @Column(name="id_religiao", unique = true, nullable = false, insertable=false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recr_seq_name")
+	@SequenceGenerator(name = "recr_seq_name", sequenceName = "recr_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(name="r_name", nullable = false, length = 100)

@@ -9,7 +9,6 @@ import org.springframework.context.support.MessageSourceAccessor;
 
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
 import br.unifesp.profetas.util.ProfetasConstants;
 
 public abstract class AbstractBusiness {

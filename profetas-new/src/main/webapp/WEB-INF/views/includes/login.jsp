@@ -28,7 +28,7 @@
 			
 	        <div class="login-button-box">
 	        	<button id="loginUser" class="button" name="submit" type="submit"><spring:message code="lbl_sign_in"/></button>
-	        	<a href="<c:url value='/register-user.html'/>" id="registerUser" class="button"><spring:message code="lbl_sign_up"/></a>
+	        	<a href="<c:url value='/account.html'/>" id="account" class="button"><spring:message code="lbl_sign_up"/></a>
 	       	</div>
 	       	
 	       	<div class="center">

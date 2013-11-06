@@ -4,12 +4,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<script src="<c:url value='/static/js/registerUser.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/account.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 
 <div class="content">
-	<sec:authorize access="isAnonymous()">
 		<span class="title"><spring:message code="ttl_register_user"/></span>
 		<form:form id="account" modelAttribute="user">
+			<form:hidden id="id" path="id" />
 			<div class="label-box"><label for="fullname"><spring:message code="lbl_nome"/></label></div>
 		    <div class="input-box"><form:input id="fullName" path="fullName" size="50" maxlength="100" /></div>		
 			<br />
@@ -26,12 +27,17 @@
 		    <div class="input-box"><form:password id="passwordCopy" path="passwordCopy" size="50" maxlength="100" />	</div>		
 			<br />
 			
+			<sec:authorize access="hasRole('ADMIN')">
+				<div class="label-box"><label for="idProfile"><spring:message code="lbl_profile"/></label></div>
+			    <div class="input-box">
+			    	<select id="idProfile" name="idProfile">
+			    	</select>
+			    </div>		
+				<br />
+			</sec:authorize>
+			
 			<div class="left">
 				<div id="saveUser" class="button button-size"><spring:message code="btn_register"/></div>
 			</div>
 		</form:form>
-	</sec:authorize>
-	<sec:authorize access="!isAnonymous()">
-		<spring:message code="page_forbidden"/>
-	</sec:authorize>				
 </div>

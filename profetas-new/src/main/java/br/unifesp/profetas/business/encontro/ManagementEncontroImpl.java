@@ -1,6 +1,7 @@
 package br.unifesp.profetas.business.encontro;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
+import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
 import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.model.Encontro;
@@ -36,10 +38,6 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 			return eDTO;
 		}
 		return null;
-	}
-	
-	public List<Local> getAllLocal() {
-		return localDAO.listLocal();
 	}
 
 	public MessageDTO createEncontro(EncontroDTO encontroDTO) {
@@ -81,7 +79,7 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 			if(encontro != null){
 				encontro.setData(data);
 				encontro.setLocal(new Local(encontroDTO.getIdLocal()));
-				encontroDAO.saveEncontro(encontro);
+				encontroDAO.updateEncontro(encontro);
 				if(encontro.getId() != null){
 					return new MessageDTO(getText("msg_encontro_updated"), MessageType.SUCCESS);
 				}
@@ -104,10 +102,30 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 		}
 	}
 
-	public WrapperGrid<Encontro> getEncontroList(String orderBy,
+	public WrapperGrid<EncontroDTO> getEncontroList(String orderBy,
 			OrderType orderType, int page, int numRows) {
 		List<Encontro> list = encontroDAO.listEncontro();//TODO: limit
 		int total = list == null ? 0 : list.size();//TODO: count
-		return getWrapper(list, orderBy, orderType, page, numRows, total, null);
+		List<EncontroDTO> listDTO = new ArrayList<EncontroDTO>();
+		for(Encontro e : list){
+			EncontroDTO eDTO = new EncontroDTO();
+			eDTO.setId(e.getId());
+			eDTO.setData(e.getData().toString());
+			eDTO.setDesclocal(e.getLocal().getNome());
+			listDTO.add(eDTO);
+		}
+		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
+	}
+	
+	public List<LocalDTO> getLocals() {
+		List<Local> locals = localDAO.listLocal();
+		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
+		for(Local l : locals){
+			LocalDTO lDTO = new LocalDTO();
+			lDTO.setId(l.getId());
+			lDTO.setNome(l.getNome());
+			listDTO.add(lDTO);
+		}
+		return listDTO;
 	}
 }

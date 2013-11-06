@@ -1,25 +1,22 @@
 package br.unifesp.profetas.business.local;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import br.unifesp.profetas.business.common.CommonDTO;
 
+@JsonIgnoreProperties({"latitude", "longitude"})
 public class LocalDTO extends CommonDTO {
 
 	private Long id;	
 	private String nome;	
 	private String latitude;	
 	private String longitude;	
-	private String place;
+	private String country;
+	private String state;
+	private String city;	
 	
 	public LocalDTO() {}
 	
-	public LocalDTO(Long id, String nome, String latitude, String longitude,
-			String place) {
-		this.id = id;
-		this.nome = nome;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.place = place;
-	}
 	public Long getId() {
 		return id;
 	}
@@ -44,10 +41,22 @@ public class LocalDTO extends CommonDTO {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	public String getPlace() {
-		return place;
+	public String getCountry() {
+		return country;
 	}
-	public void setPlace(String place) {
-		this.place = place;
-	}	
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
 }

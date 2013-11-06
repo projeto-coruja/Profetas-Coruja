@@ -1,5 +1,6 @@
 package br.unifesp.profetas.business.local;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 			lDTO.setNome(local.getNome());
 			lDTO.setLatitude(String.valueOf(local.getLatitude()));
 			lDTO.setLongitude(String.valueOf(local.getLongitude()));
-			lDTO.setPlace(local.getPlace());
+			lDTO.setCountry(local.getCountry());
+			lDTO.setState(local.getState());
+			lDTO.setCity(local.getCity());
 			return lDTO;
 		}
 		return null;
@@ -46,7 +49,10 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 			if(localDTO.getLongitude() != null && !"".equals(localDTO.getLongitude())){
 				local.setLongitude(Double.parseDouble(localDTO.getLongitude()));
 			}
-			local.setPlace(localDTO.getPlace());
+			local.setCountry(localDTO.getCountry());
+			local.setState(localDTO.getState());
+			local.setCity(localDTO.getCity());
+			
 			localDAO.saveLocal(local);
 			if(local.getId() != null){
 				return new MessageDTO(getText("msg_local_created"), MessageType.SUCCESS);
@@ -75,7 +81,9 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 				if(localDTO.getLongitude() != null && !"".equals(localDTO.getLongitude())){
 					local.setLongitude(Double.parseDouble(localDTO.getLongitude()));
 				}
-				local.setPlace(localDTO.getPlace());
+				local.setCountry(localDTO.getCountry());
+				local.setState(localDTO.getState());
+				local.setCity(localDTO.getCity());
 				localDAO.saveLocal(local);
 				if(local.getId() != null){
 					return new MessageDTO(getText("msg_local_updated"), MessageType.SUCCESS);
@@ -99,10 +107,17 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 		}
 	}
 
-	public WrapperGrid<Local> getLocalList(String orderBy,
+	public WrapperGrid<LocalDTO> getLocalList(String orderBy,
 			OrderType orderType, int page, int numRows) {
 		List<Local> list = localDAO.listLocal();//TODO: limit
 		int total = list == null ? 0 : list.size();//TODO: count
-		return getWrapper(list, orderBy, orderType, page, numRows, total, null);
+		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
+		for(Local l : list){
+			LocalDTO lDTO = new LocalDTO();
+			lDTO.setId(l.getId());
+			lDTO.setNome(l.getNome());
+			listDTO.add(lDTO);
+		}
+		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
 }

@@ -2,6 +2,7 @@ package br.unifesp.profetas.business.account.dto;
 
 import br.unifesp.profetas.business.common.CommonDTO;
 
+@Deprecated
 public class RoleDTO extends CommonDTO {
 	
 	private short id;

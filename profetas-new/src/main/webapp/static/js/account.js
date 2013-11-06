@@ -1,14 +1,16 @@
 $(document).ready(function() {
+	fillProfileList();
 	$("#saveUser").click(function(){
 		if(!checkFields())
 			return;
 		
-	    var url		= 'register-user-json.html';
+	    var url		= 'account/save.html';
 	    var fullName	= $('#fullName').val();
 	    var email		= $('#email').val();	    
 	    var password	= $('#passwordOrig').val();
+	    var idProfile	= $('#idProfile').val();
 	    
-	    var data = JSON.stringify({ "fullName" : fullName, "email" : email, "password" : password });
+	    var data = JSON.stringify({ "fullName" : fullName, "email" : email, "password" : password, "idProfile" : idProfile });
 	    $.ajax({
 	        url : url,
 	        type : "POST",
@@ -39,7 +41,6 @@ function checkFields(){
 	if(!checkPasswords())
 		return false;
 	return true;
-	
 }
 
 function checkFullName(){
@@ -72,8 +73,6 @@ function checkPasswords(){
 	var password = $('#passwordOrig').val();
 	var retype_pass = $('#passwordCopy').val();
 	
-	console.log('pass: '+ password);
-	console.log('respass: '+ retype_pass);
 	if(password.trim() == ''){
 		addMessage(jQuery.i18n.prop('err_pass_required'), 'error');
 		return false;

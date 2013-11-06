@@ -6,9 +6,11 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,8 +22,9 @@ import org.hibernate.annotations.ForeignKey;
 public class Encontro implements Serializable {
 
 	@Id
-    @GeneratedValue
-    @Column(name="id_encontro", unique = true, nullable = false)
+    @Column(name="id_encontro", unique = true, nullable = false, insertable=false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "enco_seq_name")
+	@SequenceGenerator(name = "enco_seq_name", sequenceName = "enco_seq", allocationSize = 1)
 	private Long id;
 	
 	@Temporal(TemporalType.DATE)
