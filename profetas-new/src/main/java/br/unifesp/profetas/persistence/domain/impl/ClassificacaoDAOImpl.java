@@ -11,13 +11,30 @@ import br.unifesp.profetas.persistence.model.Classificacao;
 
 @Repository("classificacaoDAO")
 @Transactional
-public class ClassificacaoDAOImpl extends AbstractHibernateDAO<Classificacao> implements ClassificacaoDAO {	
-	 
-	public ClassificacaoDAOImpl(){
+public class ClassificacaoDAOImpl extends AbstractHibernateDAO<Classificacao> implements ClassificacaoDAO {
+
+	public ClassificacaoDAOImpl() {
 		setClazz(Classificacao.class);
 	}
+	
+	public Classificacao getClassificacaoById(Long id) {
+		return findOne(id);
+	}
 
-	public List<Classificacao> listClassificao() {
+	public List<Classificacao> listClassificacao() {
 		return findAll();
 	}
+
+	public void saveClassificacao(Classificacao classificacao){
+		save(classificacao);
+	}
+
+	public void updateClassificacao(Classificacao classificacao) {
+		update(classificacao);
+	}
+
+	public void deleteClassificacao(Classificacao classificacao) {
+		delete(classificacao);
+	}
+
 }

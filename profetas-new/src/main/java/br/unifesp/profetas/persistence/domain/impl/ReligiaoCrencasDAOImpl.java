@@ -2,8 +2,6 @@ package br.unifesp.profetas.persistence.domain.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +18,7 @@ public class ReligiaoCrencasDAOImpl extends AbstractHibernateDAO<ReligiaoCrencas
 	}
 
 	public ReligiaoCrencas getReligiaoCrencasById(Long id) {
-		Criteria criteria = getCurrentSession().createCriteria(ReligiaoCrencas.class);
-		criteria.add(Restrictions.eq("id", id));
-		return (ReligiaoCrencas)criteria.uniqueResult();
+		return findOne(id);
 	}
 	
 	public List<ReligiaoCrencas> listReligiaoCrencas(){

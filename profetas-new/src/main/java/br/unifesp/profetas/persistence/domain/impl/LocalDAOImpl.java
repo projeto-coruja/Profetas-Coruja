@@ -2,8 +2,6 @@ package br.unifesp.profetas.persistence.domain.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +18,7 @@ public class LocalDAOImpl extends AbstractHibernateDAO<Local> implements LocalDA
 	}
 
 	public Local getLocalById(Long id) {
-		Criteria criteria = getCurrentSession().createCriteria(Local.class);
-		criteria.add(Restrictions.eq("id", id));
-		return (Local)criteria.uniqueResult();
+		return findOne(id);
 	}
 
 	public List<Local> listLocal() {

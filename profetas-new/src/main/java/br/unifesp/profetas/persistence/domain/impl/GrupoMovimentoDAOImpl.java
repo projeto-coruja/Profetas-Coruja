@@ -2,8 +2,6 @@ package br.unifesp.profetas.persistence.domain.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +18,7 @@ public class GrupoMovimentoDAOImpl extends AbstractHibernateDAO<GrupoMovimento> 
 	}
 
 	public GrupoMovimento getGrupoMovimentoById(Long id) {
-		Criteria criteria = getCurrentSession().createCriteria(GrupoMovimento.class);
-		criteria.add(Restrictions.eq("id", id));
-		return (GrupoMovimento)criteria.uniqueResult();
+		return findOne(id);
 	}
 
 	public List<GrupoMovimento> listGrupoMovimento() {

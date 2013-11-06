@@ -2,8 +2,6 @@ package br.unifesp.profetas.persistence.domain.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,16 +11,15 @@ import br.unifesp.profetas.persistence.model.Encontro;
 
 @Repository("encontroDAO")
 @Transactional
-public class EncontroDAOImpl extends AbstractHibernateDAO<Encontro> implements EncontroDAO {	
-	 
-	public EncontroDAOImpl(){
+public class EncontroDAOImpl extends AbstractHibernateDAO<Encontro> implements
+		EncontroDAO {
+
+	public EncontroDAOImpl() {
 		setClazz(Encontro.class);
 	}
 
 	public Encontro getEncontroById(Long id) {
-		Criteria criteria = getCurrentSession().createCriteria(Encontro.class);
-		criteria.add(Restrictions.eq("id", id));
-		return (Encontro)criteria.uniqueResult();
+		return findOne(id);
 	}
 
 	public List<Encontro> listEncontro() {

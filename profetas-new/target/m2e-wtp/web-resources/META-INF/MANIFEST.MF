@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: alvaro
-Build-Jdk: 1.6.0_23
+Built-By: hueho
+Build-Jdk: 1.7.0_45
 Created-By: Maven Integration for Eclipse
 
