@@ -11,11 +11,9 @@ import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.persistence.domain.ClassificacaoDAO;
-import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
-import br.unifesp.profetas.persistence.model.PalavraChave;
 
-@Service("mPalavraChave")
+@Service("mClassificacao")
 public class ManagementClassificacaoImpl extends AbstractBusiness implements
 		ManagementClassificacao {
 
@@ -66,8 +64,7 @@ public class ManagementClassificacaoImpl extends AbstractBusiness implements
 					MessageType.ERROR);
 		}
 		try {
-			Classificacao classificacao = classificacaoDAO
-					.getClassificacaoById(classificacaoDTO.getId());
+			Classificacao classificacao = new Classificacao();//classificacaoDAO.getClassificacaoById(classificacaoDTO.getId());TODO:
 			if (classificacao != null) {
 				classificacao.setTipo(classificacaoDTO.getTipo());
 				classificacaoDAO.updateClassificacao(classificacao);

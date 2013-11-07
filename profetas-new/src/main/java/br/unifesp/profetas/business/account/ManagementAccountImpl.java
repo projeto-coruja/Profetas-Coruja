@@ -136,7 +136,7 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 			Profile profile = new Profile(userDTO.getIdProfile());
 			UserAccount userAcc = userAccountDAO.getUserById(userDTO.getId());
 			userAcc.setProfile(profile);
-			userAccountDAO.saveUserAccount(userAcc);
+			userAccountDAO.updateUserAccount(userAcc);
 			return new MessageDTO(getText("msg_profile_updated"), MessageType.SUCCESS);
 		} catch(Exception e){
 			return new MessageDTO(getText("err_profile_not_updated"), MessageType.ERROR);

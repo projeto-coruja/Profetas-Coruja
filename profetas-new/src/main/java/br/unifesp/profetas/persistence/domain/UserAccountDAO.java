@@ -12,6 +12,8 @@ public interface UserAccountDAO {
 	
 	public void saveUserAccount(UserAccount user);
 	
+	public void updateUserAccount(UserAccount user);
+	
 	public UserAccount getUserByUsername(String username);
 	
 	public UserAccount getUserById(Long id);

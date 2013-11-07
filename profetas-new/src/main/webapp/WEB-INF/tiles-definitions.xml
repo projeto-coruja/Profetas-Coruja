@@ -22,11 +22,8 @@
     <definition name="account" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/account/account.jsp" />
     </definition>
-    <definition name="list_users" extends="template-main">
-        <put-attribute name="content" value="/WEB-INF/views/account/listUsers.jsp" />
-    </definition>
-    <definition name="account-profile" extends="template-main">
-        <put-attribute name="content" value="/WEB-INF/views/account/userProfile.jsp" />
+    <definition name="account_profile" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/account/accountProfile.jsp" />
     </definition>
     <!-- Profile -->
     <definition name="profile" extends="template-main">

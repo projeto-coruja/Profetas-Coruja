@@ -90,9 +90,6 @@ var CorujaGrid = function CorujaGrid() {
 		this.total_rows		= data.total;
 		this.search_words	= data.search;
 		
-		console.log('this.data: ' + this.data);
-		console.log('this.data.length: ' + this.data.length);
-		
 		if(this.data != undefined && this.data != null && this.data.length != 0){
 			html += this.openGrid();
 			html += this.buildHeader();

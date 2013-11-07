@@ -139,6 +139,6 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 	}
 
 	public List<Classificacao> getClassificacoes() {
-		return classificacaoDAO.listClassificao();
+		return null;//classificacaoDAO.listClassificao();TODO:
 	}
 }

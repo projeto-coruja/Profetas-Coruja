@@ -30,8 +30,7 @@ public class UserAccountController {
 	
 	private static final String MODEL		= "user";
 	private static final String TILES_DEF	= "account";
-	private static final String TILES_DEF_LIST_USERS	= "list_users";
-	private static final String TILES_DEF_USER_PROFILE= "user_profile";
+	private static final String TILES_DEF_USER_PROFILE= "account_profile";
 	
 	@ModelAttribute(MODEL)
 	public UserDTO init() {
@@ -66,7 +65,7 @@ public class UserAccountController {
 	
 	@RequestMapping(value = "/account-profile", method = RequestMethod.GET)
     public String showViewUserProfile(SecurityContextHolderAwareRequestWrapper request, ModelMap model,
-    		@RequestParam(value = "id", required = true) Long id) {
+    		@RequestParam(value = "id", required = false) Long id) {
 		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_ADMIN)){
 			if(id != null){
 				UserDTO uDTO = account.getUserAccoutProfileById(id);
@@ -84,11 +83,7 @@ public class UserAccountController {
     public @ResponseBody MessageDTO updateUserProfile(SecurityContextHolderAwareRequestWrapper request, @RequestBody UserDTO user){
 		return account.updateUserProfile(user);
 	}
-	@RequestMapping(value = "list-users", method = RequestMethod.GET)
-    public String showViewListUsers(HttpServletRequest request) {
-        return TILES_DEF_LIST_USERS;
-    }
-	@RequestMapping(value = "/account/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/account-profile/list", method = RequestMethod.GET)
 	public @ResponseBody WrapperGrid userList(HttpServletRequest request,
 			@RequestParam(value = "orderBy", required = true) String strOrderBy,
 			@RequestParam(value = "orderType", required = true) String strOrderType,

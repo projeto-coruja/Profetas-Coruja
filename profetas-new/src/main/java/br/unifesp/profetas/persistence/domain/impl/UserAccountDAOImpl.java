@@ -41,6 +41,10 @@ public class UserAccountDAOImpl extends AbstractHibernateDAO<UserAccount> implem
 		save(user);		
 	}
 	
+	public void updateUserAccount(UserAccount user) {
+		update(user);		
+	}
+	
 	public UserAccount getUserByUsername(String username) {	
 		Criteria criteria = getCurrentSession().createCriteria(UserAccount.class);
 		criteria.add(Restrictions.eq("email", username));

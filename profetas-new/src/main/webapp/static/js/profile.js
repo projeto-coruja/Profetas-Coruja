@@ -9,7 +9,6 @@ $(document).ready(function() {
 });
 
 function fillRoles(){
-	console.log('argh');
 	$.ajax({
         dataType:'json',
         type:'get',
