@@ -10,6 +10,8 @@ public interface ProfileDAO {
 	
 	public Profile getProfileById(Integer id);
 	
+	public Profile getProfileByName(String name);
+	
 	public void saveProfile(Profile profile);
 	
 	public void updateLocal(Profile profile);

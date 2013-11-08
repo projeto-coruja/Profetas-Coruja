@@ -2,7 +2,7 @@
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import br.unifesp.profetas.business.account.dto.UserDTO;
+import br.unifesp.profetas.business.account.UserDTO;
 import br.unifesp.profetas.business.authentication.Login;
 import br.unifesp.profetas.business.authentication.LoginImpl;
 

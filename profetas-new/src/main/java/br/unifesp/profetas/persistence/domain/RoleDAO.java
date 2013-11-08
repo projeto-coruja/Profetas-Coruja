@@ -6,9 +6,13 @@ import br.unifesp.profetas.persistence.model.Role;
 
 public interface RoleDAO {
 	
-	public List<Role> roleList();
+	public List<Role> getRoles();
+	
+	public List<Role> getRolesByProfile(Integer idProfile);
 	
 	public Role getRoleById(Integer id);
+	
+	public Role getRoleByName(String name);
 	
 	public void saveRole(Role role);
 	

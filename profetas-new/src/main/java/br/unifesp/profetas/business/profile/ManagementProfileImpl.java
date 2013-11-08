@@ -106,7 +106,7 @@ public class ManagementProfileImpl extends AbstractBusiness implements Managemen
 	}
 
 	public List<RoleDTO> roleList() {
-		List<Role> roles = roleDAO.roleList();
+		List<Role> roles = roleDAO.getRoles();
 		List<RoleDTO> listDTO = new ArrayList<RoleDTO>();
 		for(Role r : roles){
 			RoleDTO rDTO = new RoleDTO(r.getId(), r.getName());

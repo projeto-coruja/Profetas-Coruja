@@ -8,9 +8,8 @@ $(document).ready(function() {
 	    var fullName	= $('#fullName').val();
 	    var email		= $('#email').val();	    
 	    var password	= $('#passwordOrig').val();
-	    var idProfile	= $('#idProfile').val();
 	    
-	    var data = JSON.stringify({ "fullName" : fullName, "email" : email, "password" : password, "idProfile" : idProfile });
+	    var data = JSON.stringify({ "fullName" : fullName, "email" : email, "password" : password });
 	    $.ajax({
 	        url : url,
 	        type : "POST",

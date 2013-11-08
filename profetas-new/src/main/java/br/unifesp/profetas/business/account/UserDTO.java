@@ -1,9 +1,10 @@
-package br.unifesp.profetas.business.account.dto;
+package br.unifesp.profetas.business.account;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.unifesp.profetas.business.common.CommonDTO;
+import br.unifesp.profetas.business.profile.RoleDTO;
 
 public class UserDTO extends CommonDTO {
 	
@@ -34,12 +35,6 @@ public class UserDTO extends CommonDTO {
 		this.idProfile = idProfile;
 	}
 	
-	public UserDTO(Long id, Integer idProfile) {
-		super();
-		this.id = id;
-		this.idProfile = idProfile;
-	}
-
 	//
 	
 	public UserDTO(String fullName, String email, String password, String passwordCopy) {
@@ -48,8 +43,6 @@ public class UserDTO extends CommonDTO {
 		this.password = password;
 		this.passwordCopy = passwordCopy;
 	}
-
-	
 
 	public UserDTO(String fullName, String email, String password,
 			String passwordCopy, List<RoleDTO> roles) {

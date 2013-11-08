@@ -2,14 +2,13 @@ package br.unifesp.profetas.util;
 
 public class ProfetasConstants {
 
-	/* Profile	*/
-	public static final int ID_PROFILE_ADMIN		= 1;
-	public static final int ID_PROFILE_NEWUSER	= 7;
+	public static final String ADMIN_USER	= "admin@profetas.com";//TODO: Change it!
+	public static final String ADMIN_PASS	= "5576845baa9bafb525616ebf9527771f"; //Coruja TODO: Change it!
 	
+	/* Profile	*/
 	public static final String PROFILE_ADMIN		= "ADMIN";
 	public static final String PROFILE_NEWUSER	= "NEWUSER";
 	
-	public static final String REGISTERED = "2";
 	/* Role		*/
 	public static final String ROLE_NAME_ADMIN	= "ADMIN";
 	public static final String ROLE_NAME_SAVE		= "SAVE";

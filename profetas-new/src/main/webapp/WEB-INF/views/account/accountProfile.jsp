@@ -11,22 +11,28 @@
 
 <div class="content">
 	<span class="title"><spring:message code="ttl_update_profile_user"/></span>
-	<form:form id="account" modelAttribute="user">
-		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="idProfile"><spring:message code="lbl_profile"/></label></div>
-	    <div class="input-box">
-	    	<select id="idProfile" name="idProfile">
-	    	</select>
-	    </div>		
-		<br />
-		<div class="left">
-			<div id="saveUser" class="button button-size"><spring:message code="btn_register"/></div>
-		</div>
-	</form:form>
-	
+	<c:if test="${not empty user.idProfile}">
+		<span>${user.fullName}</span>
+		<form:form id="account" modelAttribute="user">
+			<form:hidden id="id" path="id" />
+			<div class="label-box"><label for="idProfile"><spring:message code="lbl_profile"/></label></div>
+		    <div class="input-box">
+		    	<form:select id="idProfile" path="idProfile">
+		    	</form:select>		    	
+		    </div>		
+			<br />
+			<div class="left">
+				<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
+			</div>
+		</form:form>
+	</c:if>
 	<br />
 	<div id="container_grid">
 		<div class="loader_container"><img src="<c:url value="/static/images/ajax-loader.gif"/>" /></div>
 	</div>
 </div>
+
+	<script type="text/javascript">
+		fillProfiles("${user.idProfile}");
+	</script>
 </sec:authorize>

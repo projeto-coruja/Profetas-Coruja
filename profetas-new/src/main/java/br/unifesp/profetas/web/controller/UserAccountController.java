@@ -1,7 +1,5 @@
 package br.unifesp.profetas.web.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.unifesp.profetas.business.account.ManagementAccount;
-import br.unifesp.profetas.business.account.dto.UserDTO;
+import br.unifesp.profetas.business.account.UserDTO;
 import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 
 @Controller
@@ -37,32 +34,19 @@ public class UserAccountController {
 		return new UserDTO();
 	}
 	
+	/*** account ***/
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
-    public String showView(SecurityContextHolderAwareRequestWrapper request, ModelMap model,
-    		@RequestParam(value = "id", required = true) Long id) {
-		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_ADMIN)){
-			if(id != null){
-				UserDTO uDTO = account.getUserAccoutById(id);
-				if(uDTO != null) {
-					model.addAttribute(MODEL, uDTO);
-				} else {
-					return "redirect:/account.html";
-				}
-			}			
-		}
+    public String showView() {
         return TILES_DEF;
     }
 	
 	@RequestMapping(value = "/account/save", method = RequestMethod.POST, 
 			headers = {"content-type=application/json"})
-    public @ResponseBody MessageDTO createAccount(SecurityContextHolderAwareRequestWrapper request, @RequestBody UserDTO user){
-		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_ADMIN)){
-			return account.saveUserWithProfile(user);
-		} else {
-			return account.saveUser(user);
-		}
+    public @ResponseBody MessageDTO createAccount(@RequestBody UserDTO user){
+		return account.saveUser(user);
 	}
-	
+
+	/*** account-profile ***/
 	@RequestMapping(value = "/account-profile", method = RequestMethod.GET)
     public String showViewUserProfile(SecurityContextHolderAwareRequestWrapper request, ModelMap model,
     		@RequestParam(value = "id", required = false) Long id) {
@@ -78,11 +62,14 @@ public class UserAccountController {
 		}
         return TILES_DEF_USER_PROFILE;
     }
+	
 	@RequestMapping(value = "/account-profile/save", method = RequestMethod.POST, 
 			headers = {"content-type=application/json"})
     public @ResponseBody MessageDTO updateUserProfile(SecurityContextHolderAwareRequestWrapper request, @RequestBody UserDTO user){
 		return account.updateUserProfile(user);
 	}
+	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/account-profile/list", method = RequestMethod.GET)
 	public @ResponseBody WrapperGrid userList(HttpServletRequest request,
 			@RequestParam(value = "orderBy", required = true) String strOrderBy,

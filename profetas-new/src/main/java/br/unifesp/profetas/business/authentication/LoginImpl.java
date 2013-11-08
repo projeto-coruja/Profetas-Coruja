@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.unifesp.profetas.business.account.dto.RoleDTO;
-import br.unifesp.profetas.business.account.dto.UserDTO;
+import br.unifesp.profetas.business.account.UserDTO;
+import br.unifesp.profetas.business.profile.RoleDTO;
 import br.unifesp.profetas.persistence.domain.UserAccountDAO;
+import br.unifesp.profetas.persistence.model.Role;
 import br.unifesp.profetas.persistence.model.UserAccount;
 
 @Service("login")
@@ -22,11 +23,17 @@ public class LoginImpl implements Login {
 		if(userAcc != null){
 			userDTO.setEmail(userAcc.getEmail());
 			userDTO.setPassword(userAcc.getPassword());
-			List<RoleDTO> roles = new ArrayList<RoleDTO>();
-				RoleDTO role = new RoleDTO();
-				role.setName("ADMIN");
-			roles.add(role);
-			userDTO.setRoles(roles);
+			
+			if(!userAcc.getProfile().getRoles().isEmpty()){
+				List<Role> roles = new ArrayList<Role>(userAcc.getProfile().getRoles());
+				List<RoleDTO> listDTO = new ArrayList<RoleDTO>(userAcc.getProfile().getRoles().size());
+				for(Role r : roles){
+					RoleDTO rDTO = new RoleDTO();
+					rDTO.setName(r.getName());
+					listDTO.add(rDTO);
+				}
+				userDTO.setRoles(listDTO);
+			}
 		}		
 		return userDTO;
 	}

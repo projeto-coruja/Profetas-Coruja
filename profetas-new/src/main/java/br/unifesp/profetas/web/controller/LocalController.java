@@ -25,10 +25,10 @@ public class LocalController extends AbstractController {
 	
 	@Autowired private ManagementLocal mLocal;
 	
-	private static final String LOCAL = "local";
+	private static final String MODEL = "local";
 	private static final String TILES_DEF	= "local";
 	
-	@ModelAttribute(LOCAL)
+	@ModelAttribute(MODEL)
 	public LocalDTO init() {
 		return new LocalDTO();
 	}
@@ -40,7 +40,7 @@ public class LocalController extends AbstractController {
 		if(id != null) {
 			LocalDTO locDTO = mLocal.getLocalById(Long.parseLong(id));
 			if(locDTO != null) {
-				model.addAttribute(LOCAL, locDTO);
+				model.addAttribute(MODEL, locDTO);
 			}
 		}
         return TILES_DEF;

@@ -19,13 +19,24 @@ public class RoleDAOImpl extends AbstractHibernateDAO<Role> implements RoleDAO {
 		setClazz(Role.class);
 	}
 
-	public List<Role> roleList() {
+	public List<Role> getRoles() {
 		return findAll();
+	}
+	
+	public List<Role> getRolesByProfile(Integer idProfile) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public Role getRoleById(Integer id) {
 		Criteria criteria = getCurrentSession().createCriteria(Role.class);
 		criteria.add(Restrictions.eq("id", id));
+		return (Role)criteria.uniqueResult();
+	}
+	
+	public Role getRoleByName(String name) {
+		Criteria criteria = getCurrentSession().createCriteria(Role.class);
+		criteria.add(Restrictions.eq("name", name));
 		return (Role)criteria.uniqueResult();
 	}
 
@@ -39,5 +50,5 @@ public class RoleDAOImpl extends AbstractHibernateDAO<Role> implements RoleDAO {
 
 	public void deleteRole(Role role) {
 		delete(role);
-	}
+	}	
 }

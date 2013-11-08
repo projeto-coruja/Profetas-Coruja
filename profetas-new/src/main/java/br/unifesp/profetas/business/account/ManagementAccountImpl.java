@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.unifesp.profetas.business.AbstractBusiness;
-import br.unifesp.profetas.business.account.dto.UserDTO;
 import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.business.local.LocalDTO;
+import br.unifesp.profetas.persistence.domain.ProfileDAO;
 import br.unifesp.profetas.persistence.domain.UserAccountDAO;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.persistence.model.Profile;
@@ -26,6 +26,7 @@ import br.unifesp.profetas.util.UtilValidator;
 public class ManagementAccountImpl extends AbstractBusiness implements ManagementAccount {
 	
 	@Autowired UserAccountDAO userAccountDAO;
+	@Autowired ProfileDAO profileDAO;
 	
 	public boolean userExists(String username) {
 		if(userAccountDAO.getUserByUsername(username) != null){
@@ -67,7 +68,7 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 		if(isNotValid != null){
 			return isNotValid;
 		}
-		Profile profile = new Profile(ProfetasConstants.ID_PROFILE_NEWUSER);
+		Profile profile = profileDAO.getProfileByName(ProfetasConstants.PROFILE_NEWUSER);
 		UserAccount userAcc = getUserAccountFromDTO(userDTO, profile);
 		userAccountDAO.saveUserAccount(userAcc);
 		if(userAcc.getId() != null){
@@ -77,24 +78,6 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 		}
 	}
 
-	public MessageDTO saveUserWithProfile(UserDTO userDTO) {
-		MessageDTO isNotValid = isNotValidUserData(userDTO);
-		if(isNotValid != null){
-			return isNotValid;
-		}
-		if(userDTO.getIdProfile() == null){
-			return new MessageDTO(getText("err_user_not_saved"), MessageType.ERROR);
-		}
-		Profile profile = new Profile(userDTO.getIdProfile());
-		UserAccount userAcc = getUserAccountFromDTO(userDTO, profile);
-		userAccountDAO.saveUserAccount(userAcc);
-		if(userAcc.getId() != null){
-			return new MessageDTO(getText("msg_user_account_created"), MessageType.SUCCESS);
-		} else {
-			return new MessageDTO(getText("err_user_not_saved"), MessageType.ERROR);
-		}
-	}
-	
 	public WrapperGrid<UserDTO> getUserList(String orderBy,
 			OrderType orderType, int page, int numRows) {
 		List<UserAccount> list = userAccountDAO.getUserList();
@@ -120,7 +103,7 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 		UserDTO uDTO = null;
 		UserAccount u = userAccountDAO.getUserById(id);
 		if(u != null){
-			uDTO = new UserDTO(u.getId(), u.getProfile().getId());
+			uDTO = new UserDTO(u.getId(), u.getName(), u.getEmail(), u.getProfile().getId());
 		}
 		return uDTO;
 	}

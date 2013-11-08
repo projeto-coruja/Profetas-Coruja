@@ -199,9 +199,9 @@ input, textarea, select {
 }
 
 .header {
-	background-image: url("../images/header.png");
-	background-repeat: repeat-x;
+	text-align: center;
 	height: 185px;
+	padding: 1px;
 }
 .footer {
 	padding: 10px 0;
@@ -212,7 +212,16 @@ input, textarea, select {
 	clear: both;
 	color: #FFF;
 }
+.logos{
+	vertical-align: center;
+}
+img.logo{
+	width: 20%;
+	padding: 20px;
+}
 
+
+/**/
 .iconeAjuda {
 	position: absolute;
 	padding-left: 5px;
@@ -462,4 +471,23 @@ div.button-size{
 	font-size: 15px;
 	font-weight: bold;
 	color: #C0C0C0; 
+}
+.subtitle{
+	font-size: 15px;
+	font-weight: bold;
+	color: #000;
+	text-align: center !important";
+}
+.paragraph{
+	font-size: 12px;
+	text-align: justify;
+	margin: 10px;
+	padding: 5px;
+}
+.titulo1{
+	color: #000;
+	font-size: 15px;
+	margin: 10px 0 20 0px;
+	padding: 25px;
+	font-weight: bold;
 }

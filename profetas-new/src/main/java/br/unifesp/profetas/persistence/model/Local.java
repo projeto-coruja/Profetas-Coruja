@@ -14,8 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 @Entity
 @Table(name = "local")
 public class Local implements Serializable {
@@ -34,7 +32,6 @@ public class Local implements Serializable {
 	
 	@Column(name="l_longitude", nullable = true)
 	private Double longitude;
-	
 	
 	@Column(name="l_country", nullable = false, length = 100)
 	private String country;

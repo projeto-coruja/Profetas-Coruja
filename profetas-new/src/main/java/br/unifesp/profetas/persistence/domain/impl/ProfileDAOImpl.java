@@ -28,6 +28,12 @@ public class ProfileDAOImpl extends AbstractHibernateDAO<Profile> implements Pro
 		criteria.add(Restrictions.eq("id", id));
 		return (Profile)criteria.uniqueResult();
 	}
+	
+	public Profile getProfileByName(String name) {
+		Criteria criteria = getCurrentSession().createCriteria(Profile.class);
+		criteria.add(Restrictions.eq("name", name));
+		return (Profile)criteria.uniqueResult();
+	}
 
 	public void saveProfile(Profile profile) {
 		save(profile);

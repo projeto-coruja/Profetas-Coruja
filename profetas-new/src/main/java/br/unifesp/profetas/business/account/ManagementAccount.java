@@ -2,7 +2,6 @@ package br.unifesp.profetas.business.account;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import br.unifesp.profetas.business.account.dto.UserDTO;
 import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
@@ -12,9 +11,6 @@ public interface ManagementAccount {
 	public boolean userExists(String username);
 
 	public MessageDTO saveUser(UserDTO userDTO);
-	
-	@PreAuthorize("hasRole('ADMIN')")
-	public MessageDTO saveUserWithProfile(UserDTO userDTO);
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	public WrapperGrid<UserDTO> getUserList(String orderBy, 

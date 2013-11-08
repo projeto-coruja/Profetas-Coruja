@@ -35,7 +35,7 @@ public class Profile implements Serializable {
 	@Column(name="p_description", nullable = true, length = 100)
     private String description;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "profile_role", joinColumns = { 
 			@JoinColumn(name = "id_profile", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_role", 

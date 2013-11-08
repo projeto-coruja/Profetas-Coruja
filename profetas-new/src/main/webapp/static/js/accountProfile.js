@@ -1,24 +1,48 @@
 var URL_SECTION = 'account-profile';
 	
 $(document).ready(function() {
-	fillRoles();
+	$("#saveForm").click(function(){
+		saveForm();
+	});
 	loadGrid();
 });
 
-function fillRoles(){
-	$.ajax({
-        dataType:'json',
-        type:'get',
-        cache:false,
-        url:'profiles.html',
-        success: function(data, textStatus, jqXHR){
-        	var combo = $("#idProfile");
-        	combo.empty();
-            for (var i = 0; i < data.length; i++) {
-            	combo.append('<option value="' + data[i].id + '">' + data[i].name +'</option>');
-            }
-        }
-    });
+function checkFields(){
+	var idProfile	= $('#idProfile').val();
+	if(idProfile == undefined || idProfile == ''){
+		addMessage(jQuery.i18n.prop('err_profile_required'), 'error');
+		return false;
+	}
+	return true;
+}
+
+function saveForm(){
+	if(!checkFields())
+		return;
+	var url			= URL_SECTION+'/save.html';
+	var id			= $('#id').val();
+	var idProfile	= $('#idProfile').val();
+    var data = JSON.stringify({ "id" : id, "idProfile" : idProfile });
+    $.ajax({
+        url : url,
+        type : "POST",
+        traditional : true,
+        contentType : "application/json",
+        dataType : "json",
+        data : data,
+        success : function(data) {
+        	if(TXT_SUCCESS == data.type.toLowerCase()){
+        		addMessage(data.message, 'sucess');
+        		loadGrid();
+        	} else{
+        		addMessage(data.message, 'error');
+        	}
+        },
+        error : function (response) {
+        	addMessage(jQuery.i18n.prop('msg_internal_server_error'), 'error');
+        },
+    });	    
+    return false;
 }
 
 function buildGrid(div_id, data){

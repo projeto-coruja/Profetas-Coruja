@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.unifesp.profetas.business.account.dto.RoleDTO;
-import br.unifesp.profetas.business.account.dto.UserDTO;
+import br.unifesp.profetas.business.account.UserDTO;
+import br.unifesp.profetas.business.profile.RoleDTO;
 
 @Service("profetasAuthProvider")
 public class ProfetasAuthenticationProvider implements UserDetailsService {

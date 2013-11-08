@@ -1,34 +1,108 @@
+<%@page contentType="text/html; charset=UTF-8"%>
+<div class="content">
+
 <div class="text">
-	<h2>Créditos</h2>
-	<h1 style="margin:0px 0 -22px 0;">Universidade Federal de São Paulo</h1><br />
-	<b>Reitora</b>: Profa. Dra. Soraya Soubhi Smaili<br/>
-	<b>Vice-reitora</b>: Profa. Dra. Valeria Petri<br />
-	<br />
-	<h1 style="margin:0px 0 -22px 0;">Departamento de História</h1><br />
-	<b>Chefe</b>: Profa. Dra. Maria Rita Toledo<br />
-	<b>Vice-chefe</b>: Prof. Dr. André Roberto de A. Machado<br />
-	<br />
-	<h1 style="margin:0px 0 -22px 0;">Centro de Memória e Pesquisa Histórica</h1> <br />
-	<b>Coordenadora</b>: Profa. Dra. Márcia Eckert Miranda<br />
-	<b>Vice-coordenador</b>: Prof. Dr. Jaime Rodrigues<br />
-	<br />
-	<h1 style="margin:0px 0 -22px 0;">Documentos do Grão-Pará: 1800-1850</h1><br />
-	<b>Coordenador Geral do Projeto</b>: Prof. Dr. André Roberto de Arruda Machado (UNIFESP)<br />
-	<b>Coordenadores locais</b>: Prof. Ms. Adilson Júnior Ishihara Brito (UFPA),<br/>
-	Prof. Ms. Carlos Augusto Bastos (UNIFAP), Prof. Ms. Siméia de Nazaré Lopes (UNIFAP)<br />
-	<b>Redação dos Verbetes</b>: Bruna Valença Mallorga (UNIFESP), Evelyn Ariane Lauro (UNIFESP), <br/>
-	Lucas Alves de Araújo (UNIFESP), Samuel Rocha Ferreira (UNIFESP)<br />
-	<br />
-	<h1 style="margin:0px 0 -22px 0;">Programação da Ferramenta Web e do Banco de Dados</h1><br />
-	<b>Coordenador Geral</b>: Prof. Dr. Arlindo Flavio da Conceição (UNIFESP)<br />
-	<b>Supervisão e Gerenciamento do Projeto</b>: Henrique Palaver Dallago <br />
-	<b>Gestão</b>: Camila Furlanetto Bellentani (UNIFESP), Raíssa Albano Fujioka (UNIFESP)<br/>
-	<b>Programadores</b>: Angela Caroline de Araújo (UNIFESP), Daniel Gracia dos Santos (UNIFESP),<br/> 
-	Giovanni Robira, Marcel Akira Ogawa (UNIFESP), Matheus Ferreira Mendonça (UNIFESP),<br/>
-	Rodney Rick (UNIFESP), Vitor Kawai Sala (UNIFESP), Yu Neng Chang (UNIFESP)<br />
-	<b>Arte da imagem na Home Page</b>: Angela Caroline de Araújo (UNIFESP)<br />
-	<br />
-	<br />
+	<h2>CrÃ©ditos</h2>
 	
-	Este projeto recebeu financiamento do CNPq, da FAP-UNIFESP e da FAPESP. <br />
+	<div class="titulo1">Universidade Federal de SÃ£o Paulo</div>
+	<table>
+		<tr>
+			<td><span class="bold">Reitora: </span></td>
+			<td>Profa. Dra. Soraya Soubhi Smaili</td>
+		</tr>
+		<tr>
+			<td><span class="bold">Vice-reitora: </span></td>
+			<td>Profa. Dra. Valeria Petri</td>
+		</tr>
+	</table>
+	
+	<div class="titulo1">Departamento de HistÃ³ria</div>
+	<table>
+		<tr>
+			<td><span class="bold">Chefe: </span></td>
+			<td>Profa. Dra. Maria Rita Toledo</td>
+		</tr>
+		<tr>
+			<td><span class="bold">Vice-chefe: </span></td>
+			<td>Prof. Dr. AndrÃ© Roberto de A. Machado</td>
+		</tr>
+	</table>
+
+
+	<div class="titulo1">Centro de MemÃ³ria e Pesquisa HistÃ³rica</div>
+	<table>
+		<tr>
+			<td><span class="bold">Coordenadora: </span></td>
+			<td>Profa. Dra. MÃ¡rcia Eckert Miranda</td>
+		</tr>
+		<tr>
+			<td><span class="bold">Vice-coordenador: </span></td>
+			<td>Prof. Dr. Jaime Rodrigues</td>
+		</tr>
+	</table>
+	
+	<div class="titulo1">Projeto "AS INTERPRETAÃ‡Ã•ES E LEITURAS DAS PROFECIAS DOS CINCO REINOS NO SÃ‰CULO XVII"</div>
+	<table>
+		<tr>
+			<td><span class="bold">Coordenador: </span></td>
+			<td>Prof. Dr. LuÃ­s Filipe SilvÃ©rio Lima</td>
+		</tr>
+		<tr>
+			<td><span class="bold">Equipe: </span></td>
+			<td>
+				<ul>
+					<li>Jaime Fernando dos Santos Jr.</li>
+					<li>Rafaela Dias Chaves Ferreira</li>
+					<li>Talita de Jesus Noronha Sanchez</li>
+					<li>Thamirys GÃªnova da Silva</li>
+					<li>VerÃ´nica Calsoni Lima</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	
+	<div class="titulo1">ProgramaÃ§Ã£o da Ferramenta Web e do Banco de Dados</div>
+	<table>
+		<tr>
+			<td><span class="bold">Coordenador Geral: </span></td>
+			<td>Prof. Dr. Arlindo Flavio da ConceiÃ§Ã£o (UNIFESP)</td>
+		</tr>
+		<tr>
+			<td><span class="bold">SupervisÃ£o e Gerenciamento do Projeto: </span></td>
+			<td>Henrique Palaver Dallago</td>
+		</tr>
+		<tr>
+			<td><span class="bold">GestÃ£o: </span></td>
+			<td>
+				<ul>
+					<li>Camila Furlanetto Bellentani (UNIFESP)</li>
+					<li>RaÃ­ssa Albano Fujioka (UNIFESP)</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td><span class="bold">Programadores: </span></td>
+			<td>
+				<ul>
+					<li>Angela Caroline de AraÃºjo (UNIFESP)</li>
+					<li>Daniel Gracia dos Santos (UNIFESP)</li>
+					<li>Giovanni Robira</li>
+					<li>Jimmy Kraimer MartÃ­n Valverde SÃ¡nchez</li>
+					<li>Marcel Akira Ogawa (UNIFESP)</li>
+					<li>Matheus Ferreira MendonÃ§a (UNIFESP)</li>
+					<li>Rodney Rick (UNIFESP)</li>
+					<li>Vitor Kawai Sala (UNIFESP)</li>
+					<li>Yu Neng Chang (UNIFESP)</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td><span class="bold">Arte da imagem na Home Page: </span></td>
+			<td>Angela Caroline de AraÃºjo (UNIFESP)</td>
+		</tr>
+	</table>
+	
+	<br /><br /><br />
+	<div><span class="bold">Este projeto recebeu financiamento do CNPq, da FAP-UNIFESP e da FAPESP.</span></div>
+</div>
 </div>

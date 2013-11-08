@@ -58,8 +58,9 @@
 						<li><a class="borderTop" href="#">Painel de Controle</a>
 							<div>
 								<ul>
-									<li><a class="borderTop" href="#">Cadastrar Usuário</a></li>
+									<li><a class="borderTop" href="<c:url value="/account.html" />">Cadastrar Usuário</a></li>
 									<li><a href="#">Gerar Senha</a></li>
+									<li><a href="<c:url value="/account-profile.html" />">Usuários</a></li>									
 								</ul>
 							</div>
 						</li>

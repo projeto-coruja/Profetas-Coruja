@@ -1,3 +1,31 @@
+function getStrSelected(){
+	return ' selected="selected"';
+}
+/**
+ * HTML id should be "idProfile"
+ * @param idSelected: number
+ */
+function fillProfiles(idSelected){
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'profiles.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo = $("#idProfile");
+        	combo.empty();
+            for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	if(parseInt(idSelected) == data[i].id){
+            		_selected = ' selected="selected"';
+            	}
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].name +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
+
 function fillProfileList(){
 	$.ajax({
         dataType:'json',
