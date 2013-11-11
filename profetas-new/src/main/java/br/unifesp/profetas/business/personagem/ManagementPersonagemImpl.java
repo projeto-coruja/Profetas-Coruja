@@ -3,8 +3,10 @@ package br.unifesp.profetas.business.personagem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +15,28 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
+import br.unifesp.profetas.persistence.domain.EncontroDAO;
+import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
+import br.unifesp.profetas.persistence.domain.ReligiaoCrencasDAO;
+import br.unifesp.profetas.persistence.model.Encontro;
+import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.persistence.model.Personagem;
+import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mPersonagem")
 public class ManagementPersonagemImpl extends AbstractBusiness implements ManagementPersonagem {
 
+	private static Logger logger = Logger.getLogger(ManagementPersonagemImpl.class);
+	
 	@Autowired private PersonagemDAO personagemDAO;
+	
+	@Autowired private ReligiaoCrencasDAO religiaoCrencasDAO;
+	@Autowired private EncontroDAO encontroDAO;
+	@Autowired private FontesObrasDAO fontesObrasDAO;
 	
 	public PersonagemDTO getPersonagemById(Long id) {
 		Personagem personagem = personagemDAO.getPersonagemById(id);
@@ -64,6 +78,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		personagem.setBiografia(personagemDTO.getBiografia());
 		personagem.setOcupacao(personagemDTO.getOcupacao());
 		personagem.setFormacao(personagemDTO.getFormacao());
+		personagem.setReferenciaBibliografica(new FontesObras(personagemDTO.getIdRefBibliografica()));
 		personagem.setActive(true);
 		return personagem;
 	}
@@ -75,7 +90,57 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		
 		try{
 			Personagem personagem = new Personagem();
-			personagem = getPersonagem(personagem, personagemDTO);			
+			personagem = getPersonagem(personagem, personagemDTO);
+			//
+			//Religioes-crencas
+			if(personagemDTO.getIdReligioes() != null){
+				int crencasLength = personagemDTO.getIdReligioes().length;
+				if(crencasLength > 0){
+					List<ReligiaoCrencas> crencas = new ArrayList<ReligiaoCrencas>(crencasLength);
+					for(int i = 0; i < crencasLength; i++){
+						ReligiaoCrencas r = religiaoCrencasDAO.getReligiaoCrencasById(Long.parseLong(personagemDTO.getIdReligioes()[i]));
+						if(r != null){
+							crencas.add(r);
+						} else {
+							logger.error("Religiao: " + personagemDTO.getIdReligioes()[i] + " does not exist");
+						}
+					}
+					personagem.setReligioes(new HashSet<ReligiaoCrencas>(crencas));
+				}
+			}
+			//Encontros
+			if(personagemDTO.getIdEncontros() != null){
+				int encontrosLength = personagemDTO.getIdEncontros().length;
+				if(encontrosLength > 0){
+					List<Encontro> encontros = new ArrayList<Encontro>(encontrosLength);
+					for(int i = 0; i < encontrosLength; i++){
+						Encontro e = encontroDAO.getEncontroById(Long.parseLong(personagemDTO.getIdEncontros()[i]));
+						if(e != null){
+							encontros.add(e);
+						} else {
+							logger.error("Encontro: " + personagemDTO.getIdEncontros()[i] + " does not exist");
+						}
+					}
+					personagem.setEncontros(new HashSet<Encontro>(encontros));
+				}
+			}
+			//Obras
+			if(personagemDTO.getIdObras() != null){
+				int obrasLength = personagemDTO.getIdObras().length;
+				if(obrasLength > 0){
+					List<FontesObras> fontes = new ArrayList<FontesObras>(obrasLength);
+					for(int i = 0; i < obrasLength; i++){
+						FontesObras f = fontesObrasDAO.getFontesObrasById(Long.parseLong(personagemDTO.getIdObras()[i]));
+						if(f != null){
+							fontes.add(f);
+						} else{
+							logger.error("Fonte/Obra: " + personagemDTO.getIdEncontros()[i] + " does not exist");
+						}
+					}
+					personagem.setObras(new HashSet<FontesObras>(fontes));
+				}
+			}
+			//
 			personagemDAO.savePersonagem(personagem);
 			if(personagem.getId() != null){
 				return new MessageDTO(getText("msg_personagem_created"), MessageType.SUCCESS);

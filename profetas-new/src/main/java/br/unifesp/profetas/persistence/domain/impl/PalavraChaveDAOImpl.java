@@ -9,7 +9,7 @@ import br.unifesp.profetas.persistence.AbstractHibernateDAO;
 import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
 import br.unifesp.profetas.persistence.model.PalavraChave;
 
-@Repository("palavrachaveDAO")
+@Repository("palavraChaveDAO")
 @Transactional
 public class PalavraChaveDAOImpl extends AbstractHibernateDAO<PalavraChave> implements PalavraChaveDAO {
 
@@ -36,5 +36,4 @@ public class PalavraChaveDAOImpl extends AbstractHibernateDAO<PalavraChave> impl
 	public void deletePalavraChave(PalavraChave palavraChave) {
 		delete(palavraChave);
 	}
-
 }

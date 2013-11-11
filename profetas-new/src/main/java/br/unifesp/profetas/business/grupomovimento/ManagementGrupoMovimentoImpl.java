@@ -77,18 +77,20 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			GrupoMovimento grupoMovimento = new GrupoMovimento();
 			grupoMovimento = getGrupoMovimento(grupoMovimento, gMovimentoDTO);
 			
-			int locais_length = gMovimentoDTO.getIdLocais().length;
-			if(locais_length > 0){
-				List<Local> locals = new ArrayList<Local>(locais_length);
-				for(int i = 0; i < locais_length; i++){
-					Local local = localDAO.getLocalById(Long.parseLong(gMovimentoDTO.getIdLocais()[i]));
-					if(local != null){
-						locals.add(local);
-					} else {
-						//TODO: Error ?
+			if(gMovimentoDTO.getIdLocais() != null){
+				int locais_length = gMovimentoDTO.getIdLocais().length;
+				if(locais_length > 0){
+					List<Local> locals = new ArrayList<Local>(locais_length);
+					for(int i = 0; i < locais_length; i++){
+						Local local = localDAO.getLocalById(Long.parseLong(gMovimentoDTO.getIdLocais()[i]));
+						if(local != null){
+							locals.add(local);
+						} else {
+							//TODO: Error ?
+						}
 					}
+					grupoMovimento.setLocais(new HashSet<Local>(locals));
 				}
-				grupoMovimento.setLocais(new HashSet<Local>(locals));
 			}
 			
 			grupoMovimentoDAO.saveGrupoMovimento(grupoMovimento);

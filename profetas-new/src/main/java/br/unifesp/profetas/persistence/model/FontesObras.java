@@ -82,28 +82,28 @@ public class FontesObras implements Serializable {
 			@JoinColumn(name = "id_fontes", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_personagem", 
 			nullable = false, updatable = false) })
-	private List<Personagem> leitores;
+    private Set<Personagem> leitores = new HashSet<Personagem>(0);
 	
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "foob_personagens", joinColumns = { 
 			@JoinColumn(name = "id_fontes", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_personagem", 
 			nullable = false, updatable = false) })
-	private List<Personagem> personagens;
+    private Set<Personagem> personagens = new HashSet<Personagem>(0);
 	
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "foob_autores_citados", joinColumns = { 
 			@JoinColumn(name = "id_fontes", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_personagem", 
 			nullable = false, updatable = false) })
-	private List<Personagem> autoresCitados;
+    private Set<Personagem> autoresCitados = new HashSet<Personagem>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "foob_obras_citadas", joinColumns = { 
 			@JoinColumn(name = "id_fontes", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_obras_citadas", 
 			nullable = false, updatable = false) })
-	private List<FontesObras> obrasCitadas;
+    private Set<FontesObras> obrasCitadas = new HashSet<FontesObras>(0);
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "fontesObras")
     private Set<PalavraChave> palavrasChave = new HashSet<PalavraChave>(0);
@@ -120,6 +120,10 @@ public class FontesObras implements Serializable {
 	private Set<Personagem> foPersonagem = new HashSet<Personagem>(0);
 
 	public FontesObras() {}
+	
+	public FontesObras(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;
@@ -192,29 +196,29 @@ public class FontesObras implements Serializable {
 	}
 	public void setGrupoMovimento(GrupoMovimento grupoMovimento) {
 		this.grupoMovimento = grupoMovimento;
-	}
-	public List<Personagem> getLeitores() {
+	}	
+	public Set<Personagem> getLeitores() {
 		return leitores;
 	}
-	public void setLeitores(List<Personagem> leitores) {
+	public void setLeitores(Set<Personagem> leitores) {
 		this.leitores = leitores;
 	}
-	public List<Personagem> getPersonagens() {
+	public Set<Personagem> getPersonagens() {
 		return personagens;
 	}
-	public void setPersonagens(List<Personagem> personagens) {
+	public void setPersonagens(Set<Personagem> personagens) {
 		this.personagens = personagens;
-	}
-	public List<Personagem> getAutoresCitados() {
+	}	
+	public Set<Personagem> getAutoresCitados() {
 		return autoresCitados;
 	}
-	public void setAutoresCitados(List<Personagem> autoresCitados) {
+	public void setAutoresCitados(Set<Personagem> autoresCitados) {
 		this.autoresCitados = autoresCitados;
 	}
-	public List<FontesObras> getObrasCitadas() {
+	public Set<FontesObras> getObrasCitadas() {
 		return obrasCitadas;
 	}
-	public void setObrasCitadas(List<FontesObras> obrasCitadas) {
+	public void setObrasCitadas(Set<FontesObras> obrasCitadas) {
 		this.obrasCitadas = obrasCitadas;
 	}
 	public Set<FontesObras> getFoObrasCitadas() {

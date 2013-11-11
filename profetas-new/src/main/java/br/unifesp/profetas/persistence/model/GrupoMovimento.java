@@ -52,7 +52,11 @@ public class GrupoMovimento implements Serializable {
 	@Column(name = "active")
 	private Boolean active;
 
-	public GrupoMovimento() {	}
+	public GrupoMovimento() {}
+	
+	public GrupoMovimento(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;

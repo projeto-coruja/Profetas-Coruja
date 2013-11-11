@@ -3,7 +3,6 @@ package br.unifesp.profetas.persistence.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -79,22 +78,21 @@ public class Personagem implements Serializable {
 			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_religiao", 
 			nullable = false, updatable = false) })
-    private List<ReligiaoCrencas> religioes;
+	private Set<ReligiaoCrencas> religioes = new HashSet<ReligiaoCrencas>(0);
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "pers_encontros", joinColumns = { 
 			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_encontro", 
 			nullable = false, updatable = false) })
-    private List<Encontro> encontros;
+	private Set<Encontro> encontros = new HashSet<Encontro>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "pers_foob", joinColumns = { 
 			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_fontes", 
 			nullable = false, updatable = false) })
-    private List<FontesObras> obras;
-	
+	private Set<FontesObras> obras = new HashSet<FontesObras>(0);
 	
 	@Type(type="yes_no")
 	@Column(name = "active")
@@ -200,25 +198,25 @@ public class Personagem implements Serializable {
 	public void setReferenciaBibliografica(FontesObras referenciaBibliografica) {
 		this.referenciaBibliografica = referenciaBibliografica;
 	}
-	public List<ReligiaoCrencas> getReligioes() {
+	public Set<ReligiaoCrencas> getReligioes() {
 		return religioes;
 	}
-	public void setReligioes(List<ReligiaoCrencas> religioes) {
+	public void setReligioes(Set<ReligiaoCrencas> religioes) {
 		this.religioes = religioes;
 	}
-	public List<Encontro> getEncontros() {
+	public Set<Encontro> getEncontros() {
 		return encontros;
 	}
-	public void setEncontros(List<Encontro> encontros) {
+	public void setEncontros(Set<Encontro> encontros) {
 		this.encontros = encontros;
 	}
-	public List<FontesObras> getObras() {
+	public Set<FontesObras> getObras() {
 		return obras;
 	}
-	public void setObras(List<FontesObras> obras) {
+	public void setObras(Set<FontesObras> obras) {
 		this.obras = obras;
 	}
-
+	
 	public Boolean getActive() {
 		return active;
 	}

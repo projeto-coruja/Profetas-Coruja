@@ -1,8 +1,11 @@
 package br.unifesp.profetas.business.fontesobras;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +14,28 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
+import br.unifesp.profetas.business.personagem.ManagementPersonagemImpl;
 import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
+import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
+import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
 import br.unifesp.profetas.persistence.model.FontesObras;
+import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.persistence.model.PalavraChave;
+import br.unifesp.profetas.persistence.model.Personagem;
+import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mFontesObras")
 public class ManagementFontesObrasImpl extends AbstractBusiness implements ManagementFontesObras {
 	
+	private static Logger logger = Logger.getLogger(ManagementFontesObrasImpl.class);
+	
 	@Autowired private FontesObrasDAO fontesObrasDAO;
+	@Autowired private PalavraChaveDAO palavraChaveDAO;
+	
+	@Autowired private PersonagemDAO personagemDAO;
 
 	public FontesObrasDTO getFontesObrasById(Long id) {
 		FontesObras fontesObras = fontesObrasDAO.getFontesObrasById(id);
@@ -61,6 +76,7 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 		fontesObras.setDataImpressao(null);//TODO:
 		fontesObras.setLocalImpressao(new Local(fontesObrasDTO.getIdLocalImpressao()));
 		fontesObras.setClassificacao(new Classificacao(fontesObrasDTO.getIdClassificacao()));
+		fontesObras.setGrupoMovimento(new GrupoMovimento(fontesObrasDTO.getIdGruMovimento()));
 		fontesObras.setActive(true);
 		return fontesObras;
 	}
@@ -73,8 +89,93 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 		try{
 			FontesObras fontesObras = new FontesObras();
 			fontesObras = getFontesObras(fontesObras, fontesObrasDTO);
+			//
+			//Leitores
+			if(fontesObrasDTO.getIdLeitores() != null){
+				int leitoresLength = fontesObrasDTO.getIdLeitores().length;
+				if(leitoresLength > 0){
+					List<Personagem> leitores = new ArrayList<Personagem>(leitoresLength);
+					for(int i = 0; i < leitoresLength; i++){
+						Personagem l = personagemDAO.getPersonagemById(Long.parseLong(fontesObrasDTO.getIdLeitores()[i]));
+						if(l != null){
+							leitores.add(l);
+						} else {
+							logger.error("Leitor: " + fontesObrasDTO.getIdLeitores()[i] + " does not exist");
+						}
+					}
+					fontesObras.setLeitores(new HashSet<Personagem>(leitores));
+				}
+			}
+			//Personagens
+			if(fontesObrasDTO.getIdPersonagens() != null){
+				int perLength = fontesObrasDTO.getIdPersonagens().length;
+				if(perLength > 0){
+					List<Personagem> personagens = new ArrayList<Personagem>(perLength);
+					for(int i = 0; i < perLength; i++){
+						Personagem p = personagemDAO.getPersonagemById(Long.parseLong(fontesObrasDTO.getIdPersonagens()[i]));
+						if(p != null){
+							personagens.add(p);
+						} else {
+							logger.error("Personagem: " + fontesObrasDTO.getIdPersonagens()[i] + " does not exist");
+						}
+					}
+					fontesObras.setPersonagens(new HashSet<Personagem>(personagens));
+				}
+			}
+			//Autores Citados
+			if(fontesObrasDTO.getIdAutCitados() != null){
+				int autoresLength = fontesObrasDTO.getIdAutCitados().length;
+				if(autoresLength > 0){
+					List<Personagem> autores = new ArrayList<Personagem>(autoresLength);
+					for(int i = 0; i < autoresLength; i++){
+						Personagem a = personagemDAO.getPersonagemById(Long.parseLong(fontesObrasDTO.getIdAutCitados()[i]));
+						if(a != null){
+							autores.add(a);
+						} else {
+							logger.error("AutorCitado: " + fontesObrasDTO.getIdAutCitados()[i] + " does not exist");
+						}
+					}
+					fontesObras.setAutoresCitados(new HashSet<Personagem>(autores));
+				}
+			}
+			//Obras Citadas
+			if(fontesObrasDTO.getIdObrCitadas() != null){
+				int obrasLength = fontesObrasDTO.getIdObrCitadas().length;
+				if(obrasLength > 0){
+					List<FontesObras> obrasCitadas = new ArrayList<FontesObras>(obrasLength);
+					for(int i = 0; i < obrasLength; i++){
+						FontesObras o = fontesObrasDAO.getFontesObrasById(Long.parseLong(fontesObrasDTO.getIdObrCitadas()[i]));
+						if(o != null){
+							obrasCitadas.add(o);
+						} else {
+							logger.error("ObraCitado: " + fontesObrasDTO.getIdObrCitadas()[i] + " does not exist");
+						}
+					}
+					fontesObras.setObrasCitadas(new HashSet<FontesObras>(obrasCitadas));
+				}
+			}
+			
 			fontesObrasDAO.saveFontesObras(fontesObras);
 			if(fontesObras.getId() != null){
+				
+				//Palavras Chave
+				if(fontesObras.getPalavrasChave() != null){
+					int palavrasLength = fontesObrasDTO.getPalavrasChave().length;
+					if(palavrasLength > 0){
+						List<PalavraChave> palavrasChave = new ArrayList<PalavraChave>(palavrasLength);
+						for(int i = 0; i < palavrasLength; i++){
+							PalavraChave p = new PalavraChave();
+							p.setPalavraChave(fontesObrasDTO.getPalavrasChave()[i]);
+							p.setFontesObras(fontesObras);
+							palavraChaveDAO.savePalavraChave(p);
+							if(p.getId() != null){
+								palavrasChave.add(p);
+							}
+						}						
+						fontesObras.setPalavrasChave(new HashSet<PalavraChave>(palavrasChave));
+					}
+				}
+				//
 				return new MessageDTO(getText("msg_fontes_created"), MessageType.SUCCESS);
 			}
 			return new MessageDTO(getText("err_fontes_not_created"), MessageType.ERROR);
