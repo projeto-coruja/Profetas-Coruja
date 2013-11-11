@@ -49,6 +49,10 @@ function getParameter(name){
         return results[1];
 }
 
+function changeUrlWithoutReload(urlPath){
+	window.history.pushState("", "", urlPath);
+}
+
 /* Messages */
 var MaritacaMessage = function() {
 	this.message = '';

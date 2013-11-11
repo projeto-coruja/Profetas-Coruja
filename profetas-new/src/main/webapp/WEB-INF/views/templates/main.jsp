@@ -11,8 +11,8 @@
     <head>
         <title>Profetas</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="shortcut icon" type="image/x-icon" href="<c:url value="/static/favicon.ico"/>"/>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/coruja.css'/>" />
-		       
 		<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/dropDown.css'/>" />
 		
 		<script src="<c:url value='/static/js/jquery.js' />" type="text/javascript"></script>		

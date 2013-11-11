@@ -15,6 +15,17 @@ public class FontesObrasDTO extends CommonDTO {
 	private String dataImpressao;
 	private Long idLocalImpressao;
 	private Integer idClassificacao;
+	private Long idGruMovimento;
+	private String[] idLeitores;
+	private String strLeitores;
+	private String[] idPersonagens;
+	private String strPersonagens;
+	private String[] idAutCitados;
+	private String strAutCitados;
+	private String[] idObrCitadas;
+	private String strObrCitadas;
+	private String[] palavrasChave;
+	private String strPalChave;	
 	
 	public Long getId() {
 		return id;
@@ -82,4 +93,70 @@ public class FontesObrasDTO extends CommonDTO {
 	public void setIdClassificacao(Integer idClassificacao) {
 		this.idClassificacao = idClassificacao;
 	}
+	public Long getIdGruMovimento() {
+		return idGruMovimento;
+	}
+	public void setIdGruMovimento(Long idGruMovimento) {
+		this.idGruMovimento = idGruMovimento;
+	}
+	public String[] getIdLeitores() {
+		return idLeitores;
+	}
+	public void setIdLeitores(String[] idLeitores) {
+		this.idLeitores = idLeitores;
+	}
+	public String getStrLeitores() {
+		return strLeitores;
+	}
+	public void setStrLeitores(String strLeitores) {
+		this.strLeitores = strLeitores;
+	}
+	public String[] getIdPersonagens() {
+		return idPersonagens;
+	}
+	public void setIdPersonagens(String[] idPersonagens) {
+		this.idPersonagens = idPersonagens;
+	}
+	public String getStrPersonagens() {
+		return strPersonagens;
+	}
+	public void setStrPersonagens(String strPersonagens) {
+		this.strPersonagens = strPersonagens;
+	}
+	public String[] getIdAutCitados() {
+		return idAutCitados;
+	}
+	public void setIdAutCitados(String[] idAutCitados) {
+		this.idAutCitados = idAutCitados;
+	}
+	public String getStrAutCitados() {
+		return strAutCitados;
+	}
+	public void setStrAutCitados(String strAutCitados) {
+		this.strAutCitados = strAutCitados;
+	}
+	public String[] getIdObrCitadas() {
+		return idObrCitadas;
+	}
+	public void setIdObrCitadas(String[] idObrCitadas) {
+		this.idObrCitadas = idObrCitadas;
+	}
+	public String getStrObrCitadas() {
+		return strObrCitadas;
+	}
+	public void setStrObrCitadas(String strObrCitadas) {
+		this.strObrCitadas = strObrCitadas;
+	}	
+	public String[] getPalavrasChave() {
+		return palavrasChave;
+	}
+	public void setPalavrasChave(String[] palavrasChave) {
+		this.palavrasChave = palavrasChave;
+	}
+	public String getStrPalChave() {
+		return strPalChave;
+	}
+	public void setStrPalChave(String strPalChave) {
+		this.strPalChave = strPalChave;
+	}	
 }

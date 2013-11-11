@@ -22,11 +22,14 @@ public class PersonagemDAOImpl extends AbstractHibernateDAO<Personagem> implemen
 	public Personagem getPersonagemById(Long id) {
 		Criteria criteria = getCurrentSession().createCriteria(Personagem.class);
 		criteria.add(Restrictions.eq("id", id));
+		criteria.add(Restrictions.eq("active", true));
 		return (Personagem)criteria.uniqueResult();
 	}
 
 	public List<Personagem> listPersonagem() {
-		return findAll();
+		Criteria criteria = getCurrentSession().createCriteria(Personagem.class);
+		criteria.add(Restrictions.eq("active", true));
+		return criteria.list();
 	}
 
 	public void savePersonagem(Personagem personagem) {

@@ -1,5 +1,6 @@
 package br.unifesp.profetas.business.religiao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,29 +33,43 @@ public class ManagementReligiaoImpl extends AbstractBusiness implements Manageme
 		}
 		return null;
 	}
-
-	public MessageDTO createReligiaoCrencas(ReligiaoCrencasDTO religiaoCrencasDTO) {
+	
+	private MessageDTO isNotValid(ReligiaoCrencasDTO religiaoCrencasDTO, boolean isNew){
 		if(!UtilValidator.validateNotEmptyField(religiaoCrencasDTO.getNome())){
 			return new MessageDTO(getText("err_religiao_nome_required"), MessageType.ERROR);
 		}
+		return null;
+	}
+	
+	private ReligiaoCrencas getReligiaoCrencas(ReligiaoCrencas religiao, ReligiaoCrencasDTO religiaoDTO){
+		religiao.setNome(religiaoDTO.getNome());
+		if(religiaoDTO.getAnoInicio() != null && !"".equals(religiaoDTO.getAnoInicio())){
+			religiao.setAnoInicio(Integer.parseInt(religiaoDTO.getAnoInicio()));
+		}
+		if(religiaoDTO.getAnoFim() != null && !"".equals(religiaoDTO.getAnoFim())){
+			religiao.setAnoFim(Integer.parseInt(religiaoDTO.getAnoFim()));
+		}
+		religiao.setDescricao(religiaoDTO.getDescricao());
+		religiao.setActive(true);
+		return religiao;
+	}
+
+	public MessageDTO createReligiaoCrencas(ReligiaoCrencasDTO religiaoCrencasDTO) {
+		MessageDTO isNotValid = isNotValid(religiaoCrencasDTO, true);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			ReligiaoCrencas religiao = new ReligiaoCrencas();
-			religiao.setNome(religiaoCrencasDTO.getNome());
-			if(religiaoCrencasDTO.getAnoInicio() != null && !"".equals(religiaoCrencasDTO.getAnoInicio())){
-				religiao.setAnoInicio(Integer.parseInt(religiaoCrencasDTO.getAnoInicio()));
-			}
-			if(religiaoCrencasDTO.getAnoFim() != null && !"".equals(religiaoCrencasDTO.getAnoFim())){
-				religiao.setAnoFim(Integer.parseInt(religiaoCrencasDTO.getAnoFim()));
-			}
-			religiao.setDescricao(religiaoCrencasDTO.getDescricao());
+			religiao = getReligiaoCrencas(religiao, religiaoCrencasDTO);
 			religiaoCrencasDAO.saveReligiaoCrencas(religiao);
 			if(religiao.getId() != null){
 				return new MessageDTO(getText("msg_religiao_created"), MessageType.SUCCESS);
 			} else {
-				return new MessageDTO(getText("err_religiao_not_saved"), MessageType.ERROR);
+				return new MessageDTO(getText("err_religiao_not_created"), MessageType.ERROR);
 			}
 		} catch(Exception e){
-			return new MessageDTO(getText("err_religiao_not_saved"), MessageType.ERROR);
+			return new MessageDTO(getText("err_religiao_not_created"), MessageType.ERROR);
 		}
 	}
 
@@ -62,21 +77,15 @@ public class ManagementReligiaoImpl extends AbstractBusiness implements Manageme
 		if(religiaoCrencasDTO.getId() == null){
 			return new MessageDTO(getText("err_religiao_not_updated"), MessageType.ERROR);
 		}
-		if(!UtilValidator.validateNotEmptyField(religiaoCrencasDTO.getNome())){
-			return new MessageDTO(getText("err_religiao_nome_required"), MessageType.ERROR);
-		}
+		MessageDTO isNotValid = isNotValid(religiaoCrencasDTO, true);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			ReligiaoCrencas religiao = religiaoCrencasDAO.getReligiaoCrencasById(religiaoCrencasDTO.getId());
 			if(religiao != null){
-				religiao.setNome(religiaoCrencasDTO.getNome());
-				if(religiaoCrencasDTO.getAnoInicio() != null && !"".equals(religiaoCrencasDTO.getAnoInicio())){
-					religiao.setAnoInicio(Integer.parseInt(religiaoCrencasDTO.getAnoInicio()));
-				}
-				if(religiaoCrencasDTO.getAnoFim() != null && !"".equals(religiaoCrencasDTO.getAnoFim())){
-					religiao.setAnoFim(Integer.parseInt(religiaoCrencasDTO.getAnoFim()));
-				}
-				religiao.setDescricao(religiaoCrencasDTO.getDescricao());
-				religiaoCrencasDAO.saveReligiaoCrencas(religiao);
+				religiao = getReligiaoCrencas(religiao, religiaoCrencasDTO);
+				religiaoCrencasDAO.updateReligiaoCrencas(religiao);
 				if(religiao.getId() != null){
 					return new MessageDTO(getText("msg_religiao_updated"), MessageType.SUCCESS);
 				}
@@ -88,22 +97,38 @@ public class ManagementReligiaoImpl extends AbstractBusiness implements Manageme
 	}
 
 	public MessageDTO deleteReligiaoCrencas(ReligiaoCrencasDTO religiaoCrencasDTO) {
+		if(religiaoCrencasDTO.getId() == null)
+			return new MessageDTO(getText("err_local_not_deleted"), MessageType.ERROR);
+		
 		try{
-			ReligiaoCrencas religiao = new ReligiaoCrencas();
-			religiao.setId(religiaoCrencasDTO.getId());
-			religiaoCrencasDAO.deleteReligiaoCrencas(religiao);
-			return new MessageDTO(getText("msg_religiao_deleted"), MessageType.SUCCESS);
+			ReligiaoCrencas religiao = religiaoCrencasDAO.getReligiaoCrencasById(religiaoCrencasDTO.getId());
+			if(religiao != null){
+				religiao.setActive(false);
+				religiaoCrencasDAO.updateReligiaoCrencas(religiao);
+				return new MessageDTO(getText("msg_religiao_deleted"), MessageType.SUCCESS);
+			}
+			return new MessageDTO(getText("err_religiao_not_deleted"), MessageType.ERROR);
 		}
 		catch(Exception e){
 			return new MessageDTO(getText("err_religiao_not_deleted"), MessageType.ERROR);
 		}
 	}
 
-	public WrapperGrid<ReligiaoCrencas> getReligiaoCrencasList(
+	public WrapperGrid<ReligiaoCrencasDTO> getReligiaoCrencasList(
 			String orderBy, OrderType orderType, int page, int numRows) {
 
 		List<ReligiaoCrencas> list = religiaoCrencasDAO.listReligiaoCrencas();//TODO: limit
 		int total = list == null ? 0 : list.size();//TODO: count
-		return getWrapper(list, orderBy, orderType, page, numRows, total, null);
+		List<ReligiaoCrencasDTO> listDTO = new ArrayList<ReligiaoCrencasDTO>();
+		for(ReligiaoCrencas r : list){
+			ReligiaoCrencasDTO rDTO = new ReligiaoCrencasDTO();
+			rDTO.setId(r.getId());
+			rDTO.setNome(r.getNome());
+			rDTO.setAnoInicio(r.getAnoInicio() != null ? String.valueOf(r.getAnoInicio()) : "");
+			rDTO.setAnoFim(r.getAnoFim() != null ? String.valueOf(r.getAnoFim()) : "");
+			rDTO.setDescricao(r.getDescricao());
+			listDTO.add(rDTO);
+		}
+		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
 }

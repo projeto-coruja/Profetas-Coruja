@@ -5,6 +5,10 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/jquery.tagsinput.js'/>" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/jquery.tagsinput.css'/>" />
+
 <script src="<c:url value='/static/js/fontesObras.js'/>" type="text/javascript"></script>
 
 <div class="content">
@@ -46,29 +50,72 @@
 		
 		<div class="label-box"><label for="idLocalImpressao"><spring:message code="lbl_local_impressao"/></label></div>
 	    <div class="input-box">
-	    	<select id="idLocalImpressao" name="idLocalImpressao">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idLocalImpressao" path="idLocalImpressao">
+		    </form:select>
 	    </div>		
 		<br />
 		
 		<div class="label-box"><label for="idClassificacao"><spring:message code="lbl_classificacao"/></label></div>
 	    <div class="input-box">
-	    	<select id="idClassificacao" name="idClassificacao">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idClassificacao" path="idClassificacao">
+		    </form:select>
 	    </div>		
+		<br />
+		<!--  -->
+		<div class="label-box"><label for="idGruMovimento"><spring:message code="lbl_gru_movimento"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idGruMovimento" path="idGruMovimento">
+		    </form:select>
+	    </div>		
+		<br />
+		
+		<div class="label-box"><label for="idLeitores"><spring:message code="lbl_leitores"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idLeitores" path="idLeitores" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		<div class="label-box"><label for="idPersonagens"><spring:message code="lbl_personagens"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idPersonagens" path="idPersonagens" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		<div class="label-box"><label for="idAutCitados"><spring:message code="lbl_autores_citados"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idAutCitados" path="idAutCitados" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		<div class="label-box"><label for="idObrCitadas"><spring:message code="lbl_obras_citadas"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idObrCitadas" path="idObrCitadas" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		<div class="label-box"><label for="palavrasChave"><spring:message code="lbl_palavras_chave"/></label></div>
+	    <div class="input-box"><form:input name="palavrasChave" id="palavrasChave" path="palavrasChave" /></div>
 		<br />
 		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
 		</div>
 	</form:form>
-	<div>
-</div>
+
+	<jsp:include page="../includes/grid.jsp" flush="true" />
 	
-	<br />
-	<div id="container_grid">
-		<div class="loader_container"><img src="<c:url value="/static/images/ajax-loader.gif"/>" /></div>
-	</div>
+	<script type="text/javascript">
+		fillLocals("${fontes.idLocalImpressao}", 'idLocalImpressao');
+		fillClassificacoes("${fontes.idClassificacao}");
+		fillGrupoMovimento("${fontes.idGruMovimento}");
+		fillMultiplePersonagens("${fontes.strLeitores}", 'idLeitores');
+		fillMultiplePersonagens("${fontes.strPersonagens}", 'idPersonagens');
+		fillMultiplePersonagens("${fontes.strAutCitados}", 'idAutCitados');
+		fillMultipleObras("${fontes.strObrCitadas}", 'idObrCitadas');
+		fillPalavrasChave("${fontes.strPalChave}");
+	</script>
 </div>

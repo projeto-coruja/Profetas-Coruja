@@ -25,10 +25,10 @@ public class ReligiaoCrencasController extends AbstractController {
 	
 	@Autowired private ManagementReligiao mReligiao;
 	
-	private static final String RELIGIAOCRENCAS = "religiao";
+	private static final String MODEL = "religiao";
 	private static final String TILES_DEF	= "religiao_crencas";
 	
-	@ModelAttribute(RELIGIAOCRENCAS)
+	@ModelAttribute(MODEL)
 	public ReligiaoCrencasDTO init() {
 		return new ReligiaoCrencasDTO();
 	}
@@ -40,7 +40,7 @@ public class ReligiaoCrencasController extends AbstractController {
 		if(id != null) {
 			ReligiaoCrencasDTO relDTO = mReligiao.getReligiaoCrencasById(Long.parseLong(id));
 			if(relDTO != null) {
-				model.addAttribute(RELIGIAOCRENCAS, relDTO);
+				model.addAttribute(MODEL, relDTO);
 			}
 		}
         return TILES_DEF;

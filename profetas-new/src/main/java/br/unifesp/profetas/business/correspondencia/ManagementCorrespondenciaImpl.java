@@ -2,7 +2,6 @@ package br.unifesp.profetas.business.correspondencia;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,7 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.local.LocalDTO;
-import br.unifesp.profetas.business.personagem.PersonagemDTO;
 import br.unifesp.profetas.persistence.domain.CorrespondenciaDAO;
-import br.unifesp.profetas.persistence.domain.LocalDAO;
-import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.persistence.model.Personagem;
@@ -28,8 +23,6 @@ import br.unifesp.profetas.util.UtilValidator;
 public class ManagementCorrespondenciaImpl extends AbstractBusiness implements ManagementCorrespondencia {
 	
 	@Autowired private CorrespondenciaDAO correspondenciaDAO;
-	@Autowired private PersonagemDAO personagemDAO;
-	@Autowired private LocalDAO localDAO;
 
 	public CorrespondenciaDTO getCorrespondenciaById(Long id) {
 		Correspondencia correspondencia = correspondenciaDAO.getCorrespondenciaById(id);
@@ -39,29 +32,47 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
 			cDTO.setId(correspondencia.getId());
 			cDTO.setIdRemetente(correspondencia.getRemetente().getId());
 			cDTO.setIdDestinatario(correspondencia.getDestinatario().getId());
-			cDTO.setIdLocal(correspondencia.getId());
+			cDTO.setIdLocal(correspondencia.getLocal().getId());
 			cDTO.setData(dateFormat.format(correspondencia.getData()));
 			return cDTO;
 		}
 		return null;
 	}
+	
+	private MessageDTO isNotValid(CorrespondenciaDTO correspondenciaDTO, boolean isNew){
+		if(correspondenciaDTO.getIdRemetente() == null){
+			return new MessageDTO(getText("err_rementente_required"), MessageType.ERROR);
+		}
+		if(correspondenciaDTO.getIdDestinatario() == null){
+			return new MessageDTO(getText("err_destinatario_required"), MessageType.ERROR);
+		}
+		return null;
+	}
+	
+	private Correspondencia getCorrespondencia(Correspondencia correspondencia, CorrespondenciaDTO correspondenciaDTO){
+		correspondencia.setRemetente(new Personagem(correspondenciaDTO.getIdRemetente()));
+		correspondencia.setDestinatario(new Personagem(correspondenciaDTO.getIdDestinatario()));
+		correspondencia.setLocal(new Local(correspondenciaDTO.getIdLocal()));
+		correspondencia.setData(UtilValidator.getDateFromString(correspondenciaDTO.getData()));
+		correspondencia.setActive(true);
+		return correspondencia;
+	}
 
 	public MessageDTO createCorrespondencia(CorrespondenciaDTO correspondenciaDTO) {
-		Date data  = UtilValidator.getDateFromString(correspondenciaDTO.getData());
+		MessageDTO isNotValid = isNotValid(correspondenciaDTO, true);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			Correspondencia correspondencia = new Correspondencia();
-			correspondencia.setRemetente(new Personagem(correspondenciaDTO.getIdRemetente()));
-			correspondencia.setDestinatario(new Personagem(correspondenciaDTO.getIdDestinatario()));
-			correspondencia.setLocal(new Local(correspondenciaDTO.getIdLocal()));
-			correspondencia.setData(data);
+			correspondencia = getCorrespondencia(correspondencia, correspondenciaDTO);
 			correspondenciaDAO.saveCorrespondencia(correspondencia);
 			if(correspondencia.getId() != null){
-				return new MessageDTO(getText("msg_correspondencia_saved"), MessageType.SUCCESS);
-			} else {
-				return new MessageDTO(getText("err_correspondencia_not_saved"), MessageType.ERROR);
-			}
+				return new MessageDTO(getText("msg_correspondencia_created"), MessageType.SUCCESS);
+			} 
+			return new MessageDTO(getText("err_correspondencia_not_created"), MessageType.ERROR);
 		} catch(Exception e){
-			return new MessageDTO(getText("err_correspondencia_not_saved"), MessageType.ERROR);
+			return new MessageDTO(getText("err_correspondencia_not_created"), MessageType.ERROR);
 		}
 	}
 
@@ -69,15 +80,15 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
 		if(correspondenciaDTO.getId() == null){
 			return new MessageDTO(getText("err_correspondencia_not_updated"), MessageType.ERROR);
 		}
-		Date data  = UtilValidator.getDateFromString(correspondenciaDTO.getData());
+		MessageDTO isNotValid = isNotValid(correspondenciaDTO, true);
+		if(isNotValid != null)
+			return isNotValid;
+
 		try{
 			Correspondencia correspondencia = correspondenciaDAO.getCorrespondenciaById(correspondenciaDTO.getId());
 			if(correspondencia != null) {
-				correspondencia.setRemetente(new Personagem(correspondenciaDTO.getIdRemetente()));
-				correspondencia.setDestinatario(new Personagem(correspondenciaDTO.getIdDestinatario()));
-				correspondencia.setLocal(new Local(correspondenciaDTO.getIdLocal()));
-				correspondencia.setData(data);
-				correspondenciaDAO.saveCorrespondencia(correspondencia);
+				correspondencia = getCorrespondencia(correspondencia, correspondenciaDTO);
+				correspondenciaDAO.updateCorrespondencia(correspondencia);
 				if(correspondencia.getId() != null){
 					return new MessageDTO(getText("msg_correspondencia_updated"), MessageType.SUCCESS);
 				}
@@ -92,8 +103,12 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
 			CorrespondenciaDTO correspondenciaDTO) {
 		try{
 			Correspondencia correspondencia = correspondenciaDAO.getCorrespondenciaById(correspondenciaDTO.getId());
-			correspondenciaDAO.deleteCorrespondencia(correspondencia);
-			return new MessageDTO(getText("msg_correspondencia_deleted"), MessageType.SUCCESS);
+			if(correspondencia != null){
+				correspondencia.setActive(false);
+				correspondenciaDAO.updateCorrespondencia(correspondencia);
+				return new MessageDTO(getText("msg_correspondencia_deleted"), MessageType.SUCCESS);
+			}
+			return new MessageDTO(getText("err_correspondencia_not_deleted"), MessageType.ERROR);
 		}
 		catch(Exception e){
 			return new MessageDTO(getText("err_correspondencia_not_deleted"), MessageType.ERROR);
@@ -115,30 +130,5 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
 			listDTO.add(cDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
-	}
-
-	public List<PersonagemDTO> getPersonagems() {
-		List<Personagem> personagems = personagemDAO.listPersonagem();
-		List<PersonagemDTO> listDTO = new ArrayList<PersonagemDTO>();
-		for(Personagem p : personagems){
-			PersonagemDTO pDTO = new PersonagemDTO();
-			pDTO.setId(p.getId());
-			pDTO.setNome(p.getNome());
-			pDTO.setApelido(p.getApelido());
-			listDTO.add(pDTO);
-		}
-		return listDTO;
-	}
-
-	public List<LocalDTO> getLocals() {
-		List<Local> locals = localDAO.listLocal();
-		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
-		for(Local l : locals){
-			LocalDTO lDTO = new LocalDTO();
-			lDTO.setId(l.getId());
-			lDTO.setNome(l.getNome());
-			listDTO.add(lDTO);
-		}
-		return listDTO;
 	}
 }

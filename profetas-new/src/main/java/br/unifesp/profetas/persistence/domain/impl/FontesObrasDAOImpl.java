@@ -22,11 +22,14 @@ public class FontesObrasDAOImpl extends AbstractHibernateDAO<FontesObras> implem
 	public FontesObras getFontesObrasById(Long id) {
 		Criteria criteria = getCurrentSession().createCriteria(FontesObras.class);
 		criteria.add(Restrictions.eq("id", id));
+		criteria.add(Restrictions.eq("active", true));
 		return (FontesObras)criteria.uniqueResult();
 	}
 
 	public List<FontesObras> listFontesObras() {
-		return findAll();
+		Criteria criteria = getCurrentSession().createCriteria(FontesObras.class);
+		criteria.add(Restrictions.eq("active", true));
+		return criteria.list();
 	}
 
 	public void saveFontesObras(FontesObras fontesObras) {

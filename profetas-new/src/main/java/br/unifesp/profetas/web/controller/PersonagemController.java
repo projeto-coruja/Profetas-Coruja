@@ -78,9 +78,4 @@ public class PersonagemController extends AbstractController {
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mPersonagem.getPersonagemList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 	}
-	
-	@RequestMapping(value = "/personagem/local", method = RequestMethod.GET)
-	public @ResponseBody List<LocalDTO> listAllLocal() {
-		return mPersonagem.getLocals();
-	}
 }

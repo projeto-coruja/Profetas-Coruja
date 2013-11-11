@@ -10,7 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.unifesp.profetas.business.common.ManagementCommon;
+import br.unifesp.profetas.business.encontro.EncontroDTO;
+import br.unifesp.profetas.business.fontesobras.ClassificacaoDTO;
+import br.unifesp.profetas.business.fontesobras.FontesObrasDTO;
+import br.unifesp.profetas.business.grupomovimento.GrupoMovimentoDTO;
+import br.unifesp.profetas.business.local.LocalDTO;
+import br.unifesp.profetas.business.personagem.PersonagemDTO;
 import br.unifesp.profetas.business.profile.ProfileDTO;
+import br.unifesp.profetas.business.religiao.ReligiaoCrencasDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 
 @Controller
@@ -19,12 +26,74 @@ public class CommonController {
 	@Autowired private ManagementCommon mCommon;
 	
 	@RequestMapping(value = "/profiles", method = RequestMethod.GET)
-	public @ResponseBody List<ProfileDTO> profileList(SecurityContextHolderAwareRequestWrapper request) {
+	public @ResponseBody List<ProfileDTO> getProfiles(SecurityContextHolderAwareRequestWrapper request) {
 		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_ADMIN)){
-			return mCommon.profileList();
+			return mCommon.getProfiles();
 		} else {
 			return null;
 		}		
 	}
-
+	
+	@RequestMapping(value = "/personagens", method = RequestMethod.GET)
+	public @ResponseBody List<PersonagemDTO> getPersonagems(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getPersonagens();
+		} else {
+			return null;
+		}		
+	}
+	
+	@RequestMapping(value = "/locals", method = RequestMethod.GET)
+	public @ResponseBody List<LocalDTO> getLocals(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getLocals();
+		} else {
+			return null;
+		}		
+	}
+	
+	@RequestMapping(value = "/classificacoes", method = RequestMethod.GET)
+	public @ResponseBody List<ClassificacaoDTO> getClassificacoes(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getClassificacoes();
+		} else {
+			return null;
+		}		
+	}
+	
+	@RequestMapping(value = "/gru-movimentos", method = RequestMethod.GET)
+	public @ResponseBody List<GrupoMovimentoDTO> getGruMovimentos(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getGruMovimentos();
+		} else {
+			return null;
+		}		
+	}
+	
+	@RequestMapping(value = "/obras", method = RequestMethod.GET)
+	public @ResponseBody List<FontesObrasDTO> getObras(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getObrasCitadas();
+		} else {
+			return null;
+		}		
+	}
+	
+	@RequestMapping(value = "/religioes-crencas", method = RequestMethod.GET)
+	public @ResponseBody List<ReligiaoCrencasDTO> getReligioesCrencas(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getReligioes();
+		} else {
+			return null;
+		}		
+	}
+	
+	@RequestMapping(value = "/encontros", method = RequestMethod.GET)
+	public @ResponseBody List<EncontroDTO> getEncontrosCrencas(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getEncontros();
+		} else {
+			return null;
+		}		
+	}
 }

@@ -27,6 +27,7 @@ public class ProfetasInitImpl implements ProfetasInit {
 		createRoles();
 		createProfiles();
 		createAdminUser();
+		createClassificacoes();
 	}
 	
 	private void createRoles(){
@@ -93,5 +94,9 @@ public class ProfetasInitImpl implements ProfetasInit {
 			if(adminUser.getId() == null)
 				throw new RuntimeException("User admin can not be created.");
 		}
+	}
+	
+	private void createClassificacoes(){
+		
 	}
 }

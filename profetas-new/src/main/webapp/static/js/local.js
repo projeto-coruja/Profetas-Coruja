@@ -11,7 +11,7 @@ $(document).ready(function() {
 var map;
 function drawMap() {
 	var opts = {'center': new google.maps.LatLng(52.3755991766591, 4.866943359375), 
-	'zoom':11, 'mapTypeId': google.maps.MapTypeId.ROADMAP }
+	'zoom':11, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
 	map = new google.maps.Map(document.getElementById('mapdiv'),opts);
 	
 	google.maps.event.addListener(map,'click',function(event) {
@@ -52,38 +52,32 @@ function getPlace(){
       });
 }
 
-function updateForm(id){
-	window.location.href = URL_SECTION+'.html?id='+id;
+function checkFields(){
+	var nome	= $('#nome').val();
+	var country	= $('#country').val();
+	if(nome == undefined || nome == ''){
+		addMessage(jQuery.i18n.prop('err_nome_required'), 'error');
+		return false;
+	}
+	if(country == undefined || country == ''){
+		addMessage(jQuery.i18n.prop('err_country_required'), 'error');
+		return false;
+	}
+	return true;
 }
-function deleteForm(id){
-	var url = URL_SECTION+'/delete.html';
-	var data = JSON.stringify({ "id" : id });
-	$.ajax({
-        url : url,
-        type : "POST",
-        traditional : true,
-        contentType : "application/json",
-        dataType : "json",
-        data : data,
-        success : function(data) {
-        	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
-        		loadGrid();
-        	} else{
-        		addMessage(data.message, 'error');
-        	}
-        },
-        error : function (response) {
-        	addMessage(jQuery.i18n.prop('msg_internal_server_error'), 'error');
-        },
-    });	    
+
+function clearFields(){
+	$('#nome').val('');
+    $('#country').val('');
+    $('#state').val('');
+    $('#city').val('');
+    $('#latitude').val('');	    
+    $('#longitude').val('');
 }
 
 function saveForm(){
-	console.log('save');
-	
-	//if(!checkFields())
-		//return;
+	if(!checkFields())
+		return;
 		
 	var url			= URL_SECTION+'/save.html';
 	var id			= $('#id').val();
@@ -107,6 +101,7 @@ function saveForm(){
         success : function(data) {
         	if(TXT_SUCCESS == data.type.toLowerCase()){
         		addMessage(data.message, 'sucess');
+        		if(id == undefined || id == '') { clearFields(); }
         		loadGrid();
         	} else{
         		addMessage(data.message, 'error');
@@ -117,32 +112,6 @@ function saveForm(){
         },
     });	    
     return false;
-}
-
-function loadGrid(orderBy, orderType, page, search_words){
-	var div_id = 'container_grid';
-	var _orderBy	= 'id';
-	var _orderType	= 'desc';
-	var _page		= 1;
-	if(orderBy != '' && orderBy != undefined) {_orderBy = orderBy;}
-	if(orderType != '' && orderType != undefined) {_orderType = orderType;}
-	if(page != '' && page != undefined) {_page = page;}
-	
-	$.ajax({
-        dataType:'json',
-        type:'get',
-        cache:false,
-        url:URL_SECTION+'/list.html',
-        data:{
-        	orderBy: _orderBy,
-        	orderType: _orderType,
-        	page:_page,
-        	searchBy: search_words
-        },
-        success: function(data, textStatus, jqXHR){         	
-        	buildGrid(div_id, data);
-        }
-    });
 }
 
 function buildGrid(div_id, data){	

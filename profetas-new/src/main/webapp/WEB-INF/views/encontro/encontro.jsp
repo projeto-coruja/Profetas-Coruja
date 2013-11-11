@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/encontro.js'/>" type="text/javascript"></script>
 
 <div class="content">
@@ -12,15 +13,18 @@
 	
 	<form:form id="encontro" modelAttribute="encontro">
 		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="data"><spring:message code="lbl_data"/></label></div>
-	    <div class="input-box"><form:input id="data" path="data" size="50" maxlength="100" /></div>		
+		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label><span class="required"> (*)</span></div>
+	    <div class="input-box"><form:input id="nome" path="nome" size="50" maxlength="100" /></div>		
+		<br />
+		
+		<div class="label-box"><label for="data"><spring:message code="lbl_data"/></label><span class="required"> (*)</span></div>
+	    <div class="input-box"><form:input id="data" path="data" size="10" maxlength="10" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="idLocal"><spring:message code="lbl_local"/></label></div>
 	    <div class="input-box">
-	    	<select id="idLocal" name="idLocal">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idLocal" path="idLocal">
+		    </form:select>
 	    </div>		
 		<br />
 
@@ -28,11 +32,10 @@
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
 		</div>
 	</form:form>
-	<div>
-</div>
+
+	<jsp:include page="../includes/grid.jsp" flush="true" />
 	
-	<br />
-	<div id="container_grid">
-		<div class="loader_container"><img src="<c:url value="/static/images/ajax-loader.gif"/>" /></div>
-	</div>
+	<script type="text/javascript">
+		fillLocals("${encontro.idLocal}");
+	</script>
 </div>

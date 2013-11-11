@@ -5,13 +5,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/grupoMovimento.js'/>" type="text/javascript"></script>
 
 <div class="content">
 	<span class="title"><spring:message code="ttl_grupo_movimento"/></span>
 	<form:form id="grupoMovimento" modelAttribute="grupoMovimento">
 		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label></div>
+		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label><span class="required"> (*)</span></div>
 	    <div class="input-box"><form:input id="nome" path="nome" size="50" maxlength="100" /></div>		
 		<br />
 		
@@ -24,24 +25,24 @@
 		<br />
 		
 		<div class="label-box"><label for="descricao"><spring:message code="lbl_descricao"/></label></div>
-	    <div class="input-box"><form:input id="descricao" path="descricao" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="descricao" path="descricao" cols="35" rows="5" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="local"><spring:message code="lbl_local"/></label></div>
+		<div class="label-box"><label for="idLocais"><spring:message code="lbl_local"/></label></div>
 	    <div class="input-box">
-	    	<select id="idLocais" name="idLocais" multiple>
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idLocais" path="idLocais" multiple="true">
+		    </form:select>
 	    </div>		
 		<br />
-		
 		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
 		</div>
 	</form:form>
-	<br />
-	<div id="container_grid">
-		<div class="loader_container"><img src="<c:url value="/static/images/ajax-loader.gif"/>" /></div>
-	</div>
+	
+	<jsp:include page="../includes/grid.jsp" flush="true" />
+	
+	<script type="text/javascript">
+		fillMultipleLocals("${grupoMovimento.strLocais}");
+	</script>
 </div>

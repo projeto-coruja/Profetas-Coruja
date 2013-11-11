@@ -1,6 +1,24 @@
 function getStrSelected(){
 	return ' selected="selected"';
 }
+
+function fillClassificacoes(idSelected){
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'classificacoes.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo = $("#idClassificacao");
+        	combo.empty();
+        	combo.append('<option value="-1">Selecione um</option>');
+            for (var i = 0; i < data.length; i++) {
+            	combo.append('<option value="' + data[i].id + '">' + data[i].tipo + '</option>');
+            }
+        }
+    });
+}
+
 /**
  * HTML id should be "idProfile"
  * @param idSelected: number
@@ -14,12 +32,100 @@ function fillProfiles(idSelected){
         success: function(data, textStatus, jqXHR){
         	var combo = $("#idProfile");
         	combo.empty();
+        	if(data == null)
+        		return;
             for (var i = 0; i < data.length; i++) {
             	var _selected = '';
-            	if(parseInt(idSelected) == data[i].id){
+            	if(parseInt(idSelected) == data[i].id){ _selected = ' selected="selected"'; }
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].name +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
+/**
+ * HTML id should be "idLocal"
+ * @param idSelected
+ */
+function fillLocals(idSelected, idDiv){
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'locals.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo;
+        	if(idDiv != undefined && idDiv != null){
+        		combo = $('#'+idDiv);
+        	} else{
+        		combo = $('#idLocal');
+        	}
+        	combo.empty();
+        	combo.append('<option value="-1">Selecione um</option>');
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	if(parseInt(idSelected) == data[i].id){ _selected = ' selected="selected"'; }
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nome +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
+//Select Multiple
+function fillMultipleLocals(idsSelected){
+	var str_ids = JSON.parse('['+ idsSelected +']');
+	str_ids = str_ids.toString();
+	split_ids = str_ids.split(",");
+	var ids = [];
+	for(var i = 0; i < split_ids.length; i++){
+		ids.push(parseInt(split_ids[i]));
+	}
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'locals.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo = $("#idLocais");
+        	combo.empty();
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	var pos = ids.indexOf(data[i].id);
+            	if(pos > -1){
             		_selected = ' selected="selected"';
             	}
-            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].name +'</option>';
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nome +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
+
+function fillGrupoMovimento(idSelected, idDiv){
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'gru-movimentos.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo;
+        	if(idDiv != undefined && idDiv != null){
+        		combo = $('#'+idDiv);
+        	} else{
+        		combo = $('#idGruMovimento');
+        	}
+        	combo.empty();
+        	combo.append('<option value="-1">Selecione um</option>');
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	if(parseInt(idSelected) == data[i].id){ _selected = ' selected="selected"'; }
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nome +'</option>';
             	combo.append(str);
             }
         }
@@ -41,6 +147,172 @@ function fillProfileList(){
             }
         }
     });
+}
+
+function fillMultiplePersonagens(idsSelected, idDiv){
+	var str_ids = JSON.parse('['+ idsSelected +']');
+	str_ids = str_ids.toString();
+	split_ids = str_ids.split(",");
+	var ids = [];
+	for(var i = 0; i < split_ids.length; i++){
+		ids.push(parseInt(split_ids[i]));
+	}
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'personagens.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo = $('#'+idDiv);
+        	combo.empty();
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	var pos = ids.indexOf(data[i].id);
+            	if(pos > -1){
+            		_selected = ' selected="selected"';
+            	}
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nome +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
+
+/**
+ * 
+ * @param idSelected
+ * @param idDiv
+ */
+function fillObras(idSelected, idDiv){
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'obras.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo;
+        	if(idDiv != undefined && idDiv != null){
+        		combo = $('#'+idDiv);
+        	} else{
+        		combo = $('#idLocal');
+        	}
+        	combo.empty();
+        	combo.append('<option value="-1">Selecione um</option>');
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	if(parseInt(idSelected) == data[i].id){ _selected = ' selected="selected"'; }
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].titulo +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
+//Select multiple
+function fillMultipleObras(idsSelected, idDiv){
+	var str_ids = JSON.parse('['+ idsSelected +']');
+	str_ids = str_ids.toString();
+	split_ids = str_ids.split(",");
+	var ids = [];
+	for(var i = 0; i < split_ids.length; i++){
+		ids.push(parseInt(split_ids[i]));
+	}
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'obras.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo = $('#'+idDiv);
+        	combo.empty();
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	var pos = ids.indexOf(data[i].id);
+            	if(pos > -1){
+            		_selected = ' selected="selected"';
+            	}
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].titulo +'</option>';
+            	combo.append(str);
+            }
+        }
+    });	
+}
+
+/**
+ * 
+ * @param idsSelected
+ * @param idDiv
+ */
+function fillMultipleReligioesCrencas(idsSelected, idDiv){
+	var str_ids = JSON.parse('['+ idsSelected +']');
+	str_ids = str_ids.toString();
+	split_ids = str_ids.split(",");
+	var ids = [];
+	for(var i = 0; i < split_ids.length; i++){
+		ids.push(parseInt(split_ids[i]));
+	}
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'religioes-crencas.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo = $('#'+idDiv);
+        	combo.empty();
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	var pos = ids.indexOf(data[i].id);
+            	if(pos > -1){
+            		_selected = ' selected="selected"';
+            	}
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nome +'</option>';
+            	combo.append(str);
+            }
+        }
+    });	
+}
+
+/**
+ * 
+ * @param idsSelected
+ * @param idDiv
+ */
+function fillMultipleEncontros(idsSelected, idDiv){
+	var str_ids = JSON.parse('['+ idsSelected +']');
+	str_ids = str_ids.toString();
+	split_ids = str_ids.split(",");
+	var ids = [];
+	for(var i = 0; i < split_ids.length; i++){
+		ids.push(parseInt(split_ids[i]));
+	}
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'encontros.html',
+        success: function(data, textStatus, jqXHR){
+        	var combo = $('#'+idDiv);
+        	combo.empty();
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	var pos = ids.indexOf(data[i].id);
+            	if(pos > -1){
+            		_selected = ' selected="selected"';
+            	}
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nome +'</option>';
+            	combo.append(str);
+            }
+        }
+    });	
 }
 
 /**/

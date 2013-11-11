@@ -22,11 +22,14 @@ public class CorrespondenciaDAOImpl extends AbstractHibernateDAO<Correspondencia
 	public Correspondencia getCorrespondenciaById(Long id) {
 		Criteria criteria = getCurrentSession().createCriteria(Correspondencia.class);
 		criteria.add(Restrictions.eq("id", id));
+		criteria.add(Restrictions.eq("active", true));
 		return (Correspondencia)criteria.uniqueResult();
 	}
 
 	public List<Correspondencia> listEncontro() {
-		return findAll();
+		Criteria criteria = getCurrentSession().createCriteria(Correspondencia.class);
+		criteria.add(Restrictions.eq("active", true));
+		return criteria.list();
 	}
 
 	public void saveCorrespondencia(Correspondencia correspondencia) {

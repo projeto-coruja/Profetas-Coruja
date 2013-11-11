@@ -7,6 +7,11 @@
 	     id="WebApp_ID" version="2.5">
 
     <display-name>profetas</display-name>
+    
+    <mime-mapping>
+		<extension>ico</extension>
+		<mime-type>image/x-icon</mime-type>
+	</mime-mapping>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -79,8 +84,22 @@
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/errors/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/errors/500.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>503</error-code>
+		<location>/WEB-INF/views/errors/503.jsp</location>
+	</error-page>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
 </web-app>

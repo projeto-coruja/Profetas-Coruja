@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/personagem.js'/>" type="text/javascript"></script>
 
 <div class="content">
@@ -20,11 +21,10 @@
 	    <div class="input-box"><form:input id="apelido" path="apelido" size="50" maxlength="100" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="loc_nascimento"><spring:message code="lbl_loc_nascimento"/></label></div>
+		<div class="label-box"><label for="idNascimento"><spring:message code="lbl_loc_nascimento"/></label></div>
 	    <div class="input-box">
-	    	<select id="idNascimento" name="idNascimento">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idNascimento" path="idNascimento">
+		    </form:select>
 	    </div>		
 		<br />
 		
@@ -32,11 +32,10 @@
 	    <div class="input-box"><form:input id="dataNascimento" path="dataNascimento" size="50" maxlength="100" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="loc_morte"><spring:message code="lbl_loc_morte"/></label></div>
+		<div class="label-box"><label for="idMorte"><spring:message code="lbl_loc_morte"/></label></div>
 	    <div class="input-box">
-	    	<select id="idMorte" name="idMorte">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idMorte" path="idMorte">
+		    </form:select>
 	    </div>		
 		<br />
 		
@@ -56,15 +55,48 @@
 	    <div class="input-box"><form:input id="formacao" path="formacao" size="50" maxlength="100" /></div>		
 		<br />
 		
+		<div class="label-box"><label for="idRefBibliografica"><spring:message code="lbl_ref_bibliografica"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idRefBibliografica" path="idRefBibliografica">
+		    </form:select>
+	    </div>		
+		<br />
+		
+		<div class="label-box"><label for="idReligioes"><spring:message code="lbl_religioes"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idReligioes" path="idReligioes" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		<div class="label-box"><label for="idEncontros"><spring:message code="lbl_encontros"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idEncontros" path="idEncontros" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		<div class="label-box"><label for="idObras"><spring:message code="lbl_obras"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idObras" path="idObras" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
 		</div>
 	</form:form>
-	<div>
-</div>
 	
-	<br />
-	<div id="container_grid">
-		<div class="loader_container"><img src="<c:url value="/static/images/ajax-loader.gif"/>" /></div>
-	</div>
+	<jsp:include page="../includes/grid.jsp" flush="true" />
+	
+	<script type="text/javascript">
+		fillLocals("${personagem.idNascimento}", 'idNascimento');
+		fillLocals("${personagem.idMorte}", 'idMorte');
+		fillObras("${personagem.idRefBibliografica}", 'idRefBibliografica');
+		fillMultipleReligioesCrencas("${personagem.idReligioes}", 'idReligioes');
+		fillMultipleEncontros("${personagem.idEncontros}", 'idEncontros');
+		fillMultipleObras("${personagem.idObras}", 'idObras');
+	</script>
 </div>

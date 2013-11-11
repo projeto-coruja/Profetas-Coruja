@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
+<script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/correspondencia.js'/>" type="text/javascript"></script>
 
 <div class="content">
@@ -14,25 +15,22 @@
 		<form:hidden id="id" path="id" />
 		<div class="label-box"><label for="idRemetente"><spring:message code="lbl_remetente"/></label></div>
 	    <div class="input-box">
-	    	<select id="idRemetente" name="idRemetente">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idRemetente" path="idRemetente">
+		    </form:select>
 	    </div>		
 		<br />
 		
 		<div class="label-box"><label for="idDestinatario"><spring:message code="lbl_destinatario"/></label></div>
 	    <div class="input-box">
-	    	<select id="idDestinatario" name="idDestinatario">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idDestinatario" path="idDestinatario">
+		    </form:select>
 	    </div>		
 		<br />
 		
 		<div class="label-box"><label for="idLocal"><spring:message code="lbl_loc"/></label></div>
 	    <div class="input-box">
-	    	<select id="idLocal" name="idLocal">
-				<option value="-1">Choose one</option>	    	
-	    	</select>
+	    	<form:select id="idLocal" path="idLocal">
+		    </form:select>
 	    </div>		
 		<br />
 		
@@ -44,11 +42,11 @@
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
 		</div>
 	</form:form>
-	<div>
-</div>
-	
-	<br />
-	<div id="container_grid">
-		<div class="loader_container"><img src="<c:url value="/static/images/ajax-loader.gif"/>" /></div>
-	</div>
+
+	<jsp:include page="../includes/grid.jsp" flush="true" />
+
+	<script type="text/javascript">
+		fillRemAndDes("${correspondencia.idRemetente}", "${correspondencia.idDestinatario}");
+		fillLocals("${correspondencia.idLocal}");
+	</script>
 </div>

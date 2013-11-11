@@ -1,7 +1,5 @@
 package br.unifesp.profetas.web.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.business.grupomovimento.GrupoMovimentoDTO;
 import br.unifesp.profetas.business.grupomovimento.ManagementGrupoMovimento;
-import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.web.AbstractController;
 
@@ -28,10 +25,10 @@ public class GrupoMovimentoController extends AbstractController {
 	
 	@Autowired private ManagementGrupoMovimento mGrupoMovimento;
 	
-	private static final String LOCAL = "grupoMovimento";
+	private static final String MODEL = "grupoMovimento";
 	private static final String TILES_DEF	= "grupo_movimento";
 	
-	@ModelAttribute(LOCAL)
+	@ModelAttribute(MODEL)
 	public GrupoMovimentoDTO init() {
 		return new GrupoMovimentoDTO();
 	}
@@ -43,7 +40,7 @@ public class GrupoMovimentoController extends AbstractController {
 		if(id != null) {
 			GrupoMovimentoDTO gMoDTO = mGrupoMovimento.getGrupoMovimentoById(Long.parseLong(id));
 			if(gMoDTO != null) {
-				model.addAttribute(LOCAL, gMoDTO);
+				model.addAttribute(MODEL, gMoDTO);
 			}
 		}
         return TILES_DEF;
@@ -78,10 +75,5 @@ public class GrupoMovimentoController extends AbstractController {
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		WrapperGrid<GrupoMovimentoDTO> wrapper = mGrupoMovimento.getGrupoMovimentoList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 		return wrapper;
-	}
-	
-	@RequestMapping(value = "/grupo-movimento/local", method = RequestMethod.GET)
-	public @ResponseBody List<LocalDTO> listAllLocal() {
-		return mGrupoMovimento.getLocals();
 	}
 }

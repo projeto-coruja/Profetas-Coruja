@@ -2,6 +2,8 @@ package br.unifesp.profetas.persistence.domain.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,23 +20,13 @@ public class ClassificacaoDAOImpl extends AbstractHibernateDAO<Classificacao> im
 	}
 	
 	public Classificacao getClassificacaoById(Long id) {
-		return findOne(id);
+		Criteria criteria = getCurrentSession().createCriteria(Classificacao.class);
+		criteria.add(Restrictions.eq("id", id));
+		return (Classificacao)criteria.uniqueResult();
 	}
 
 	public List<Classificacao> listClassificacao() {
-		return findAll();
+		Criteria criteria = getCurrentSession().createCriteria(Classificacao.class);
+		return criteria.list();
 	}
-
-	public void saveClassificacao(Classificacao classificacao){
-		save(classificacao);
-	}
-
-	public void updateClassificacao(Classificacao classificacao) {
-		update(classificacao);
-	}
-
-	public void deleteClassificacao(Classificacao classificacao) {
-		delete(classificacao);
-	}
-
 }

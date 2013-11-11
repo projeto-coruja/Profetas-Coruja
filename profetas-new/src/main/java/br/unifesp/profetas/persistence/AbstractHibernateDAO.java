@@ -31,6 +31,10 @@ public abstract class AbstractHibernateDAO<T extends Serializable>{
 	public List<T> findAll(){
 		return getCurrentSession().createQuery("FROM " + clazz.getName()).list();
 	}
+	
+	public List<T> findAllActive(){
+		return getCurrentSession().createQuery("FROM " + clazz.getName() + " WHERE active='Y'").list();
+	}
  
 	public void save(final T entity){
 		Preconditions.checkNotNull(entity);

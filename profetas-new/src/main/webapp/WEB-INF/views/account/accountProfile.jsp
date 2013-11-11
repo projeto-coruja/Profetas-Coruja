@@ -18,7 +18,7 @@
 			<div class="label-box"><label for="idProfile"><spring:message code="lbl_profile"/></label></div>
 		    <div class="input-box">
 		    	<form:select id="idProfile" path="idProfile">
-		    	</form:select>		    	
+		    	</form:select>
 		    </div>		
 			<br />
 			<div class="left">

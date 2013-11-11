@@ -1,7 +1,5 @@
 package br.unifesp.profetas.web.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.business.fontesobras.FontesObrasDTO;
 import br.unifesp.profetas.business.fontesobras.ManagementFontesObras;
-import br.unifesp.profetas.business.local.LocalDTO;
-import br.unifesp.profetas.persistence.model.Classificacao;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.web.AbstractController;
 
@@ -78,15 +74,5 @@ public class FontesObrasController extends AbstractController {
 		
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mFontesObras.getFontesObrasList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
-	}
-	
-	@RequestMapping(value = "/fontes-obras/classificacao", method = RequestMethod.GET)
-	public @ResponseBody List<Classificacao> listAllClassificacao() {
-		return mFontesObras.getClassificacoes();
-	}
-	
-	@RequestMapping(value = "/fontes-obras/local", method = RequestMethod.GET)
-	public @ResponseBody List<LocalDTO> listAllLocal() {
-		return mFontesObras.getLocals();
 	}
 }

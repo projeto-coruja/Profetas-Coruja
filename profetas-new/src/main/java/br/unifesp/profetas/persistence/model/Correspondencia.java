@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "correspondencia")
@@ -46,6 +47,10 @@ public class Correspondencia implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "c_data", nullable = true, length = 10)
 	private Date data;
+	
+	@Type(type="yes_no")
+	@Column(name = "active")
+	private Boolean active;
 
 	public Correspondencia() {}
 
@@ -87,5 +92,12 @@ public class Correspondencia implements Serializable {
 	}
 	public void setData(Date data) {
 		this.data = data;
-	}	
+	}
+	
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 }

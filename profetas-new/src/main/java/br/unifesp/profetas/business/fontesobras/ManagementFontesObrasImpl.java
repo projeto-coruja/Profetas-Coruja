@@ -11,20 +11,16 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.local.LocalDTO;
-import br.unifesp.profetas.persistence.domain.ClassificacaoDAO;
 import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
-import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mFontesObras")
 public class ManagementFontesObrasImpl extends AbstractBusiness implements ManagementFontesObras {
 	
 	@Autowired private FontesObrasDAO fontesObrasDAO;
-	@Autowired private LocalDAO localDAO;
-	@Autowired private ClassificacaoDAO classificacaoDAO;
 
 	public FontesObrasDTO getFontesObrasById(Long id) {
 		FontesObras fontesObras = fontesObrasDAO.getFontesObrasById(id);
@@ -46,46 +42,58 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 		}
 		return null;
 	}
+	
+	private MessageDTO isNotValid(FontesObrasDTO fontesObrasDTO, boolean isNew){
+		if(!UtilValidator.validateNotEmptyField(fontesObrasDTO.getTitulo())){
+			return new MessageDTO(getText("err_fontes_titulo_required"), MessageType.ERROR);
+		}
+		return null;
+	}
+	
+	private FontesObras getFontesObras(FontesObras fontesObras, FontesObrasDTO fontesObrasDTO){
+		fontesObras.setTitulo(fontesObrasDTO.getTitulo());
+		fontesObras.setComentarios(fontesObrasDTO.getComentarios());
+		fontesObras.setReferenciasCirculacaoObra(fontesObrasDTO.getReferenciasCirculacaoObra());
+		fontesObras.setUrl(fontesObrasDTO.getUrl());
+		fontesObras.setCopiasManuscritas(fontesObrasDTO.getCopiasManuscritas());
+		fontesObras.setTraducoes(fontesObrasDTO.getTraducoes());
+		fontesObras.setEditor(fontesObrasDTO.getEditor());
+		fontesObras.setDataImpressao(null);//TODO:
+		fontesObras.setLocalImpressao(new Local(fontesObrasDTO.getIdLocalImpressao()));
+		fontesObras.setClassificacao(new Classificacao(fontesObrasDTO.getIdClassificacao()));
+		fontesObras.setActive(true);
+		return fontesObras;
+	}
 
 	public MessageDTO createFontesObras(FontesObrasDTO fontesObrasDTO) {
+		MessageDTO isNotValid = isNotValid(fontesObrasDTO, true);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			FontesObras fontesObras = new FontesObras();
-			fontesObras.setTitulo(fontesObrasDTO.getTitulo());
-			fontesObras.setComentarios(fontesObrasDTO.getComentarios());
-			fontesObras.setReferenciasCirculacaoObra(fontesObrasDTO.getReferenciasCirculacaoObra());
-			fontesObras.setUrl(fontesObrasDTO.getUrl());
-			fontesObras.setCopiasManuscritas(fontesObrasDTO.getCopiasManuscritas());
-			fontesObras.setTraducoes(fontesObrasDTO.getTraducoes());
-			fontesObras.setEditor(fontesObrasDTO.getEditor());
-			fontesObras.setDataImpressao(null);//TODO:
-			fontesObras.setLocalImpressao(new Local(fontesObrasDTO.getIdLocalImpressao()));
-			fontesObras.setClassificacao(new Classificacao(fontesObrasDTO.getIdClassificacao()));
-			
+			fontesObras = getFontesObras(fontesObras, fontesObrasDTO);
 			fontesObrasDAO.saveFontesObras(fontesObras);
 			if(fontesObras.getId() != null){
-				return new MessageDTO(getText("msg_fontes_saved"), MessageType.SUCCESS);
-			} else {
-				return new MessageDTO(getText("err_fontes_not_saved"), MessageType.ERROR);
+				return new MessageDTO(getText("msg_fontes_created"), MessageType.SUCCESS);
 			}
+			return new MessageDTO(getText("err_fontes_not_created"), MessageType.ERROR);
 		} catch(Exception e){
-			return new MessageDTO(getText("err_fontes_not_saved"), MessageType.ERROR);
+			return new MessageDTO(getText("err_fontes_not_created"), MessageType.ERROR);
 		}
 	}
 
 	public MessageDTO updateFontesObras(FontesObrasDTO fontesObrasDTO) {
+		if(fontesObrasDTO.getId() == null)
+			return new MessageDTO(getText("err_fontes_not_updated"), MessageType.ERROR);
+		MessageDTO isNotValid = isNotValid(fontesObrasDTO, false);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			FontesObras fontesObras = fontesObrasDAO.getFontesObrasById(fontesObrasDTO.getId());
 			if(fontesObras != null){
-				fontesObras.setTitulo(fontesObrasDTO.getTitulo());
-				fontesObras.setComentarios(fontesObrasDTO.getComentarios());
-				fontesObras.setReferenciasCirculacaoObra(fontesObrasDTO.getReferenciasCirculacaoObra());
-				fontesObras.setUrl(fontesObrasDTO.getUrl());
-				fontesObras.setCopiasManuscritas(fontesObras.getCopiasManuscritas());
-				fontesObras.setTraducoes(fontesObrasDTO.getTraducoes());
-				fontesObras.setEditor(fontesObrasDTO.getEditor());
-				fontesObras.setDataImpressao(null);//TODO:
-				fontesObras.setLocalImpressao(new Local(fontesObrasDTO.getIdLocalImpressao()));
-				fontesObras.setClassificacao(new Classificacao(fontesObrasDTO.getIdClassificacao()));
+				fontesObras = getFontesObras(fontesObras, fontesObrasDTO);
 				fontesObrasDAO.updateFontesObras(fontesObras);
 				if(fontesObras.getId() != null){
 					return new MessageDTO(getText("msg_fontes_updated"), MessageType.SUCCESS);
@@ -98,11 +106,14 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 	}
 
 	public MessageDTO deleteFontesObras(FontesObrasDTO fontesObrasDTO) {
+		if(fontesObrasDTO.getId() == null)
+			return new MessageDTO(getText("err_fontes_not_deleted"), MessageType.ERROR);
+		
 		try{
 			FontesObras fontesObras = fontesObrasDAO.getFontesObrasById(fontesObrasDTO.getId());
 			if(fontesObras != null){
-				fontesObras.setId(fontesObrasDTO.getId());
-				fontesObrasDAO.deleteFontesObras(fontesObras);
+				fontesObras.setActive(false);
+				fontesObrasDAO.updateFontesObras(fontesObras);
 				return new MessageDTO(getText("msg_fontes_deleted"), MessageType.SUCCESS);
 			}
 			return new MessageDTO(getText("err_fontes_not_deleted"), MessageType.ERROR);
@@ -124,21 +135,5 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 			listDTO.add(fDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
-	}
-
-	public List<LocalDTO> getLocals() {
-		List<Local> locals = localDAO.listLocal();
-		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
-		for(Local l : locals){
-			LocalDTO lDTO = new LocalDTO();
-			lDTO.setId(l.getId());
-			lDTO.setNome(l.getNome());
-			listDTO.add(lDTO);
-		}
-		return listDTO;
-	}
-
-	public List<Classificacao> getClassificacoes() {
-		return null;//classificacaoDAO.listClassificao();TODO:
 	}
 }

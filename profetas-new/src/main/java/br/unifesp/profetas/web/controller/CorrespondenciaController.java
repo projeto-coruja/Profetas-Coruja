@@ -1,7 +1,5 @@
 package br.unifesp.profetas.web.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.business.correspondencia.CorrespondenciaDTO;
 import br.unifesp.profetas.business.correspondencia.ManagementCorrespondencia;
-import br.unifesp.profetas.business.local.LocalDTO;
-import br.unifesp.profetas.business.personagem.PersonagemDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 
 @Controller
@@ -77,15 +73,5 @@ public class CorrespondenciaController {
 		
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mCorrespondencia.getCorrespondenciaList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
-	}
-	
-	@RequestMapping(value = "/correspondencia/personagem", method = RequestMethod.GET)
-	public @ResponseBody List<PersonagemDTO> listAllPersonagem() {
-		return mCorrespondencia.getPersonagems();
-	}
-	
-	@RequestMapping(value = "/correspondencia/local", method = RequestMethod.GET)
-	public @ResponseBody List<LocalDTO> listAllLocal() {
-		return mCorrespondencia.getLocals();
 	}
 }

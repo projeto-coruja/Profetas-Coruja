@@ -35,32 +35,50 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 		}
 		return null;
 	}
-
-	public MessageDTO createLocal(LocalDTO localDTO) {
+	
+	private MessageDTO isNotValid(LocalDTO localDTO, boolean isNew){
+		//if(isNew){
+			//duplicate ?
+		//}
 		if(!UtilValidator.validateNotEmptyField(localDTO.getNome())){
 			return new MessageDTO(getText("err_local_nome_required"), MessageType.ERROR);
 		}
+		if(!UtilValidator.validateNotEmptyField(localDTO.getCountry())){
+			return new MessageDTO(getText("err_country_nome_required"), MessageType.ERROR);
+		}
+		return null;
+	}
+	
+	private Local getLocal(Local local, LocalDTO localDTO){
+		local.setNome(localDTO.getNome());
+		if(localDTO.getLatitude() != null && !"".equals(localDTO.getLatitude())){
+			local.setLatitude(Double.parseDouble(localDTO.getLatitude()));
+		}
+		if(localDTO.getLongitude() != null && !"".equals(localDTO.getLongitude())){
+			local.setLongitude(Double.parseDouble(localDTO.getLongitude()));
+		}
+		local.setCountry(localDTO.getCountry());
+		local.setState(localDTO.getState());
+		local.setCity(localDTO.getCity());
+		local.setActive(true);
+		return local;
+	}
+
+	public MessageDTO createLocal(LocalDTO localDTO) {
+		MessageDTO isNotValid = isNotValid(localDTO, true);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			Local local = new Local();
-			local.setNome(localDTO.getNome());
-			if(localDTO.getLatitude() != null && !"".equals(localDTO.getLatitude())){
-				local.setLatitude(Double.parseDouble(localDTO.getLatitude()));
-			}
-			if(localDTO.getLongitude() != null && !"".equals(localDTO.getLongitude())){
-				local.setLongitude(Double.parseDouble(localDTO.getLongitude()));
-			}
-			local.setCountry(localDTO.getCountry());
-			local.setState(localDTO.getState());
-			local.setCity(localDTO.getCity());
-			
+			local = getLocal(local, localDTO);
 			localDAO.saveLocal(local);
 			if(local.getId() != null){
 				return new MessageDTO(getText("msg_local_created"), MessageType.SUCCESS);
-			} else {
-				return new MessageDTO(getText("err_local_not_saved"), MessageType.ERROR);
 			}
+			return new MessageDTO(getText("err_local_not_created"), MessageType.ERROR);
 		} catch(Exception e){
-			return new MessageDTO(getText("err_local_not_saved"), MessageType.ERROR);
+			return new MessageDTO(getText("err_local_not_created"), MessageType.ERROR);
 		}
 	}
 
@@ -68,24 +86,16 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 		if(localDTO.getId() == null){
 			return new MessageDTO(getText("err_local_not_updated"), MessageType.ERROR);
 		}
-		if(!UtilValidator.validateNotEmptyField(localDTO.getNome())){
-			return new MessageDTO(getText("err_local_nome_required"), MessageType.ERROR);
-		}
+		MessageDTO isNotValid = isNotValid(localDTO, false);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			Local local = localDAO.getLocalById(localDTO.getId());
 			if(local != null){
-				local.setNome(localDTO.getNome());
-				if(localDTO.getLatitude() != null && !"".equals(localDTO.getLatitude())){
-					local.setLatitude(Double.parseDouble(localDTO.getLatitude()));
-				}
-				if(localDTO.getLongitude() != null && !"".equals(localDTO.getLongitude())){
-					local.setLongitude(Double.parseDouble(localDTO.getLongitude()));
-				}
-				local.setCountry(localDTO.getCountry());
-				local.setState(localDTO.getState());
-				local.setCity(localDTO.getCity());
-				localDAO.saveLocal(local);
-				if(local.getId() != null){
+				local = getLocal(local, localDTO);
+				localDAO.updateLocal(local);
+				if(local.getId() != null){//?
 					return new MessageDTO(getText("msg_local_updated"), MessageType.SUCCESS);
 				}
 			}
@@ -96,19 +106,25 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 	}
 
 	public MessageDTO deleteLocal(LocalDTO localDTO) {
+		if(localDTO.getId() == null)
+			return new MessageDTO(getText("err_local_not_deleted"), MessageType.ERROR);
+		
 		try{
-			Local local = new Local();
-			local.setId(localDTO.getId());
-			localDAO.deleteLocal(local);
-			return new MessageDTO(getText("msg_local_deleted"), MessageType.SUCCESS);
-		}
-		catch(Exception e){
+			Local local = localDAO.getLocalById(localDTO.getId());
+			if(local != null){
+				local.setActive(false);
+				localDAO.updateLocal(local);
+				return new MessageDTO(getText("msg_local_deleted"), MessageType.SUCCESS);
+			}
+			return new MessageDTO(getText("err_local_not_deleted"), MessageType.ERROR);
+		} catch(Exception e){
 			return new MessageDTO(getText("err_local_not_deleted"), MessageType.ERROR);
 		}
 	}
 
 	public WrapperGrid<LocalDTO> getLocalList(String orderBy,
 			OrderType orderType, int page, int numRows) {
+		
 		List<Local> list = localDAO.listLocal();//TODO: limit
 		int total = list == null ? 0 : list.size();//TODO: count
 		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();

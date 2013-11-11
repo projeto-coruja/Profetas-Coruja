@@ -3,7 +3,6 @@ package br.unifesp.profetas.business.religiao;
 import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
 
 public interface ManagementReligiao {
 	
@@ -15,7 +14,6 @@ public interface ManagementReligiao {
 	
 	public MessageDTO deleteReligiaoCrencas(ReligiaoCrencasDTO religiaoCrencasDTO);
 	
-	public WrapperGrid<ReligiaoCrencas> getReligiaoCrencasList(String orderBy, 
+	public WrapperGrid<ReligiaoCrencasDTO> getReligiaoCrencasList(String orderBy, 
 			OrderType orderType, int page, int numRows);
-
 }

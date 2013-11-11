@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "local")
 public class Local implements Serializable {
@@ -44,6 +46,10 @@ public class Local implements Serializable {
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "locais")
 	private Set<GrupoMovimento> gMovimentos = new HashSet<GrupoMovimento>(0);
+	
+	@Type(type="yes_no")
+	@Column(name = "active")
+	private Boolean active;
 
 	public Local() {}
 	
@@ -97,5 +103,12 @@ public class Local implements Serializable {
 	}
 	public void setgMovimentos(Set<GrupoMovimento> gMovimentos) {
 		this.gMovimentos = gMovimentos;
+	}
+	
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }

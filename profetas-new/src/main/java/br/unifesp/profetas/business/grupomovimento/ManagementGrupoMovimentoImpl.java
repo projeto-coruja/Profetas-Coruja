@@ -38,26 +38,44 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 				for(Local l : gMovimento.getLocais()){
 					locais.add(String.valueOf(l.getId()));
 				}
-			gmDTO.setIdLocais(locais.toArray(new String[locais.size()]));
+				//locais.toArray(new String[locais.size()]);
+				if(!locais.isEmpty()){
+					gmDTO.setStrLocais(locais.toString());
+				}
+					
 			return gmDTO;
 		}
 		return null;
 	}
+	
+	private MessageDTO isNotValid(GrupoMovimentoDTO gMovimentoDTO, boolean isNew){
+		if(!UtilValidator.validateNotEmptyField(gMovimentoDTO.getNome())){
+			return new MessageDTO(getText("err_g_movimento_nome_required"), MessageType.ERROR);
+		}
+		return null;
+	}
+	
+	private GrupoMovimento getGrupoMovimento(GrupoMovimento grupoMovimento, GrupoMovimentoDTO gMovimentoDTO){
+		grupoMovimento.setNome(gMovimentoDTO.getNome());
+		if(gMovimentoDTO.getAnoInicio() != null && !"".equals(gMovimentoDTO.getAnoInicio())){
+			grupoMovimento.setAnoInicio(Integer.parseInt(gMovimentoDTO.getAnoInicio()));
+		}
+		if(gMovimentoDTO.getAnoFim() != null && !"".equals(gMovimentoDTO.getAnoFim())){
+			grupoMovimento.setAnoFim(Integer.parseInt(gMovimentoDTO.getAnoFim()));
+		}
+		grupoMovimento.setDescricao(gMovimentoDTO.getDescricao());
+		grupoMovimento.setActive(true);
+		return grupoMovimento;
+	}
 
 	public MessageDTO createGrupoMovimento(GrupoMovimentoDTO gMovimentoDTO) {
-		if(!UtilValidator.validateNotEmptyField(gMovimentoDTO.getNome())){
-			return new MessageDTO(getText("err_religiao_nome_required"), MessageType.ERROR);
-		}
+		MessageDTO isNotValid = isNotValid(gMovimentoDTO, true);
+		if(isNotValid != null)
+			return isNotValid;
+		
 		try{
 			GrupoMovimento grupoMovimento = new GrupoMovimento();
-			grupoMovimento.setNome(gMovimentoDTO.getNome());
-			if(gMovimentoDTO.getAnoInicio() != null && !"".equals(gMovimentoDTO.getAnoInicio())){
-				grupoMovimento.setAnoInicio(Integer.parseInt(gMovimentoDTO.getAnoInicio()));
-			}
-			if(gMovimentoDTO.getAnoFim() != null && !"".equals(gMovimentoDTO.getAnoFim())){
-				grupoMovimento.setAnoFim(Integer.parseInt(gMovimentoDTO.getAnoFim()));
-			}
-			grupoMovimento.setDescricao(gMovimentoDTO.getDescricao());
+			grupoMovimento = getGrupoMovimento(grupoMovimento, gMovimentoDTO);
 			
 			int locais_length = gMovimentoDTO.getIdLocais().length;
 			if(locais_length > 0){
@@ -76,25 +94,50 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			grupoMovimentoDAO.saveGrupoMovimento(grupoMovimento);
 			if(grupoMovimento.getId() != null){
 				return new MessageDTO(getText("msg_grupo_movimento_created"), MessageType.SUCCESS);
-			} else {
-				return new MessageDTO(getText("err_grupo_movimento_not_saved"), MessageType.ERROR);
 			}
+			return new MessageDTO(getText("err_grupo_movimento_not_created"), MessageType.ERROR);
 		} catch(Exception e){
-			return new MessageDTO(getText("err_grupo_movimento_not_saved"), MessageType.ERROR);
+			return new MessageDTO(getText("err_grupo_movimento_not_created"), MessageType.ERROR);
 		}
 	}
 
 	public MessageDTO updateGrupoMovimento(GrupoMovimentoDTO gMovimentoDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		if(gMovimentoDTO.getId() == null){
+			return new MessageDTO(getText("err_grupo_movimento_not_updated"), MessageType.ERROR);
+		}
+		MessageDTO isNotValid = isNotValid(gMovimentoDTO, false);
+		if(isNotValid != null)
+			return isNotValid;
+		
+		try{
+			GrupoMovimento grupoMovimento = grupoMovimentoDAO.getGrupoMovimentoById(gMovimentoDTO.getId());
+			if(grupoMovimento != null){
+				grupoMovimento = getGrupoMovimento(grupoMovimento, gMovimentoDTO);
+				//TODO: list?
+				grupoMovimentoDAO.updateGrupoMovimento(grupoMovimento);
+				if(grupoMovimento.getId() != null){
+					return new MessageDTO(getText("msg_grupo_movimento_updated"), MessageType.SUCCESS);
+				}
+				return new MessageDTO(getText("err_grupo_movimento_not_updated"), MessageType.ERROR);
+			}
+			return new MessageDTO(getText("err_grupo_movimento_not_updated"), MessageType.ERROR);
+		} catch(Exception e){
+			return new MessageDTO(getText("err_grupo_movimento_not_updated"), MessageType.ERROR);
+		}
 	}
 
 	public MessageDTO deleteGrupoMovimento(GrupoMovimentoDTO gMovimentoDTO) {
+		if(gMovimentoDTO.getId() == null)
+			return new MessageDTO(getText("err_grupo_movimento_not_deleted"), MessageType.ERROR);
+		
 		try{
-			GrupoMovimento grupoMovimento = new GrupoMovimento();
-			grupoMovimento.setId(gMovimentoDTO.getId());
-			grupoMovimentoDAO.deleteGrupoMovimento(grupoMovimento);
-			return new MessageDTO(getText("msg_grupo_movimento_deleted"), MessageType.SUCCESS);
+			GrupoMovimento grupoMovimento = grupoMovimentoDAO.getGrupoMovimentoById(gMovimentoDTO.getId());
+			if(grupoMovimento != null){
+				grupoMovimento.setActive(false);
+				grupoMovimentoDAO.updateGrupoMovimento(grupoMovimento);
+				return new MessageDTO(getText("msg_grupo_movimento_deleted"), MessageType.SUCCESS);
+			}
+			return new MessageDTO(getText("err_grupo_movimento_not_deleted"), MessageType.ERROR);
 		}
 		catch(Exception e){
 			return new MessageDTO(getText("err_grupo_movimento_not_deleted"), MessageType.ERROR);
@@ -109,8 +152,8 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			GrupoMovimentoDTO gmDTO = new GrupoMovimentoDTO();
 			gmDTO.setId(gm.getId());
 			gmDTO.setNome(gm.getNome());
-			gmDTO.setAnoInicio(String.valueOf(gm.getAnoInicio()));
-			gmDTO.setAnoFim(String.valueOf(gm.getAnoFim()));
+			gmDTO.setAnoInicio(gm.getAnoInicio() != null ? String.valueOf(gm.getAnoInicio()) : "");
+			gmDTO.setAnoFim(gm.getAnoFim() != null ? String.valueOf(gm.getAnoFim()) : "");
 			List<LocalDTO> listLocDTO = new ArrayList<LocalDTO>();//
 			List<Local> locals = new ArrayList<Local>(gm.getLocais());
 			for(Local l : locals){
@@ -124,17 +167,5 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 		
 		int total = list == null ? 0 : list.size();//TODO: count
 		return getWrapper(listGmDTO, orderBy, orderType, page, numRows, total, null);
-	}
-	
-	public List<LocalDTO> getLocals() {
-		List<Local> locals = localDAO.listLocal();
-		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
-		for(Local l : locals){
-			LocalDTO lDTO = new LocalDTO();
-			lDTO.setId(l.getId());
-			lDTO.setNome(l.getNome());
-			listDTO.add(lDTO);
-		}
-		return listDTO;
 	}
 }
