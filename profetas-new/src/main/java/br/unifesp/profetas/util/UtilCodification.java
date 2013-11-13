@@ -1,9 +1,14 @@
 package br.unifesp.profetas.util;
 
 import java.security.MessageDigest;
-import java.util.Random;
+
+import org.apache.commons.lang.RandomStringUtils;
 
 public class UtilCodification {
+	
+	public static final String randomString() {
+		return RandomStringUtils.randomAlphanumeric(ProfetasConstants.STRING_LENGTH);
+	}
 	
 	private static String hex(byte[] array) {
         StringBuffer sb = new StringBuffer();
@@ -15,7 +20,7 @@ public class UtilCodification {
 
 	/**
 	 * 
-	 * @param value string to encrypt
+	 * @param string value to encrypt
 	 * @param type MD5 or SHA1
 	 * @return string encrypted
 	 */

@@ -14,6 +14,8 @@ public class UserDTO extends CommonDTO {
 	private String password;
 	private String passwordCopy;
 	
+	private String activationCode;
+	
 	private Integer idProfile;
 	private String profileName;
 	
@@ -100,5 +102,11 @@ public class UserDTO extends CommonDTO {
 	}
 	public void setRoles(List<RoleDTO> roles) {
 		this.roles = roles;
+	}
+	public String getActivationCode() {
+		return activationCode;
+	}
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
 	}	
 }

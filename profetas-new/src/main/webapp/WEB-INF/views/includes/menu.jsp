@@ -1,4 +1,5 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <jsp:include page="login.jsp" flush="true" />
 
@@ -18,7 +19,7 @@
 	<div class="conteudo">
 		<article class="menuLateral">
 			<ul class="nav" id="menu">
-				<li><a class="borderTop" href="<c:url value="/jsp/search.jsp" />">Pesquisar entrada</a></li>
+				<li><a class="borderTop" href="<c:url value="/search.html" />">Pesquisar entrada</a></li>
 			</ul>
 		</article>
 	</div>
@@ -26,6 +27,7 @@
 
 	<!-- Admin -->
 	<!-- Cadastros -->
+	<sec:authorize access="hasRole('SAVE')">
 	<div class="bordaBox">
 		<div class="conteudo">
 			<article class="menuLateral">
@@ -49,7 +51,10 @@
 			</article>
 		</div>
 	</div>
+	</sec:authorize>
+	
 	<!-- Controle -->
+	<sec:authorize access="hasRole('ADMIN')">
 	<div class="bordaBox">
 		<div class="conteudo">
 			<article class="menuLateral">
@@ -59,7 +64,7 @@
 							<div>
 								<ul>
 									<li><a class="borderTop" href="<c:url value="/account.html" />">Cadastrar Usuário</a></li>
-									<li><a href="#">Gerar Senha</a></li>
+									<!--li><a href="#">Gerar Senha</a></li-->
 									<li><a href="<c:url value="/account-profile.html" />">Usuários</a></li>									
 								</ul>
 							</div>
@@ -69,7 +74,7 @@
 			</article>
 		</div>
 	</div>
-
+	</sec:authorize>
 <!-- Outros -->
 <div class="bordaBox">
 	<div class="conteudo">

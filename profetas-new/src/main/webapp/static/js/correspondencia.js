@@ -14,6 +14,9 @@ function fillRemAndDes(idRem, idDes){
         cache:false,
         url:'personagens.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var idRemetente = $('#idRemetente');
         	idRemetente.empty();
         	idRemetente.append('<option value="-1">Selecione um</option>');
@@ -35,18 +38,13 @@ function fillRemAndDes(idRem, idDes){
 }
 
 function checkFields(){
-	var _data	= $('#data').val();
 	var idRemetente	= $('#idRemetente').val();
 	var idDestinatario = $('#idDestinatario').val();
-	if(_data == undefined || _data == ''){
-		addMessage(jQuery.i18n.prop('err_data_required'), 'error');
-		return false;
-	}
-	if(idRemetente == undefined || idRemetente == ''){
+	if(idRemetente == undefined || idRemetente == '' || idRemetente == -1){
 		addMessage(jQuery.i18n.prop('err_remetente_required'), 'error');
 		return false;
 	}
-	if(idDestinatario == undefined || idDestinatario == ''){
+	if(idDestinatario == undefined || idDestinatario == '' || idDestinatario == -1){
 		addMessage(jQuery.i18n.prop('err_destinatario_required'), 'error');
 		return false;
 	}
@@ -82,8 +80,11 @@ function saveForm(){
         dataType : "json",
         data : data,
         success : function(data) {
+        	if(data == null)
+        		return;
+        	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		if(id == undefined || id == '') { clearFields(); }
         		loadGrid();
         	} else{

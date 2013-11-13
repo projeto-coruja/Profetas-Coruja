@@ -3,9 +3,9 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="maritacaMessages"></div>
-<c:if test="${not empty maritaca_message}">
+<div class="corujaMessages"></div>
+<c:if test="${not empty coruja_message}">
 	<script type="text/javascript">
-		addMessage("${maritaca_message.message}", "${maritaca_message.type.description}");
+		addMessage("${coruja_message.message}", "${coruja_message.type.description}");
 	</script>
 </c:if>

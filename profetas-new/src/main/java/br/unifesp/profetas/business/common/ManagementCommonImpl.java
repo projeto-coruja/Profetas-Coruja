@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.unifesp.profetas.business.correspondencia.CorrespondenciaDTO;
 import br.unifesp.profetas.business.encontro.EncontroDTO;
 import br.unifesp.profetas.business.fontesobras.ClassificacaoDTO;
 import br.unifesp.profetas.business.fontesobras.FontesObrasDTO;
@@ -15,6 +16,7 @@ import br.unifesp.profetas.business.personagem.PersonagemDTO;
 import br.unifesp.profetas.business.profile.ProfileDTO;
 import br.unifesp.profetas.business.religiao.ReligiaoCrencasDTO;
 import br.unifesp.profetas.persistence.domain.ClassificacaoDAO;
+import br.unifesp.profetas.persistence.domain.CorrespondenciaDAO;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
 import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.GrupoMovimentoDAO;
@@ -23,6 +25,7 @@ import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.domain.ProfileDAO;
 import br.unifesp.profetas.persistence.domain.ReligiaoCrencasDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
+import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.Encontro;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
@@ -42,6 +45,7 @@ public class ManagementCommonImpl implements ManagementCommon {
 	@Autowired private GrupoMovimentoDAO grupoMovimentoDAO;
 	@Autowired private ReligiaoCrencasDAO religiaoCrencasDAO;
 	@Autowired private EncontroDAO encontroDAO;
+	@Autowired private CorrespondenciaDAO correspondenciaDAO;
 	
 	public List<PersonagemDTO> getPersonagens() {
 		List<Personagem> personagens = personagemDAO.listPersonagem();
@@ -134,6 +138,19 @@ public class ManagementCommonImpl implements ManagementCommon {
 			eDTO.setId(e.getId());
 			eDTO.setNome(e.getNome());
 			listDTO.add(eDTO);
+		}
+		return listDTO;
+	}
+
+	public List<CorrespondenciaDTO> getCorrespondencias() {
+		List<Correspondencia> correspondencias = correspondenciaDAO.listCorrespondencia();
+		List<CorrespondenciaDTO> listDTO = new ArrayList<CorrespondenciaDTO>();
+		for(Correspondencia c : correspondencias){
+			CorrespondenciaDTO cDTO = new CorrespondenciaDTO();
+			cDTO.setId(c.getId());
+			cDTO.setNomeRemetente(c.getRemetente().getNome() + c.getRemetente().getApelido());
+			cDTO.setNomeDestinatario(c.getDestinatario().getNome() + c.getDestinatario().getApelido());
+			listDTO.add(cDTO);
 		}
 		return listDTO;
 	}

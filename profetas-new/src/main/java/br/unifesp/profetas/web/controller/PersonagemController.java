@@ -1,7 +1,5 @@
 package br.unifesp.profetas.web.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.business.personagem.ManagementPersonagem;
 import br.unifesp.profetas.business.personagem.PersonagemDTO;
 import br.unifesp.profetas.util.ProfetasConstants;

@@ -34,7 +34,7 @@
 	       	</div>
 	       	
 	       	<div class="center">
-	       		<a href="<c:url value='/remember-pass.html'/>" class=""><spring:message code="lbl_remember_pass"/></a>
+	       		<a href="<c:url value='/forgot-pass.html'/>" class=""><spring:message code="lbl_remember_pass"/></a>
 	       	</div>
 	    </form>
     </sec:authorize>

@@ -2,13 +2,17 @@ package br.unifesp.profetas.persistence.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
@@ -47,6 +51,9 @@ public class Correspondencia implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "c_data", nullable = true, length = 10)
 	private Date data;
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "correspondencias")
+	private Set<Personagem> corByPersonagem = new HashSet<Personagem>(0);
 	
 	@Type(type="yes_no")
 	@Column(name = "active")
@@ -93,7 +100,13 @@ public class Correspondencia implements Serializable {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	
+	public Set<Personagem> getCorByPersonagem() {
+		return corByPersonagem;
+	}
+	public void setCorByPersonagem(Set<Personagem> corByPersonagem) {
+		this.corByPersonagem = corByPersonagem;
+	}
+
 	public Boolean getActive() {
 		return active;
 	}

@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<sec:authorize access="hasRole('SAVE')">
+
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/jquery.tagsinput.js'/>" type="text/javascript"></script>
@@ -16,11 +18,23 @@
 	
 	<form:form id="fontes" modelAttribute="fontes">
 		<form:hidden id="id" path="id" />
+		<div class="label-box"><label for="localizacao"><spring:message code="lbl_localizacao"/></label></div>
+	    <div class="input-box"><form:input id="localizacao" path="localizacao" size="50" maxlength="100" /></div>		
+		<br />
+		
+		<div class="label-box"><label for="autor"><spring:message code="lbl_autor"/></label></div>
+	    <div class="input-box"><form:input id="autor" path="autor" size="50" maxlength="100" /></div>		
+		<br />
+		
 		<div class="label-box"><label for="titulo"><spring:message code="lbl_titulo"/></label></div>
 	    <div class="input-box"><form:input id="titulo" path="titulo" size="50" maxlength="100" /></div>		
 		<br />
 		
-		<div class="label-box"><label for=referenciasCirculacaoObra><spring:message code="lbl_referencias"/></label></div>
+		<div class="label-box"><label for=referenciaCompleta><spring:message code="lbl_ref_completa"/></label></div>
+	    <div class="input-box"><form:input id="referenciaCompleta" path="referenciaCompleta" size="50" maxlength="100" /></div>		
+		<br />
+		
+		<div class="label-box"><label for=referenciasCirculacaoObra><spring:message code="lbl_ref_circulacao"/></label></div>
 	    <div class="input-box"><form:input id="referenciasCirculacaoObra" path="referenciasCirculacaoObra" size="50" maxlength="100" /></div>		
 		<br />
 		
@@ -119,3 +133,7 @@
 		fillPalavrasChave("${fontes.strPalChave}");
 	</script>
 </div>
+
+</sec:authorize>
+
+<jsp:include page="../includes/accessDenied.jsp" flush="true" />

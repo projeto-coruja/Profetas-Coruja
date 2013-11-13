@@ -47,6 +47,9 @@ public class Local implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "locais")
 	private Set<GrupoMovimento> gMovimentos = new HashSet<GrupoMovimento>(0);
 	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "locaisPersonagens")
+	private Set<Personagem> personagens = new HashSet<Personagem>(0);
+	
 	@Type(type="yes_no")
 	@Column(name = "active")
 	private Boolean active;
@@ -104,7 +107,13 @@ public class Local implements Serializable {
 	public void setgMovimentos(Set<GrupoMovimento> gMovimentos) {
 		this.gMovimentos = gMovimentos;
 	}
-	
+	public Set<Personagem> getPersonagens() {
+		return personagens;
+	}
+	public void setPersonagens(Set<Personagem> personagens) {
+		this.personagens = personagens;
+	}
+
 	public Boolean getActive() {
 		return active;
 	}

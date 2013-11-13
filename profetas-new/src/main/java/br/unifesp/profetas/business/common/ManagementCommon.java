@@ -2,6 +2,7 @@ package br.unifesp.profetas.business.common;
 
 import java.util.List;
 
+import br.unifesp.profetas.business.correspondencia.CorrespondenciaDTO;
 import br.unifesp.profetas.business.encontro.EncontroDTO;
 import br.unifesp.profetas.business.fontesobras.ClassificacaoDTO;
 import br.unifesp.profetas.business.fontesobras.FontesObrasDTO;
@@ -28,4 +29,6 @@ public interface ManagementCommon {
 	public List<ReligiaoCrencasDTO> getReligioes();
 	
 	public List<EncontroDTO> getEncontros();
+	
+	public List<CorrespondenciaDTO> getCorrespondencias();
 }

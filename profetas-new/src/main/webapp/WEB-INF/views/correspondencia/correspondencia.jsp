@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<sec:authorize access="hasRole('SAVE')">
+
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/correspondencia.js'/>" type="text/javascript"></script>
@@ -13,14 +15,14 @@
 	
 	<form:form id="correspondencia" modelAttribute="correspondencia">
 		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="idRemetente"><spring:message code="lbl_remetente"/></label></div>
+		<div class="label-box"><label for="idRemetente"><spring:message code="lbl_remetente"/></label><span class="required"> (*)</span></div>
 	    <div class="input-box">
 	    	<form:select id="idRemetente" path="idRemetente">
 		    </form:select>
 	    </div>		
 		<br />
 		
-		<div class="label-box"><label for="idDestinatario"><spring:message code="lbl_destinatario"/></label></div>
+		<div class="label-box"><label for="idDestinatario"><spring:message code="lbl_destinatario"/></label><span class="required"> (*)</span></div>
 	    <div class="input-box">
 	    	<form:select id="idDestinatario" path="idDestinatario">
 		    </form:select>
@@ -50,3 +52,7 @@
 		fillLocals("${correspondencia.idLocal}");
 	</script>
 </div>
+
+</sec:authorize>
+
+<jsp:include page="../includes/accessDenied.jsp" flush="true" />

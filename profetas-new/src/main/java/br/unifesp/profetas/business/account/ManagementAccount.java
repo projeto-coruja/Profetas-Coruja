@@ -12,6 +12,10 @@ public interface ManagementAccount {
 
 	public MessageDTO saveUser(UserDTO userDTO);
 	
+	public MessageDTO recoveryPassStepOne(String username);
+	
+	public MessageDTO recoveryPassStepTwo(UserDTO userDTO);
+	
 	@PreAuthorize("hasRole('ADMIN')")
 	public WrapperGrid<UserDTO> getUserList(String orderBy, 
 			OrderType orderType, int page, int numRows);

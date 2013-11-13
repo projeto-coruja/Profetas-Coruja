@@ -3,7 +3,6 @@ package br.unifesp.profetas.persistence.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,6 +25,26 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
+/*
++ Sobrenome,
++ Nome,
++ Apelido/Conhecido Como,
++ Local Nascimento,
++ Data Nascimento,
++ Local Morte,
++ Data Morte,
++ Religião/Crença,
++? Grupo/Movimento profético,
++ Biografia,
++ Ocupação,
++ Formação,
++ Obras,
++ Locais por onde passou,
++? Encontros,
++ Correspondências,
+- Leituras,
++? Referências Bibliográficas
+ */
 @Entity
 @Table(name = "personagem")
 public class Personagem implements Serializable {
@@ -35,6 +54,9 @@ public class Personagem implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pers_seq_name")
 	@SequenceGenerator(name = "pers_seq_name", sequenceName = "pers_seq", allocationSize = 1)
 	private Long id;
+	
+	@Column(name="p_sobrenome", nullable = false, length = 100)
+	private String sobrenome;
 	
 	@Column(name="p_nome", nullable = false, length = 100)
 	private String nome;
@@ -79,22 +101,35 @@ public class Personagem implements Serializable {
 			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_religiao", 
 			nullable = false, updatable = false) })
-    private List<ReligiaoCrencas> religioes;
+	private Set<ReligiaoCrencas> religioes = new HashSet<ReligiaoCrencas>(0);
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "pers_encontros", joinColumns = { 
 			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_encontro", 
 			nullable = false, updatable = false) })
-    private List<Encontro> encontros;
+	private Set<Encontro> encontros = new HashSet<Encontro>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "pers_foob", joinColumns = { 
 			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "id_fontes", 
 			nullable = false, updatable = false) })
-    private List<FontesObras> obras;
+	private Set<FontesObras> obras = new HashSet<FontesObras>(0);
 	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "pers_locais", joinColumns = { 
+			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "id_local", 
+			nullable = false, updatable = false) })
+	private Set<Local> locaisPersonagens = new HashSet<Local>(0);
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "pers_correspondencias", joinColumns = { 
+			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "id_correspondencia", 
+			nullable = false, updatable = false) })
+	private Set<Correspondencia> correspondencias = new HashSet<Correspondencia>(0);
 	
 	@Type(type="yes_no")
 	@Column(name = "active")
@@ -121,6 +156,12 @@ public class Personagem implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}	
+	public String getSobrenome() {
+		return sobrenome;
+	}
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 	public String getNome() {
 		return nome;
@@ -200,23 +241,35 @@ public class Personagem implements Serializable {
 	public void setReferenciaBibliografica(FontesObras referenciaBibliografica) {
 		this.referenciaBibliografica = referenciaBibliografica;
 	}
-	public List<ReligiaoCrencas> getReligioes() {
+	public Set<ReligiaoCrencas> getReligioes() {
 		return religioes;
 	}
-	public void setReligioes(List<ReligiaoCrencas> religioes) {
+	public void setReligioes(Set<ReligiaoCrencas> religioes) {
 		this.religioes = religioes;
 	}
-	public List<Encontro> getEncontros() {
+	public Set<Encontro> getEncontros() {
 		return encontros;
 	}
-	public void setEncontros(List<Encontro> encontros) {
+	public void setEncontros(Set<Encontro> encontros) {
 		this.encontros = encontros;
 	}
-	public List<FontesObras> getObras() {
+	public Set<FontesObras> getObras() {
 		return obras;
 	}
-	public void setObras(List<FontesObras> obras) {
+	public void setObras(Set<FontesObras> obras) {
 		this.obras = obras;
+	}	
+	public Set<Local> getLocaisPersonagens() {
+		return locaisPersonagens;
+	}
+	public void setLocaisPersonagens(Set<Local> locaisPersonagens) {
+		this.locaisPersonagens = locaisPersonagens;
+	}
+	public Set<Correspondencia> getCorrespondencias() {
+		return correspondencias;
+	}
+	public void setCorrespondencias(Set<Correspondencia> correspondencias) {
+		this.correspondencias = correspondencias;
 	}
 
 	public Boolean getActive() {

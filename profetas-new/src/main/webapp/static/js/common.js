@@ -9,6 +9,9 @@ function fillClassificacoes(idSelected){
         cache:false,
         url:'classificacoes.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $("#idClassificacao");
         	combo.empty();
         	combo.append('<option value="-1">Selecione um</option>');
@@ -30,6 +33,9 @@ function fillProfiles(idSelected){
         cache:false,
         url:'profiles.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $("#idProfile");
         	combo.empty();
         	if(data == null)
@@ -54,6 +60,9 @@ function fillLocals(idSelected, idDiv){
         cache:false,
         url:'locals.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo;
         	if(idDiv != undefined && idDiv != null){
         		combo = $('#'+idDiv);
@@ -74,7 +83,7 @@ function fillLocals(idSelected, idDiv){
     });
 }
 //Select Multiple
-function fillMultipleLocals(idsSelected){
+function fillMultipleLocals(idsSelected, idDiv){
 	var str_ids = JSON.parse('['+ idsSelected +']');
 	str_ids = str_ids.toString();
 	split_ids = str_ids.split(",");
@@ -88,7 +97,14 @@ function fillMultipleLocals(idsSelected){
         cache:false,
         url:'locals.html',
         success: function(data, textStatus, jqXHR){
-        	var combo = $("#idLocais");
+        	if(data == null)
+        		return;
+        	
+        	if(idDiv != undefined && idDiv != null){
+        		combo = $('#'+idDiv);
+        	} else{
+        		combo = $('#idLocais');
+        	}
         	combo.empty();
         	if(data == null)
         		return;
@@ -105,6 +121,41 @@ function fillMultipleLocals(idsSelected){
     });
 }
 
+function fillMultipleCorrespondencias(idsSelected, idDiv){
+	var str_ids = JSON.parse('['+ idsSelected +']');
+	str_ids = str_ids.toString();
+	split_ids = str_ids.split(",");
+	var ids = [];
+	for(var i = 0; i < split_ids.length; i++){
+		ids.push(parseInt(split_ids[i]));
+	}
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'correspondencias.html',
+        success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
+        	var combo = $('#'+idDiv);
+        	combo.empty();
+        	if(data == null)
+        		return;
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	var pos = ids.indexOf(data[i].id);
+            	if(pos > -1){
+            		_selected = ' selected="selected"';
+            	}
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nomeRemetente + ' - '+  data[i].nomeDestinatario +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
+
+//Select Multiple
 function fillGrupoMovimento(idSelected, idDiv){
 	$.ajax({
         dataType:'json',
@@ -112,6 +163,9 @@ function fillGrupoMovimento(idSelected, idDiv){
         cache:false,
         url:'gru-movimentos.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo;
         	if(idDiv != undefined && idDiv != null){
         		combo = $('#'+idDiv);
@@ -139,6 +193,9 @@ function fillProfileList(){
         cache:false,
         url:'profiles.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $("#idProfile");
         	combo.empty();
         	combo.append('<option value="-1">Selecione um</option>');
@@ -163,6 +220,9 @@ function fillMultiplePersonagens(idsSelected, idDiv){
         cache:false,
         url:'personagens.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $('#'+idDiv);
         	combo.empty();
         	if(data == null)
@@ -192,6 +252,9 @@ function fillObras(idSelected, idDiv){
         cache:false,
         url:'obras.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo;
         	if(idDiv != undefined && idDiv != null){
         		combo = $('#'+idDiv);
@@ -226,6 +289,9 @@ function fillMultipleObras(idsSelected, idDiv){
         cache:false,
         url:'obras.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $('#'+idDiv);
         	combo.empty();
         	if(data == null)
@@ -262,6 +328,9 @@ function fillMultipleReligioesCrencas(idsSelected, idDiv){
         cache:false,
         url:'religioes-crencas.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $('#'+idDiv);
         	combo.empty();
         	if(data == null)
@@ -298,6 +367,9 @@ function fillMultipleEncontros(idsSelected, idDiv){
         cache:false,
         url:'encontros.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $('#'+idDiv);
         	combo.empty();
         	if(data == null)
@@ -330,8 +402,11 @@ function deleteForm(id){
         dataType : "json",
         data : data,
         success : function(data) {
+        	if(data == null)
+        		return;
+        	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		loadGrid();
         	} else{
         		addMessage(data.message, 'error');
@@ -351,8 +426,11 @@ function commonSaveForm(_url, _data){
         dataType : "json",
         data : _data,
         success : function(data) {
+        	if(data == null)
+        		return;
+        	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		loadGrid();
         	} else{
         		addMessage(data.message, 'error');
@@ -384,7 +462,10 @@ function loadGrid(orderBy, orderType, page, search_words){
         	page:_page,
         	searchBy: search_words
         },
-        success: function(data, textStatus, jqXHR){         	
+        success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	buildGrid(div_id, data);
         }
     });

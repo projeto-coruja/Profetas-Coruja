@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import br.unifesp.profetas.business.AbstractBusiness;
@@ -12,10 +16,8 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.persistence.domain.ProfileDAO;
 import br.unifesp.profetas.persistence.domain.UserAccountDAO;
-import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.persistence.model.Profile;
 import br.unifesp.profetas.persistence.model.UserAccount;
 import br.unifesp.profetas.util.ProfetasConstants;
@@ -25,8 +27,13 @@ import br.unifesp.profetas.util.UtilValidator;
 @Service("account")
 public class ManagementAccountImpl extends AbstractBusiness implements ManagementAccount {
 	
+	private static Logger logger = Logger.getLogger(ManagementAccountImpl.class);
+	
 	@Autowired UserAccountDAO userAccountDAO;
 	@Autowired ProfileDAO profileDAO;
+	
+	@Autowired MailSender mailSender;
+	@Autowired SimpleMailMessage templateMail;
 	
 	public boolean userExists(String username) {
 		if(userAccountDAO.getUserByUsername(username) != null){
@@ -124,5 +131,38 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 		} catch(Exception e){
 			return new MessageDTO(getText("err_profile_not_updated"), MessageType.ERROR);
 		}
+	}
+
+	public MessageDTO recoveryPassStepOne(String username) {
+		UserAccount userAcc = userAccountDAO.getUserByUsername(username);
+		if(userAcc != null){
+			userAcc.setActivationCode(UtilCodification.randomString());
+			userAcc.setCreationDateCode(new Date());
+			String link = "http://localhost:8080/profetas/update-pass.html?user="+username+"&code="+userAcc.getActivationCode();
+			System.out.println(link);
+			userAccountDAO.updateUserAccount(userAcc);
+			
+			SimpleMailMessage message = new SimpleMailMessage(templateMail);
+			message.setText("Para recuperar sua senha, siga o link: " + link); // TODO: deixar configurável o texto?
+			message.setTo(userAcc.getEmail());
+			try{ 
+				mailSender.send(message);
+			} catch(MailException e) {
+				return new MessageDTO(getText("err_recovery_pass_email_failed"), MessageType.ERROR);
+			}
+			
+			return new MessageDTO(getText("msg_recovery_pass_1"), MessageType.SUCCESS);
+		}
+		return new MessageDTO(getText("err_username_not_found"), MessageType.ERROR);
+	}
+
+	public MessageDTO recoveryPassStepTwo(UserDTO userDTO) {
+		UserAccount userAcc = userAccountDAO.getUserByUsernameAndCode(userDTO.getEmail(), userDTO.getActivationCode());
+		if(userAcc != null){
+			userAcc.setPassword(UtilCodification.encryptHex(userDTO.getPassword(), "MD5"));
+			userAccountDAO.updateUserAccount(userAcc);
+			return new MessageDTO(getText("msg_recovery_pass_2"), MessageType.SUCCESS);
+		}
+		return new MessageDTO(getText("err_recovery_pass_failed"), MessageType.ERROR);
 	}
 }

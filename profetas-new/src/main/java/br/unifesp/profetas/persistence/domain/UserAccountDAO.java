@@ -4,10 +4,6 @@ import java.util.List;
 
 import br.unifesp.profetas.persistence.model.UserAccount;
 
-/*public interface UserAccountDAO extends GenericDAO<UserAccount> {
-	
-	public UserAccount getUserByUsername(String username);
-}*/
 public interface UserAccountDAO {
 	
 	public void saveUserAccount(UserAccount user);
@@ -19,4 +15,6 @@ public interface UserAccountDAO {
 	public UserAccount getUserById(Long id);
 	
 	public List<UserAccount> getUserList();
+
+	public UserAccount getUserByUsernameAndCode(String username, String activationCode);
 }

@@ -5,8 +5,11 @@ import br.unifesp.profetas.business.common.CommonDTO;
 public class FontesObrasDTO extends CommonDTO {
 
 	private Long id;
+	private String localizacao;
+	private String autor;
 	private String titulo;
 	private String comentarios;
+	private String referenciaCompleta;
 	private String referenciasCirculacaoObra;
 	private String url;
 	private String copiasManuscritas;
@@ -16,22 +19,34 @@ public class FontesObrasDTO extends CommonDTO {
 	private Long idLocalImpressao;
 	private Integer idClassificacao;
 	private Long idGruMovimento;
-	private String[] idLeitores;
+	private Long[] idLeitores;
 	private String strLeitores;
-	private String[] idPersonagens;
+	private Long[] idPersonagens;
 	private String strPersonagens;
-	private String[] idAutCitados;
+	private Long[] idAutCitados;
 	private String strAutCitados;
-	private String[] idObrCitadas;
+	private Long[] idObrCitadas;
 	private String strObrCitadas;
 	private String[] palavrasChave;
-	private String strPalChave;	
+	private String strPalChave;
 	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getLocalizacao() {
+		return localizacao;
+	}
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+	public String getAutor() {
+		return autor;
+	}
+	public void setAutor(String autor) {
+		this.autor = autor;
 	}
 	public String getTitulo() {
 		return titulo;
@@ -45,12 +60,18 @@ public class FontesObrasDTO extends CommonDTO {
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
 	}
+	public String getReferenciaCompleta() {
+		return referenciaCompleta;
+	}
+	public void setReferenciaCompleta(String referenciaCompleta) {
+		this.referenciaCompleta = referenciaCompleta;
+	}
 	public String getReferenciasCirculacaoObra() {
 		return referenciasCirculacaoObra;
 	}
 	public void setReferenciasCirculacaoObra(String referenciasCirculacaoObra) {
 		this.referenciasCirculacaoObra = referenciasCirculacaoObra;
-	}	
+	}
 	public String getUrl() {
 		return url;
 	}
@@ -99,10 +120,10 @@ public class FontesObrasDTO extends CommonDTO {
 	public void setIdGruMovimento(Long idGruMovimento) {
 		this.idGruMovimento = idGruMovimento;
 	}
-	public String[] getIdLeitores() {
+	public Long[] getIdLeitores() {
 		return idLeitores;
 	}
-	public void setIdLeitores(String[] idLeitores) {
+	public void setIdLeitores(Long[] idLeitores) {
 		this.idLeitores = idLeitores;
 	}
 	public String getStrLeitores() {
@@ -111,10 +132,10 @@ public class FontesObrasDTO extends CommonDTO {
 	public void setStrLeitores(String strLeitores) {
 		this.strLeitores = strLeitores;
 	}
-	public String[] getIdPersonagens() {
+	public Long[] getIdPersonagens() {
 		return idPersonagens;
 	}
-	public void setIdPersonagens(String[] idPersonagens) {
+	public void setIdPersonagens(Long[] idPersonagens) {
 		this.idPersonagens = idPersonagens;
 	}
 	public String getStrPersonagens() {
@@ -123,10 +144,10 @@ public class FontesObrasDTO extends CommonDTO {
 	public void setStrPersonagens(String strPersonagens) {
 		this.strPersonagens = strPersonagens;
 	}
-	public String[] getIdAutCitados() {
+	public Long[] getIdAutCitados() {
 		return idAutCitados;
 	}
-	public void setIdAutCitados(String[] idAutCitados) {
+	public void setIdAutCitados(Long[] idAutCitados) {
 		this.idAutCitados = idAutCitados;
 	}
 	public String getStrAutCitados() {
@@ -135,10 +156,10 @@ public class FontesObrasDTO extends CommonDTO {
 	public void setStrAutCitados(String strAutCitados) {
 		this.strAutCitados = strAutCitados;
 	}
-	public String[] getIdObrCitadas() {
+	public Long[] getIdObrCitadas() {
 		return idObrCitadas;
 	}
-	public void setIdObrCitadas(String[] idObrCitadas) {
+	public void setIdObrCitadas(Long[] idObrCitadas) {
 		this.idObrCitadas = idObrCitadas;
 	}
 	public String getStrObrCitadas() {
@@ -146,7 +167,7 @@ public class FontesObrasDTO extends CommonDTO {
 	}
 	public void setStrObrCitadas(String strObrCitadas) {
 		this.strObrCitadas = strObrCitadas;
-	}	
+	}
 	public String[] getPalavrasChave() {
 		return palavrasChave;
 	}

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.unifesp.profetas.business.common.ManagementCommon;
+import br.unifesp.profetas.business.correspondencia.CorrespondenciaDTO;
 import br.unifesp.profetas.business.encontro.EncontroDTO;
 import br.unifesp.profetas.business.fontesobras.ClassificacaoDTO;
 import br.unifesp.profetas.business.fontesobras.FontesObrasDTO;
@@ -92,6 +93,15 @@ public class CommonController {
 	public @ResponseBody List<EncontroDTO> getEncontrosCrencas(SecurityContextHolderAwareRequestWrapper request) {
 		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
 			return mCommon.getEncontros();
+		} else {
+			return null;
+		}		
+	}
+	
+	@RequestMapping(value = "/correspondencias", method = RequestMethod.GET)
+	public @ResponseBody List<CorrespondenciaDTO> getCorrespondencias(SecurityContextHolderAwareRequestWrapper request) {
+		if(request.isUserInRole(ProfetasConstants.ROLE_NAME_SAVE)){
+			return mCommon.getCorrespondencias();
 		} else {
 			return null;
 		}		
