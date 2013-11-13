@@ -19,7 +19,7 @@
 	<div class="conteudo">
 		<article class="menuLateral">
 			<ul class="nav" id="menu">
-				<li><a class="borderTop" href="<c:url value="/jsp/search.jsp" />">Pesquisar entrada</a></li>
+				<li><a class="borderTop" href="<c:url value="/search.html" />">Pesquisar entrada</a></li>
 			</ul>
 		</article>
 	</div>
@@ -64,7 +64,7 @@
 							<div>
 								<ul>
 									<li><a class="borderTop" href="<c:url value="/account.html" />">Cadastrar Usuário</a></li>
-									<li><a href="#">Gerar Senha</a></li>
+									<!--li><a href="#">Gerar Senha</a></li-->
 									<li><a href="<c:url value="/account-profile.html" />">Usuários</a></li>									
 								</ul>
 							</div>

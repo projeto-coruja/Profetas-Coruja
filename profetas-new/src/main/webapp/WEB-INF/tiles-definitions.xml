@@ -72,6 +72,11 @@
         <put-attribute name="content" value="/WEB-INF/views/fontes/fontesObras.jsp" />
     </definition>
     
+    <!-- Search -->
+    <definition name="search" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/search/search.jsp" />
+    </definition>
+    
     <!-- anothers -->
     <definition name="page_tutorial" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/others/tutorial.jsp" />
