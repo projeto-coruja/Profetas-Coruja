@@ -48,7 +48,7 @@ function saveForm(){
         		return;
         	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		if(id == undefined || id == '') { clearFields(); }
         		loadGrid();
         	} else{

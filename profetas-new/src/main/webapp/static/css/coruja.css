@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-.maritacaMessages {
+.corujaMessages {
 	float: right;
 	margin-right: 20px;
 	position: fixed;
@@ -8,7 +8,7 @@
 	right: 20px;
 }
 
-.maritacaMsg {
+.corujaMsg {
 	display: none;
 	padding: 5px;
 	font-family: sans-serif;
@@ -32,7 +32,7 @@
 }
 
 .infoMsg {
-	background-color: #A3DBFF;
+	background-color: #A3DBFF !important;
 	border-color: #5A63FF;
 }
 
@@ -63,9 +63,9 @@ table.grid th {
 	border: 1px solid #F0F0F0;
 	padding: 5px;
 	font-weight: bold;
-	background-image: -moz-linear-gradient(center bottom, #C3F7D7 41%, #7BBD88 95%);
-	background-image: -webkit-linear-gradient(bottom, #C3F7D7 41%, #7BBD88 95%);
-	background-image: -ms-linear-gradient(bottom, #C3F7D7 41%, #7BBD88 95%);
+	background-image: -moz-linear-gradient(center bottom, #B8D0DE 41%, #6792AB 95%);
+	background-image: -webkit-linear-gradient(bottom, #B8D0DE 41%, #6792AB 95%);
+	background-image: -ms-linear-gradient(bottom, #B8D0DE 41%, #6792AB 95%);
 	color: #17801A;
 	text-align: left;
 }
@@ -170,15 +170,15 @@ ul,ol,dl {
 }
 
 a:link {
-	color: #17801A;
+	color: #F38630;
 	text-decoration: none;
 }
 a:visited {
-	color: #17801A;
+	color: #F38630;
 	text-decoration: none;
 }
 a:hover {
-	color: #17801A;
+	color: #F38630;
 	text-decoration: none;
 }
 input, textarea, select {

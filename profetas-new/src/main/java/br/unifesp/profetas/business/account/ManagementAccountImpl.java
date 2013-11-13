@@ -16,7 +16,6 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.fontesobras.ManagementFontesObrasImpl;
 import br.unifesp.profetas.persistence.domain.ProfileDAO;
 import br.unifesp.profetas.persistence.domain.UserAccountDAO;
 import br.unifesp.profetas.persistence.model.Profile;

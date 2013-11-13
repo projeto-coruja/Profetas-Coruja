@@ -43,7 +43,7 @@ function saveForm(){
         	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
         		$('#email').val('');
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         	} else{
         		addMessage(data.message, 'error');
         	}

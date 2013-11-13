@@ -54,7 +54,7 @@ function changeUrlWithoutReload(urlPath){
 }
 
 /* Messages */
-var MaritacaMessage = function() {
+var CorujaMessage = function() {
 	this.message = '';
 	this.id = new Date().getTime();
 	this.type = 'default';
@@ -74,10 +74,10 @@ var MaritacaMessage = function() {
 			typeclass = 'infoMsg';
 			break;
 		}
-		var html = '<div id=' + this.id + ' class="maritacaMsg ' + typeclass
+		var html = '<div id=' + this.id + ' class="corujaMsg ' + typeclass
 				+ '">';
 		html += '<p>' + this.message + '</p></div>';
-		$('.maritacaMessages').append(html);
+		$('.corujaMessages').append(html);
 		$('#' + this.id).fadeIn(400).delay(4000).fadeOut(400);
 		window.setTimeout("removeMessage('" + this.id + "')", 4800);
 
@@ -90,7 +90,7 @@ function removeMessage(id) {
 
 // add a message to be shown for 4 seconds
 var addMessage = function(msg, type) {	
-	var marMsg = new MaritacaMessage();
+	var marMsg = new CorujaMessage();
 	marMsg.message = msg;
 	marMsg.type = type;
 	marMsg.render();

@@ -19,7 +19,7 @@ $(document).ready(function() {
 	        data : data,
 	        success : function(data) {
 	        	if(TXT_SUCCESS == data.type.toLowerCase()){
-	        		addMessage(data.message, 'sucess');
+	        		addMessage(data.message, 'success');
 	        	} else{
 	        		addMessage(data.message, 'error');
 	        	}

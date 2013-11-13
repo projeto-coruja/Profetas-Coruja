@@ -20,6 +20,7 @@ import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
+import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
@@ -106,6 +107,16 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 				}
 			}
 			//Palavras chave
+				Set<PalavraChave> palavrasChaveSet = fontesObras.getPalavrasChave();
+			if(!palavrasChaveSet.isEmpty()){
+				List<String> palavrasChave = new ArrayList<String>(palavrasChaveSet.size());
+				for(PalavraChave p : palavrasChaveSet){
+					palavrasChave.add(p.getPalavraChave());
+				}
+				if(!palavrasChave.isEmpty()){
+					fDTO.setStrPalChave(palavrasChave.toString());
+				}
+			}
 			
 			return fDTO;
 		}

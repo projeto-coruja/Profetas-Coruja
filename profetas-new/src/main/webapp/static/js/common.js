@@ -84,7 +84,6 @@ function fillLocals(idSelected, idDiv){
 }
 //Select Multiple
 function fillMultipleLocals(idsSelected, idDiv){
-	console.log('wa');
 	var str_ids = JSON.parse('['+ idsSelected +']');
 	str_ids = str_ids.toString();
 	split_ids = str_ids.split(",");
@@ -407,7 +406,7 @@ function deleteForm(id){
         		return;
         	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		loadGrid();
         	} else{
         		addMessage(data.message, 'error');
@@ -431,7 +430,7 @@ function commonSaveForm(_url, _data){
         		return;
         	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		loadGrid();
         	} else{
         		addMessage(data.message, 'error');

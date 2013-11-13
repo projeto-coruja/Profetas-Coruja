@@ -98,7 +98,7 @@ function saveForm(){
         		return;
         	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		if(id == undefined || id == '') { clearFields(); }
         		loadGrid();
         	} else{
@@ -122,5 +122,9 @@ function buildGrid(div_id, data){
 }
 
 function fillPalavrasChave(strPalavrasChave){
-	
+	if(strPalavrasChave != undefined && strPalavrasChave != ''){
+		var palavras_size = strPalavrasChave.length;
+		var str_items = strPalavrasChave.substring(1, palavras_size - 1);
+		$('#palavrasChave').val(str_items);
+	}
 }

@@ -35,7 +35,7 @@ function saveForm(){
         		return;
         	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
-        		addMessage(data.message, 'sucess');
+        		addMessage(data.message, 'success');
         		loadGrid();
         	} else{
         		addMessage(data.message, 'error');
