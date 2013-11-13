@@ -11,13 +11,7 @@ public class MainClass {
 		Login login = (Login) appContext.getBean(LoginImpl.class);
 		UserDTO u = login.getUserByUsername("sirghost@gmail.com");
 		
-		System.out.println("user: " + u.getFullName());*/
-		try {
-			new MailProfetas().sendEmail("sirghost@gmail.com", "ups!", "no mames");
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println("user: " + u.getFullName());*/		
 
 	}
 }
