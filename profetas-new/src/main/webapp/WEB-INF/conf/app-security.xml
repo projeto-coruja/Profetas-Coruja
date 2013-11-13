@@ -14,7 +14,7 @@
         <intercept-url pattern="/index.html" access="permitAll"/>
         <form-login login-page="/index.html" authentication-failure-url="/index.html?error=true" />
         <logout invalidate-session="true" logout-url="/logout.html" success-handler-ref="logoutHandler" />
-        <!--logout logout-success-url="/index.html" /-->
+        <logout logout-success-url="/index.html" />
     </http>
 
     <sec:authentication-manager>

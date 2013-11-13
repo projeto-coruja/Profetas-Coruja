@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.personagem.ManagementPersonagemImpl;
 import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
@@ -24,7 +22,6 @@ import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.persistence.model.PalavraChave;
 import br.unifesp.profetas.persistence.model.Personagem;
-import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mFontesObras")
@@ -43,6 +40,8 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 			//SimpleDateFormat dateFormat = new SimpleDateFormat(ProfetasConstants.DATE_FORMAT_SHORT);
 			FontesObrasDTO fDTO = new FontesObrasDTO();
 			fDTO.setId(fontesObras.getId());
+			fDTO.setLocalizacao(fontesObras.getLocalizacao());
+			fDTO.setAutor(fontesObras.getAutor());
 			fDTO.setTitulo(fontesObras.getTitulo());
 			fDTO.setComentarios(fontesObras.getComentarios());
 			fDTO.setReferenciasCirculacaoObra(fontesObras.getReferenciasCirculacaoObra());
@@ -66,6 +65,8 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 	}
 	
 	private FontesObras getFontesObras(FontesObras fontesObras, FontesObrasDTO fontesObrasDTO){
+		fontesObras.setLocalizacao(fontesObrasDTO.getLocalizacao());
+		fontesObras.setAutor(fontesObrasDTO.getAutor());
 		fontesObras.setTitulo(fontesObrasDTO.getTitulo());
 		fontesObras.setComentarios(fontesObrasDTO.getComentarios());
 		fontesObras.setReferenciasCirculacaoObra(fontesObrasDTO.getReferenciasCirculacaoObra());

@@ -15,10 +15,13 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
+import br.unifesp.profetas.persistence.domain.CorrespondenciaDAO;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
 import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
+import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.domain.ReligiaoCrencasDAO;
+import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.Encontro;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.Local;
@@ -37,6 +40,8 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	@Autowired private ReligiaoCrencasDAO religiaoCrencasDAO;
 	@Autowired private EncontroDAO encontroDAO;
 	@Autowired private FontesObrasDAO fontesObrasDAO;
+	@Autowired private LocalDAO localDAO;
+	@Autowired private CorrespondenciaDAO correspondenciaDAO;
 	
 	public PersonagemDTO getPersonagemById(Long id) {
 		Personagem personagem = personagemDAO.getPersonagemById(id);
@@ -44,6 +49,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			SimpleDateFormat dateFormat = new SimpleDateFormat(ProfetasConstants.DATE_FORMAT_SHORT);
 			PersonagemDTO pDTO = new PersonagemDTO();
 			pDTO.setId(personagem.getId());
+			pDTO.setSobrenome(personagem.getSobrenome());
 			pDTO.setNome(personagem.getNome());
 			pDTO.setApelido(personagem.getApelido());
 			pDTO.setIdNascimento(personagem.getLocalNascimento().getId());
@@ -70,6 +76,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		Date dataMorte = UtilValidator.getDateFromString(personagemDTO.getDataMorte());
 		
 		personagem.setNome(personagemDTO.getNome());
+		personagem.setSobrenome(personagemDTO.getSobrenome());
 		personagem.setApelido(personagemDTO.getApelido());
 		personagem.setLocalNascimento(new Local(personagemDTO.getIdNascimento()));
 		personagem.setDataNascimento(dataNasc);
@@ -134,10 +141,42 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 						if(f != null){
 							fontes.add(f);
 						} else{
-							logger.error("Fonte/Obra: " + personagemDTO.getIdEncontros()[i] + " does not exist");
+							logger.error("Fonte/Obra: " + personagemDTO.getIdObras()[i] + " does not exist");
 						}
 					}
 					personagem.setObras(new HashSet<FontesObras>(fontes));
+				}
+			}
+			//Local
+			if(personagemDTO.getIdLocaisPers() != null){
+				int locaisLength = personagemDTO.getIdLocaisPers().length;
+				if(locaisLength > 0){
+					List<Local> locais = new ArrayList<Local>(locaisLength);
+					for(int i = 0; i < locaisLength; i++){
+						Local l = localDAO.getLocalById(Long.parseLong(personagemDTO.getIdLocaisPers()[i]));
+						if(l != null){
+							locais.add(l);
+						} else{
+							logger.error("Local: " + personagemDTO.getIdLocaisPers()[i] + " does not exist");
+						}
+					}
+					personagem.setLocaisPersonagens(new HashSet<Local>(locais));
+				}
+			}
+			//Correspondencia
+			if(personagemDTO.getIdCorrespondencias() != null){
+				int corLength = personagemDTO.getIdCorrespondencias().length;
+				if(corLength > 0){
+					List<Correspondencia> correspondencias = new ArrayList<Correspondencia>(corLength);
+					for(int i = 0; i < corLength; i++){
+						Correspondencia c = correspondenciaDAO.getCorrespondenciaById(Long.parseLong(personagemDTO.getIdCorrespondencias()[i]));
+						if(c != null){
+							correspondencias.add(c);
+						} else{
+							logger.error("Correspondencia: " + personagemDTO.getIdCorrespondencias()[i] + " does not exist");
+						}
+					}
+					personagem.setCorrespondencias(new HashSet<Correspondencia>(correspondencias));
 				}
 			}
 			//

@@ -14,6 +14,8 @@ $(document).ready(function() {
 });
 
 function clearFields(){
+	$('#localizacao').val('');
+	$('#autor').val('');
 	$('#titulo').val('');
     $('#referenciasCirculacaoObra').val('');
     $('#comentarios').val('');
@@ -49,7 +51,10 @@ function saveForm(){
 		
 	var url			= URL_SECTION+'/save.html';
 	var id			= $('#id').val();
+	var localizacao	= $('#localizacao').val();
+	var autor		= $('#autor').val();
 	var titulo		= $('#titulo').val();
+	var referenciaCompleta = $('#referenciaCompleta').val();
     var referenciasCirculacaoObra = $('#referenciasCirculacaoObra').val();
     var comentarios	= $('#comentarios').val();
     var url_fontes	= $('#url').val();
@@ -73,7 +78,8 @@ function saveForm(){
 	    }
 	var palavrasChave 	= tags;    
     
-    var data = JSON.stringify({ "id" : id, "titulo" : titulo, "referenciasCirculacaoObra" : referenciasCirculacaoObra, 
+    var data = JSON.stringify({ "id" : id, "titulo" : titulo, "localizacao" : localizacao, "autor" : autor,
+    	"referenciaCompleta" : referenciaCompleta, "referenciasCirculacaoObra" : referenciasCirculacaoObra, 
     	"comentarios" : comentarios, "url" : url_fontes, "copiasManuscritas" : copiasManuscritas, 
     	"traducoes" : traducoes, "editor" : editor, "dataImpressao" : dataImpressao, 
     	"idLocalImpressao" : idLocalImpressao, "idClassificacao" : idClassificacao, 
@@ -88,6 +94,9 @@ function saveForm(){
         dataType : "json",
         data : data,
         success : function(data) {
+        	if(data == null)
+        		return;
+        	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
         		addMessage(data.message, 'sucess');
         		if(id == undefined || id == '') { clearFields(); }

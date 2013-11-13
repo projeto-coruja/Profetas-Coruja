@@ -21,6 +21,6 @@ public class LogoutHandler extends SimpleUrlLogoutSuccessHandler {
         if (httpSession != null) {
             httpSession.invalidate();
         }        
-        response.sendRedirect("redirect:/index.html");
+        response.sendRedirect("index.html");
     }
 }

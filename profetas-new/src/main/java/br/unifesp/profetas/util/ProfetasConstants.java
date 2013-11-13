@@ -14,11 +14,17 @@ public class ProfetasConstants {
 	public static final String ROLE_NAME_SAVE		= "SAVE";
 	public static final String ROLE_NAME_SEARCH	= "SEARCH";
 	
+	/* Classificacoes */
+	public static final String CLA_MANUSCRITO	= "MANUSCRITO";
+	public static final String CLA_IMPRESSO	= "IMPRESSO";
+	public static final String CLA_PICTORICO	= "PICTORICO";
+	
 	public static final String LOCALE_DEFAULT		= "PT";
 	public static final int ITEMS_PER_PAGE		= 10;
+	public static final int STRING_LENGTH 		= 10;
+	
 	//ISO 8601
 	public final static String DATE_FORMAT_SHORT	="yyyy-MM-dd";
-	
 	
 	public static final short MIN_FULLNAME_SIZE	= 2;
 	public static final short MAX_FULLNAME_SIZE	= 25;

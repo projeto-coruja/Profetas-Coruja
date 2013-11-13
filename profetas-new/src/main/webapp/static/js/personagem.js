@@ -9,6 +9,7 @@ $(document).ready(function() {
 
 function clearFields(){
 	$('#nome').val('');
+	$('#sobrenome').val('');
     $('#apelido').val('');
     $('#idNascimento').val('');
     $('#dataNascimento').val('');
@@ -21,6 +22,8 @@ function clearFields(){
     $('#idReligioes').val('');
     $('#idEncontros').val('');
     $('#idObras').val();
+    $('#idCorrespondencias').val();
+    $('idLocaisPers').val();
 }
 
 function checkFields(){
@@ -39,7 +42,8 @@ function saveForm(){
 	var url			= URL_SECTION+'/save.html';
 	var id			= $('#id').val();
 	var nome		= $('#nome').val();
-	var apelido		= $('#apelido').val();
+	var sobrenome		= $('#sobrenome').val();
+	var apelido			= $('#apelido').val();
     var idNascimento	= $('#idNascimento').val();
     var dataNascimento	= $('#dataNascimento').val();
     var idMorte 	= $('#idMorte').val();
@@ -52,11 +56,14 @@ function saveForm(){
     var idReligioes	= $('#idReligioes').val();
     var idEncontros	= $('#idEncontros').val();
     var idObras		= $('#idObras').val();
+    var idCorrespondencias	= $('#idCorrespondencias').val();
+    var idLocaisPers		= $('#idLocaisPers').val();
     
-    var data = JSON.stringify({ "id" : id, "nome" : nome, "apelido" : apelido, 
+    var data = JSON.stringify({ "id" : id, "nome" : nome, "sobrenome" : sobrenome, "apelido" : apelido, 
     	"idNascimento" : idNascimento, "dataNascimento" : dataNascimento, "idMorte" : idMorte, "dataMorte" : dataMorte, 
     	"biografia" : biografia, "ocupacao" : ocupacao, "formacao" : formacao, "idRefBibliografica" : idRefBibliografica, 
-    	"idReligioes" : idReligioes, "idEncontros" : idEncontros, "idObras" : idObras });
+    	"idReligioes" : idReligioes, "idEncontros" : idEncontros, "idObras" : idObras, "idCorrespondencias" : idCorrespondencias, 
+    	"idLocaisPers" : idLocaisPers });
     
     $.ajax({
         url : url,
@@ -66,6 +73,9 @@ function saveForm(){
         dataType : "json",
         data : data,
         success : function(data) {
+        	if(data == null)
+        		return;
+        	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
         		addMessage(data.message, 'sucess');
         		if(id == undefined || id == '') { clearFields(); }

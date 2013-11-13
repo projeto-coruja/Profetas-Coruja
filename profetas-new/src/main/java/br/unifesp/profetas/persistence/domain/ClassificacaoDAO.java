@@ -9,4 +9,8 @@ public interface ClassificacaoDAO {
 	public Classificacao getClassificacaoById(Long id);
 	
 	public List<Classificacao> listClassificacao();
+
+	public Classificacao getClassificacaoByNome(String classificacao);
+	
+	public void saveClassificacao(Classificacao classificacao);
 }

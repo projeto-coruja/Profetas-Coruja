@@ -1,4 +1,5 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <jsp:include page="login.jsp" flush="true" />
 
@@ -26,6 +27,7 @@
 
 	<!-- Admin -->
 	<!-- Cadastros -->
+	<sec:authorize access="hasRole('SAVE')">
 	<div class="bordaBox">
 		<div class="conteudo">
 			<article class="menuLateral">
@@ -49,7 +51,10 @@
 			</article>
 		</div>
 	</div>
+	</sec:authorize>
+	
 	<!-- Controle -->
+	<sec:authorize access="hasRole('ADMIN')">
 	<div class="bordaBox">
 		<div class="conteudo">
 			<article class="menuLateral">
@@ -69,7 +74,7 @@
 			</article>
 		</div>
 	</div>
-
+	</sec:authorize>
 <!-- Outros -->
 <div class="bordaBox">
 	<div class="conteudo">

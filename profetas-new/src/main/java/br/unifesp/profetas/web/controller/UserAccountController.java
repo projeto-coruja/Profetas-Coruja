@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,8 @@ public class UserAccountController {
 	private static final String MODEL		= "user";
 	private static final String TILES_DEF	= "account";
 	private static final String TILES_DEF_USER_PROFILE= "account_profile";
+	private static final String TILES_DEF_REC_PASS_1	= "forgot_pass";
+	private static final String TILES_DEF_REC_PASS_2	= "update_pass";
 	
 	@ModelAttribute(MODEL)
 	public UserDTO init() {
@@ -79,5 +82,34 @@ public class UserAccountController {
 		
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return account.getUserList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
+	}
+	
+	/* Recovery pass */
+	@RequestMapping(value = "/forgot-pass", method = RequestMethod.GET)
+    public String showRecoveryPassStepOne() {
+        return TILES_DEF_REC_PASS_1;
+    }
+	@RequestMapping(value = "/forgot-pass", method = RequestMethod.POST, 
+			headers = {"content-type=application/json"})
+    public @ResponseBody MessageDTO recoveryPassStepOne(@RequestBody UserDTO user){
+		return account.recoveryPassStepOne(user.getEmail());
+	}
+	
+	@RequestMapping(value = "/update-pass", method = RequestMethod.GET)
+    public String showRecoveryPassStepTwo(Model model, 
+    		@RequestParam(value = "user", required = true) String email, 
+    		@RequestParam(value = "code", required = true) String code) {
+		//http://localhost:8080/profetas/update-pass.html?user=admin@profetas.com&code=ABC
+		UserDTO userDTO = new UserDTO();
+		userDTO.setEmail(email);
+		userDTO.setActivationCode(code);
+		model.addAttribute(MODEL, userDTO);
+		
+        return TILES_DEF_REC_PASS_2;
+    }
+	@RequestMapping(value = "/update-pass", method = RequestMethod.POST, 
+			headers = {"content-type=application/json"})
+    public @ResponseBody MessageDTO recoveryPassStepTwo(@RequestBody UserDTO user){
+		return account.recoveryPassStepTwo(user);
 	}
 }

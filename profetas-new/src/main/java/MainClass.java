@@ -1,10 +1,7 @@
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import javax.mail.MessagingException;
 
-import br.unifesp.profetas.business.account.UserDTO;
-import br.unifesp.profetas.business.authentication.Login;
-import br.unifesp.profetas.business.authentication.LoginImpl;
+import br.unifesp.profetas.business.MailProfetas;
 
 public class MainClass {
 
@@ -15,5 +12,12 @@ public class MainClass {
 		UserDTO u = login.getUserByUsername("sirghost@gmail.com");
 		
 		System.out.println("user: " + u.getFullName());*/
+		try {
+			new MailProfetas().sendEmail("sirghost@gmail.com", "ups!", "no mames");
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

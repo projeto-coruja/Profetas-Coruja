@@ -25,6 +25,26 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
+/*
++ Sobrenome,
++ Nome,
++ Apelido/Conhecido Como,
++ Local Nascimento,
++ Data Nascimento,
++ Local Morte,
++ Data Morte,
++ Religião/Crença,
++? Grupo/Movimento profético,
++ Biografia,
++ Ocupação,
++ Formação,
++ Obras,
++ Locais por onde passou,
++? Encontros,
++ Correspondências,
+- Leituras,
++? Referências Bibliográficas
+ */
 @Entity
 @Table(name = "personagem")
 public class Personagem implements Serializable {
@@ -34,6 +54,9 @@ public class Personagem implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pers_seq_name")
 	@SequenceGenerator(name = "pers_seq_name", sequenceName = "pers_seq", allocationSize = 1)
 	private Long id;
+	
+	@Column(name="p_sobrenome", nullable = false, length = 100)
+	private String sobrenome;
 	
 	@Column(name="p_nome", nullable = false, length = 100)
 	private String nome;
@@ -94,6 +117,20 @@ public class Personagem implements Serializable {
 			nullable = false, updatable = false) })
 	private Set<FontesObras> obras = new HashSet<FontesObras>(0);
 	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "pers_locais", joinColumns = { 
+			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "id_local", 
+			nullable = false, updatable = false) })
+	private Set<Local> locaisPersonagens = new HashSet<Local>(0);
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "pers_correspondencias", joinColumns = { 
+			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "id_correspondencia", 
+			nullable = false, updatable = false) })
+	private Set<Correspondencia> correspondencias = new HashSet<Correspondencia>(0);
+	
 	@Type(type="yes_no")
 	@Column(name = "active")
 	private Boolean active;
@@ -119,6 +156,12 @@ public class Personagem implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}	
+	public String getSobrenome() {
+		return sobrenome;
+	}
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 	public String getNome() {
 		return nome;
@@ -215,8 +258,20 @@ public class Personagem implements Serializable {
 	}
 	public void setObras(Set<FontesObras> obras) {
 		this.obras = obras;
+	}	
+	public Set<Local> getLocaisPersonagens() {
+		return locaisPersonagens;
 	}
-	
+	public void setLocaisPersonagens(Set<Local> locaisPersonagens) {
+		this.locaisPersonagens = locaisPersonagens;
+	}
+	public Set<Correspondencia> getCorrespondencias() {
+		return correspondencias;
+	}
+	public void setCorrespondencias(Set<Correspondencia> correspondencias) {
+		this.correspondencias = correspondencias;
+	}
+
 	public Boolean getActive() {
 		return active;
 	}

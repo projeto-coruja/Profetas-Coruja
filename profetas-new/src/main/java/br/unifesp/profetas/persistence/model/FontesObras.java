@@ -3,7 +3,6 @@ package br.unifesp.profetas.persistence.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,6 +26,29 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
+/*
++ Localização (Acervo e cota)
++ Autor,
++ Título,
++I Local de Impressão/Produção,
++I Editor/Produtor
++I Data de Impressão/Produção,
++C Manuscrito/Impresso/Pictórico (campo “OR”),
++ Referência Completa e Descrição,
++ Palavras-Chave,
++ Movimento/Grupo,
+- Outras edições (para impressos),
++ Traduções,
++ Cópias manuscritas,
++ Referências a circulação da obra,
++ Leitores,
+-? Citações à Obra,
++ Autores/Obras Citadas,
++ Referências Bibliográficas,
++ Comentários/Anotações/Fichamento.
+
+url
+ */
 @Entity
 @Table(name = "fontes_obras")
 public class FontesObras implements Serializable {
@@ -37,13 +59,22 @@ public class FontesObras implements Serializable {
 	@SequenceGenerator(name = "foob_seq_name", sequenceName = "foob_seq", allocationSize = 1)
 	private Long id;
 	
+	@Column(name="f_localizacao", nullable = false, length = 200)
+	private String localizacao;
+	
+	@Column(name="f_autor", nullable = false, length = 100)
+	private String autor;
+	
 	@Column(name="f_titulo", nullable = false, length = 100)
 	private String titulo;
 	
 	@Column(name="f_comentarios", columnDefinition="TEXT", nullable = true)
 	private String comentarios;
 
-	@Column(name="f_referencias", columnDefinition="TEXT", nullable = true)
+	@Column(name="f_ref_completa", columnDefinition="TEXT", nullable = true)
+    private String referenciaCompleta;
+	
+	@Column(name="f_ref_circulacao", columnDefinition="TEXT", nullable = true)
     private String referenciasCirculacaoObra;
 
 	@Column(name="f_url", nullable = true)
@@ -130,6 +161,18 @@ public class FontesObras implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}	
+	public String getLocalizacao() {
+		return localizacao;
+	}
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+	public String getAutor() {
+		return autor;
+	}
+	public void setAutor(String autor) {
+		this.autor = autor;
 	}
 	public String getTitulo() {
 		return titulo;
@@ -142,6 +185,12 @@ public class FontesObras implements Serializable {
 	}
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
+	}	
+	public String getReferenciaCompleta() {
+		return referenciaCompleta;
+	}
+	public void setReferenciaCompleta(String referenciaCompleta) {
+		this.referenciaCompleta = referenciaCompleta;
 	}
 	public String getReferenciasCirculacaoObra() {
 		return referenciasCirculacaoObra;

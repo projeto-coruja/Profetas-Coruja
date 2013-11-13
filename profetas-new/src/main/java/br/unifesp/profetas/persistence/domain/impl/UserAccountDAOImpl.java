@@ -15,20 +15,6 @@ import br.unifesp.profetas.persistence.model.UserAccount;
 
 @Repository("userAccountDAO")
 @Transactional
-/*public class UserAccountDAOImpl extends HibernateGenericDAO<UserAccount> implements UserAccountDAO {	
-	
-	public UserAccountDAOImpl() {
-		super(UserAccount.class);
-	}
-
-	public UserAccount getUserByUsername(String username) {
-		List<UserAccount> list = findAll();
-		//
-		Criteria criteria = getSession().createCriteria(UserAccount.class);
-		criteria.add(Restrictions.eq("email", username));
-		return (UserAccount)criteria.uniqueResult();
-	}	
-}*/
 public class UserAccountDAOImpl extends AbstractHibernateDAO<UserAccount> implements UserAccountDAO {	
 		 
 	public UserAccountDAOImpl(){
@@ -59,5 +45,12 @@ public class UserAccountDAOImpl extends AbstractHibernateDAO<UserAccount> implem
 
 	public List<UserAccount> getUserList() {
 		return findAll();
+	}
+
+	public UserAccount getUserByUsernameAndCode(String username, String activationCode) {
+		Criteria criteria = getCurrentSession().createCriteria(UserAccount.class);
+		criteria.add(Restrictions.eq("email", username));
+		criteria.add(Restrictions.eq("activationCode", activationCode));
+		return (UserAccount)criteria.uniqueResult();
 	}		
 }

@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<sec:authorize access="hasRole('SAVE')">
+
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/grupoMovimento.js'/>" type="text/javascript"></script>
@@ -46,3 +48,7 @@
 		fillMultipleLocals("${grupoMovimento.strLocais}");
 	</script>
 </div>
+
+</sec:authorize>
+
+<jsp:include page="../includes/accessDenied.jsp" flush="true" />

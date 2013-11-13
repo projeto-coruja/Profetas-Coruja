@@ -8,9 +8,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.unifesp.profetas.persistence.domain.ClassificacaoDAO;
 import br.unifesp.profetas.persistence.domain.ProfileDAO;
 import br.unifesp.profetas.persistence.domain.RoleDAO;
 import br.unifesp.profetas.persistence.domain.UserAccountDAO;
+import br.unifesp.profetas.persistence.model.Classificacao;
 import br.unifesp.profetas.persistence.model.Profile;
 import br.unifesp.profetas.persistence.model.Role;
 import br.unifesp.profetas.persistence.model.UserAccount;
@@ -22,12 +24,13 @@ public class ProfetasInitImpl implements ProfetasInit {
 	@Autowired private UserAccountDAO userAccountDAO;
 	@Autowired private ProfileDAO profileDAO;
 	@Autowired private RoleDAO roleDAO;
+	@Autowired private ClassificacaoDAO classificacaoDAO;
 
 	public void createRolesAndProfiles() {
 		createRoles();
 		createProfiles();
 		createAdminUser();
-		createClassificacoes();
+		createClassificacoes();//Fontes/Obras
 	}
 	
 	private void createRoles(){
@@ -97,6 +100,17 @@ public class ProfetasInitImpl implements ProfetasInit {
 	}
 	
 	private void createClassificacoes(){
-		
+		String[] classificacoes	= { ProfetasConstants.CLA_MANUSCRITO, ProfetasConstants.CLA_IMPRESSO, ProfetasConstants.CLA_PICTORICO };
+		for(String c : classificacoes){
+			Classificacao cla = classificacaoDAO.getClassificacaoByNome(c);
+			if(cla == null){
+				cla = new Classificacao();
+				cla.setTipo(c);
+				classificacaoDAO.saveClassificacao(cla);
+				if(cla.getId() == null){
+					throw new RuntimeException("Classificacao "+c+" can not be created.");
+				}
+			}
+		}
 	}
 }

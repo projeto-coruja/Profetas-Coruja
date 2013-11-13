@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<sec:authorize access="hasRole('SAVE')">
+
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
@@ -40,3 +42,7 @@
 	
 	<jsp:include page="../includes/grid.jsp" flush="true" />
 </div>
+
+</sec:authorize>
+
+<jsp:include page="../includes/accessDenied.jsp" flush="true" />

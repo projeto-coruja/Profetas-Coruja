@@ -8,7 +8,7 @@ public interface CorrespondenciaDAO {
 	
 	public Correspondencia getCorrespondenciaById(Long id);
 	
-	public List<Correspondencia> listEncontro();//TODO:
+	public List<Correspondencia> listCorrespondencia();//TODO:
 	
 	public void saveCorrespondencia(Correspondencia correspondencia);
 	

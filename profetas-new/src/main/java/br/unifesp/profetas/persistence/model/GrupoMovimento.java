@@ -19,6 +19,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+/*
++ Nome
+x Grupo-Movimento/Crença-Religião (campo “OR”),
+- Personagens,
++ Datação,
++ Locais,
++ Descrição,
+- Obras principais.
+ */
 @Entity
 @Table(name = "grupo_movimento")
 public class GrupoMovimento implements Serializable {

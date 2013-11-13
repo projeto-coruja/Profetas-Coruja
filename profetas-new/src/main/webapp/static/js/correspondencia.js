@@ -14,6 +14,9 @@ function fillRemAndDes(idRem, idDes){
         cache:false,
         url:'personagens.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var idRemetente = $('#idRemetente');
         	idRemetente.empty();
         	idRemetente.append('<option value="-1">Selecione um</option>');
@@ -82,6 +85,9 @@ function saveForm(){
         dataType : "json",
         data : data,
         success : function(data) {
+        	if(data == null)
+        		return;
+        	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
         		addMessage(data.message, 'sucess');
         		if(id == undefined || id == '') { clearFields(); }

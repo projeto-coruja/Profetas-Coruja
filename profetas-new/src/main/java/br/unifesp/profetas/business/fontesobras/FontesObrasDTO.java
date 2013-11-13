@@ -5,8 +5,11 @@ import br.unifesp.profetas.business.common.CommonDTO;
 public class FontesObrasDTO extends CommonDTO {
 
 	private Long id;
+	private String localizacao;
+	private String autor;
 	private String titulo;
 	private String comentarios;
+	private String referenciaCompleta;
 	private String referenciasCirculacaoObra;
 	private String url;
 	private String copiasManuscritas;
@@ -32,6 +35,18 @@ public class FontesObrasDTO extends CommonDTO {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}	
+	public String getLocalizacao() {
+		return localizacao;
+	}
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+	public String getAutor() {
+		return autor;
+	}
+	public void setAutor(String autor) {
+		this.autor = autor;
 	}
 	public String getTitulo() {
 		return titulo;
@@ -44,6 +59,12 @@ public class FontesObrasDTO extends CommonDTO {
 	}
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
+	}	
+	public String getReferenciaCompleta() {
+		return referenciaCompleta;
+	}
+	public void setReferenciaCompleta(String referenciaCompleta) {
+		this.referenciaCompleta = referenciaCompleta;
 	}
 	public String getReferenciasCirculacaoObra() {
 		return referenciasCirculacaoObra;
@@ -158,5 +179,5 @@ public class FontesObrasDTO extends CommonDTO {
 	}
 	public void setStrPalChave(String strPalChave) {
 		this.strPalChave = strPalChave;
-	}	
+	}
 }

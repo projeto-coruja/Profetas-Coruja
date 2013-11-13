@@ -29,4 +29,14 @@ public class ClassificacaoDAOImpl extends AbstractHibernateDAO<Classificacao> im
 		Criteria criteria = getCurrentSession().createCriteria(Classificacao.class);
 		return criteria.list();
 	}
+
+	public Classificacao getClassificacaoByNome(String classificacao) {
+		Criteria criteria = getCurrentSession().createCriteria(Classificacao.class);
+		criteria.add(Restrictions.eq("tipo", classificacao));
+		return (Classificacao)criteria.uniqueResult();
+	}
+
+	public void saveClassificacao(Classificacao classificacao) {
+		save(classificacao);
+	}
 }

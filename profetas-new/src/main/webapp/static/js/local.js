@@ -99,6 +99,9 @@ function saveForm(){
         dataType : "json",
         data : data,
         success : function(data) {
+        	if(data == null)
+        		return;
+        	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
         		addMessage(data.message, 'sucess');
         		if(id == undefined || id == '') { clearFields(); }

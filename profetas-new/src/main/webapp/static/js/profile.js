@@ -15,6 +15,9 @@ function fillRoles(){
         cache:false,
         url:'profile/roles.html',
         success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	
         	var combo = $("#idRoles");
         	combo.empty();
             for (var i = 0; i < data.length; i++) {

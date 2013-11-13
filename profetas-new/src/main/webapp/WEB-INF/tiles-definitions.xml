@@ -25,6 +25,13 @@
     <definition name="account_profile" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/account/accountProfile.jsp" />
     </definition>
+    
+    <definition name="forgot_pass" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/account/forgotPass.jsp" />
+    </definition>
+    <definition name="update_pass" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/account/updatePass.jsp" />
+    </definition>
     <!-- Profile -->
     <definition name="profile" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/profile/profile.jsp" />

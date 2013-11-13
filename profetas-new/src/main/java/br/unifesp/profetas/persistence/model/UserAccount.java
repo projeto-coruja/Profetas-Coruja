@@ -41,6 +41,13 @@ public class UserAccount implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "u_creation_date", nullable = false, length = 10)
 	private Date creationDate;
+	
+	@Column(name = "u_activation_code", nullable = true, length = 40)
+    private String activationCode;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "u_creation_date_code", nullable = true, length = 10)
+	private Date creationDateCode;
 
 	@ManyToOne
 	@PrimaryKeyJoinColumn
@@ -85,4 +92,16 @@ public class UserAccount implements Serializable {
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
+	public String getActivationCode() {
+		return activationCode;
+	}
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
+	}
+	public Date getCreationDateCode() {
+		return creationDateCode;
+	}
+	public void setCreationDateCode(Date creationDateCode) {
+		this.creationDateCode = creationDateCode;
+	}	
 }

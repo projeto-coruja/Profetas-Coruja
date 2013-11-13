@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<sec:authorize access="hasRole('SAVE')">
+
 <script src="<c:url value='/static/js/grid.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/common.js'/>" type="text/javascript"></script>
 <script src="<c:url value='/static/js/personagem.js'/>" type="text/javascript"></script>
@@ -15,6 +17,10 @@
 		<form:hidden id="id" path="id" />
 		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label></div>
 	    <div class="input-box"><form:input id="nome" path="nome" size="50" maxlength="100" /></div>		
+		<br />
+		
+		<div class="label-box"><label for="sobrenome"><spring:message code="lbl_sobrenome"/></label></div>
+	    <div class="input-box"><form:input id="sobrenome" path="sobrenome" size="50" maxlength="100" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="apelido"><spring:message code="lbl_apelido"/></label></div>
@@ -83,6 +89,19 @@
 	    </div>
 		<br />
 		
+		<div class="label-box"><label for="idCorrespondencias"><spring:message code="lbl_correspodencias"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idCorrespondencias" path="idCorrespondencias" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
+		
+		<div class="label-box"><label for="idLocaisPers"><spring:message code="lbl_locais_passou"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idLocaisPers" path="idLocaisPers" multiple="true">
+		    </form:select>
+	    </div>
+		<br />
 		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
@@ -98,5 +117,11 @@
 		fillMultipleReligioesCrencas("${personagem.idReligioes}", 'idReligioes');
 		fillMultipleEncontros("${personagem.idEncontros}", 'idEncontros');
 		fillMultipleObras("${personagem.idObras}", 'idObras');
+		fillMultipleCorrespondencias("${personagem.idCorrespondencias}", 'idCorrespondencias');
+		fillMultipleLocals("${personagem.idLocaisPers}", 'idLocaisPers');
 	</script>
 </div>
+
+</sec:authorize>
+
+<jsp:include page="../includes/accessDenied.jsp" flush="true" />
