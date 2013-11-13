@@ -1,7 +1,6 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<img src="<c:url value="/static/images/header/img1.jpg" />" />
 <img src="<c:url value="/static/images/header/img2.jpg" />" />
 <img src="<c:url value="/static/images/header/img3.jpg" />" />
 <img src="<c:url value="/static/images/header/img4.jpg" />" />

@@ -113,10 +113,10 @@ function saveForm(){
 }
 
 function buildGrid(div_id, data){
-	var titles			= ['Titulo'];
-	var columns_key		= ['titulo'];
-	var columns_size	= ['90'];
-	var columns_sort	= ['titulo'];
+	var titles			= ['Autor', 'Titulo'];
+	var columns_key		= ['autor', 'titulo'];
+	var columns_size	= ['45', '45'];
+	var columns_sort	= ['autor', 'titulo'];
 	var corujaGrid = new CorujaGrid();
 	corujaGrid.paintGrid(div_id, titles, columns_key, columns_size, columns_sort, data);
 }

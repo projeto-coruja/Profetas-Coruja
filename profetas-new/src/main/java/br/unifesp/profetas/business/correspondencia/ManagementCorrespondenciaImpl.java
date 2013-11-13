@@ -32,15 +32,16 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
             cDTO.setId(correspondencia.getId());
             cDTO.setIdRemetente(correspondencia.getRemetente().getId());
             cDTO.setIdDestinatario(correspondencia.getDestinatario().getId());
-            cDTO.setIdLocal(correspondencia.getLocal().getId());
-            cDTO.setData(dateFormat.format(correspondencia.getData()));
+            	Local local = correspondencia.getLocal();
+            cDTO.setIdLocal(local != null ? local.getId() : null);
+            cDTO.setData(correspondencia.getData() != null ? dateFormat.format(correspondencia.getData()) : "");
             return cDTO;
         }
         return null;
     }
     
     private MessageDTO isNotValid(CorrespondenciaDTO correspondenciaDTO, boolean isNew){
-        if(correspondenciaDTO.getIdRemetente() == null || correspondenciaDTO.getIdRemetente() != -1){
+        if(correspondenciaDTO.getIdRemetente() == null || correspondenciaDTO.getIdRemetente() == -1){
             return new MessageDTO(getText("err_rementente_required"), MessageType.ERROR);
         }
         if(correspondenciaDTO.getIdDestinatario() == null || correspondenciaDTO.getIdDestinatario() == -1){
@@ -127,8 +128,9 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
             cDTO.setId(c.getId());
             cDTO.setNomeRemetente(c.getRemetente().getNome() + " " + c.getRemetente().getApelido());
             cDTO.setNomeDestinatario(c.getDestinatario().getNome() + " " + c.getDestinatario().getApelido());
-            cDTO.setNomeLocal(c.getLocal().getNome());
-            cDTO.setData(c.getData().toString());
+            	Local local = c.getLocal();
+            cDTO.setNomeLocal(local != null ? local.getNome() : "");
+            cDTO.setData(c.getData() != null ? c.getData().toString() : "");
             listDTO.add(cDTO);
         }
         return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);

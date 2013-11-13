@@ -38,18 +38,13 @@ function fillRemAndDes(idRem, idDes){
 }
 
 function checkFields(){
-	var _data	= $('#data').val();
 	var idRemetente	= $('#idRemetente').val();
 	var idDestinatario = $('#idDestinatario').val();
-	if(_data == undefined || _data == ''){
-		addMessage(jQuery.i18n.prop('err_data_required'), 'error');
-		return false;
-	}
-	if(idRemetente == undefined || idRemetente == ''){
+	if(idRemetente == undefined || idRemetente == '' || idRemetente == -1){
 		addMessage(jQuery.i18n.prop('err_remetente_required'), 'error');
 		return false;
 	}
-	if(idDestinatario == undefined || idDestinatario == ''){
+	if(idDestinatario == undefined || idDestinatario == '' || idDestinatario == -1){
 		addMessage(jQuery.i18n.prop('err_destinatario_required'), 'error');
 		return false;
 	}

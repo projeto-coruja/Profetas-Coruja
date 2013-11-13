@@ -1,9 +1,6 @@
 package br.unifesp.profetas.business.grupomovimento;
 
-import java.util.List;
-
 import br.unifesp.profetas.business.common.CommonDTO;
-import br.unifesp.profetas.business.local.LocalDTO;
 
 public class GrupoMovimentoDTO extends CommonDTO {
 	
@@ -13,9 +10,8 @@ public class GrupoMovimentoDTO extends CommonDTO {
 	private String anoFim;
 	private String descricao;
 	
-	private String[] idLocais;
+	private Long[] idLocais;
 	private String strLocais;
-	private List<LocalDTO> locais;
 	
 	public GrupoMovimentoDTO() {}
 	
@@ -49,10 +45,10 @@ public class GrupoMovimentoDTO extends CommonDTO {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public String[] getIdLocais() {
+	public Long[] getIdLocais() {
 		return idLocais;
 	}
-	public void setIdLocais(String[] idLocais) {
+	public void setIdLocais(Long[] idLocais) {
 		this.idLocais = idLocais;
 	}
 	public String getStrLocais() {
@@ -60,11 +56,5 @@ public class GrupoMovimentoDTO extends CommonDTO {
 	}
 	public void setStrLocais(String strLocais) {
 		this.strLocais = strLocais;
-	}
-	public List<LocalDTO> getLocais() {
-		return locais;
-	}
-	public void setLocais(List<LocalDTO> locais) {
-		this.locais = locais;
-	}
+	}	
 }

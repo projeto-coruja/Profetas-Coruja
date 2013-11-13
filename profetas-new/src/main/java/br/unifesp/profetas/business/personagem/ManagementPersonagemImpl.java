@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +53,73 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			pDTO.setSobrenome(personagem.getSobrenome());
 			pDTO.setNome(personagem.getNome());
 			pDTO.setApelido(personagem.getApelido());
-			pDTO.setIdNascimento(personagem.getLocalNascimento().getId());
-			pDTO.setDataNascimento(dateFormat.format(personagem.getDataNascimento()));
-			pDTO.setIdMorte(personagem.getLocalMorte().getId());
-			pDTO.setDataMorte(dateFormat.format(personagem.getDataMorte()));
+				Local localNasc = personagem.getLocalNascimento();
+			pDTO.setIdNascimento(localNasc != null ? localNasc.getId() : null);
+			pDTO.setDataNascimento(personagem.getDataNascimento() != null ? dateFormat.format(personagem.getDataNascimento()) : "");
+				Local localMorte = personagem.getLocalMorte();
+			pDTO.setIdMorte(localMorte != null ? localMorte.getId() : null);
+			pDTO.setDataMorte(personagem.getDataMorte() != null ? dateFormat.format(personagem.getDataMorte()) : "");
 			pDTO.setBiografia(personagem.getBiografia());
 			pDTO.setOcupacao(personagem.getOcupacao());
 			pDTO.setFormacao(personagem.getFormacao());
+				FontesObras refBibliografica = personagem.getReferenciaBibliografica();
+			pDTO.setIdRefBibliografica(refBibliografica != null ? refBibliografica.getId() : null);
+			//religioes
+				Set<ReligiaoCrencas> crencasSet = personagem.getReligioes();
+			if(!crencasSet.isEmpty()){
+				List<Long> crencas = new ArrayList<Long>(crencasSet.size());
+				for(ReligiaoCrencas c : crencasSet){
+					crencas.add(c.getId());
+				}
+				if(!crencas.isEmpty()){
+					pDTO.setStrReligioes(crencas.toString());
+				}
+			}
+			//encontros
+				Set<Encontro> encontrosSet = personagem.getEncontros();
+			if(!encontrosSet.isEmpty()){
+				List<Long> encontros = new ArrayList<Long>(encontrosSet.size());
+				for(Encontro e : encontrosSet){
+					encontros.add(e.getId());
+				}
+				if(!encontros.isEmpty()){
+					pDTO.setStrEncontros(encontros.toString());
+				}
+			}
+			//obras
+				Set<FontesObras> obrasSet = personagem.getObras();
+			if(!obrasSet.isEmpty()){
+				List<Long> obras = new ArrayList<Long>(obrasSet.size());
+				for(FontesObras f : obrasSet){
+					obras.add(f.getId());
+				}
+				if(!obras.isEmpty()){
+					pDTO.setStrObras(obras.toString());
+				}
+			}
+			//locaisPersonagens
+				Set<Local> locaisPersSet = personagem.getLocaisPersonagens();
+			if(!locaisPersSet.isEmpty()){
+				List<Long> locaisPersonagens = new ArrayList<Long>(locaisPersSet.size());
+				for(Local l : locaisPersSet){
+					locaisPersonagens.add(l.getId());
+				}
+				if(!locaisPersonagens.isEmpty()){
+					pDTO.setStrLocaisPers(locaisPersonagens.toString());
+				}
+			}
+			//correspondencias
+				Set<Correspondencia> correspondenciasSet = personagem.getCorrespondencias();
+			if(!correspondenciasSet.isEmpty()){
+				List<Long> correspondencias = new ArrayList<Long>(correspondenciasSet.size());
+				for(Correspondencia c : correspondenciasSet){
+					correspondencias.add(c.getId());
+				}
+				if(!correspondencias.isEmpty()){
+					pDTO.setStrCorrespondencias(correspondencias.toString());
+				}
+			}
+			
 			return pDTO;
 		}
 		return null;
@@ -78,14 +139,104 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		personagem.setNome(personagemDTO.getNome());
 		personagem.setSobrenome(personagemDTO.getSobrenome());
 		personagem.setApelido(personagemDTO.getApelido());
-		personagem.setLocalNascimento(new Local(personagemDTO.getIdNascimento()));
+		if(personagemDTO.getIdNascimento() != null && personagemDTO.getIdNascimento() != -1){
+			personagem.setLocalNascimento(new Local(personagemDTO.getIdNascimento()));
+		}
 		personagem.setDataNascimento(dataNasc);
-		personagem.setLocalMorte(new Local(personagemDTO.getIdMorte()));
+		if(personagemDTO.getIdMorte() != null && personagemDTO.getIdMorte() != -1){
+			personagem.setLocalMorte(new Local(personagemDTO.getIdMorte()));
+		}
 		personagem.setDataMorte(dataMorte);
 		personagem.setBiografia(personagemDTO.getBiografia());
 		personagem.setOcupacao(personagemDTO.getOcupacao());
 		personagem.setFormacao(personagemDTO.getFormacao());
-		personagem.setReferenciaBibliografica(new FontesObras(personagemDTO.getIdRefBibliografica()));
+		if(personagemDTO.getIdRefBibliografica() != null && personagemDTO.getIdRefBibliografica() != -1){
+			personagem.setReferenciaBibliografica(new FontesObras(personagemDTO.getIdRefBibliografica()));
+		}
+		
+		//
+		//Religioes-crencas
+		if(personagemDTO.getIdReligioes() != null){
+			int crencasLength = personagemDTO.getIdReligioes().length;
+			if(crencasLength > 0){
+				List<ReligiaoCrencas> crencas = new ArrayList<ReligiaoCrencas>(crencasLength);
+				for(int i = 0; i < crencasLength; i++){
+					ReligiaoCrencas r = religiaoCrencasDAO.getReligiaoCrencasById(personagemDTO.getIdReligioes()[i]);
+					if(r != null){
+						crencas.add(r);
+					} else {
+						logger.error("Religiao: " + personagemDTO.getIdReligioes()[i] + " does not exist");
+					}
+				}
+				personagem.setReligioes(new HashSet<ReligiaoCrencas>(crencas));
+			}
+		}
+		//Encontros
+		if(personagemDTO.getIdEncontros() != null){
+			int encontrosLength = personagemDTO.getIdEncontros().length;
+			if(encontrosLength > 0){
+				List<Encontro> encontros = new ArrayList<Encontro>(encontrosLength);
+				for(int i = 0; i < encontrosLength; i++){
+					Encontro e = encontroDAO.getEncontroById(personagemDTO.getIdEncontros()[i]);
+					if(e != null){
+						encontros.add(e);
+					} else {
+						logger.error("Encontro: " + personagemDTO.getIdEncontros()[i] + " does not exist");
+					}
+				}
+				personagem.setEncontros(new HashSet<Encontro>(encontros));
+			}
+		}
+		//Obras
+		if(personagemDTO.getIdObras() != null){
+			int obrasLength = personagemDTO.getIdObras().length;
+			if(obrasLength > 0){
+				List<FontesObras> fontes = new ArrayList<FontesObras>(obrasLength);
+				for(int i = 0; i < obrasLength; i++){
+					FontesObras f = fontesObrasDAO.getFontesObrasById(personagemDTO.getIdObras()[i]);
+					if(f != null){
+						fontes.add(f);
+					} else{
+						logger.error("Fonte/Obra: " + personagemDTO.getIdObras()[i] + " does not exist");
+					}
+				}
+				personagem.setObras(new HashSet<FontesObras>(fontes));
+			}
+		}
+		//Local
+		if(personagemDTO.getIdLocaisPers() != null){
+			int locaisLength = personagemDTO.getIdLocaisPers().length;
+			if(locaisLength > 0){
+				List<Local> locais = new ArrayList<Local>(locaisLength);
+				for(int i = 0; i < locaisLength; i++){
+					Local l = localDAO.getLocalById(personagemDTO.getIdLocaisPers()[i]);
+					if(l != null){
+						locais.add(l);
+					} else{
+						logger.error("Local: " + personagemDTO.getIdLocaisPers()[i] + " does not exist");
+					}
+				}
+				personagem.setLocaisPersonagens(new HashSet<Local>(locais));
+			}
+		}
+		//Correspondencia
+		if(personagemDTO.getIdCorrespondencias() != null){
+			int corLength = personagemDTO.getIdCorrespondencias().length;
+			if(corLength > 0){
+				List<Correspondencia> correspondencias = new ArrayList<Correspondencia>(corLength);
+				for(int i = 0; i < corLength; i++){
+					Correspondencia c = correspondenciaDAO.getCorrespondenciaById(personagemDTO.getIdCorrespondencias()[i]);
+					if(c != null){
+						correspondencias.add(c);
+					} else{
+						logger.error("Correspondencia: " + personagemDTO.getIdCorrespondencias()[i] + " does not exist");
+					}
+				}
+				personagem.setCorrespondencias(new HashSet<Correspondencia>(correspondencias));
+			}
+		}
+		//
+		
 		personagem.setActive(true);
 		return personagem;
 	}
@@ -98,88 +249,6 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		try{
 			Personagem personagem = new Personagem();
 			personagem = getPersonagem(personagem, personagemDTO);
-			//
-			//Religioes-crencas
-			if(personagemDTO.getIdReligioes() != null){
-				int crencasLength = personagemDTO.getIdReligioes().length;
-				if(crencasLength > 0){
-					List<ReligiaoCrencas> crencas = new ArrayList<ReligiaoCrencas>(crencasLength);
-					for(int i = 0; i < crencasLength; i++){
-						ReligiaoCrencas r = religiaoCrencasDAO.getReligiaoCrencasById(Long.parseLong(personagemDTO.getIdReligioes()[i]));
-						if(r != null){
-							crencas.add(r);
-						} else {
-							logger.error("Religiao: " + personagemDTO.getIdReligioes()[i] + " does not exist");
-						}
-					}
-					personagem.setReligioes(new HashSet<ReligiaoCrencas>(crencas));
-				}
-			}
-			//Encontros
-			if(personagemDTO.getIdEncontros() != null){
-				int encontrosLength = personagemDTO.getIdEncontros().length;
-				if(encontrosLength > 0){
-					List<Encontro> encontros = new ArrayList<Encontro>(encontrosLength);
-					for(int i = 0; i < encontrosLength; i++){
-						Encontro e = encontroDAO.getEncontroById(Long.parseLong(personagemDTO.getIdEncontros()[i]));
-						if(e != null){
-							encontros.add(e);
-						} else {
-							logger.error("Encontro: " + personagemDTO.getIdEncontros()[i] + " does not exist");
-						}
-					}
-					personagem.setEncontros(new HashSet<Encontro>(encontros));
-				}
-			}
-			//Obras
-			if(personagemDTO.getIdObras() != null){
-				int obrasLength = personagemDTO.getIdObras().length;
-				if(obrasLength > 0){
-					List<FontesObras> fontes = new ArrayList<FontesObras>(obrasLength);
-					for(int i = 0; i < obrasLength; i++){
-						FontesObras f = fontesObrasDAO.getFontesObrasById(Long.parseLong(personagemDTO.getIdObras()[i]));
-						if(f != null){
-							fontes.add(f);
-						} else{
-							logger.error("Fonte/Obra: " + personagemDTO.getIdObras()[i] + " does not exist");
-						}
-					}
-					personagem.setObras(new HashSet<FontesObras>(fontes));
-				}
-			}
-			//Local
-			if(personagemDTO.getIdLocaisPers() != null){
-				int locaisLength = personagemDTO.getIdLocaisPers().length;
-				if(locaisLength > 0){
-					List<Local> locais = new ArrayList<Local>(locaisLength);
-					for(int i = 0; i < locaisLength; i++){
-						Local l = localDAO.getLocalById(Long.parseLong(personagemDTO.getIdLocaisPers()[i]));
-						if(l != null){
-							locais.add(l);
-						} else{
-							logger.error("Local: " + personagemDTO.getIdLocaisPers()[i] + " does not exist");
-						}
-					}
-					personagem.setLocaisPersonagens(new HashSet<Local>(locais));
-				}
-			}
-			//Correspondencia
-			if(personagemDTO.getIdCorrespondencias() != null){
-				int corLength = personagemDTO.getIdCorrespondencias().length;
-				if(corLength > 0){
-					List<Correspondencia> correspondencias = new ArrayList<Correspondencia>(corLength);
-					for(int i = 0; i < corLength; i++){
-						Correspondencia c = correspondenciaDAO.getCorrespondenciaById(Long.parseLong(personagemDTO.getIdCorrespondencias()[i]));
-						if(c != null){
-							correspondencias.add(c);
-						} else{
-							logger.error("Correspondencia: " + personagemDTO.getIdCorrespondencias()[i] + " does not exist");
-						}
-					}
-					personagem.setCorrespondencias(new HashSet<Correspondencia>(correspondencias));
-				}
-			}
-			//
 			personagemDAO.savePersonagem(personagem);
 			if(personagem.getId() != null){
 				return new MessageDTO(getText("msg_personagem_created"), MessageType.SUCCESS);
@@ -240,7 +309,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			PersonagemDTO pDTO = new PersonagemDTO();
 			pDTO.setId(p.getId());
 			pDTO.setNome(p.getNome());
-			pDTO.setApelido(p.getApelido());
+			pDTO.setSobrenome(p.getSobrenome());
 			listDTO.add(pDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);

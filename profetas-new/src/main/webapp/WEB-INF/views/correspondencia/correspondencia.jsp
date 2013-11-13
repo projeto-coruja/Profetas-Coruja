@@ -15,14 +15,14 @@
 	
 	<form:form id="correspondencia" modelAttribute="correspondencia">
 		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="idRemetente"><spring:message code="lbl_remetente"/></label></div>
+		<div class="label-box"><label for="idRemetente"><spring:message code="lbl_remetente"/></label><span class="required"> (*)</span></div>
 	    <div class="input-box">
 	    	<form:select id="idRemetente" path="idRemetente">
 		    </form:select>
 	    </div>		
 		<br />
 		
-		<div class="label-box"><label for="idDestinatario"><spring:message code="lbl_destinatario"/></label></div>
+		<div class="label-box"><label for="idDestinatario"><spring:message code="lbl_destinatario"/></label><span class="required"> (*)</span></div>
 	    <div class="input-box">
 	    	<form:select id="idDestinatario" path="idDestinatario">
 		    </form:select>

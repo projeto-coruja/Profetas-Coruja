@@ -19,15 +19,15 @@ public class PersonagemDTO extends CommonDTO {
     private String formacao;
     
     private Long idRefBibliografica;
-    private String[] idReligioes;
+    private Long[] idReligioes;
 	private String strReligioes;
-	private String[] idEncontros;
+	private Long[] idEncontros;
 	private String strEncontros;
-	private String[] idObras;
+	private Long[] idObras;
 	private String strObras;
-	private String[] idLocaisPers;
+	private Long[] idLocaisPers;
 	private String strLocaisPers;
-	private String[] idCorrespondencias;
+	private Long[] idCorrespondencias;
 	private String strCorrespondencias;
 	
 	public Long getId() {
@@ -35,7 +35,7 @@ public class PersonagemDTO extends CommonDTO {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}	
+	}
 	public String getSobrenome() {
 		return sobrenome;
 	}
@@ -114,10 +114,10 @@ public class PersonagemDTO extends CommonDTO {
 	public void setIdRefBibliografica(Long idRefBibliografica) {
 		this.idRefBibliografica = idRefBibliografica;
 	}
-	public String[] getIdReligioes() {
+	public Long[] getIdReligioes() {
 		return idReligioes;
 	}
-	public void setIdReligioes(String[] idReligioes) {
+	public void setIdReligioes(Long[] idReligioes) {
 		this.idReligioes = idReligioes;
 	}
 	public String getStrReligioes() {
@@ -126,10 +126,10 @@ public class PersonagemDTO extends CommonDTO {
 	public void setStrReligioes(String strReligioes) {
 		this.strReligioes = strReligioes;
 	}
-	public String[] getIdEncontros() {
+	public Long[] getIdEncontros() {
 		return idEncontros;
 	}
-	public void setIdEncontros(String[] idEncontros) {
+	public void setIdEncontros(Long[] idEncontros) {
 		this.idEncontros = idEncontros;
 	}
 	public String getStrEncontros() {
@@ -138,10 +138,10 @@ public class PersonagemDTO extends CommonDTO {
 	public void setStrEncontros(String strEncontros) {
 		this.strEncontros = strEncontros;
 	}
-	public String[] getIdObras() {
+	public Long[] getIdObras() {
 		return idObras;
 	}
-	public void setIdObras(String[] idObras) {
+	public void setIdObras(Long[] idObras) {
 		this.idObras = idObras;
 	}
 	public String getStrObras() {
@@ -150,10 +150,10 @@ public class PersonagemDTO extends CommonDTO {
 	public void setStrObras(String strObras) {
 		this.strObras = strObras;
 	}
-	public String[] getIdLocaisPers() {
+	public Long[] getIdLocaisPers() {
 		return idLocaisPers;
 	}
-	public void setIdLocaisPers(String[] idLocaisPers) {
+	public void setIdLocaisPers(Long[] idLocaisPers) {
 		this.idLocaisPers = idLocaisPers;
 	}
 	public String getStrLocaisPers() {
@@ -162,10 +162,10 @@ public class PersonagemDTO extends CommonDTO {
 	public void setStrLocaisPers(String strLocaisPers) {
 		this.strLocaisPers = strLocaisPers;
 	}
-	public String[] getIdCorrespondencias() {
+	public Long[] getIdCorrespondencias() {
 		return idCorrespondencias;
 	}
-	public void setIdCorrespondencias(String[] idCorrespondencias) {
+	public void setIdCorrespondencias(Long[] idCorrespondencias) {
 		this.idCorrespondencias = idCorrespondencias;
 	}
 	public String getStrCorrespondencias() {

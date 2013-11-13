@@ -1,10 +1,7 @@
 package br.unifesp.profetas.business.local;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import br.unifesp.profetas.business.common.CommonDTO;
 
-@JsonIgnoreProperties({"latitude", "longitude"})
 public class LocalDTO extends CommonDTO {
 
 	private Long id;	

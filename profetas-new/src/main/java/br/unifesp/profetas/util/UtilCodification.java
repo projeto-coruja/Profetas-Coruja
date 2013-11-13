@@ -20,7 +20,7 @@ public class UtilCodification {
 
 	/**
 	 * 
-	 * @param value string to encrypt
+	 * @param string value to encrypt
 	 * @param type MD5 or SHA1
 	 * @return string encrypted
 	 */

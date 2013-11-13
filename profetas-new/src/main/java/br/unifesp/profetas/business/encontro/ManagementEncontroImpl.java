@@ -32,7 +32,8 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 			eDTO.setId(encontro.getId());
 			eDTO.setNome(encontro.getNome());
 			eDTO.setData(encontro.getData() != null ? dateFormat.format(encontro.getData()) : "");
-			eDTO.setIdLocal(encontro.getLocal().getId());
+				Local local = encontro.getLocal();
+			eDTO.setIdLocal(local != null ? local.getId() : null);
 			return eDTO;
 		}
 		return null;
@@ -46,16 +47,15 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 		if(data == null){
 			return new MessageDTO(getText("err_encontro_data_required"), MessageType.ERROR);
 		}
-		/*if(encontroDTO.getIdLocal() == null){
-			return new MessageDTO(getText("err_encontro_local_required"), MessageType.ERROR);
-		}*/
 		return null;
 	}
 	
 	private Encontro getEncontro(Encontro encontro, EncontroDTO encontroDTO){
 		encontro.setNome(encontroDTO.getNome());
 		encontro.setData(UtilValidator.getDateFromString(encontroDTO.getData()));
-		encontro.setLocal(new Local(encontroDTO.getIdLocal()));
+		if(encontroDTO.getIdLocal() != null && encontroDTO.getIdLocal() != -1){
+			encontro.setLocal(new Local(encontroDTO.getIdLocal()));
+		}
 		encontro.setActive(true);
 		return encontro;
 	}
@@ -128,8 +128,9 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 			EncontroDTO eDTO = new EncontroDTO();
 			eDTO.setId(e.getId());
 			eDTO.setNome(e.getNome());
-			eDTO.setData(e.getData().toString());
-			eDTO.setDesclocal(e.getLocal().getNome());
+			eDTO.setData(e.getData() != null ? e.getData().toString() : "");
+				Local local = e.getLocal();
+			eDTO.setDesclocal(local != null ? local.getNome() : "");
 			listDTO.add(eDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);

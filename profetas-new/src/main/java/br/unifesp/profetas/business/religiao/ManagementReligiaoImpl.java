@@ -26,8 +26,8 @@ public class ManagementReligiaoImpl extends AbstractBusiness implements Manageme
 			ReligiaoCrencasDTO rDTO = new ReligiaoCrencasDTO();
 			rDTO.setId(religiao.getId());
 			rDTO.setNome(religiao.getNome());
-			rDTO.setAnoInicio(String.valueOf(religiao.getAnoInicio()));
-			rDTO.setAnoFim(String.valueOf(religiao.getAnoFim()));
+			rDTO.setAnoInicio(religiao.getAnoInicio() != null ? String.valueOf(religiao.getAnoInicio()) : "");
+			rDTO.setAnoFim(religiao.getAnoFim() != null ? String.valueOf(religiao.getAnoFim()) : "");
 			rDTO.setDescricao(religiao.getDescricao());
 			return rDTO;
 		}

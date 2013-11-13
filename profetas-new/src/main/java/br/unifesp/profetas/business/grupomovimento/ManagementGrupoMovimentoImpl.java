@@ -3,7 +3,9 @@ package br.unifesp.profetas.business.grupomovimento;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,6 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
-import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.persistence.domain.GrupoMovimentoDAO;
 import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
@@ -21,6 +22,8 @@ import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mGrupoMovimento")
 public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements ManagementGrupoMovimento {
+	
+	private static Logger logger = Logger.getLogger(ManagementGrupoMovimentoImpl.class);
 	
 	@Autowired private GrupoMovimentoDAO grupoMovimentoDAO;
 	@Autowired private LocalDAO localDAO;
@@ -31,18 +34,20 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			GrupoMovimentoDTO gmDTO = new GrupoMovimentoDTO();
 			gmDTO.setId(gMovimento.getId());
 			gmDTO.setNome(gMovimento.getNome());
-			gmDTO.setAnoInicio(String.valueOf(gMovimento.getAnoInicio()));
-			gmDTO.setAnoFim(String.valueOf(gMovimento.getAnoFim()));
+			gmDTO.setAnoInicio(gMovimento.getAnoInicio() != null ? String.valueOf(gMovimento.getAnoInicio()) : "");
+			gmDTO.setAnoFim(gMovimento.getAnoFim() != null ? String.valueOf(gMovimento.getAnoFim()) : "");
 			gmDTO.setDescricao(gMovimento.getDescricao());
-				List<String> locais = new ArrayList<String>(gMovimento.getLocais().size());
-				for(Local l : gMovimento.getLocais()){
-					locais.add(String.valueOf(l.getId()));
+			//locais
+				Set<Local> locaisSet = gMovimento.getLocais();
+			if(!locaisSet.isEmpty()){
+				List<Long> locais = new ArrayList<Long>(locaisSet.size());
+				for(Local l : locaisSet){
+					locais.add(l.getId());
 				}
-				//locais.toArray(new String[locais.size()]);
 				if(!locais.isEmpty()){
 					gmDTO.setStrLocais(locais.toString());
 				}
-					
+			}
 			return gmDTO;
 		}
 		return null;
@@ -64,6 +69,24 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			grupoMovimento.setAnoFim(Integer.parseInt(gMovimentoDTO.getAnoFim()));
 		}
 		grupoMovimento.setDescricao(gMovimentoDTO.getDescricao());
+		
+		//Local
+		if(gMovimentoDTO.getIdLocais() != null){
+			int locaisLength = gMovimentoDTO.getIdLocais().length;
+			if(locaisLength > 0){
+				List<Local> locals = new ArrayList<Local>(locaisLength);
+				for(int i = 0; i < locaisLength; i++){
+					Local local = localDAO.getLocalById(gMovimentoDTO.getIdLocais()[i]);
+					if(local != null){
+						locals.add(local);
+					} else {
+						logger.error("GrupoMovimento: " + gMovimentoDTO.getIdLocais()[i] + " does not exist");
+					}
+				}
+				grupoMovimento.setLocais(new HashSet<Local>(locals));
+			}
+		}
+		
 		grupoMovimento.setActive(true);
 		return grupoMovimento;
 	}
@@ -76,23 +99,6 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 		try{
 			GrupoMovimento grupoMovimento = new GrupoMovimento();
 			grupoMovimento = getGrupoMovimento(grupoMovimento, gMovimentoDTO);
-			
-			if(gMovimentoDTO.getIdLocais() != null){
-				int locais_length = gMovimentoDTO.getIdLocais().length;
-				if(locais_length > 0){
-					List<Local> locals = new ArrayList<Local>(locais_length);
-					for(int i = 0; i < locais_length; i++){
-						Local local = localDAO.getLocalById(Long.parseLong(gMovimentoDTO.getIdLocais()[i]));
-						if(local != null){
-							locals.add(local);
-						} else {
-							//TODO: Error ?
-						}
-					}
-					grupoMovimento.setLocais(new HashSet<Local>(locals));
-				}
-			}
-			
 			grupoMovimentoDAO.saveGrupoMovimento(grupoMovimento);
 			if(grupoMovimento.getId() != null){
 				return new MessageDTO(getText("msg_grupo_movimento_created"), MessageType.SUCCESS);
@@ -115,7 +121,6 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			GrupoMovimento grupoMovimento = grupoMovimentoDAO.getGrupoMovimentoById(gMovimentoDTO.getId());
 			if(grupoMovimento != null){
 				grupoMovimento = getGrupoMovimento(grupoMovimento, gMovimentoDTO);
-				//TODO: list?
 				grupoMovimentoDAO.updateGrupoMovimento(grupoMovimento);
 				if(grupoMovimento.getId() != null){
 					return new MessageDTO(getText("msg_grupo_movimento_updated"), MessageType.SUCCESS);
@@ -156,14 +161,6 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 			gmDTO.setNome(gm.getNome());
 			gmDTO.setAnoInicio(gm.getAnoInicio() != null ? String.valueOf(gm.getAnoInicio()) : "");
 			gmDTO.setAnoFim(gm.getAnoFim() != null ? String.valueOf(gm.getAnoFim()) : "");
-			List<LocalDTO> listLocDTO = new ArrayList<LocalDTO>();//
-			List<Local> locals = new ArrayList<Local>(gm.getLocais());
-			for(Local l : locals){
-				LocalDTO lDTO = new LocalDTO();
-				lDTO.setNome(l.getNome());
-				listLocDTO.add(lDTO);
-			}
-			gmDTO.setLocais(listLocDTO);
 			listGmDTO.add(gmDTO);
 		}
 		
