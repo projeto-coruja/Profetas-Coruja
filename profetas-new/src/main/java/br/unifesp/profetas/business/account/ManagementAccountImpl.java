@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import br.unifesp.profetas.business.AbstractBusiness;
@@ -29,6 +32,9 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 	
 	@Autowired UserAccountDAO userAccountDAO;
 	@Autowired ProfileDAO profileDAO;
+	
+	@Autowired MailSender mailSender;
+	@Autowired SimpleMailMessage templateMail;
 	
 	public boolean userExists(String username) {
 		if(userAccountDAO.getUserByUsername(username) != null){
@@ -133,9 +139,19 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 		if(userAcc != null){
 			userAcc.setActivationCode(UtilCodification.randomString());
 			userAcc.setCreationDateCode(new Date());
-			System.out.println("http://localhost:8080/profetas/update-pass.html?user="+username+"&code="+userAcc.getActivationCode());
+			String link = "http://localhost:8080/profetas/update-pass.html?user="+username+"&code="+userAcc.getActivationCode();
+			System.out.println(link);
 			userAccountDAO.updateUserAccount(userAcc);
-			//TODO: Send email
+			
+			SimpleMailMessage message = new SimpleMailMessage(templateMail);
+			message.setText("Para recuperar sua senha, siga o link: " + link); // TODO: deixar configurável o texto?
+			message.setTo(userAcc.getEmail());
+			try{ 
+				mailSender.send(message);
+			} catch(MailException e) {
+				return new MessageDTO(getText("err_recovery_pass_email_failed"), MessageType.ERROR);
+			}
+			
 			return new MessageDTO(getText("msg_recovery_pass_1"), MessageType.SUCCESS);
 		}
 		return new MessageDTO(getText("err_username_not_found"), MessageType.ERROR);
