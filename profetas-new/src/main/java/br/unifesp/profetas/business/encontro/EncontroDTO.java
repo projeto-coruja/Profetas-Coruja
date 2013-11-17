@@ -1,7 +1,6 @@
 package br.unifesp.profetas.business.encontro;
 
 import br.unifesp.profetas.business.common.CommonDTO;
-import br.unifesp.profetas.business.local.LocalDTO;
 
 public class EncontroDTO extends CommonDTO {
 	
@@ -9,8 +8,11 @@ public class EncontroDTO extends CommonDTO {
 	private String nome;
 	private String data;
 	
+	private Long idPersonagem;
+	private String descPersonagem;
+	
 	private Long idLocal;
-	private String desclocal;
+	private String descLocal;
 	
 	public EncontroDTO() {}
 
@@ -32,16 +34,28 @@ public class EncontroDTO extends CommonDTO {
 	public void setData(String data) {
 		this.data = data;
 	}
+	public Long getIdPersonagem() {
+		return idPersonagem;
+	}
+	public void setIdPersonagem(Long idPersonagem) {
+		this.idPersonagem = idPersonagem;
+	}
+	public String getDescPersonagem() {
+		return descPersonagem;
+	}
+	public void setDescPersonagem(String descPersonagem) {
+		this.descPersonagem = descPersonagem;
+	}
 	public Long getIdLocal() {
 		return idLocal;
 	}
 	public void setIdLocal(Long idLocal) {
 		this.idLocal = idLocal;
 	}
-	public String getDesclocal() {
-		return desclocal;
+	public String getDescLocal() {
+		return descLocal;
 	}
-	public void setDesclocal(String desclocal) {
-		this.desclocal = desclocal;
-	}
+	public void setDescLocal(String descLocal) {
+		this.descLocal = descLocal;
+	}	
 }

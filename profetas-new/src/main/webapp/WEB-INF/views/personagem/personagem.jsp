@@ -15,7 +15,7 @@
 	
 	<form:form id="personagem" modelAttribute="personagem">
 		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label></div>
+		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label><span class="required"> (*)</span></div>
 	    <div class="input-box"><form:input id="nome" path="nome" size="50" maxlength="100" /></div>		
 		<br />
 		
@@ -50,7 +50,7 @@
 		<br />
 		
 		<div class="label-box"><label for="biografia"><spring:message code="lbl_biografia"/></label></div>
-	    <div class="input-box"><form:input id="biografia" path="biografia" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="biografia" path="biografia" cols="70" rows="5" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="ocupacao"><spring:message code="lbl_ocupacao"/></label></div>
@@ -58,14 +58,11 @@
 		<br />
 		
 		<div class="label-box"><label for="formacao"><spring:message code="lbl_formacao"/></label></div>
-	    <div class="input-box"><form:input id="formacao" path="formacao" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="formacao" path="formacao" cols="70" rows="5" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="idRefBibliografica"><spring:message code="lbl_ref_bibliografica"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idRefBibliografica" path="idRefBibliografica">
-		    </form:select>
-	    </div>		
+		<div class="label-box"><label for="refBibliografica"><spring:message code="lbl_ref_bibliografica"/></label></div>
+	    <div class="input-box"><form:textarea id="refBibliografica" path="refBibliografica" cols="70" rows="5" /></div>	
 		<br />
 		
 		<div class="label-box"><label for="idReligioes"><spring:message code="lbl_religioes"/></label></div>
@@ -113,7 +110,6 @@
 	<script type="text/javascript">
 		fillLocals("${personagem.idNascimento}", 'idNascimento');
 		fillLocals("${personagem.idMorte}", 'idMorte');
-		fillObras("${personagem.idRefBibliografica}", 'idRefBibliografica');
 		fillMultipleReligioesCrencas("${personagem.idReligioes}", 'idReligioes');
 		fillMultipleEncontros("${personagem.idEncontros}", 'idEncontros');
 		fillMultipleObras("${personagem.idObras}", 'idObras');

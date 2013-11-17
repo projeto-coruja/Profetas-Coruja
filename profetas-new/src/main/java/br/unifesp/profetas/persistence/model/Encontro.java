@@ -41,6 +41,11 @@ public class Encontro implements Serializable {
 	
 	@ManyToOne
 	@PrimaryKeyJoinColumn
+	@ForeignKey(name = "fk_encontro_personagem")
+	private Personagem personagem;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn
 	@ForeignKey(name = "fk_encontro_local")
 	private Local local;
 	
@@ -71,6 +76,12 @@ public class Encontro implements Serializable {
 	}
 	public void setData(Date data) {
 		this.data = data;
+	}	
+	public Personagem getPersonagem() {
+		return personagem;
+	}
+	public void setPersonagem(Personagem personagem) {
+		this.personagem = personagem;
 	}
 	public Local getLocal() {
 		return local;

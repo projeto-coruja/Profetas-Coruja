@@ -43,7 +43,7 @@ import org.hibernate.annotations.Type;
 +? Encontros,
 + Correspondências,
 - Leituras,
-+? Referências Bibliográficas
++ Referências Bibliográficas
  */
 @Entity
 @Table(name = "personagem")
@@ -82,7 +82,7 @@ public class Personagem implements Serializable {
 	@Column(name = "p_data_morte", nullable = true, length = 10)
 	private Date dataMorte;
 	
-	@Column(name="p_biografia", nullable = true)
+	@Column(name="p_biografia", columnDefinition="TEXT", nullable = true)
     private String biografia;
 	
 	@Column(name="p_ocupacao", nullable = true)
@@ -91,10 +91,8 @@ public class Personagem implements Serializable {
 	@Column(name="p_formacao", nullable = true)
     private String formacao;
 	
-	@ManyToOne
-	@PrimaryKeyJoinColumn
-	@ForeignKey(name = "fk_pers_foob")
-	private FontesObras referenciaBibliografica;
+	@Column(name="p_ref_bibliografica", columnDefinition="TEXT", nullable = true)
+	private String referenciaBibliografica;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "pers_crencas", joinColumns = { 
@@ -138,9 +136,6 @@ public class Personagem implements Serializable {
 	//
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "leitores")
 	private Set<FontesObras> pLeitores = new HashSet<FontesObras>(0);
-	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "personagens")
-	private Set<FontesObras> pPersonagens = new HashSet<FontesObras>(0);
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "autoresCitados")
 	private Set<FontesObras> pAutoresCitados = new HashSet<FontesObras>(0);
@@ -223,22 +218,16 @@ public class Personagem implements Serializable {
 	public void setpLeitores(Set<FontesObras> pLeitores) {
 		this.pLeitores = pLeitores;
 	}
-	public Set<FontesObras> getpPersonagens() {
-		return pPersonagens;
-	}
-	public void setpPersonagens(Set<FontesObras> pPersonagens) {
-		this.pPersonagens = pPersonagens;
-	}
 	public Set<FontesObras> getpAutoresCitados() {
 		return pAutoresCitados;
 	}
 	public void setpAutoresCitados(Set<FontesObras> pAutoresCitados) {
 		this.pAutoresCitados = pAutoresCitados;
-	}
-	public FontesObras getReferenciaBibliografica() {
+	}	
+	public String getReferenciaBibliografica() {
 		return referenciaBibliografica;
 	}
-	public void setReferenciaBibliografica(FontesObras referenciaBibliografica) {
+	public void setReferenciaBibliografica(String referenciaBibliografica) {
 		this.referenciaBibliografica = referenciaBibliografica;
 	}
 	public Set<ReligiaoCrencas> getReligioes() {

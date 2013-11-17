@@ -65,7 +65,7 @@ public class FontesObras implements Serializable {
 	@Column(name="f_autor", nullable = false, length = 100)
 	private String autor;
 	
-	@Column(name="f_titulo", nullable = false, length = 100)
+	@Column(name="f_titulo", columnDefinition="TEXT", nullable = false)
 	private String titulo;
 	
 	@Column(name="f_comentarios", columnDefinition="TEXT", nullable = true)
@@ -114,13 +114,6 @@ public class FontesObras implements Serializable {
 			inverseJoinColumns = { @JoinColumn(name = "id_personagem", 
 			nullable = false, updatable = false) })
     private Set<Personagem> leitores = new HashSet<Personagem>(0);
-	
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "foob_personagens", joinColumns = { 
-			@JoinColumn(name = "id_fontes", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "id_personagem", 
-			nullable = false, updatable = false) })
-    private Set<Personagem> personagens = new HashSet<Personagem>(0);
 	
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "foob_autores_citados", joinColumns = { 
@@ -252,12 +245,6 @@ public class FontesObras implements Serializable {
 	public void setLeitores(Set<Personagem> leitores) {
 		this.leitores = leitores;
 	}
-	public Set<Personagem> getPersonagens() {
-		return personagens;
-	}
-	public void setPersonagens(Set<Personagem> personagens) {
-		this.personagens = personagens;
-	}	
 	public Set<Personagem> getAutoresCitados() {
 		return autoresCitados;
 	}

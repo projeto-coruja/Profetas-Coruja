@@ -18,7 +18,7 @@ public class PersonagemDTO extends CommonDTO {
     private String ocupacao;
     private String formacao;
     
-    private Long idRefBibliografica;
+    private String refBibliografica;
     private Long[] idReligioes;
 	private String strReligioes;
 	private Long[] idEncontros;
@@ -107,12 +107,12 @@ public class PersonagemDTO extends CommonDTO {
 	}
 	public void setFormacao(String formacao) {
 		this.formacao = formacao;
+	}	
+	public String getRefBibliografica() {
+		return refBibliografica;
 	}
-	public Long getIdRefBibliografica() {
-		return idRefBibliografica;
-	}
-	public void setIdRefBibliografica(Long idRefBibliografica) {
-		this.idRefBibliografica = idRefBibliografica;
+	public void setRefBibliografica(String refBibliografica) {
+		this.refBibliografica = refBibliografica;
 	}
 	public Long[] getIdReligioes() {
 		return idReligioes;

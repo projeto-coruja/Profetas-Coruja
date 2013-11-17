@@ -18,28 +18,29 @@
 	
 	<form:form id="fontes" modelAttribute="fontes">
 		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="localizacao"><spring:message code="lbl_localizacao"/></label></div>
-	    <div class="input-box"><form:input id="localizacao" path="localizacao" size="50" maxlength="100" /></div>		
+		
+		<div class="label-box"><label for="titulo"><spring:message code="lbl_titulo"/></label></div>
+	    <div class="input-box"><form:textarea id="titulo" path="titulo" cols="70" rows="2" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="autor"><spring:message code="lbl_autor"/></label></div>
 	    <div class="input-box"><form:input id="autor" path="autor" size="50" maxlength="100" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="titulo"><spring:message code="lbl_titulo"/></label></div>
-	    <div class="input-box"><form:input id="titulo" path="titulo" size="50" maxlength="100" /></div>		
+		<div class="label-box"><label for="localizacao"><spring:message code="lbl_localizacao"/></label></div>
+	    <div class="input-box"><form:input id="localizacao" path="localizacao" size="50" maxlength="100" /></div>		
 		<br />
 		
 		<div class="label-box"><label for=referenciaCompleta><spring:message code="lbl_ref_completa"/></label></div>
-	    <div class="input-box"><form:input id="referenciaCompleta" path="referenciaCompleta" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="referenciaCompleta" path="referenciaCompleta" cols="70" rows="5" /></div>		
 		<br />
 		
 		<div class="label-box"><label for=referenciasCirculacaoObra><spring:message code="lbl_ref_circulacao"/></label></div>
-	    <div class="input-box"><form:input id="referenciasCirculacaoObra" path="referenciasCirculacaoObra" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="referenciasCirculacaoObra" path="referenciasCirculacaoObra" cols="70" rows="5" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="comentarios"><spring:message code="lbl_comentarios"/></label></div>
-	    <div class="input-box"><form:input id="comentarios" path="comentarios" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="comentarios" path="comentarios" cols="70" rows="5" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="url"><spring:message code="lbl_url"/></label></div>
@@ -47,11 +48,11 @@
 		<br />
 		
 		<div class="label-box"><label for="copiasManuscritas"><spring:message code="lbl_copias"/></label></div>
-	    <div class="input-box"><form:input id="copiasManuscritas" path="copiasManuscritas" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="copiasManuscritas" path="copiasManuscritas" cols="70" rows="5" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="traducoes"><spring:message code="lbl_traducoes"/></label></div>
-	    <div class="input-box"><form:input id="traducoes" path="traducoes" size="50" maxlength="100" /></div>		
+	    <div class="input-box"><form:textarea id="traducoes" path="traducoes" cols="70" rows="5" /></div>		
 		<br />
 		
 		<div class="label-box"><label for="editor"><spring:message code="lbl_editor"/></label></div>
@@ -90,13 +91,6 @@
 	    </div>
 		<br />
 		
-		<div class="label-box"><label for="idPersonagens"><spring:message code="lbl_personagens"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idPersonagens" path="idPersonagens" multiple="true">
-		    </form:select>
-	    </div>
-		<br />
-		
 		<div class="label-box"><label for="idAutCitados"><spring:message code="lbl_autores_citados"/></label></div>
 	    <div class="input-box">
 	    	<form:select id="idAutCitados" path="idAutCitados" multiple="true">
@@ -127,7 +121,6 @@
 		fillClassificacoes("${fontes.idClassificacao}");
 		fillGrupoMovimento("${fontes.idGruMovimento}");
 		fillMultiplePersonagens("${fontes.strLeitores}", 'idLeitores');
-		fillMultiplePersonagens("${fontes.strPersonagens}", 'idPersonagens');
 		fillMultiplePersonagens("${fontes.strAutCitados}", 'idAutCitados');
 		fillMultipleObras("${fontes.strObrCitadas}", 'idObrCitadas');
 		fillPalavrasChave("${fontes.strPalChave}");

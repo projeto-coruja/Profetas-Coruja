@@ -24,6 +24,7 @@ function checkFields(){
 function clearFields(){
 	$('#nome').val('');
     $('#data').val('');
+    $('#idPersonagem').val('');
     $('#idLocal').val('');
 }
 
@@ -35,9 +36,10 @@ function saveForm(){
 	var id			= $('#id').val();
 	var nome		= $('#nome').val();
 	var _data		= $('#data').val();
+	var idPersonagem = $('#idPersonagem').val();
     var idLocal		= $('#idLocal').val();
     
-    var data = JSON.stringify({ "id" : id, "nome" : nome, "data" : _data, "idLocal" : idLocal });
+    var data = JSON.stringify({ "id" : id, "nome" : nome, "data" : _data, "idPersonagem" : idPersonagem, "idLocal" : idLocal });
     
     $.ajax({
         url : url,

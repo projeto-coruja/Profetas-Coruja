@@ -20,7 +20,6 @@ import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
-import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
@@ -71,17 +70,6 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 				}
 				if(!leitores.isEmpty()){
 					fDTO.setStrLeitores(leitores.toString());
-				}
-			}
-			//personagens
-				Set<Personagem> personagensSet = fontesObras.getPersonagens();
-			if(!personagensSet.isEmpty()){
-				List<Long> personagens = new ArrayList<Long>(personagensSet.size());
-				for(Personagem p : personagensSet){
-					personagens.add(p.getId());
-				}
-				if(!personagens.isEmpty()){
-					fDTO.setStrPersonagens(personagens.toString());
 				}
 			}
 			//autoresCitados
@@ -168,22 +156,6 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 					}
 				}
 				fontesObras.setLeitores(new HashSet<Personagem>(leitores));
-			}
-		}
-		//Personagens
-		if(fontesObrasDTO.getIdPersonagens() != null){
-			int perLength = fontesObrasDTO.getIdPersonagens().length;
-			if(perLength > 0){
-				List<Personagem> personagens = new ArrayList<Personagem>(perLength);
-				for(int i = 0; i < perLength; i++){
-					Personagem p = personagemDAO.getPersonagemById(fontesObrasDTO.getIdPersonagens()[i]);
-					if(p != null){
-						personagens.add(p);
-					} else {
-						logger.error("Personagem: " + fontesObrasDTO.getIdPersonagens()[i] + " does not exist");
-					}
-				}
-				fontesObras.setPersonagens(new HashSet<Personagem>(personagens));
 			}
 		}
 		//Autores Citados

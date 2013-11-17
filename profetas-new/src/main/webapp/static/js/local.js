@@ -53,12 +53,12 @@ function getPlace(){
 }
 
 function checkFields(){
-	var nome	= $('#nome').val();
+	//var nome	= $('#nome').val();
 	var country	= $('#country').val();
-	if(nome == undefined || nome == ''){
+	/*if(nome == undefined || nome == ''){
 		addMessage(jQuery.i18n.prop('err_nome_required'), 'error');
 		return false;
-	}
+	}*/
 	if(country == undefined || country == ''){
 		addMessage(jQuery.i18n.prop('err_country_required'), 'error');
 		return false;

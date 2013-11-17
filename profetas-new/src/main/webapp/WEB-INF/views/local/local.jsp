@@ -18,7 +18,7 @@
 	
 	<form:form id="local" modelAttribute="local">
 		<form:hidden id="id" path="id" />
-		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label><span class="required"> (*)</span></div>
+		<div class="label-box"><label for="nome"><spring:message code="lbl_nome"/></label></div>
 	    <div class="input-box"><form:input id="nome" path="nome" size="50" maxlength="100" /></div>		
 		<br />
 		

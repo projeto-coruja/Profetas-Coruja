@@ -21,8 +21,6 @@ public class FontesObrasDTO extends CommonDTO {
 	private Long idGruMovimento;
 	private Long[] idLeitores;
 	private String strLeitores;
-	private Long[] idPersonagens;
-	private String strPersonagens;
 	private Long[] idAutCitados;
 	private String strAutCitados;
 	private Long[] idObrCitadas;
@@ -131,18 +129,6 @@ public class FontesObrasDTO extends CommonDTO {
 	}
 	public void setStrLeitores(String strLeitores) {
 		this.strLeitores = strLeitores;
-	}
-	public Long[] getIdPersonagens() {
-		return idPersonagens;
-	}
-	public void setIdPersonagens(Long[] idPersonagens) {
-		this.idPersonagens = idPersonagens;
-	}
-	public String getStrPersonagens() {
-		return strPersonagens;
-	}
-	public void setStrPersonagens(String strPersonagens) {
-		this.strPersonagens = strPersonagens;
 	}
 	public Long[] getIdAutCitados() {
 		return idAutCitados;
