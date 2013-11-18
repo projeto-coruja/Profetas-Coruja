@@ -23,6 +23,13 @@
 	    <div class="input-box"><form:input id="data" path="data" size="10" maxlength="10" /></div>		
 		<br />
 		
+		<div class="label-box"><label for="idPersonagem"><spring:message code="lbl_personagem"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idPersonagem" path="idPersonagem">
+		    </form:select>
+	    </div>		
+		<br />
+		
 		<div class="label-box"><label for="idLocal"><spring:message code="lbl_local"/></label></div>
 	    <div class="input-box">
 	    	<form:select id="idLocal" path="idLocal">
@@ -38,6 +45,7 @@
 	<jsp:include page="../includes/grid.jsp" flush="true" />
 	
 	<script type="text/javascript">
+		fillPersonagens("${encontro.idPersonagem}", "idPersonagem");
 		fillLocals("${encontro.idLocal}");
 	</script>
 </div>

@@ -37,12 +37,9 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 	}
 	
 	private MessageDTO isNotValid(LocalDTO localDTO, boolean isNew){
-		//if(isNew){
-			//duplicate ?
-		//}
-		if(!UtilValidator.validateNotEmptyField(localDTO.getNome())){
+		/*if(!UtilValidator.validateNotEmptyField(localDTO.getNome())){
 			return new MessageDTO(getText("err_local_nome_required"), MessageType.ERROR);
-		}
+		}*/
 		if(!UtilValidator.validateNotEmptyField(localDTO.getCountry())){
 			return new MessageDTO(getText("err_country_nome_required"), MessageType.ERROR);
 		}

@@ -16,6 +16,7 @@ import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
 import br.unifesp.profetas.persistence.model.Encontro;
 import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.persistence.model.Personagem;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
@@ -32,6 +33,8 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 			eDTO.setId(encontro.getId());
 			eDTO.setNome(encontro.getNome());
 			eDTO.setData(encontro.getData() != null ? dateFormat.format(encontro.getData()) : "");
+				Personagem personagem = encontro.getPersonagem();
+			eDTO.setIdPersonagem(personagem != null ? personagem.getId() : null);
 				Local local = encontro.getLocal();
 			eDTO.setIdLocal(local != null ? local.getId() : null);
 			return eDTO;
@@ -53,6 +56,9 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 	private Encontro getEncontro(Encontro encontro, EncontroDTO encontroDTO){
 		encontro.setNome(encontroDTO.getNome());
 		encontro.setData(UtilValidator.getDateFromString(encontroDTO.getData()));
+		if(encontroDTO.getIdPersonagem() != null && encontroDTO.getIdPersonagem() != -1){
+			encontro.setPersonagem(new Personagem(encontroDTO.getIdPersonagem()));
+		}
 		if(encontroDTO.getIdLocal() != null && encontroDTO.getIdLocal() != -1){
 			encontro.setLocal(new Local(encontroDTO.getIdLocal()));
 		}
@@ -128,9 +134,6 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 			EncontroDTO eDTO = new EncontroDTO();
 			eDTO.setId(e.getId());
 			eDTO.setNome(e.getNome());
-			eDTO.setData(e.getData() != null ? e.getData().toString() : "");
-				Local local = e.getLocal();
-			eDTO.setDesclocal(local != null ? local.getNome() : "");
 			listDTO.add(eDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);

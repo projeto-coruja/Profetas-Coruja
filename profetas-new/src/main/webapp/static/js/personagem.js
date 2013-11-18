@@ -18,7 +18,7 @@ function clearFields(){
     $('#biografia').val('');
     $('#ocupacao').val('');
     $('#formacao').val('');
-    $('#idRefBibliografica').val('');
+    $('#refBibliografica').val('');
     $('#idReligioes').val('');
     $('#idEncontros').val('');
     $('#idObras').val();
@@ -52,7 +52,7 @@ function saveForm(){
     var ocupacao	= $('#ocupacao').val();
     var formacao	= $('#formacao').val();
     
-    var idRefBibliografica	= $('#idRefBibliografica').val();
+    var refBibliografica	= $('#refBibliografica').val();
     var idReligioes	= $('#idReligioes').val();
     var idEncontros	= $('#idEncontros').val();
     var idObras		= $('#idObras').val();
@@ -61,7 +61,7 @@ function saveForm(){
     
     var data = JSON.stringify({ "id" : id, "nome" : nome, "sobrenome" : sobrenome, "apelido" : apelido, 
     	"idNascimento" : idNascimento, "dataNascimento" : dataNascimento, "idMorte" : idMorte, "dataMorte" : dataMorte, 
-    	"biografia" : biografia, "ocupacao" : ocupacao, "formacao" : formacao, "idRefBibliografica" : idRefBibliografica, 
+    	"biografia" : biografia, "ocupacao" : ocupacao, "formacao" : formacao, "refBibliografica" : refBibliografica, 
     	"idReligioes" : idReligioes, "idEncontros" : idEncontros, "idObras" : idObras, "idCorrespondencias" : idCorrespondencias, 
     	"idLocaisPers" : idLocaisPers });
     

@@ -62,8 +62,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			pDTO.setBiografia(personagem.getBiografia());
 			pDTO.setOcupacao(personagem.getOcupacao());
 			pDTO.setFormacao(personagem.getFormacao());
-				FontesObras refBibliografica = personagem.getReferenciaBibliografica();
-			pDTO.setIdRefBibliografica(refBibliografica != null ? refBibliografica.getId() : null);
+			pDTO.setRefBibliografica(personagem.getReferenciaBibliografica());
 			//religioes
 				Set<ReligiaoCrencas> crencasSet = personagem.getReligioes();
 			if(!crencasSet.isEmpty()){
@@ -150,9 +149,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		personagem.setBiografia(personagemDTO.getBiografia());
 		personagem.setOcupacao(personagemDTO.getOcupacao());
 		personagem.setFormacao(personagemDTO.getFormacao());
-		if(personagemDTO.getIdRefBibliografica() != null && personagemDTO.getIdRefBibliografica() != -1){
-			personagem.setReferenciaBibliografica(new FontesObras(personagemDTO.getIdRefBibliografica()));
-		}
+		personagem.setReferenciaBibliografica(personagemDTO.getRefBibliografica());
 		
 		//
 		//Religioes-crencas

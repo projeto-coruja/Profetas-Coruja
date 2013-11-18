@@ -30,7 +30,6 @@ function clearFields(){
     
     $('#idGruMovimento').val('');
     $('#idLeitores').val();
-    $('#idPersonagens').val();
     $('#idAutCitados').val();
     $('#idObrCitadas').val();
     $('#palavrasChave').val();
@@ -67,7 +66,6 @@ function saveForm(){
     
     var idGruMovimento 	= $('#idGruMovimento').val();
     var idLeitores 		= $('#idLeitores').val();
-    var idPersonagens 	= $('#idPersonagens').val();
     var idAutCitados 	= $('#idAutCitados').val();
     var idObrCitadas 	= $('#idObrCitadas').val();
     
@@ -83,7 +81,7 @@ function saveForm(){
     	"comentarios" : comentarios, "url" : url_fontes, "copiasManuscritas" : copiasManuscritas, 
     	"traducoes" : traducoes, "editor" : editor, "dataImpressao" : dataImpressao, 
     	"idLocalImpressao" : idLocalImpressao, "idClassificacao" : idClassificacao, 
-    	"idGruMovimento" : idGruMovimento, "idLeitores" : idLeitores, "idPersonagens" : idPersonagens, 
+    	"idGruMovimento" : idGruMovimento, "idLeitores" : idLeitores, 
     	"idAutCitados" : idAutCitados, "idObrCitadas" : idObrCitadas, "palavrasChave" : palavrasChave });
     
     $.ajax({

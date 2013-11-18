@@ -26,7 +26,7 @@ public class Local implements Serializable {
 	@SequenceGenerator(name = "loca_seq_name", sequenceName = "loca_seq", allocationSize = 1)
 	private Long id;
 	
-	@Column(name="l_name", nullable = false, length = 100)
+	@Column(name="l_name", nullable = true, length = 100)
 	private String nome;
 	
 	@Column(name="l_latitude", nullable = true)

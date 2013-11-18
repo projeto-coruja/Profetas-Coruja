@@ -206,6 +206,28 @@ function fillProfileList(){
     });
 }
 
+function fillPersonagens(idSelected, idDiv){
+	$.ajax({
+        dataType:'json',
+        type:'get',
+        cache:false,
+        url:'personagens.html',
+        success: function(data, textStatus, jqXHR){
+        	if(data == null)
+        		return;
+        	var combo;
+    		combo = $('#'+idDiv);
+        	combo.empty();
+        	combo.append('<option value="-1">Selecione um</option>');
+        	for (var i = 0; i < data.length; i++) {
+            	var _selected = '';
+            	if(parseInt(idSelected) == data[i].id){ _selected = ' selected="selected"'; }
+            	var str = '<option value="' + data[i].id+'"'+ _selected+'>' + data[i].nome +'</option>';
+            	combo.append(str);
+            }
+        }
+    });
+}
 function fillMultiplePersonagens(idsSelected, idDiv){
 	var str_ids = JSON.parse('['+ idsSelected +']');
 	str_ids = str_ids.toString();

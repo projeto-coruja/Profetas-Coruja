@@ -19,12 +19,20 @@ import br.unifesp.profetas.business.local.LocalDTO;
 import br.unifesp.profetas.business.personagem.PersonagemDTO;
 import br.unifesp.profetas.business.profile.ProfileDTO;
 import br.unifesp.profetas.business.religiao.ReligiaoCrencasDTO;
+import br.unifesp.profetas.persistence.domain.PersonagemViewDAO;
+import br.unifesp.profetas.persistence.model.PersonagemView;
 import br.unifesp.profetas.util.ProfetasConstants;
 
 @Controller
 public class CommonController {
 	
 	@Autowired private ManagementCommon mCommon;
+	@Autowired private PersonagemViewDAO personagemViewDAO;
+	
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public @ResponseBody List<PersonagemView> getView(SecurityContextHolderAwareRequestWrapper request) {
+		return personagemViewDAO.listPersonagemView();
+	}
 	
 	@RequestMapping(value = "/profiles", method = RequestMethod.GET)
 	public @ResponseBody List<ProfileDTO> getProfiles(SecurityContextHolderAwareRequestWrapper request) {
