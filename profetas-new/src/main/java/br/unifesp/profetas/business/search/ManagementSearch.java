@@ -7,9 +7,7 @@ import br.unifesp.profetas.business.personagem.PersonagemDTO;
 
 public interface ManagementSearch {
 	
-	public WrapperGrid<PersonagemDTO> searchByPersonagens(String orderBy, 
-			OrderType orderType, int page, int numRows, String text);
+	public WrapperGrid<PersonagemDTO> searchByPersonagens(OrderType orderType, int page, int numRows, String words);
 	
-	public WrapperGrid<FontesObrasDTO> searchByFontesObras(String orderBy, 
-			OrderType orderType, int page, int numRows, String text);
+	public WrapperGrid<FontesObrasDTO> searchByFontesObras(OrderType orderType, int page, int numRows, String words);
 }
