@@ -19,6 +19,7 @@
 	    <div class="input-box">
 	    	<form:select id="idRemetente" path="idRemetente">
 		    </form:select>
+		    <img onclick="showAddPersonagem('idRemetente')" src="<c:url value="/static/images/add.png" />" />
 	    </div>		
 		<br />
 		
@@ -26,6 +27,7 @@
 	    <div class="input-box">
 	    	<form:select id="idDestinatario" path="idDestinatario">
 		    </form:select>
+		    <img onclick="showAddPersonagem('idDestinatario')" src="<c:url value="/static/images/add.png" />" />
 	    </div>		
 		<br />
 		
@@ -53,6 +55,7 @@
 	</script>
 </div>
 
+<div id="popup-personagem" style="display: none;"></div>
 </sec:authorize>
 
 <jsp:include page="../includes/accessDenied.jsp" flush="true" />

@@ -27,6 +27,7 @@
 	    <div class="input-box">
 	    	<form:select id="idPersonagem" path="idPersonagem">
 		    </form:select>
+		    <img onclick="showAddPersonagem('idPersonagem')" src="<c:url value="/static/images/add.png" />" />
 	    </div>		
 		<br />
 		
@@ -50,6 +51,7 @@
 	</script>
 </div>
 
+<div id="popup-personagem" style="display: none;"></div>
 </sec:authorize>
 
 <jsp:include page="../includes/accessDenied.jsp" flush="true" />

@@ -12,6 +12,9 @@
         <put-attribute name="content" value="/WEB-INF/views/includes/blank.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/includes/footer.jsp" />
     </definition>
+    <definition name="template-basic" template="/WEB-INF/views/templates/basic.jsp">
+        <put-attribute name="content" value="/WEB-INF/views/includes/blank.jsp" />
+    </definition>
     
     <!-- Index/login page -->
     <definition name="index_login" extends="template-main">
@@ -60,6 +63,9 @@
     <!-- Personagem -->
     <definition name="personagem" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/personagem/personagem.jsp" />
+    </definition>
+    <definition name="basic_personagem" extends="template-basic">
+        <put-attribute name="content" value="/WEB-INF/views/personagem/basicPersonagem.jsp" />
     </definition>
     
     <!-- Correspondencia -->

@@ -248,7 +248,11 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			personagem = getPersonagem(personagem, personagemDTO);
 			personagemDAO.savePersonagem(personagem);
 			if(personagem.getId() != null){
-				return new MessageDTO(getText("msg_personagem_created"), MessageType.SUCCESS);
+				MessageDTO msg = new MessageDTO();
+				msg.setMessage(getText("msg_personagem_created"));
+				msg.setType(MessageType.SUCCESS);
+				msg.setData(personagem.getId());
+				return msg;
 			}
 			return new MessageDTO(getText("err_personagem_not_created"), MessageType.ERROR);
 		} catch(Exception e){

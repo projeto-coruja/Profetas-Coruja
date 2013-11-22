@@ -27,6 +27,7 @@ public class PersonagemController extends AbstractController {
 	
 	private static final String MODEL		= "personagem";
 	private static final String TILES_DEF	= "personagem";
+	private static final String TILES_DEF_BASIC	= "basic_personagem";
 	
 	@ModelAttribute(MODEL)
 	public PersonagemDTO init() {
@@ -75,4 +76,13 @@ public class PersonagemController extends AbstractController {
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mPersonagem.getPersonagemList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 	}
+	
+	@RequestMapping(value = "/basic-personagem", method = RequestMethod.GET)
+    public String showBasicView(ModelMap model, 
+    		@RequestParam(value = "divId", required = false) String divId) {
+		PersonagemDTO pDTO = new PersonagemDTO();
+		pDTO.setDivId(divId);
+		model.addAttribute(MODEL, pDTO);
+        return TILES_DEF_BASIC;
+    }
 }
