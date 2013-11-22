@@ -9,19 +9,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.unifesp.profetas.persistence.AbstractHibernateDAO;
-import br.unifesp.profetas.persistence.domain.PersonagemViewDAO;
-import br.unifesp.profetas.persistence.model.PersonagemView;
+import br.unifesp.profetas.persistence.domain.FonteObraViewDAO;
+import br.unifesp.profetas.persistence.model.FonteObraView;
 
-@Repository("personagemViewDAO")
+@Repository("fonteObraViewDAO")
 @Transactional
-public class PersonagemViewDAOImpl extends AbstractHibernateDAO<PersonagemView> implements PersonagemViewDAO {
+public class FonteObraViewDAOImpl extends AbstractHibernateDAO<FonteObraView> implements FonteObraViewDAO {
 
-	public PersonagemViewDAOImpl() {
-		setClazz(PersonagemView.class);
+	public FonteObraViewDAOImpl() {
+		setClazz(FonteObraView.class);
 	}
 
-	public List<PersonagemView> search(int page, int numRows, String words) {
-		Criteria criteria = getCurrentSession().createCriteria(PersonagemView.class);
+	public List<FonteObraView> search(int page, int numRows, String words) {
+		Criteria criteria = getCurrentSession().createCriteria(FonteObraView.class);
 		String[] tokens = words.split(" ");
 		int tokensLength = tokens.length;
 		Criterion c = null;

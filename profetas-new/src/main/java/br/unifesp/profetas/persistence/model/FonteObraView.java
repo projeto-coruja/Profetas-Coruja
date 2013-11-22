@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "personagem_view")
-public class PersonagemView implements Serializable {
+@Table(name = "fonteobra_view")
+public class FonteObraView implements Serializable {
 
 	@Id
 	@Column(name="id")
@@ -18,7 +18,7 @@ public class PersonagemView implements Serializable {
 	@Column(name="texto")
 	private String texto;
 
-	public PersonagemView() { }
+	public FonteObraView() { }
 
 	public Long getId() {
 		return id;

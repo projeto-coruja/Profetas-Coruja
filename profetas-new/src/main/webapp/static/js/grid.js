@@ -70,8 +70,9 @@ var CorujaGrid = function CorujaGrid() {
 	this.total_rows;
 	this.data;	
 	this.total_cols;
+	this.grid_type;
 	
-	this.paintGrid = function paintGrid(div_id, titles, columns_key, columns_size, columns_sort, data) {
+	this.paintGrid = function paintGrid(div_id, titles, columns_key, columns_size, columns_sort, data, grid_type) {
 		var html = '';
 		this.div_id			= div_id;
 		this.titles			= titles;
@@ -79,6 +80,7 @@ var CorujaGrid = function CorujaGrid() {
 		this.columns_key	= columns_key;
 		this.columns_size	= columns_size;
 		this.columns_sort	= columns_sort;
+		this.grid_type		= grid_type;
 		
 		this.data		= data.rows;
 		this.orderBy		= data.orderBy;
@@ -141,9 +143,13 @@ var CorujaGrid = function CorujaGrid() {
 	            html += '<th width="'+width+'%" class="'+th_class+'">'+this.titles[i]+'</th>';
 	        }
 	    }
-	    html += '<th width="5%"></th>';
-	    html += '<th width="5%"></th>';
-        html += '</tr></thead>';
+	    if(this.grid_type == undefined){
+	    	html += '<th width="5%"></th>';
+	    	html += '<th width="5%"></th>';
+	    } else{
+	    	//view item
+	    }
+	    html += '</tr></thead>';
         return html;
 	};
 	this.buildBody = function buildBody(){
@@ -165,8 +171,13 @@ var CorujaGrid = function CorujaGrid() {
     	    for(t = 0; t < this.num_titles; t++) {
     	    	html += '<td>'+obj[this.columns_key[t]]+'</td>';
     	    }
-	    	    html += '<td align="center"><img onclick="updateForm(\''+obj['id']+'\')" src="static/images/edit.png" /></td>';
-	    	    html += '<td align="center"><img onclick="deleteForm(\''+obj['id']+'\')" src="static/images/delete.png" /></td>';
+    	    if(this.grid_type == undefined){
+    	    	html += '<td align="center"><img onclick="updateForm(\''+obj['id']+'\')" src="static/images/edit.png" /></td>';
+    	    	html += '<td align="center"><img onclick="deleteForm(\''+obj['id']+'\')" src="static/images/delete.png" /></td>';
+    	    } else {
+    	    	//view item
+    	    }
+    	    
     	    html += '</tr>';
         }
         html += '</tbody>';

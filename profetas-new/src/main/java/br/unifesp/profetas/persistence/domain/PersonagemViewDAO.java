@@ -6,6 +6,5 @@ import br.unifesp.profetas.persistence.model.PersonagemView;
 
 public interface PersonagemViewDAO {
 	
-	public List<PersonagemView> listPersonagemView();
-
+	public List<PersonagemView> search(int page, int numRows, String words);
 }
