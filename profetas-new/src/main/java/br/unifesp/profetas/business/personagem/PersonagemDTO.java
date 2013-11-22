@@ -30,6 +30,8 @@ public class PersonagemDTO extends CommonDTO {
 	private Long[] idCorrespondencias;
 	private String strCorrespondencias;
 	
+	private String divId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -174,4 +176,10 @@ public class PersonagemDTO extends CommonDTO {
 	public void setStrCorrespondencias(String strCorrespondencias) {
 		this.strCorrespondencias = strCorrespondencias;
 	}
+	public String getDivId() {
+		return divId;
+	}
+	public void setDivId(String divId) {
+		this.divId = divId;
+	}	
 }

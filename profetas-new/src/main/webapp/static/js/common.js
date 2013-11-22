@@ -492,3 +492,14 @@ function loadGrid(orderBy, orderType, page, search_words){
         }
     });
 }
+/* Add personagem */
+function showAddPersonagem(divId) {
+	var title = jQuery.i18n.prop('msg_cadastro_personagem');
+	$('#popup-personagem').load(urlContext()+'basic-personagem.html?divId='+divId).dialog({
+		autoOpen : false,
+		modal : true,
+		title : title,
+		width : 600,
+	});
+	$("#popup-personagem").dialog('open');
+}

@@ -14,32 +14,13 @@
 		<link rel="shortcut icon" type="image/x-icon" href="<c:url value="/static/favicon.ico"/>"/>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/coruja.css'/>" />
 		<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/dropDown.css'/>" />
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 		
 		<script src="<c:url value='/static/js/jquery.js' />" type="text/javascript"></script>
-		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>			
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>		
 		<script src="<c:url value='/static/js/jquery.i18n.properties.js' />" type="text/javascript"></script>
 		<script src="<c:url value='/static/js/json.min.js' />" type="text/javascript"></script>
-		<script src="<c:url value='/static/js/default.js' />" type="text/javascript"></script>
-		<script src="<c:url value='/static/js/utility.js' />" type="text/javascript"></script>
     </head>
     <body>
-    	<div class="container">
-			<div class="header"><tiles:insertAttribute name="header" /></div>
-			
-			<div id="containerMessages"><tiles:insertAttribute name="messages" /></div>
-			
-			<div class="sidebar1">
-    			<tiles:insertAttribute name="menu" />
-    		</div>
-    		
-			<div class="text">
-				<tiles:insertAttribute name="content" />
-			</div>
-	
-			<div class="footer"><tiles:insertAttribute name="footer" /></div>
-	
-		</div>		
-		
+		<tiles:insertAttribute name="content" />
     </body>
 </html>
