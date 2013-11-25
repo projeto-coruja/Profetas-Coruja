@@ -1,5 +1,3 @@
-var URL_SECTION = 'personagem';
-
 $(document).ready(function() {
 	$("#saveBasicForm").click(function(){
 		saveBasicForm();
@@ -13,7 +11,7 @@ function clearFields(){
 }
 
 function saveBasicForm(){
-	var url			= URL_SECTION+'/save.html';
+	var url			= 'personagem/save.html';
 	var nome		= $('#p_nome').val();
 	var sobrenome	= $('#p_sobrenome').val();
 	var apelido		= $('#p_apelido').val();

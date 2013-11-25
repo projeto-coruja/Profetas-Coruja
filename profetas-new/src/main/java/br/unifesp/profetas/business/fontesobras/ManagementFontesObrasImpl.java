@@ -57,6 +57,10 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 			fDTO.setDataImpressao(fontesObras.getDataImpressao() != null ? dateFormat.format(fontesObras.getDataImpressao()) : "");
 				Local localImpressao = fontesObras.getLocalImpressao(); 
 			fDTO.setIdLocalImpressao(localImpressao != null ? localImpressao.getId() : null);
+			fDTO.setProdutor(fontesObras.getProdutor());
+			fDTO.setDataProducao(fontesObras.getDataProducao() != null ? dateFormat.format(fontesObras.getDataProducao()) : "");
+				Local localProducao = fontesObras.getLocalProducao(); 
+			fDTO.setIdLocalProducao(localProducao != null ? localProducao.getId() : null);
 				Classificacao classificacao = fontesObras.getClassificacao();
 			fDTO.setIdClassificacao(classificacao != null ? classificacao.getId() : null);
 				GrupoMovimento gMovimento = fontesObras.getGrupoMovimento();
@@ -129,10 +133,16 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 		fontesObras.setCopiasManuscritas(fontesObrasDTO.getCopiasManuscritas());
 		fontesObras.setTraducoes(fontesObrasDTO.getTraducoes());
 		fontesObras.setEditor(fontesObrasDTO.getEditor());
-			Date dataImpressao  = UtilValidator.getDateFromString(fontesObrasDTO.getDataImpressao());
+			Date dataImpressao = UtilValidator.getDateFromString(fontesObrasDTO.getDataImpressao());
 		fontesObras.setDataImpressao(dataImpressao);
 		if(fontesObrasDTO.getIdLocalImpressao() != null && fontesObrasDTO.getIdLocalImpressao() != -1){
 			fontesObras.setLocalImpressao(new Local(fontesObrasDTO.getIdLocalImpressao()));
+		}
+		fontesObras.setProdutor(fontesObrasDTO.getProdutor());
+			Date dataProducao = UtilValidator.getDateFromString(fontesObrasDTO.getDataProducao());
+		fontesObras.setDataProducao(dataProducao);
+		if(fontesObrasDTO.getIdLocalProducao() != null && fontesObrasDTO.getIdLocalProducao() != -1){
+			fontesObras.setLocalProducao(new Local(fontesObrasDTO.getIdLocalProducao()));
 		}
 		if(fontesObrasDTO.getIdClassificacao() != null && fontesObrasDTO.getIdClassificacao() != -1){
 			fontesObras.setClassificacao(new Classificacao(fontesObrasDTO.getIdClassificacao()));

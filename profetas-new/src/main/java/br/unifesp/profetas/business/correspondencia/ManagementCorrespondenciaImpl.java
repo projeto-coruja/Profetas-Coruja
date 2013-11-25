@@ -126,8 +126,8 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
         for(Correspondencia c : list){
             CorrespondenciaDTO cDTO = new CorrespondenciaDTO();
             cDTO.setId(c.getId());
-            cDTO.setNomeRemetente(c.getRemetente().getNome() + " " + c.getRemetente().getApelido());
-            cDTO.setNomeDestinatario(c.getDestinatario().getNome() + " " + c.getDestinatario().getApelido());
+            cDTO.setNomeRemetente(c.getRemetente().getSobrenome() + " " + c.getRemetente().getNome());
+            cDTO.setNomeDestinatario(c.getDestinatario().getSobrenome() + " " + c.getDestinatario().getNome());
             	Local local = c.getLocal();
             cDTO.setNomeLocal(local != null ? local.getNome() : "");
             cDTO.setData(c.getData() != null ? c.getData().toString() : "");

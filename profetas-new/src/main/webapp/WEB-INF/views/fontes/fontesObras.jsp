@@ -69,6 +69,21 @@
 		    </form:select>
 	    </div>		
 		<br />
+
+		<div class="label-box"><label for="produtor"><spring:message code="lbl_produtor"/></label></div>
+	    <div class="input-box"><form:input id="produtor" path="produtor" size="50" maxlength="100" /></div>		
+		<br />
+		
+		<div class="label-box"><label for="dataProducao"><spring:message code="lbl_data_producao"/></label></div>
+	    <div class="input-box"><form:input id="dataProducao" path="dataProducao" size="50" maxlength="100" /></div>		
+		<br />
+		
+		<div class="label-box"><label for="idLocalProducao"><spring:message code="lbl_local_producao"/></label></div>
+	    <div class="input-box">
+	    	<form:select id="idLocalProducao" path="idLocalProducao">
+		    </form:select>
+	    </div>		
+		<br />
 		
 		<div class="label-box"><label for="idClassificacao"><spring:message code="lbl_classificacao"/></label></div>
 	    <div class="input-box">
@@ -118,6 +133,7 @@
 	
 	<script type="text/javascript">
 		fillLocals("${fontes.idLocalImpressao}", 'idLocalImpressao');
+		fillLocals("${fontes.idLocalProducao}", 'idLocalProducao');
 		fillClassificacoes("${fontes.idClassificacao}");
 		fillGrupoMovimento("${fontes.idGruMovimento}");
 		fillMultiplePersonagens("${fontes.strLeitores}", 'idLeitores');
