@@ -17,6 +17,9 @@ public class FontesObrasDTO extends CommonDTO {
 	private String editor;
 	private String dataImpressao;
 	private Long idLocalImpressao;
+	private String produtor;
+	private String dataProducao;
+	private Long idLocalProducao;
 	private Integer idClassificacao;
 	private Long idGruMovimento;
 	private Long[] idLeitores;
@@ -105,6 +108,24 @@ public class FontesObrasDTO extends CommonDTO {
 	}
 	public void setIdLocalImpressao(Long idLocalImpressao) {
 		this.idLocalImpressao = idLocalImpressao;
+	}	
+	public String getProdutor() {
+		return produtor;
+	}
+	public void setProdutor(String produtor) {
+		this.produtor = produtor;
+	}
+	public String getDataProducao() {
+		return dataProducao;
+	}
+	public void setDataProducao(String dataProducao) {
+		this.dataProducao = dataProducao;
+	}
+	public Long getIdLocalProducao() {
+		return idLocalProducao;
+	}
+	public void setIdLocalProducao(Long idLocalProducao) {
+		this.idLocalProducao = idLocalProducao;
 	}
 	public Integer getIdClassificacao() {
 		return idClassificacao;

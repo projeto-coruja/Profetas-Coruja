@@ -11,7 +11,7 @@ $(document).ready(function() {
 var map;
 function drawMap() {
 	var opts = {'center': new google.maps.LatLng(52.3755991766591, 4.866943359375), 
-	'zoom':11, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
+	'zoom':4, 'mapTypeId': google.maps.MapTypeId.ROADMAP };
 	map = new google.maps.Map(document.getElementById('mapdiv'),opts);
 	
 	google.maps.event.addListener(map,'click',function(event) {

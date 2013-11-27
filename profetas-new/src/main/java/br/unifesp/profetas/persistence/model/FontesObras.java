@@ -95,8 +95,20 @@ public class FontesObras implements Serializable {
     
     @ManyToOne
 	@PrimaryKeyJoinColumn
-	@ForeignKey(name = "fk_foob_local")
+	@ForeignKey(name = "fk_foob_local_impr")
     private Local localImpressao;
+    
+    @Column(name="f_produtor", nullable = true)
+    private String produtor;
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name = "f_data_producao", nullable = true, length = 10)
+    private Date dataProducao;
+    
+    @ManyToOne
+	@PrimaryKeyJoinColumn
+	@ForeignKey(name = "fk_foob_local_prod")
+    private Local localProducao;
     
     @ManyToOne
 	@PrimaryKeyJoinColumn
@@ -226,6 +238,24 @@ public class FontesObras implements Serializable {
 	}
 	public void setLocalImpressao(Local localImpressao) {
 		this.localImpressao = localImpressao;
+	}	
+	public String getProdutor() {
+		return produtor;
+	}
+	public void setProdutor(String produtor) {
+		this.produtor = produtor;
+	}
+	public Date getDataProducao() {
+		return dataProducao;
+	}
+	public void setDataProducao(Date dataProducao) {
+		this.dataProducao = dataProducao;
+	}
+	public Local getLocalProducao() {
+		return localProducao;
+	}
+	public void setLocalProducao(Local localProducao) {
+		this.localProducao = localProducao;
 	}
 	public Classificacao getClassificacao() {
 		return classificacao;

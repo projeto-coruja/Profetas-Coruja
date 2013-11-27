@@ -25,6 +25,9 @@ function clearFields(){
     $('#editor').val('');
     $('#dataImpressao').val('');
     $('#idLocalImpressao').val('');
+    $('#produtor').val('');
+    $('#dataProducao').val('');
+    $('#idLocalProducao').val('');
     $('#comentarios').val('');
     $('#idClassificacao').val('');
     
@@ -60,8 +63,11 @@ function saveForm(){
     var copiasManuscritas 	= $('#copiasManuscritas').val();    
     var traducoes	= $('#traducoes').val();
     var editor		= $('#editor').val();
-    var dataImpressao 		= $('#dataImpressao').val();
+    var dataImpressao 	= $('#dataImpressao').val();
     var idLocalImpressao	= $('#idLocalImpressao').val();
+    var produtor		= $('#produtor').val();
+    var dataProducao 	= $('#dataProducao').val();
+    var idLocalProducao	= $('#idLocalProducao').val();
     var idClassificacao 	= $('#idClassificacao').val();
     
     var idGruMovimento 	= $('#idGruMovimento').val();
@@ -80,7 +86,8 @@ function saveForm(){
     	"referenciaCompleta" : referenciaCompleta, "referenciasCirculacaoObra" : referenciasCirculacaoObra, 
     	"comentarios" : comentarios, "url" : url_fontes, "copiasManuscritas" : copiasManuscritas, 
     	"traducoes" : traducoes, "editor" : editor, "dataImpressao" : dataImpressao, 
-    	"idLocalImpressao" : idLocalImpressao, "idClassificacao" : idClassificacao, 
+    	"idLocalImpressao" : idLocalImpressao, "produtor" : produtor, "dataProducao" : dataProducao, 
+    	"idLocalProducao" : idLocalProducao, "idClassificacao" : idClassificacao, 
     	"idGruMovimento" : idGruMovimento, "idLeitores" : idLeitores, 
     	"idAutCitados" : idAutCitados, "idObrCitadas" : idObrCitadas, "palavrasChave" : palavrasChave });
     
