@@ -1,6 +1,7 @@
 var SEARCH_VIEW			= 'SEARCH_VIEW';
 var SEARCH_PERSONAGEM	= 'personagem';
 var SEARCH_FONTEOBRA	= 'fonte-obra';
+var URL_SECTION 		= null;
 
 $(document).ready(function() {
 	$('#tabs').tabs();
@@ -17,11 +18,13 @@ $(document).ready(function() {
 function searchPersonagem() {
 	var _text = $('#txtPersonagem').val();
 	loadGrid(null, null, 1, _text, SEARCH_PERSONAGEM);
+	URL_SECTION = 'personagem';
 }
 
 function searchFonteObra() {
 	var _text = $('#txtFonteObra').val();
 	loadGrid(null, null, 1, _text, SEARCH_FONTEOBRA);
+	URL_SECTION = 'fontes-obras';
 }
 
 function loadGrid(orderBy, orderType, page, search_words, search_type){

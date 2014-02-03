@@ -26,6 +26,7 @@ public class FontesObrasController extends AbstractController {
 	@Autowired private ManagementFontesObras mFontesObras;
 	
 	private static final String MODEL		= "fontes";
+	private static final String READONLY	= "readonly";
 	private static final String TILES_DEF	= "fontes_obras";
 	
 	@ModelAttribute(MODEL)
@@ -34,13 +35,17 @@ public class FontesObrasController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/fontes-obras", method = RequestMethod.GET)
-    public String showView(@RequestParam(value = "id", required = false) String id, 
+    public String showView(@RequestParam(value = "id", required = false) String id,
+    		@RequestParam(value = "readonly", required = false) boolean readonly,
     		ModelMap model, HttpServletRequest request) {
 		
 		if(id != null) {
 			FontesObrasDTO fobDTO = mFontesObras.getFontesObrasById(Long.parseLong(id));
 			if(fobDTO != null) {
 				model.addAttribute(MODEL, fobDTO);
+				if(readonly) {
+					model.addAttribute(READONLY, readonly);
+				}
 			}
 		}
         return TILES_DEF;
@@ -65,6 +70,7 @@ public class FontesObrasController extends AbstractController {
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/fontes-obras/list", method = RequestMethod.GET)
 	public @ResponseBody WrapperGrid listFontesObras(HttpServletRequest request,
 			@RequestParam(value = "orderBy", required = true) String strOrderBy,

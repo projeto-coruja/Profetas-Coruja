@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="<c:url value='/static/js/common.js' />" type="text/javascript"></script>
 <script src="<c:url value='/static/js/grid.js' />" type="text/javascript"></script>
 <script src="<c:url value='/static/js/search.js' />" type="text/javascript"></script>
 

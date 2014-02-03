@@ -102,6 +102,7 @@
 		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
+			<div hidden="true" id="editForm" class="button button-size" onClick="reloadEdit(${personagem.id})"><spring:message code="btn_edit"/></div>
 		</div>
 	</form:form>
 	
@@ -116,6 +117,13 @@
 		fillMultipleCorrespondencias("${personagem.idCorrespondencias}", 'idCorrespondencias');
 		fillMultipleLocals("${personagem.idLocaisPers}", 'idLocaisPers');
 	</script>
+	
+	<c:if test="${readonly}">
+		<script type="text/javascript">
+			makeReadonly();
+		</script>
+	</c:if>
+	
 </div>
 
 </sec:authorize>

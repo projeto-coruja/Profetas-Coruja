@@ -1,7 +1,7 @@
 
 import javax.mail.MessagingException;
 
-import br.unifesp.profetas.business.MailProfetas;
+//import br.unifesp.profetas.business.MailProfetas;
 
 public class MainClass {
 

@@ -126,8 +126,15 @@
 		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
+			<div hidden="true" id="editForm" class="button button-size" onClick="reloadEdit(${fontes.id})"><spring:message code="btn_edit"/></div>
 		</div>
 	</form:form>
+	
+	<c:if test="${readonly}">
+		<script type="text/javascript">
+			makeReadonly();
+		</script>
+	</c:if>
 
 	<jsp:include page="../includes/grid.jsp" flush="true" />
 	
