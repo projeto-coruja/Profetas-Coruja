@@ -99,3 +99,13 @@ function buildGrid(div_id, data){
 	var corujaGrid = new CorujaGrid();
 	corujaGrid.paintGrid(div_id, titles, columns_key, columns_size, columns_sort, data);
 }
+
+function makeReadonly(){
+	$('#personagem :input').prop('readonly', true);
+	$('#editForm').prop('hidden', false);
+	$('#saveForm').prop('hidden', true);
+}
+
+function reloadEdit(id){
+	window.location.href = URL_SECTION+'.html?id='+id;
+}

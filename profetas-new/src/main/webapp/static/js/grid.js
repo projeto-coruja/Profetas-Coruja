@@ -148,6 +148,7 @@ var CorujaGrid = function CorujaGrid() {
 	    	html += '<th width="5%"></th>';
 	    } else{
 	    	//view item
+	    	html += '<th width="5%"></th>';
 	    }
 	    html += '</tr></thead>';
         return html;
@@ -176,6 +177,7 @@ var CorujaGrid = function CorujaGrid() {
     	    	html += '<td align="center"><img onclick="deleteForm(\''+obj['id']+'\')" src="static/images/delete.png" /></td>';
     	    } else {
     	    	//view item
+    	    	html += '<td align="center"><img onclick="viewForm(\''+obj['id']+'\')" src="static/images/edit.png" /></td>';
     	    }
     	    
     	    html += '</tr>';

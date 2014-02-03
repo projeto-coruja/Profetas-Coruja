@@ -26,6 +26,7 @@ public class PersonagemController extends AbstractController {
 	@Autowired private ManagementPersonagem mPersonagem;
 	
 	private static final String MODEL		= "personagem";
+	private static final String READONLY	= "readonly";
 	private static final String TILES_DEF	= "personagem";
 	private static final String TILES_DEF_BASIC	= "basic_personagem";
 	
@@ -36,12 +37,16 @@ public class PersonagemController extends AbstractController {
 	
 	@RequestMapping(value = "/personagem", method = RequestMethod.GET)
     public String showView(@RequestParam(value = "id", required = false) String id, 
+    		@RequestParam(value = "readonly", required = false) boolean readonly,
     		ModelMap model, HttpServletRequest request) {
 		
 		if(id != null) {
 			PersonagemDTO perDTO = mPersonagem.getPersonagemById(Long.parseLong(id));
 			if(perDTO != null) {
 				model.addAttribute(MODEL, perDTO);
+				if(readonly) {
+					model.addAttribute(READONLY, readonly);
+				}
 			}
 		}
         return TILES_DEF;
@@ -66,6 +71,7 @@ public class PersonagemController extends AbstractController {
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/personagem/list", method = RequestMethod.GET)
 	public @ResponseBody WrapperGrid listEncontro(HttpServletRequest request,
 			@RequestParam(value = "orderBy", required = true) String strOrderBy,

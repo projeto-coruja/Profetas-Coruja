@@ -133,3 +133,13 @@ function fillPalavrasChave(strPalavrasChave){
 		$('#palavrasChave').val(str_items);
 	}
 }
+
+function makeReadonly(){
+	$('#fontes :input').prop('readonly', true);
+	$('#editForm').prop('hidden', false);
+	$('#saveForm').prop('hidden', true);
+}
+
+function reloadEdit(id){
+	window.location.href = URL_SECTION+'.html?id='+id;
+}

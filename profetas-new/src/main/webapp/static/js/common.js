@@ -413,6 +413,11 @@ function fillMultipleEncontros(idsSelected, idDiv){
 function updateForm(id){
 	window.location.href = URL_SECTION+'.html?id='+id;
 }
+
+function viewForm(id){
+	window.location.href = URL_SECTION+'.html?id='+id+'&readonly=true';
+}
+
 function deleteForm(id){
 	var url = URL_SECTION+'/delete.html';
 	var data = JSON.stringify({ "id" : id });
