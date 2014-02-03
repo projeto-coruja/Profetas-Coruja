@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Sets;
 
 import br.unifesp.profetas.business.AbstractBusiness;
 import br.unifesp.profetas.business.common.MessageDTO;
@@ -37,6 +41,8 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 	@Autowired private PalavraChaveDAO palavraChaveDAO;
 	
 	@Autowired private PersonagemDAO personagemDAO;
+	
+	@Autowired private SessionFactory sessionFactory;
 
 	public FontesObrasDTO getFontesObrasById(Long id) {
 		FontesObras fontesObras = fontesObrasDAO.getFontesObrasById(id);
@@ -258,12 +264,47 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 					//TODO:
 					//Palavras Chave ...
 					
+					if(fontesObras.getPalavrasChave() != null){
+						Set<PalavraChave> palavrasNovas = new HashSet<PalavraChave>(), 
+								palavrasAntigas = fontesObras.getPalavrasChave();
+						int palavrasLength = fontesObrasDTO.getPalavrasChave().length;
+						if(palavrasLength > 0){
+							for(int i = 0; i < palavrasLength; i++){
+								PalavraChave p = new PalavraChave();
+								p.setPalavraChave(fontesObrasDTO.getPalavrasChave()[i]);
+								p.setFontesObras(fontesObras);
+								savePalavraChave(p);
+								if(p.getId() != null){
+									palavrasNovas.add(p);
+								}
+							}
+							for( PalavraChave lixo : Sets.difference(palavrasAntigas, palavrasNovas)) {
+								palavraChaveDAO.deletePalavraChave(lixo);
+							}
+							fontesObras.setPalavrasChave(palavrasNovas);
+						}
+					}
+					
 					return new MessageDTO(getText("msg_fontes_updated"), MessageType.SUCCESS);
 				}
 			}
 			return new MessageDTO(getText("err_fontes_not_updated"), MessageType.ERROR);
 		} catch(Exception e){
 			return new MessageDTO(getText("err_fontes_not_updated"), MessageType.ERROR);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void savePalavraChave(PalavraChave p) {
+		final String rawQuery = "from PalavraChave as pc where pc.palavraChave = :palavra and pc.fontesObras.id = :fonteId";
+		Query query = sessionFactory.getCurrentSession().createQuery(rawQuery);
+		query.setString("palavra", p.getPalavraChave());
+		query.setLong("fonteId", p.getFontesObras().getId());
+		List<PalavraChave> result = query.list();
+		if(result.isEmpty()) {
+			palavraChaveDAO.savePalavraChave(p);
+		} else {
+			p.setId(result.get(0).getId());
 		}
 	}
 
