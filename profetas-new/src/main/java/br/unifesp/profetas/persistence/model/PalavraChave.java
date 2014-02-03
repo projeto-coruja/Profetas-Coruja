@@ -1,6 +1,7 @@
 package br.unifesp.profetas.persistence.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "palavra_chave")
+@Table(name = "palavra_chave", uniqueConstraints = { @UniqueConstraint (columnNames =  { "id_fontes", "pc_palavra_chave" }) })
 public class PalavraChave implements Serializable{
 
 	@Id
@@ -23,7 +25,7 @@ public class PalavraChave implements Serializable{
 	@SequenceGenerator(name = "pchave_seq_name", sequenceName = "pchave_seq", allocationSize = 1)
     private Long id;
 
-	@Column(name = "pc_palavra_chave", nullable = false, unique = true)
+	@Column(name = "pc_palavra_chave", nullable = false)
     private String palavraChave;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,5 +51,10 @@ public class PalavraChave implements Serializable{
 	}
 	public void setFontesObras(FontesObras fontesObras) {
 		this.fontesObras = fontesObras;
-	}    
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(palavraChave, fontesObras.getId());
+	}
 }
