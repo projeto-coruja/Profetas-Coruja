@@ -2,16 +2,13 @@ package br.unifesp.profetas.persistence.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
@@ -41,8 +38,13 @@ public class Encontro implements Serializable {
 	
 	@ManyToOne
 	@PrimaryKeyJoinColumn
-	@ForeignKey(name = "fk_encontro_personagem")
-	private Personagem personagem;
+	@ForeignKey(name = "fk_encontro_personagem_1")
+	private Personagem personagem1;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn
+	@ForeignKey(name = "fk_encontro_personagem_2")
+	private Personagem personagem2;
 	
 	@ManyToOne
 	@PrimaryKeyJoinColumn
@@ -53,9 +55,6 @@ public class Encontro implements Serializable {
 	@Column(name = "active")
 	private Boolean active;
 	
-	//
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "encontros")
-	private Set<Personagem> ePersonagem = new HashSet<Personagem>(0);
 
 	public Encontro() {}
 
@@ -77,11 +76,17 @@ public class Encontro implements Serializable {
 	public void setData(Date data) {
 		this.data = data;
 	}	
-	public Personagem getPersonagem() {
-		return personagem;
+	public Personagem getPersonagem1() {
+		return personagem1;
 	}
-	public void setPersonagem(Personagem personagem) {
-		this.personagem = personagem;
+	public void setPersonagem1(Personagem personagem) {
+		this.personagem1 = personagem;
+	}
+	public Personagem getPersonagem2() {
+		return personagem2;
+	}
+	public void setPersonagem2(Personagem personagem) {
+		this.personagem2 = personagem;
 	}
 	public Local getLocal() {
 		return local;
@@ -89,17 +94,17 @@ public class Encontro implements Serializable {
 	public void setLocal(Local local) {
 		this.local = local;
 	}
-	public Set<Personagem> getePersonagem() {
-		return ePersonagem;
-	}
-	public void setePersonagem(Set<Personagem> ePersonagem) {
-		this.ePersonagem = ePersonagem;
-	}
+	
 
 	public Boolean getActive() {
 		return active;
 	}
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(personagem1.hashCode() + personagem2.hashCode(), data, local, nome);
 	}
 }

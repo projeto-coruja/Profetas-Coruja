@@ -3,6 +3,7 @@ package br.unifesp.profetas.persistence.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -100,13 +101,6 @@ public class Personagem implements Serializable {
 			inverseJoinColumns = { @JoinColumn(name = "id_religiao", 
 			nullable = false, updatable = false) })
 	private Set<ReligiaoCrencas> religioes = new HashSet<ReligiaoCrencas>(0);
-	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "pers_encontros", joinColumns = { 
-			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "id_encontro", 
-			nullable = false, updatable = false) })
-	private Set<Encontro> encontros = new HashSet<Encontro>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "pers_foob", joinColumns = { 
@@ -236,12 +230,6 @@ public class Personagem implements Serializable {
 	public void setReligioes(Set<ReligiaoCrencas> religioes) {
 		this.religioes = religioes;
 	}
-	public Set<Encontro> getEncontros() {
-		return encontros;
-	}
-	public void setEncontros(Set<Encontro> encontros) {
-		this.encontros = encontros;
-	}
 	public Set<FontesObras> getObras() {
 		return obras;
 	}
@@ -266,5 +254,10 @@ public class Personagem implements Serializable {
 	}
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, nome, sobrenome);
 	}
 }

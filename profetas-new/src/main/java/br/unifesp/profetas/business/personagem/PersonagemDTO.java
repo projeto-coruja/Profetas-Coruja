@@ -21,14 +21,19 @@ public class PersonagemDTO extends CommonDTO {
     private String refBibliografica;
     private Long[] idReligioes;
 	private String strReligioes;
-	private Long[] idEncontros;
-	private String strEncontros;
 	private Long[] idObras;
 	private String strObras;
 	private Long[] idLocaisPers;
 	private String strLocaisPers;
 	private Long[] idCorrespondencias;
 	private String strCorrespondencias;
+	
+	private Long[] idEncontros;
+	private String[] nomeEncontros;
+	private String[] dataEncontros;
+	private Long[] idPersonagemEncontros;
+	private Long[] idLocalEncontros;
+	private Long numEncontros;
 	
 	private String divId;
 	
@@ -134,11 +139,35 @@ public class PersonagemDTO extends CommonDTO {
 	public void setIdEncontros(Long[] idEncontros) {
 		this.idEncontros = idEncontros;
 	}
-	public String getStrEncontros() {
-		return strEncontros;
+	public String[] getNomeEncontros() {
+		return nomeEncontros;
 	}
-	public void setStrEncontros(String strEncontros) {
-		this.strEncontros = strEncontros;
+	public void setNomeEncontros(String[] nomeEncontros) {
+		this.nomeEncontros = nomeEncontros;
+	}
+	public String[] getDataEncontros() {
+		return dataEncontros;
+	}
+	public void setDataEncontros(String[] dataEncontros) {
+		this.dataEncontros = dataEncontros;
+	}
+	public Long[] getIdPersonagemEncontros() {
+		return idPersonagemEncontros;
+	}
+	public void setIdPersonagemEncontros(Long[] idPersonagemEncontros) {
+		this.idPersonagemEncontros = idPersonagemEncontros;
+	}
+	public Long[] getIdLocalEncontros() {
+		return idLocalEncontros;
+	}
+	public void setIdLocalEncontros(Long[] idLocalEncontros) {
+		this.idLocalEncontros = idLocalEncontros;
+	}
+	public Long getNumEncontros() {
+		return numEncontros;
+	}
+	public void setNumEncontros(Long numEncontros) {
+		this.numEncontros = numEncontros;
 	}
 	public Long[] getIdObras() {
 		return idObras;

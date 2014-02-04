@@ -50,11 +50,6 @@
         <put-attribute name="content" value="/WEB-INF/views/local/local.jsp" />
     </definition>
     
-    <!-- Encontro -->
-    <definition name="encontro" extends="template-main">
-        <put-attribute name="content" value="/WEB-INF/views/encontro/encontro.jsp" />
-    </definition>
-    
     <!-- Grupo Movimento -->
     <definition name="grupo_movimento" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/gMovimento/grupoMovimento.jsp" />

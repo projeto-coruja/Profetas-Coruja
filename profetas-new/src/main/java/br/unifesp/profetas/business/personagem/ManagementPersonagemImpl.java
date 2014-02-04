@@ -16,6 +16,7 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
+import br.unifesp.profetas.business.encontro.ManagementEncontro;
 import br.unifesp.profetas.persistence.domain.CorrespondenciaDAO;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
 import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
@@ -31,10 +32,16 @@ import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
 @Service("mPersonagem")
 public class ManagementPersonagemImpl extends AbstractBusiness implements ManagementPersonagem {
 
 	private static Logger logger = Logger.getLogger(ManagementPersonagemImpl.class);
+	
+	@Autowired private ManagementEncontro managementEncontro;
 	
 	@Autowired private PersonagemDAO personagemDAO;
 	
@@ -75,15 +82,9 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 				}
 			}
 			//encontros
-				Set<Encontro> encontrosSet = personagem.getEncontros();
+			Set<Encontro> encontrosSet = managementEncontro.getEncontrosByPersonagem(personagem);
 			if(!encontrosSet.isEmpty()){
-				List<Long> encontros = new ArrayList<Long>(encontrosSet.size());
-				for(Encontro e : encontrosSet){
-					encontros.add(e.getId());
-				}
-				if(!encontros.isEmpty()){
-					pDTO.setStrEncontros(encontros.toString());
-				}
+				setEncontrosInDTO(personagem, pDTO, (Encontro[]) encontrosSet.toArray(), dateFormat);
 			}
 			//obras
 				Set<FontesObras> obrasSet = personagem.getObras();
@@ -124,6 +125,41 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		return null;
 	}
 	
+	private void setEncontrosInDTO(Personagem personagem, PersonagemDTO pDTO,
+			Encontro[] encontrosSet, SimpleDateFormat dateFormat) {
+		List<Object> encontros = new ArrayList<Object>(encontrosSet.length);
+		for(Encontro e : encontrosSet){
+			encontros.add(e.getId());
+		}
+		pDTO.setIdEncontros((Long[]) encontros.toArray());
+		encontros.clear();
+		
+		for(Encontro e : encontrosSet){
+			encontros.add(e.getNome());
+		}
+		pDTO.setNomeEncontros((String[]) encontros.toArray());
+		encontros.clear();
+		
+		for(Encontro e : encontrosSet){
+			encontros.add(dateFormat.format(e.getData()));
+		}
+		pDTO.setDataEncontros((String[]) encontros.toArray());
+		encontros.clear();
+		
+		for(Encontro e : encontrosSet){
+			encontros.add(e.getLocal().getId());
+		}
+		pDTO.setIdLocalEncontros((Long[]) encontros.toArray());
+		encontros.clear();
+		
+		for(Encontro e : encontrosSet){
+			if(personagem.getId().equals(e.getPersonagem1().getId())) encontros.add(e.getPersonagem2().getId());
+			else encontros.add(e.getPersonagem1().getId());
+		}
+		pDTO.setIdPersonagemEncontros((Long[]) encontros.toArray());
+		encontros.clear();
+	}
+
 	private MessageDTO isNotValid(PersonagemDTO personagemDTO, boolean isNew){
 		if(!UtilValidator.validateNotEmptyField(personagemDTO.getNome())){
 			return new MessageDTO(getText("err_personagem_nome_required"), MessageType.ERROR);
@@ -170,20 +206,9 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		}
 		//Encontros
 		if(personagemDTO.getIdEncontros() != null){
-			int encontrosLength = personagemDTO.getIdEncontros().length;
-			if(encontrosLength > 0){
-				List<Encontro> encontros = new ArrayList<Encontro>(encontrosLength);
-				for(int i = 0; i < encontrosLength; i++){
-					Encontro e = encontroDAO.getEncontroById(personagemDTO.getIdEncontros()[i]);
-					if(e != null){
-						encontros.add(e);
-					} else {
-						logger.error("Encontro: " + personagemDTO.getIdEncontros()[i] + " does not exist");
-					}
-				}
-				personagem.setEncontros(new HashSet<Encontro>(encontros));
-			}
+			setEncontrosInPersonagem(personagem, personagemDTO);
 		}
+		
 		//Obras
 		if(personagemDTO.getIdObras() != null){
 			int obrasLength = personagemDTO.getIdObras().length;
@@ -237,6 +262,52 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		personagem.setActive(true);
 		return personagem;
 	}
+	
+	private void setEncontrosInPersonagem(Personagem personagem, PersonagemDTO pDTO) {
+		Set<Long> novosEncontros = new HashSet<Long>();
+		for(int i = 0; i < pDTO.getNumEncontros(); i++) {
+			Personagem p = personagemDAO.getPersonagemById(pDTO.getIdPersonagemEncontros()[i]);
+			Long id = pDTO.getIdEncontros()[i];
+			
+			if(id == -1) {
+				Encontro e = new Encontro();
+				e.setData(UtilValidator.getDateFromString(pDTO.getDataEncontros()[i]));
+				e.setLocal(localDAO.getLocalById(pDTO.getIdLocalEncontros()[i]));
+				e.setNome(pDTO.getNomeEncontros()[i]);
+				e.setPersonagem1(personagem);
+				e.setPersonagem2(p);
+				encontroDAO.saveEncontro(e);
+				novosEncontros.add(e.getId());
+			} else {
+				Encontro e = encontroDAO.getEncontroById(id);
+				e.setData(UtilValidator.getDateFromString(pDTO.getDataEncontros()[i]));
+				e.setLocal(localDAO.getLocalById(pDTO.getIdLocalEncontros()[i]));
+				e.setNome(pDTO.getNomeEncontros()[i]);
+				if(e.getPersonagem1().getId().equals(personagem.getId())) e.setPersonagem2(p);
+				else e.setPersonagem1(p);
+				encontroDAO.updateEncontro(e);
+				novosEncontros.add(e.getId());
+			}
+		}
+		
+		Set<Encontro> encontrosAntigos = managementEncontro.getEncontrosByPersonagem(personagem);
+		Set<Long> lixo = Sets.difference(Sets.newHashSet(Iterables.transform(encontrosAntigos, new Function<Encontro, Long>() {
+			public Long apply(Encontro input) {
+				return input.getId();
+			}
+		})), novosEncontros);
+		
+		for(Encontro e : encontrosAntigos) {
+			for(Long l : lixo) {
+				if(e.getId().equals(l)) {
+					encontroDAO.deleteEncontro(e);
+					break;
+				}
+			}
+		}
+		
+	}
+
 
 	public MessageDTO createPersonagem(PersonagemDTO personagemDTO) {
 		MessageDTO isNotValid = isNotValid(personagemDTO, true);

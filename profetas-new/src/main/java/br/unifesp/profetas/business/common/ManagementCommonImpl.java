@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.unifesp.profetas.business.correspondencia.CorrespondenciaDTO;
-import br.unifesp.profetas.business.encontro.EncontroDTO;
 import br.unifesp.profetas.business.fontesobras.ClassificacaoDTO;
 import br.unifesp.profetas.business.fontesobras.FontesObrasDTO;
 import br.unifesp.profetas.business.grupomovimento.GrupoMovimentoDTO;
@@ -26,7 +25,6 @@ import br.unifesp.profetas.persistence.domain.ProfileDAO;
 import br.unifesp.profetas.persistence.domain.ReligiaoCrencasDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
 import br.unifesp.profetas.persistence.model.Correspondencia;
-import br.unifesp.profetas.persistence.model.Encontro;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
@@ -126,18 +124,6 @@ public class ManagementCommonImpl implements ManagementCommon {
 			rDTO.setId(r.getId());
 			rDTO.setNome(r.getNome());
 			listDTO.add(rDTO);
-		}
-		return listDTO;
-	}
-
-	public List<EncontroDTO> getEncontros() {
-		List<Encontro> encontros = encontroDAO.listEncontro();
-		List<EncontroDTO> listDTO = new ArrayList<EncontroDTO>();
-		for(Encontro e : encontros){
-			EncontroDTO eDTO = new EncontroDTO();
-			eDTO.setId(e.getId());
-			eDTO.setNome(e.getNome());
-			listDTO.add(eDTO);
 		}
 		return listDTO;
 	}
