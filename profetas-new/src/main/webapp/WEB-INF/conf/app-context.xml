@@ -9,13 +9,18 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context 
                            http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
     <context:annotation-config />
     <context:component-scan base-package="br.unifesp.profetas" />
-    <mvc:annotation-driven />
+    <mvc:annotation-driven>
+	  <mvc:message-converters register-defaults="true">
+	    <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
+	  </mvc:message-converters>
+    </mvc:annotation-driven>
+    
     <import resource="app-security.xml" />
     <import resource="datasource.xml" />
     <import resource="profetas-context.xml" />
