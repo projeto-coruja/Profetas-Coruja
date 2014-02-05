@@ -204,10 +204,6 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 				personagem.setReligioes(new HashSet<ReligiaoCrencas>(crencas));
 			}
 		}
-		//Encontros
-		if(personagemDTO.getIdEncontros() != null){
-			setEncontrosInPersonagem(personagem, personagemDTO);
-		}
 		
 		//Obras
 		if(personagemDTO.getIdObras() != null){
@@ -261,6 +257,13 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		
 		personagem.setActive(true);
 		return personagem;
+	}
+	
+	private void deleteEncontros(Personagem personagem) {
+		Set<Encontro> encontrosAntigos = new HashSet<Encontro>(managementEncontro.getEncontrosByPersonagem(personagem));
+		for(Encontro e : encontrosAntigos) {
+			encontroDAO.deleteEncontro(e);
+		}
 	}
 	
 	private void setEncontrosInPersonagem(Personagem personagem, PersonagemDTO pDTO) {
@@ -319,6 +322,10 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			personagem = getPersonagem(personagem, personagemDTO);
 			personagemDAO.savePersonagem(personagem);
 			if(personagem.getId() != null){
+				//Encontros
+				if(personagemDTO.getIdEncontros() != null){
+					setEncontrosInPersonagem(personagem, personagemDTO);
+				}
 				MessageDTO msg = new MessageDTO();
 				msg.setMessage(getText("msg_personagem_created"));
 				msg.setType(MessageType.SUCCESS);
@@ -343,6 +350,10 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			Personagem personagem = personagemDAO.getPersonagemById(personagemDTO.getId());
 			if(personagem != null){
 				personagem = getPersonagem(personagem, personagemDTO);
+				//Encontros
+				if(personagemDTO.getIdEncontros() != null){
+					setEncontrosInPersonagem(personagem, personagemDTO);
+				}
 				personagemDAO.updatePersonagem(personagem);
 				if(personagem.getId() != null){
 					return new MessageDTO(getText("msg_personagem_updated"), MessageType.SUCCESS);
@@ -363,6 +374,8 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			if(personagem != null){
 				personagem.setActive(false);
 				personagemDAO.updatePersonagem(personagem);
+				//Encontros
+				deleteEncontros(personagem);
 				return new MessageDTO(getText("msg_personagem_deleted"), MessageType.SUCCESS);
 			}
 			return new MessageDTO(getText("err_personagem_not_deleted"), MessageType.SUCCESS);
