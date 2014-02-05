@@ -16,6 +16,7 @@ import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
+import br.unifesp.profetas.business.encontro.EncontroDTO;
 import br.unifesp.profetas.business.encontro.ManagementEncontro;
 import br.unifesp.profetas.persistence.domain.CorrespondenciaDAO;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
@@ -127,37 +128,18 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	
 	private void setEncontrosInDTO(Personagem personagem, PersonagemDTO pDTO,
 			Encontro[] encontrosSet, SimpleDateFormat dateFormat) {
-		List<Object> encontros = new ArrayList<Object>(encontrosSet.length);
+		List<EncontroDTO> encontrosDTO = new ArrayList<EncontroDTO>(encontrosSet.length);
 		for(Encontro e : encontrosSet){
-			encontros.add(e.getId());
+			EncontroDTO edto = new EncontroDTO();
+			edto.setIdEncontro(e.getId());
+			edto.setNomeEncontro(e.getNome());
+			edto.setDataEncontro(dateFormat.format(e.getData()));
+			edto.setIdLocalEncontro(e.getLocal().getId());
+			if(personagem.getId().equals(e.getPersonagem1().getId())) edto.setIdPersonagemEncontro(e.getPersonagem2().getId());
+			else edto.setIdPersonagemEncontro(e.getPersonagem1().getId());
+			encontrosDTO.add(edto);
 		}
-		pDTO.setIdEncontros((Long[]) encontros.toArray());
-		encontros.clear();
-		
-		for(Encontro e : encontrosSet){
-			encontros.add(e.getNome());
-		}
-		pDTO.setNomeEncontros((String[]) encontros.toArray());
-		encontros.clear();
-		
-		for(Encontro e : encontrosSet){
-			encontros.add(dateFormat.format(e.getData()));
-		}
-		pDTO.setDataEncontros((String[]) encontros.toArray());
-		encontros.clear();
-		
-		for(Encontro e : encontrosSet){
-			encontros.add(e.getLocal().getId());
-		}
-		pDTO.setIdLocalEncontros((Long[]) encontros.toArray());
-		encontros.clear();
-		
-		for(Encontro e : encontrosSet){
-			if(personagem.getId().equals(e.getPersonagem1().getId())) encontros.add(e.getPersonagem2().getId());
-			else encontros.add(e.getPersonagem1().getId());
-		}
-		pDTO.setIdPersonagemEncontros((Long[]) encontros.toArray());
-		encontros.clear();
+		pDTO.setEncontros(encontrosDTO);
 	}
 
 	private MessageDTO isNotValid(PersonagemDTO personagemDTO, boolean isNew){
@@ -268,29 +250,28 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	
 	private void setEncontrosInPersonagem(Personagem personagem, PersonagemDTO pDTO) {
 		Set<Long> novosEncontros = new HashSet<Long>();
-		for(int i = 0; i < pDTO.getNumEncontros(); i++) {
-			Personagem p = personagemDAO.getPersonagemById(pDTO.getIdPersonagemEncontros()[i]);
-			Long id = pDTO.getIdEncontros()[i];
+		for(EncontroDTO edto : pDTO.getEncontros()) {
+			Personagem p = personagemDAO.getPersonagemById(edto.getIdPersonagemEncontro());
+			Long id = edto.getIdEncontro();
+			Encontro e = null;
 			
 			if(id == -1) {
-				Encontro e = new Encontro();
-				e.setData(UtilValidator.getDateFromString(pDTO.getDataEncontros()[i]));
-				e.setLocal(localDAO.getLocalById(pDTO.getIdLocalEncontros()[i]));
-				e.setNome(pDTO.getNomeEncontros()[i]);
+				e = new Encontro();
 				e.setPersonagem1(personagem);
 				e.setPersonagem2(p);
-				encontroDAO.saveEncontro(e);
-				novosEncontros.add(e.getId());
+				
 			} else {
-				Encontro e = encontroDAO.getEncontroById(id);
-				e.setData(UtilValidator.getDateFromString(pDTO.getDataEncontros()[i]));
-				e.setLocal(localDAO.getLocalById(pDTO.getIdLocalEncontros()[i]));
-				e.setNome(pDTO.getNomeEncontros()[i]);
+				e = encontroDAO.getEncontroById(id);
 				if(e.getPersonagem1().getId().equals(personagem.getId())) e.setPersonagem2(p);
 				else e.setPersonagem1(p);
-				encontroDAO.updateEncontro(e);
-				novosEncontros.add(e.getId());
 			}
+			
+			e.setData(UtilValidator.getDateFromString(edto.getDataEncontro()));
+			e.setLocal(localDAO.getLocalById(edto.getIdLocalEncontro()));
+			e.setNome(edto.getNomeEncontro());
+			
+			encontroDAO.saveEncontro(e);
+			novosEncontros.add(e.getId());
 		}
 		
 		Set<Encontro> encontrosAntigos = managementEncontro.getEncontrosByPersonagem(personagem);
@@ -323,7 +304,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			personagemDAO.savePersonagem(personagem);
 			if(personagem.getId() != null){
 				//Encontros
-				if(personagemDTO.getIdEncontros() != null){
+				if(personagemDTO.getEncontros() != null){
 					setEncontrosInPersonagem(personagem, personagemDTO);
 				}
 				MessageDTO msg = new MessageDTO();
@@ -351,7 +332,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			if(personagem != null){
 				personagem = getPersonagem(personagem, personagemDTO);
 				//Encontros
-				if(personagemDTO.getIdEncontros() != null){
+				if(personagemDTO.getEncontros() != null){
 					setEncontrosInPersonagem(personagem, personagemDTO);
 				}
 				personagemDAO.updatePersonagem(personagem);

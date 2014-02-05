@@ -1,6 +1,9 @@
 package br.unifesp.profetas.business.personagem;
 
+import java.util.List;
+
 import br.unifesp.profetas.business.common.CommonDTO;
+import br.unifesp.profetas.business.encontro.EncontroDTO;
 
 public class PersonagemDTO extends CommonDTO {
 	
@@ -28,12 +31,7 @@ public class PersonagemDTO extends CommonDTO {
 	private Long[] idCorrespondencias;
 	private String strCorrespondencias;
 	
-	private Long[] idEncontros;
-	private String[] nomeEncontros;
-	private String[] dataEncontros;
-	private Long[] idPersonagemEncontros;
-	private Long[] idLocalEncontros;
-	private Long numEncontros;
+	private List<EncontroDTO> encontros;
 	
 	private String divId;
 	
@@ -133,42 +131,6 @@ public class PersonagemDTO extends CommonDTO {
 	public void setStrReligioes(String strReligioes) {
 		this.strReligioes = strReligioes;
 	}
-	public Long[] getIdEncontros() {
-		return idEncontros;
-	}
-	public void setIdEncontros(Long[] idEncontros) {
-		this.idEncontros = idEncontros;
-	}
-	public String[] getNomeEncontros() {
-		return nomeEncontros;
-	}
-	public void setNomeEncontros(String[] nomeEncontros) {
-		this.nomeEncontros = nomeEncontros;
-	}
-	public String[] getDataEncontros() {
-		return dataEncontros;
-	}
-	public void setDataEncontros(String[] dataEncontros) {
-		this.dataEncontros = dataEncontros;
-	}
-	public Long[] getIdPersonagemEncontros() {
-		return idPersonagemEncontros;
-	}
-	public void setIdPersonagemEncontros(Long[] idPersonagemEncontros) {
-		this.idPersonagemEncontros = idPersonagemEncontros;
-	}
-	public Long[] getIdLocalEncontros() {
-		return idLocalEncontros;
-	}
-	public void setIdLocalEncontros(Long[] idLocalEncontros) {
-		this.idLocalEncontros = idLocalEncontros;
-	}
-	public Long getNumEncontros() {
-		return numEncontros;
-	}
-	public void setNumEncontros(Long numEncontros) {
-		this.numEncontros = numEncontros;
-	}
 	public Long[] getIdObras() {
 		return idObras;
 	}
@@ -210,5 +172,11 @@ public class PersonagemDTO extends CommonDTO {
 	}
 	public void setDivId(String divId) {
 		this.divId = divId;
+	}
+	public List<EncontroDTO> getEncontros() {
+		return encontros;
+	}
+	public void setEncontros(List<EncontroDTO> encontros) {
+		this.encontros = encontros;
 	}	
 }
