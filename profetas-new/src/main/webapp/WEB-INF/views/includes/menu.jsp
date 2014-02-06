@@ -40,7 +40,6 @@
 									<li><a href="<c:url value="/grupo-movimento.html" />">Grupo/Movimentos</a></li>
 									<li><a href="<c:url value="/religiao-crencas.html" />">Religião/Crenças</a></li>
 									<li><a href="<c:url value="/correspondencia.html" />">Correspondencia</a></li>
-									<li><a href="<c:url value="/encontro.html" />">Encontro</a></li>
 									<li><a href="<c:url value="/personagem.html" />">Personagem</a></li>
 									<li><a  href="<c:url value="/fontes-obras.html" />">Obras/Fontes</a></li>
 								</ul>
