@@ -142,8 +142,15 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			edto.setNome(e.getNome());
 			edto.setData(dateFormat.format(e.getData()));
 			edto.setIdLocal(e.getLocal().getId());
-			if(personagem.getId().equals(e.getPersonagem1().getId())) edto.setIdPersonagem(e.getPersonagem2().getId());
-			else edto.setIdPersonagem(e.getPersonagem1().getId());
+			edto.setDescLocal(e.getLocal().getNome());
+			if(personagem.getId().equals(e.getPersonagem1().getId())) {
+				edto.setIdPersonagem(e.getPersonagem2().getId());
+				edto.setDescPersonagem(e.getPersonagem2().getNome());
+			}
+			else {
+				edto.setIdPersonagem(e.getPersonagem1().getId());
+				edto.setDescPersonagem(e.getPersonagem1().getNome());
+			}
 			encontrosDTO.add(edto);
 		}
 		pDTO.setEncontros(encontrosDTO);
@@ -277,6 +284,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			e.setData(UtilValidator.getDateFromString(edto.getData()));
 			e.setLocal(localDAO.getLocalById(edto.getIdLocal()));
 			e.setNome(edto.getNome());
+			e.setActive(true);
 			
 			encontroDAO.saveEncontro(e);
 			novosEncontros.add(e.getId());

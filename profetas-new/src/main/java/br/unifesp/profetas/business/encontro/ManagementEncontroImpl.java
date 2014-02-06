@@ -21,9 +21,10 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 
 	@SuppressWarnings("unchecked")
 	public Set<Encontro> getEncontrosByPersonagem(Personagem personagem) {
-		final String rawQuery = "from Encontro as e where e.personagem1.id = :id or e.personagem2.id = :id";
+		final String rawQuery = "from Encontro as e where active = :active and (e.personagem1.id = :id or e.personagem2.id = :id)";
 		Query query = sessionFactory.getCurrentSession().createQuery(rawQuery);
 		query.setLong("id", personagem.getId());
+		query.setBoolean("active", true);
 		try {
 			return new HashSet<Encontro>(query.list());
 		} catch (Exception e) {

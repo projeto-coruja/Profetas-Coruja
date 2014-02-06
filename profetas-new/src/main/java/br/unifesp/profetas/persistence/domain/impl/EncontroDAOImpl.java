@@ -27,6 +27,7 @@ public class EncontroDAOImpl extends AbstractHibernateDAO<Encontro> implements
 		return (Encontro)criteria.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Encontro> listEncontro() {
 		Criteria criteria = getCurrentSession().createCriteria(Encontro.class);
 		criteria.add(Restrictions.eq("active", true));
