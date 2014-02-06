@@ -55,7 +55,6 @@ public class Encontro implements Serializable {
 	@Column(name = "active")
 	private Boolean active;
 	
-
 	public Encontro() {}
 
 	public Long getId() {

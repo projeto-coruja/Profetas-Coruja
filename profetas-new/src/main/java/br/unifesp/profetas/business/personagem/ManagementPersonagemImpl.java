@@ -278,6 +278,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			e.setData(UtilValidator.getDateFromString(edto.getData()));
 			e.setLocal(localDAO.getLocalById(edto.getIdLocal()));
 			e.setNome(edto.getNome());
+			e.setActive(true);
 			
 			encontroDAO.saveEncontro(e);
 			novosEncontros.add(e.getId());
