@@ -71,14 +71,7 @@
 		    </form:select>
 	    </div>
 		<br />
-		
-		<!--div class="label-box"><label for="idEncontros"><spring:message code="lbl_encontros"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idEncontros" path="idEncontros" multiple="true">
-		    </form:select>
-	    </div>
-		<br /-->
-		
+
 		<div class="label-box"><label for="idObras"><spring:message code="lbl_obras"/></label></div>
 	    <div class="input-box">
 	    	<form:select id="idObras" path="idObras" multiple="true">
@@ -100,9 +93,9 @@
 	    </div>
 		<br />
 		
-		
-		<div id="lstEncontros">           
-        </div>
+		<div class="label-box"><label for="idEncontros"><spring:message code="lbl_encontros"/></label></div>
+		<div id="lstEncontros"></div>
+		<br />
 		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
@@ -116,10 +109,10 @@
 		fillLocals("${personagem.idNascimento}", 'idNascimento');
 		fillLocals("${personagem.idMorte}", 'idMorte');
 		fillMultipleReligioesCrencas("${personagem.idReligioes}", 'idReligioes');
-		
 		fillMultipleObras("${personagem.idObras}", 'idObras');
 		fillMultipleCorrespondencias("${personagem.idCorrespondencias}", 'idCorrespondencias');
 		fillMultipleLocals("${personagem.idLocaisPers}", 'idLocaisPers');
+		fillEncontros('${personagem.encontrosJson}', 'lstEncontros');
 	</script>
 	
 	<c:if test="${readonly}">

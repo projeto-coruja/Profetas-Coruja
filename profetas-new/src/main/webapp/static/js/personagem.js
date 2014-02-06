@@ -2,13 +2,45 @@ var URL_SECTION = 'personagem';
 
 var lstEncontros = [];
 var EncontroClass = function EncontroClass(){
-    this.id                = null;
-    this.nome            = null;
-    this.data            = null;
-    this.idPersonagem    = null;
-    this.idLocal        = null;
+	this._index			= null;
+    this.id				= null;
+    this.nome			= null;
+    this.data			= null;
+    this.idPersonagem	= null;
+    this.descPersonagem	= null;
+    this.idLocal		= null;
+    this.descLocal		= null;
 };
-   
+var globalId = 0;
+var generateUUID = function(){
+	globalId++;
+	if(globalId >= 1000000){
+		globalId = 0;
+	}
+	return globalId;
+};
+function fillEncontros(encontrosStr, idDiv){
+	if(encontrosStr != undefined && encontrosStr != ''){
+		var encontros = JSON.parse(encontrosStr);
+		var encontro, 
+			i, enc_size;
+		for(var i in encontros){
+			encontro = new EncontroClass();
+			encontro._index	= generateUUID();
+			encontro.id		= encontros[i]['id'];
+		    encontro.nome   = encontros[i]['nome'];
+		    encontro.data   = encontros[i]['data'];
+		    encontro.idPersonagem	= encontros[i]['idPersonagem'];
+		    encontro.descPersonagem	= encontros[i]['descPersonagem'];
+		    encontro.idLocal		= encontros[i]['idLocal'];
+		    encontro.descLocal		= encontros[i]['descLocal'];
+		    lstEncontros.push(encontro);
+		}
+		loadEncontros();
+	}
+}
+
+
 $(document).ready(function() {
     $("#saveForm").click(function(){
         saveForm();
@@ -17,8 +49,6 @@ $(document).ready(function() {
     //Encontros
     loadEncontros();
     prepareEncontros();
-   
-   
     //
 });
 
@@ -54,32 +84,33 @@ function prepareEncontros(){
 function loadEncontros(){
     var html = '';
     var _idPersonagem = $('#id').val();
-    console.log('_idPersonagem: ' + _idPersonagem);
-        html += '<table>';
+        html += '<table id="lst_encontros" class="grid">';
             html += '<thead><tr>';
                 html += '<th>Nome</th>';
                 html += '<th>Data</th>';
                 html += '<th>Personagem</th>';
                 html += '<th>Local</th>';
-                html += '<th>+</th>';
-                html += '<th>-</th>';
+                html += '<th></th>';
+                html += '<th style="visibility: hidden">Id</th>';
             html += '</tr></thead>';
             html += '<tbody>';
             for(var i in lstEncontros){
-                html += '<tr>';
-                    html += '<td >'+lstEncontros[i]['nome']+'</td>';
-                    html += '<td >'+lstEncontros[i]['data']+'</td>';
-                    html += '<td >'+lstEncontros[i]['idPersonagem']+'</td>';
-                    html += '<td >'+lstEncontros[i]['idLocal']+'</td>';
-                    html += '<td ><img onclick="removeEncontro()" src="static/images/delete.png" /></td>';
+                html += '<tr id="'+lstEncontros[i]['id']+'">';
+                    html += '<td>'+lstEncontros[i]['nome']+'</td>';
+                    html += '<td>'+lstEncontros[i]['data']+'</td>';
+                    html += '<td>'+lstEncontros[i]['descPersonagem']+'</td>';
+                    html += '<td>'+lstEncontros[i]['descLocal']+'</td>';
+                    html += '<td align="center"><img onclick="removeEncontro('+lstEncontros[i]['id']+')" src="static/images/delete.png" /></td>';
+                    html += '<td style="visibility: hidden">'+lstEncontros[i]['id']+'</td>';
                 html += '<tr>';
             }
                 html += '</tr>';
-                    html += '<td ><input id="nomeEnc" type="text" size="10" /></td>';
-                    html += '<td ><input id="dataEnc" type="text" size="10" /></td>';
-                    html += '<td ><input id="persEnc" type="text" size="5" /> <input type="hidden" id="personagemId" name="personagemId" /></td>';
-                    html += '<td ><input id="localEnc" type="text" size="5" /> <input type="hidden" id="localId" name="localId" /></td>';
-                    html += '<td ><img onclick="addEncontro()" src="static/images/add.png" /></td>';
+                    html += '<td><input id="nomeEnc" type="text" /></td>';
+                    html += '<td><input id="dataEnc" type="text" /></td>';
+                    html += '<td><input id="persEnc" type="text" /> <input type="hidden" id="personagemId" name="personagemId" /></td>';
+                    html += '<td><input id="localEnc" type="text" /> <input type="hidden" id="localId" name="localId" /></td>';
+                    html += '<td align="center"><img onclick="addEncontro()" src="static/images/add.png" /></td>';
+                    html += '<td style="visibility: hidden"></td>';
                 html += '</tr>';
             html += '</tbody>';
         html += '</table>';
@@ -88,29 +119,28 @@ function loadEncontros(){
 }
 
 function addEncontro(){
-    var nomeEnc  = $('#nomeEnc').val();
-    var dataEnc  = $('#dataEnc').val();
-    var persEnc  = $('#personagemId').val();
-    var localEnc = $('#localId').val();
-   
-    console.log('nomeEnc: ' + nomeEnc);
-    console.log('dataEnc: ' + dataEnc);
-    console.log('persEnc: ' + persEnc);
-    console.log('localEnc: ' + localEnc);
-   
     var encontro = new EncontroClass();
     encontro.nome    = $('#nomeEnc').val();;
     encontro.data    = $('#dataEnc').val();
-    encontro.idPersonagem    = $('#personagemId').val();
-    encontro.idLocal    = $('#localId').val();
+    encontro.idPersonagem	= $('#personagemId').val();
+    encontro.descPersonagem	= $('#persEnc').val();
+    encontro.idLocal		= $('#localId').val();
+    encontro.descLocal		= $('#localEnc').val();
    
     lstEncontros.push(encontro);
-   
-    console.log('encontros: ' + lstEncontros.length);
     loadEncontros();
     prepareEncontros();
 }
-
+function removeEncontro(idEncontro){
+	$('#lst_encontros tr:eq('+idEncontro+')').remove();
+	/*console.log('remove: ' + idEncontro);
+	console.log('1-size: ' + lstEncontros.length);
+	lstEncontros.splice(idEncontro, 1);
+	console.log('2-size: ' + lstEncontros.length);*/
+	
+	//loadEncontros();
+    prepareEncontros();
+}
 //-->Encontros
 
 function clearFields(){
@@ -126,7 +156,6 @@ function clearFields(){
     $('#formacao').val('');
     $('#refBibliografica').val('');
     $('#idReligioes').val('');
-    //$('#idEncontros').val('');
     $('#idObras').val();
     $('#idCorrespondencias').val();
     $('idLocaisPers').val();
@@ -160,7 +189,6 @@ function saveForm(){
    
     var refBibliografica    = $('#refBibliografica').val();
     var idReligioes    = $('#idReligioes').val();
-    //var idEncontros    = $('#idEncontros').val();
     var idObras        = $('#idObras').val();
     var idCorrespondencias    = $('#idCorrespondencias').val();
     var idLocaisPers        = $('#idLocaisPers').val();
@@ -170,10 +198,6 @@ function saveForm(){
         "biografia" : biografia, "ocupacao" : ocupacao, "formacao" : formacao, "refBibliografica" : refBibliografica,
         "idReligioes" : idReligioes, "idObras" : idObras, "idCorrespondencias" : idCorrespondencias,
         "idLocaisPers" : idLocaisPers, "encontros":lstEncontros });
-    //"idEncontros" : idEncontros,
-    //json: {"sobrenome":"Valverde","nome":"Jimmy","apelido":"Ghost","encontros":[{"id":1,"label":"Uno"},{"id":2,"label":"Dos"},{"id":3,"label":"Tres"}]}
-    //"encontros":[{"id":1,"label":"Uno"},{"id":2,"label":"Dos"},{"id":3,"label":"Tres"}]
-    console.log('waaa: ' + data);
    
     $.ajax({
         url : url,
@@ -202,8 +226,8 @@ function saveForm(){
 }
 
 function buildGrid(div_id, data){
-    var titles            = ['Nome', 'Sobrenome'];
-    var columns_key        = ['nome', 'sobrenome'];
+    var titles          = ['Nome', 'Sobrenome'];
+    var columns_key     = ['nome', 'sobrenome'];
     var columns_size    = ['45', '45'];
     var columns_sort    = ['nome', 'sobrenome'];
     var corujaGrid = new CorujaGrid();

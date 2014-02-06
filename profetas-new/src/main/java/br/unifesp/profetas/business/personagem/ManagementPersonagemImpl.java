@@ -37,6 +37,7 @@ import br.unifesp.profetas.util.UtilValidator;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
 
 @Service("mPersonagem")
 public class ManagementPersonagemImpl extends AbstractBusiness implements ManagementPersonagem {
@@ -88,6 +89,11 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			if(!encontrosSet.isEmpty()){
 				setEncontrosInDTO(personagem, pDTO, encontrosSet, dateFormat);
 			}
+			//encontros into json
+			Gson gson = new Gson();
+			String json = gson.toJson(pDTO.getEncontros());
+			pDTO.setEncontrosJson(json);
+			
 			//obras
 				Set<FontesObras> obrasSet = personagem.getObras();
 			if(!obrasSet.isEmpty()){

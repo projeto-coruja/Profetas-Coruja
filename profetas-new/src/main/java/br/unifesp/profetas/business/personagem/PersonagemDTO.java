@@ -33,6 +33,8 @@ public class PersonagemDTO extends CommonDTO {
 	private String strCorrespondencias;
 	
 	private List<EncontroDTO> encontros = new ArrayList<EncontroDTO>();
+	private String encontrosJson; 
+	
 	private Long[] idEncontros;
     private String strEncontros;
 	
@@ -193,5 +195,11 @@ public class PersonagemDTO extends CommonDTO {
 	}
 	public void setStrEncontros(String strEncontros) {
 		this.strEncontros = strEncontros;
+	}
+	public String getEncontrosJson() {
+		return encontrosJson;
+	}
+	public void setEncontrosJson(String encontrosJson) {
+		this.encontrosJson = encontrosJson;
 	}
 }
