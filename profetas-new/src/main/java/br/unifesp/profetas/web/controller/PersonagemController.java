@@ -85,6 +85,7 @@ public class PersonagemController extends AbstractController {
 		return mPersonagem.getPersonagemList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/personagem/search", method = RequestMethod.GET)
     public @ResponseBody List searchPersonagem(HttpServletRequest request,
             @RequestParam(value = "term", required = false) String word) {

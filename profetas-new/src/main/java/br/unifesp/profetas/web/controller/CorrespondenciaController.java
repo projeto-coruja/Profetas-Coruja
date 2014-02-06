@@ -64,6 +64,7 @@ public class CorrespondenciaController {
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/correspondencia/list", method = RequestMethod.GET)
 	public @ResponseBody WrapperGrid listCorrespondencia(HttpServletRequest request,
 			@RequestParam(value = "orderBy", required = true) String strOrderBy,

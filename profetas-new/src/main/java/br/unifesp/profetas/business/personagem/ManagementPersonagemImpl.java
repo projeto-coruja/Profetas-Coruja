@@ -394,6 +394,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public List searchPersonagem(String word) {
         int min = 3;
         List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
