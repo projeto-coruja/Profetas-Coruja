@@ -1,5 +1,7 @@
 package br.unifesp.profetas.business.personagem;
 
+import java.util.List;
+
 import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
@@ -16,4 +18,6 @@ public interface ManagementPersonagem {
 	
 	public WrapperGrid<PersonagemDTO> getPersonagemList(String orderBy, 
 			OrderType orderType, int page, int numRows);
+	
+	public List searchPersonagem(String word);
 }

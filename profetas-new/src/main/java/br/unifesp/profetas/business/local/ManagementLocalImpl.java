@@ -13,6 +13,7 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.util.AutoCompleteDTO;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mLocal")
@@ -133,4 +134,22 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
+	
+	public List searchLocal(String word) {
+        int min = 3;
+        List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
+        if (word.length() > min) {
+            List<Local> locais = localDAO.searchLocal(word);
+            for(Local l : locais){
+                AutoCompleteDTO o = new AutoCompleteDTO(l.getId(), l.getNome());
+                lista.add(o);
+            }
+        } else {
+            AutoCompleteDTO o = new AutoCompleteDTO();
+            o.setLabel(""+min);
+            o.setId(null);
+            lista.add(o);
+        }
+        return lista;
+    }
 }

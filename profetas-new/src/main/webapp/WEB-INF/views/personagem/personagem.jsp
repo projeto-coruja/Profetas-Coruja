@@ -72,12 +72,12 @@
 	    </div>
 		<br />
 		
-		<div class="label-box"><label for="idEncontros"><spring:message code="lbl_encontros"/></label></div>
+		<!--div class="label-box"><label for="idEncontros"><spring:message code="lbl_encontros"/></label></div>
 	    <div class="input-box">
 	    	<form:select id="idEncontros" path="idEncontros" multiple="true">
 		    </form:select>
 	    </div>
-		<br />
+		<br /-->
 		
 		<div class="label-box"><label for="idObras"><spring:message code="lbl_obras"/></label></div>
 	    <div class="input-box">
@@ -100,6 +100,10 @@
 	    </div>
 		<br />
 		
+		
+		<div id="lstEncontros">           
+        </div>
+		
 		<div class="left">
 			<div id="saveForm" class="button button-size"><spring:message code="btn_register"/></div>
 			<div hidden="true" id="editForm" class="button button-size" onClick="reloadEdit(${personagem.id})"><spring:message code="btn_edit"/></div>
@@ -112,7 +116,7 @@
 		fillLocals("${personagem.idNascimento}", 'idNascimento');
 		fillLocals("${personagem.idMorte}", 'idMorte');
 		fillMultipleReligioesCrencas("${personagem.idReligioes}", 'idReligioes');
-		fillMultipleEncontros("${personagem.idEncontros}", 'idEncontros');
+		
 		fillMultipleObras("${personagem.idObras}", 'idObras');
 		fillMultipleCorrespondencias("${personagem.idCorrespondencias}", 'idCorrespondencias');
 		fillMultipleLocals("${personagem.idLocaisPers}", 'idLocaisPers');

@@ -1,44 +1,61 @@
 package br.unifesp.profetas.business.encontro;
 
-public class EncontroDTO {
+import br.unifesp.profetas.business.common.CommonDTO;
 
-	private Long idEncontro;
-	private String nomeEncontro;
-	private String dataEncontro;
-	private Long idPersonagemEncontro;
-	private Long idLocalEncontro;
-	
-	public Long getIdEncontro() {
-		return idEncontro;
-	}
-	public void setIdEncontro(Long idEncontro) {
-		this.idEncontro = idEncontro;
-	}
-	public String getNomeEncontro() {
-		return nomeEncontro;
-	}
-	public void setNomeEncontro(String nomeEncontro) {
-		this.nomeEncontro = nomeEncontro;
-	}
-	public String getDataEncontro() {
-		return dataEncontro;
-	}
-	public void setDataEncontro(String dataEncontro) {
-		this.dataEncontro = dataEncontro;
-	}
-	public Long getIdPersonagemEncontro() {
-		return idPersonagemEncontro;
-	}
-	public void setIdPersonagemEncontro(Long idPersonagemEncontro) {
-		this.idPersonagemEncontro = idPersonagemEncontro;
-	}
-	public Long getIdLocalEncontro() {
-		return idLocalEncontro;
-	}
-	public void setIdLocalEncontro(Long idLocalEncontro) {
-		this.idLocalEncontro = idLocalEncontro;
-	}
-	
+public class EncontroDTO extends CommonDTO {
+   
+    private Long id;
+    private String nome;
+    private String data;
+   
+    private Long idPersonagem;
+    private String descPersonagem;
+   
+    private Long idLocal;
+    private String descLocal;
+   
+    public EncontroDTO() {}
 
-	
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public String getData() {
+        return data;
+    }
+    public void setData(String data) {
+        this.data = data;
+    }
+    public Long getIdPersonagem() {
+        return idPersonagem;
+    }
+    public void setIdPersonagem(Long idPersonagem) {
+        this.idPersonagem = idPersonagem;
+    }
+    public String getDescPersonagem() {
+        return descPersonagem;
+    }
+    public void setDescPersonagem(String descPersonagem) {
+        this.descPersonagem = descPersonagem;
+    }
+    public Long getIdLocal() {
+        return idLocal;
+    }
+    public void setIdLocal(Long idLocal) {
+        this.idLocal = idLocal;
+    }
+    public String getDescLocal() {
+        return descLocal;
+    }
+    public void setDescLocal(String descLocal) {
+        this.descLocal = descLocal;
+    }   
 }

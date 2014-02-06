@@ -30,6 +30,7 @@ import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.persistence.model.Personagem;
 import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
+import br.unifesp.profetas.util.AutoCompleteDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
@@ -131,12 +132,12 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		List<EncontroDTO> encontrosDTO = new ArrayList<EncontroDTO>(encontrosSet.length);
 		for(Encontro e : encontrosSet){
 			EncontroDTO edto = new EncontroDTO();
-			edto.setIdEncontro(e.getId());
-			edto.setNomeEncontro(e.getNome());
-			edto.setDataEncontro(dateFormat.format(e.getData()));
-			edto.setIdLocalEncontro(e.getLocal().getId());
-			if(personagem.getId().equals(e.getPersonagem1().getId())) edto.setIdPersonagemEncontro(e.getPersonagem2().getId());
-			else edto.setIdPersonagemEncontro(e.getPersonagem1().getId());
+			edto.setId(e.getId());
+			edto.setNome(e.getNome());
+			edto.setData(dateFormat.format(e.getData()));
+			edto.setIdLocal(e.getLocal().getId());
+			if(personagem.getId().equals(e.getPersonagem1().getId())) edto.setIdPersonagem(e.getPersonagem2().getId());
+			else edto.setIdPersonagem(e.getPersonagem1().getId());
 			encontrosDTO.add(edto);
 		}
 		pDTO.setEncontros(encontrosDTO);
@@ -251,8 +252,8 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	private void setEncontrosInPersonagem(Personagem personagem, PersonagemDTO pDTO) {
 		Set<Long> novosEncontros = new HashSet<Long>();
 		for(EncontroDTO edto : pDTO.getEncontros()) {
-			Personagem p = personagemDAO.getPersonagemById(edto.getIdPersonagemEncontro());
-			Long id = edto.getIdEncontro();
+			Personagem p = personagemDAO.getPersonagemById(edto.getIdPersonagem());
+			Long id = edto.getId();
 			Encontro e = null;
 			
 			if(id == -1) {
@@ -266,9 +267,9 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 				else e.setPersonagem1(p);
 			}
 			
-			e.setData(UtilValidator.getDateFromString(edto.getDataEncontro()));
-			e.setLocal(localDAO.getLocalById(edto.getIdLocalEncontro()));
-			e.setNome(edto.getNomeEncontro());
+			e.setData(UtilValidator.getDateFromString(edto.getData()));
+			e.setLocal(localDAO.getLocalById(edto.getIdLocal()));
+			e.setNome(edto.getNome());
 			
 			encontroDAO.saveEncontro(e);
 			novosEncontros.add(e.getId());
@@ -289,9 +290,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 				}
 			}
 		}
-		
 	}
-
 
 	public MessageDTO createPersonagem(PersonagemDTO personagemDTO) {
 		MessageDTO isNotValid = isNotValid(personagemDTO, true);
@@ -380,4 +379,22 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
+	
+	public List searchPersonagem(String word) {
+        int min = 3;
+        List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
+        if (word.length() > min) {
+            List<Personagem> pers = personagemDAO.searchPersonagem(word);
+            for(Personagem p : pers){
+                AutoCompleteDTO o = new AutoCompleteDTO(p.getId(), p.getNome() + " " + p.getSobrenome());
+                lista.add(o);
+            }
+        } else {
+            AutoCompleteDTO o = new AutoCompleteDTO();
+            o.setLabel(""+min);
+            o.setId(null);
+            lista.add(o);
+        }
+        return lista;
+    }
 }

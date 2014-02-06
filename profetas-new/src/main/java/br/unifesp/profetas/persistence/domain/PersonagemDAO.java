@@ -10,6 +10,8 @@ public interface PersonagemDAO {
 	
 	public List<Personagem> listPersonagem();//TODO:
 	
+	public List<Personagem> searchPersonagem(String prefix);
+	
 	public void savePersonagem(Personagem personagem);
 	
 	public void updatePersonagem(Personagem personagem);

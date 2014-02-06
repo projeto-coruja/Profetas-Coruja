@@ -1,5 +1,7 @@
 package br.unifesp.profetas.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +75,7 @@ public class PersonagemController extends AbstractController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/personagem/list", method = RequestMethod.GET)
-	public @ResponseBody WrapperGrid listEncontro(HttpServletRequest request,
+	public @ResponseBody WrapperGrid listPersonagem(HttpServletRequest request,
 			@RequestParam(value = "orderBy", required = true) String strOrderBy,
 			@RequestParam(value = "orderType", required = true) String strOrderType,
 			@RequestParam(value = "page", required = true) Integer page, 
@@ -82,6 +84,13 @@ public class PersonagemController extends AbstractController {
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mPersonagem.getPersonagemList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 	}
+	
+	@RequestMapping(value = "/personagem/search", method = RequestMethod.GET)
+    public @ResponseBody List searchPersonagem(HttpServletRequest request,
+            @RequestParam(value = "term", required = false) String word) {
+       
+        return mPersonagem.searchPersonagem(word);
+    }
 	
 	@RequestMapping(value = "/basic-personagem", method = RequestMethod.GET)
     public String showBasicView(ModelMap model, 

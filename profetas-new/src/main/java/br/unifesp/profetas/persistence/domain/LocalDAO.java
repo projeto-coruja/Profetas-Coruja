@@ -10,6 +10,8 @@ public interface LocalDAO {
 	
 	public List<Local> listLocal();//TODO:
 	
+	public List<Local> searchLocal(String prefix);
+	
 	public void saveLocal(Local local);
 	
 	public void updateLocal(Local local);

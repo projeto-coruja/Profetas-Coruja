@@ -1,5 +1,6 @@
 package br.unifesp.profetas.business.personagem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.unifesp.profetas.business.common.CommonDTO;
@@ -31,7 +32,9 @@ public class PersonagemDTO extends CommonDTO {
 	private Long[] idCorrespondencias;
 	private String strCorrespondencias;
 	
-	private List<EncontroDTO> encontros;
+	private List<EncontroDTO> encontros = new ArrayList<EncontroDTO>();
+	private Long[] idEncontros;
+    private String strEncontros;
 	
 	private String divId;
 	
@@ -178,5 +181,17 @@ public class PersonagemDTO extends CommonDTO {
 	}
 	public void setEncontros(List<EncontroDTO> encontros) {
 		this.encontros = encontros;
-	}	
+	}
+	public Long[] getIdEncontros() {
+		return idEncontros;
+	}
+	public void setIdEncontros(Long[] idEncontros) {
+		this.idEncontros = idEncontros;
+	}
+	public String getStrEncontros() {
+		return strEncontros;
+	}
+	public void setStrEncontros(String strEncontros) {
+		this.strEncontros = strEncontros;
+	}
 }
