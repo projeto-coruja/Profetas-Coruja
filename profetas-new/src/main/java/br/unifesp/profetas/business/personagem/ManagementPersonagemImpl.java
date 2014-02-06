@@ -86,7 +86,7 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			//encontros
 			Set<Encontro> encontrosSet = managementEncontro.getEncontrosByPersonagem(personagem);
 			if(!encontrosSet.isEmpty()){
-				setEncontrosInDTO(personagem, pDTO, (Encontro[]) encontrosSet.toArray(), dateFormat);
+				setEncontrosInDTO(personagem, pDTO, encontrosSet, dateFormat);
 			}
 			//obras
 				Set<FontesObras> obrasSet = personagem.getObras();
@@ -128,8 +128,8 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	}
 	
 	private void setEncontrosInDTO(Personagem personagem, PersonagemDTO pDTO,
-			Encontro[] encontrosSet, SimpleDateFormat dateFormat) {
-		List<EncontroDTO> encontrosDTO = new ArrayList<EncontroDTO>(encontrosSet.length);
+			Set<Encontro> encontrosSet, SimpleDateFormat dateFormat) {
+		List<EncontroDTO> encontrosDTO = new ArrayList<EncontroDTO>(encontrosSet.size());
 		for(Encontro e : encontrosSet){
 			EncontroDTO edto = new EncontroDTO();
 			edto.setId(e.getId());
