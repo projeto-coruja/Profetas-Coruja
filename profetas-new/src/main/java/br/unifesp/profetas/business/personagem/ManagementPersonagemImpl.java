@@ -250,13 +250,14 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	}
 	
 	private void setEncontrosInPersonagem(Personagem personagem, PersonagemDTO pDTO) {
+		Set<Encontro> encontrosAntigos = managementEncontro.getEncontrosByPersonagem(personagem);
 		Set<Long> novosEncontros = new HashSet<Long>();
 		for(EncontroDTO edto : pDTO.getEncontros()) {
 			Personagem p = personagemDAO.getPersonagemById(edto.getIdPersonagem());
 			Long id = edto.getId();
 			Encontro e = null;
 			
-			if(id == -1) {
+			if(id == null) {
 				e = new Encontro();
 				e.setPersonagem1(personagem);
 				e.setPersonagem2(p);
@@ -275,7 +276,6 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			novosEncontros.add(e.getId());
 		}
 		
-		Set<Encontro> encontrosAntigos = managementEncontro.getEncontrosByPersonagem(personagem);
 		Set<Long> lixo = Sets.difference(Sets.newHashSet(Iterables.transform(encontrosAntigos, new Function<Encontro, Long>() {
 			public Long apply(Encontro input) {
 				return input.getId();

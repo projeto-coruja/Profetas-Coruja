@@ -24,6 +24,11 @@ public class ManagementEncontroImpl extends AbstractBusiness implements Manageme
 		final String rawQuery = "from Encontro as e where e.personagem1.id = :id or e.personagem2.id = :id";
 		Query query = sessionFactory.getCurrentSession().createQuery(rawQuery);
 		query.setLong("id", personagem.getId());
-		return new HashSet<Encontro>(query.list());
+		try {
+			return new HashSet<Encontro>(query.list());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 }
