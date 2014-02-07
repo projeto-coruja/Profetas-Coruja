@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.unifesp.profetas.business.graph.Edge;
 import br.unifesp.profetas.business.graph.Graph;
@@ -14,6 +15,7 @@ import br.unifesp.profetas.business.graph.generators.PersonagemGraphGenerator;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
 import br.unifesp.profetas.persistence.model.Encontro;
 
+@Service("personagemGraph")
 public class PersonagemGraphGeneratorImpl implements PersonagemGraphGenerator {
 
 	@Autowired EncontroDAO encontroDAO;

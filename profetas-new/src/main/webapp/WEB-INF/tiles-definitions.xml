@@ -21,6 +21,14 @@
         <put-attribute name="content" value="/WEB-INF/views/index/index.jsp" />
     </definition>
     
+    <!-- Graph -->
+    <definition name="pers_graph" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/graph/personagemGraph.jsp" />
+    </definition>
+    <definition name="foob_graph" extends="template-main">
+        <put-attribute name="content" value="/WEB-INF/views/graph/fontesObrasGraph.jsp" />
+    </definition>
+    
     <!-- Account -->
     <definition name="account" extends="template-main">
         <put-attribute name="content" value="/WEB-INF/views/account/account.jsp" />

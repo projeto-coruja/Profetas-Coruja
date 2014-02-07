@@ -2,7 +2,6 @@ var URL_SECTION = 'personagem';
 
 var lstEncontros = [];
 var EncontroClass = function EncontroClass(){
-	this._index			= null;
     this.id				= null;
     this.nome			= null;
     this.data			= null;
@@ -11,22 +10,12 @@ var EncontroClass = function EncontroClass(){
     this.idLocal		= null;
     this.descLocal		= null;
 };
-var globalId = 0;
-var generateUUID = function(){
-	globalId++;
-	if(globalId >= 1000000){
-		globalId = 0;
-	}
-	return globalId;
-};
 function fillEncontros(encontrosStr, idDiv){
 	if(encontrosStr != undefined && encontrosStr != ''){
 		var encontros = JSON.parse(encontrosStr);
-		var encontro, 
-			i, enc_size;
+		var encontro;
 		for(var i in encontros){
 			encontro = new EncontroClass();
-			encontro._index	= generateUUID();
 			encontro.id		= encontros[i]['id'];
 		    encontro.nome   = encontros[i]['nome'];
 		    encontro.data   = encontros[i]['data'];
@@ -39,7 +28,6 @@ function fillEncontros(encontrosStr, idDiv){
 		loadEncontros();
 	}
 }
-
 
 $(document).ready(function() {
     $("#saveForm").click(function(){
@@ -83,7 +71,6 @@ function prepareEncontros(){
 //-->Encontros
 function loadEncontros(){
     var html = '';
-    var _idPersonagem = $('#id').val();
         html += '<table id="lst_encontros" class="grid">';
             html += '<thead><tr>';
                 html += '<th>Nome</th>';
@@ -131,14 +118,9 @@ function addEncontro(){
     loadEncontros();
     prepareEncontros();
 }
-function removeEncontro(idEncontro){
-	$('#lst_encontros tr:eq('+idEncontro+')').remove();
-	/*console.log('remove: ' + idEncontro);
-	console.log('1-size: ' + lstEncontros.length);
+function removeEncontro(idEncontro){	
 	lstEncontros.splice(idEncontro, 1);
-	console.log('2-size: ' + lstEncontros.length);*/
-	
-	//loadEncontros();
+	loadEncontros();
     prepareEncontros();
 }
 //-->Encontros
