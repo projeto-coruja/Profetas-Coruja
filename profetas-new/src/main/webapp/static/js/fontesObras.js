@@ -32,10 +32,11 @@ function clearFields(){
     $('#idClassificacao').val('');
     
     $('#idGruMovimento').val('');
-    $('#idLeitores').val();
-    $('#idAutCitados').val();
-    $('#idObrCitadas').val();
-    $('#palavrasChave').val();
+    $('#idLeitores').val('');
+    $('#idAutCitados').val('');
+    $('#idObrCitadas').val('');
+    $('#palavrasChave').val('');
+    $('.tag').remove();
 }
 
 function checkFields(){
@@ -50,7 +51,7 @@ function checkFields(){
 function saveForm(){
 	if(!checkFields())
 		return;
-		
+	
 	var url			= URL_SECTION+'/save.html';
 	var id			= $('#id').val();
 	var localizacao	= $('#localizacao').val();

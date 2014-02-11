@@ -30,10 +30,7 @@ public class Node {
 		if(obj instanceof Node) {
 			Node that = (Node) obj;
 			return Objects.equals(this.id, that.id);
-		}
-		
+		}		
 		return false;
-	}
-	
-	
+	}	
 }

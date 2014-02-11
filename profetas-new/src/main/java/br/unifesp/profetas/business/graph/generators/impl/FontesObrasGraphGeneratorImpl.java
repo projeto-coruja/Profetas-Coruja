@@ -52,5 +52,4 @@ public class FontesObrasGraphGeneratorImpl implements FontesObrasGraphGenerator 
 		g.setEdges(new ArrayList<Edge>(edges));
 		return g;
 	}
-
 }

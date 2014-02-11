@@ -4,7 +4,8 @@ import br.unifesp.profetas.business.common.CommonDTO;
 
 public class EncontroDTO extends CommonDTO {
    
-    private Long id;
+    private Integer indice;
+	private Long id;
     private String nome;
     private String data;
    
@@ -57,5 +58,11 @@ public class EncontroDTO extends CommonDTO {
     }
     public void setDescLocal(String descLocal) {
         this.descLocal = descLocal;
-    }   
+    }
+	public Integer getIndice() {
+		return indice;
+	}
+	public void setIndice(Integer indice) {
+		this.indice = indice;
+	}
 }

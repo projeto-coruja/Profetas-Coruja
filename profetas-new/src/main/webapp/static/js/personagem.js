@@ -2,6 +2,7 @@ var URL_SECTION = 'personagem';
 
 var lstEncontros = [];
 var EncontroClass = function EncontroClass(){
+	this.indice			= null;
     this.id				= null;
     this.nome			= null;
     this.data			= null;
@@ -10,12 +11,29 @@ var EncontroClass = function EncontroClass(){
     this.idLocal		= null;
     this.descLocal		= null;
 };
+var globalId = 0;
+var generateUUID = function(){
+	globalId++;
+	if(globalId >= 1000000){
+		globalId = 0;
+	}
+	return globalId;
+};
+
+function reWriteIndice(){
+	globalId = 0;
+	for(var e in lstEncontros){
+		lstEncontros[e]['indice'] = generateUUID();
+	}
+}
+
 function fillEncontros(encontrosStr, idDiv){
 	if(encontrosStr != undefined && encontrosStr != ''){
 		var encontros = JSON.parse(encontrosStr);
 		var encontro;
 		for(var i in encontros){
 			encontro = new EncontroClass();
+			encontro.indice	= generateUUID();
 			encontro.id		= encontros[i]['id'];
 		    encontro.nome   = encontros[i]['nome'];
 		    encontro.data   = encontros[i]['data'];
@@ -37,7 +55,6 @@ $(document).ready(function() {
     //Encontros
     loadEncontros();
     prepareEncontros();
-    //
 });
 
 function prepareEncontros(){
@@ -68,7 +85,6 @@ function prepareEncontros(){
     });
 }
 
-//-->Encontros
 function loadEncontros(){
     var html = '';
         html += '<table id="lst_encontros" class="grid">';
@@ -78,7 +94,7 @@ function loadEncontros(){
                 html += '<th>Personagem</th>';
                 html += '<th>Local</th>';
                 html += '<th></th>';
-                html += '<th style="visibility: hidden">Id</th>';
+                html += '<th style="visibility: hidden">#</th>';
             html += '</tr></thead>';
             html += '<tbody>';
             for(var i in lstEncontros){
@@ -87,8 +103,8 @@ function loadEncontros(){
                     html += '<td>'+lstEncontros[i]['data']+'</td>';
                     html += '<td>'+lstEncontros[i]['descPersonagem']+'</td>';
                     html += '<td>'+lstEncontros[i]['descLocal']+'</td>';
-                    html += '<td align="center"><img onclick="removeEncontro('+lstEncontros[i]['id']+')" src="static/images/delete.png" /></td>';
-                    html += '<td style="visibility: hidden">'+lstEncontros[i]['id']+'</td>';
+                    html += '<td align="center"><img onclick="removeEncontro('+lstEncontros[i]['indice']+')" src="static/images/delete.png" /></td>';
+                    html += '<td style="visibility: hidden">'+lstEncontros[i]['indice']+'</td>';
                 html += '<tr>';
             }
                 html += '</tr>';
@@ -106,8 +122,27 @@ function loadEncontros(){
 }
 
 function addEncontro(){
+	var nome = $('#nomeEnc').val();
+    if(nome == undefined || nome == ''){
+        addMessage(jQuery.i18n.prop('err_nome_enc_required'), 'error');
+        return false;
+    }
+    
+    var idPers = $('#personagemId').val();
+    if(idPers == undefined || idPers == ''){
+        addMessage(jQuery.i18n.prop('err_pers_id_enc_required'), 'error');
+        return false;
+    }
+    
+    var descPers = $('#persEnc').val();
+    if(descPers == undefined || descPers == ''){
+        addMessage(jQuery.i18n.prop('err_pers_nome_enc_required'), 'error');
+        return false;
+    }
+    
     var encontro = new EncontroClass();
-    encontro.nome    = $('#nomeEnc').val();;
+    encontro.indice	= generateUUID();
+    encontro.nome    = $('#nomeEnc').val();
     encontro.data    = $('#dataEnc').val();
     encontro.idPersonagem	= $('#personagemId').val();
     encontro.descPersonagem	= $('#persEnc').val();
@@ -118,8 +153,9 @@ function addEncontro(){
     loadEncontros();
     prepareEncontros();
 }
-function removeEncontro(idEncontro){	
-	lstEncontros.splice(idEncontro, 1);
+function removeEncontro(idEncontro){
+	lstEncontros.splice(parseInt(idEncontro)-1, 1);
+	reWriteIndice();
 	loadEncontros();
     prepareEncontros();
 }
@@ -138,9 +174,13 @@ function clearFields(){
     $('#formacao').val('');
     $('#refBibliografica').val('');
     $('#idReligioes').val('');
-    $('#idObras').val();
-    $('#idCorrespondencias').val();
-    $('idLocaisPers').val();
+    $('#idObras').val('');
+    $('#idCorrespondencias').val('');
+    $('idLocaisPers').val('');
+    //
+    lstEncontros = [];
+    loadEncontros();
+    prepareEncontros();
 }
 
 function checkFields(){

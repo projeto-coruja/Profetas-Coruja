@@ -50,5 +50,4 @@ public class PersonagemGraphGeneratorImpl implements PersonagemGraphGenerator {
 		g.setEdges(new ArrayList<Edge>(edges));
 		return g;
 	}
-
 }

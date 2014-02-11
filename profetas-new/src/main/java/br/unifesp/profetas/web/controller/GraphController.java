@@ -39,7 +39,6 @@ public class GraphController {
 	
 	@RequestMapping(value = "/fontes-obras-graph/view", method = RequestMethod.GET)
 	public @ResponseBody Graph showGraphFontesObras(HttpServletRequest request) {
-		return personagemGraph.getGraph();
+		return fontesObrasGraph.getGraph();
 	}
-	
 }

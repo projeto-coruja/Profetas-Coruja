@@ -14,6 +14,7 @@ import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.util.AutoCompleteDTO;
+import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mLocal")
@@ -135,18 +136,27 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public List searchLocal(String word) {
-        int min = 3;
+        int min = ProfetasConstants.AUTOCOMPLETE_LENGTH;
         List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
         if (word.length() > min) {
             List<Local> locais = localDAO.searchLocal(word);
+            if(locais == null || locais.isEmpty()){
+            	AutoCompleteDTO o = new AutoCompleteDTO();
+                o.setLabel(getText("msg_autocomplete_no_results"));
+                o.setId(null);
+                lista.add(o);
+                return lista;
+            }
+            
             for(Local l : locais){
                 AutoCompleteDTO o = new AutoCompleteDTO(l.getId(), l.getNome());
                 lista.add(o);
             }
         } else {
             AutoCompleteDTO o = new AutoCompleteDTO();
-            o.setLabel(""+min);
+            o.setLabel(getText("msg_autocomplete_length", new Object[] { min }));
             o.setId(null);
             lista.add(o);
         }

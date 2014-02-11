@@ -6,22 +6,23 @@ public class ProfetasConstants {
 	public static final String ADMIN_PASS	= "5576845baa9bafb525616ebf9527771f"; //Coruja TODO: Change it!
 	
 	/* Profile	*/
-	public static final String PROFILE_ADMIN		= "ADMIN";
+	public static final String PROFILE_ADMIN	= "ADMIN";
 	public static final String PROFILE_NEWUSER	= "NEWUSER";
 	
 	/* Role		*/
 	public static final String ROLE_NAME_ADMIN	= "ADMIN";
-	public static final String ROLE_NAME_SAVE		= "SAVE";
+	public static final String ROLE_NAME_SAVE	= "SAVE";
 	public static final String ROLE_NAME_SEARCH	= "SEARCH";
 	
 	/* Classificacoes */
 	public static final String CLA_MANUSCRITO	= "MANUSCRITO";
-	public static final String CLA_IMPRESSO	= "IMPRESSO";
+	public static final String CLA_IMPRESSO		= "IMPRESSO";
 	public static final String CLA_PICTORICO	= "PICTORICO";
 	
-	public static final String LOCALE_DEFAULT		= "PT";
+	public static final String LOCALE_DEFAULT	= "PT";
 	public static final int ITEMS_PER_PAGE		= 10;
 	public static final int STRING_LENGTH 		= 10;
+	public static final int AUTOCOMPLETE_LENGTH	= 2;
 	
 	//ISO 8601
 	public final static String DATE_FORMAT_SHORT	="yyyy-MM-dd";

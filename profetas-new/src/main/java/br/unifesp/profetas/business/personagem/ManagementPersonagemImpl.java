@@ -396,17 +396,25 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	
 	@SuppressWarnings("rawtypes")
 	public List searchPersonagem(String word) {
-        int min = 3;
+		int min = ProfetasConstants.AUTOCOMPLETE_LENGTH;
         List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
         if (word.length() > min) {
             List<Personagem> pers = personagemDAO.searchPersonagem(word);
+            if(pers == null || pers.isEmpty()){
+            	AutoCompleteDTO o = new AutoCompleteDTO();
+                o.setLabel(getText("msg_autocomplete_no_results"));
+                o.setId(null);
+                lista.add(o);
+                return lista;
+            }
+            
             for(Personagem p : pers){
                 AutoCompleteDTO o = new AutoCompleteDTO(p.getId(), p.getNome() + " " + p.getSobrenome());
                 lista.add(o);
             }
         } else {
             AutoCompleteDTO o = new AutoCompleteDTO();
-            o.setLabel(""+min);
+            o.setLabel(getText("msg_autocomplete_length", new Object[] { min }));
             o.setId(null);
             lista.add(o);
         }

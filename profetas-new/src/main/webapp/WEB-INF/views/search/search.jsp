@@ -11,6 +11,11 @@
 <script src="<c:url value='/static/js/search.js' />" type="text/javascript"></script>
 
 <div class="content">
+	<ul>
+		<li><a href="<c:url value='/personagem-graph.html'/>"><spring:message code="ttl_personagens"/></a></li>
+		<li><a href="<c:url value='/fontes-obras-graph.html'/>"><spring:message code="ttl_obras"/></a></li>
+	</ul>
+	
 	<div id="tabs">
 		<ul>
 			<li><a href="#personagem"><span>Personagem</span></a></li>
