@@ -46,7 +46,7 @@ function gridDescOrder(section, orderBy, page) {
 	loadGrid(section, orderBy, M_DESC, page);
 }
 function gridGoTo(section, orderBy, orderType, page){
-	loadGrid(section, orderBy, orderType, page);
+	loadGrid(orderBy, orderType, page);
 }
 
 var CorujaGrid = function CorujaGrid() {
@@ -90,12 +90,14 @@ var CorujaGrid = function CorujaGrid() {
 		this.num_pages		= data.numPages;
 		this.num_rows		= data.numRows;
 		this.total_rows		= data.total;
+		this.total_cols		= (parseInt(this.num_titles)+2);
 		this.search_words	= data.search;
 		
 		if(this.data != undefined && this.data != null && this.data.length != 0){
 			html += this.openGrid();
 			html += this.buildHeader();
 			html += this.buildBody();
+			html += this.buildFooter();
 			html += this.closeGrid();			
 		}
 		else {
@@ -185,5 +187,29 @@ var CorujaGrid = function CorujaGrid() {
         html += '</tbody>';
         return html;
 	};
+	this.buildFooter = function buildFooter(){
+        var html = '';
+        if(this.total_rows > this.num_rows){
+            html += '<tfoot>';
+            html += '<tr>';
+            html += '<td colspan="'+this.total_cols+'">';
+                        
+            html += '<div id="grid_foot">';
+            html += '<div id="grid_foot_left"><span class="bold">Páginas:</span> ' + this.num_pages+'</div>';
+
+            html += '<div id="grid_foot_first" onclick="firstPage('+"'"+this.div_id+"'"+', '+"'"+this.orderBy+"'"+', '+"'"+this.orderType+"'"+', '+this.page+')"><< </div>';
+			html += '<div id="grid_foot_previous" onclick="backPage('+"'"+this.div_id+"'"+', '+"'"+this.orderBy+"'"+', '+"'"+this.orderType+"'"+', '+this.page+')">< </div>';
+			html += '<div id="grid_foot_goto">'+this.page+'</div>';
+			html += '<div id="grid_foot_next" onclick="nextPage('+"'"+this.div_id+"'"+', '+"'"+this.orderBy+"'"+', '+"'"+this.orderType+"'"+', '+this.page+', '+this.num_pages+')"> > </div>';
+			html += '<div id="grid_foot_last"onclick="lastPage('+"'"+this.div_id+"'"+', '+"'"+this.orderBy+"'"+', '+"'"+this.orderType+"'"+', '+this.page+', '+this.num_pages+')"> >> </div>';
+
+            html += '<div id="grid_foot_right"> <span class="bold">Mostrando</span> ' + this.current_rows + ' <span class="bold">de</span> ' + this.total_rows+'</div>';
+            html += '</div>';
+            html += '</td>';
+            html += '</tr>';
+            html += '</tfoot>';
+        }
+        return html;
+    };
 	
 };

@@ -8,7 +8,12 @@ public interface ReligiaoCrencasDAO {
 	
 	public ReligiaoCrencas getReligiaoCrencasById(Long id);
 	
-	public List<ReligiaoCrencas> listReligiaoCrencas();//TODO:
+	public List<ReligiaoCrencas> listReligiaoCrencas();
+	
+	public List<ReligiaoCrencas> listReligiaoCrencasWithLimit(Integer page, 
+	        Integer numRows, String order, String field);
+	
+	public Long getTotalOfReligiaoCrencas();
 	
 	public void saveReligiaoCrencas(ReligiaoCrencas religiaoCrencas);
 	

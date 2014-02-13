@@ -8,7 +8,12 @@ public interface EncontroDAO {
 	
 	public Encontro getEncontroById(Long id);
 	
-	public List<Encontro> listEncontro();//TODO:
+	public List<Encontro> listEncontro();
+	
+	public List<Encontro> listEncontroWithLimit(Integer page, 
+	        Integer numRows, String order, String field);
+	
+	public Long getTotalOfEncontros();
 	
 	public void saveEncontro(Encontro encontro);
 	

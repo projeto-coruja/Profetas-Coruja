@@ -8,7 +8,12 @@ public interface FontesObrasDAO {
 	
 	public FontesObras getFontesObrasById(Long id);
 	
-	public List<FontesObras> listFontesObras();//TODO:
+	public List<FontesObras> listFontesObras();
+	
+	public List<FontesObras> listFontesObrasWithLimit(Integer page, 
+	        Integer numRows, String order, String field);
+	
+	public Long getTotalOfFontesObras();
 	
 	public void saveFontesObras(FontesObras fontesObras);
 	

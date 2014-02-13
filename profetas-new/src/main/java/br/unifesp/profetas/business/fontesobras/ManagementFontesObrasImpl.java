@@ -328,9 +328,10 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 
 	public WrapperGrid<FontesObrasDTO> getFontesObrasList(String orderBy,
 			OrderType orderType, int page, int numRows) {
-		List<FontesObras> list = fontesObrasDAO.listFontesObras();//TODO: limit
-		int total = list == null ? 0 : list.size();//TODO: count
-		List<FontesObrasDTO> listDTO = new ArrayList<FontesObrasDTO>();
+		List<FontesObras> list = fontesObrasDAO.listFontesObrasWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+		int total = fontesObrasDAO.getTotalOfFontesObras().intValue();
+		List<FontesObrasDTO> listDTO = new ArrayList<FontesObrasDTO>(total);
 		for(FontesObras f : list){
 			FontesObrasDTO fDTO = new FontesObrasDTO();
 			fDTO.setId(f.getId());

@@ -8,7 +8,12 @@ public interface PersonagemDAO {
 
 	public Personagem getPersonagemById(Long id);
 	
-	public List<Personagem> listPersonagem();//TODO:
+	public List<Personagem> listPersonagem();
+	
+	public List<Personagem> listPersonagemWithLimit(Integer page, 
+	        Integer numRows, String order, String field);
+	
+	public Long getTotalOfPersonagens();
 	
 	public List<Personagem> searchPersonagem(String prefix);
 	

@@ -117,9 +117,10 @@ public class ManagementReligiaoImpl extends AbstractBusiness implements Manageme
 	public WrapperGrid<ReligiaoCrencasDTO> getReligiaoCrencasList(
 			String orderBy, OrderType orderType, int page, int numRows) {
 
-		List<ReligiaoCrencas> list = religiaoCrencasDAO.listReligiaoCrencas();//TODO: limit
-		int total = list == null ? 0 : list.size();//TODO: count
-		List<ReligiaoCrencasDTO> listDTO = new ArrayList<ReligiaoCrencasDTO>();
+		List<ReligiaoCrencas> list = religiaoCrencasDAO.listReligiaoCrencasWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+		int total = religiaoCrencasDAO.getTotalOfReligiaoCrencas().intValue();
+		List<ReligiaoCrencasDTO> listDTO = new ArrayList<ReligiaoCrencasDTO>(total);
 		for(ReligiaoCrencas r : list){
 			ReligiaoCrencasDTO rDTO = new ReligiaoCrencasDTO();
 			rDTO.setId(r.getId());

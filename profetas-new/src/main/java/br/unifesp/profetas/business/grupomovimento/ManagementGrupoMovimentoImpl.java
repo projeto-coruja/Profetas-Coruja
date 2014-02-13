@@ -153,18 +153,18 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 
 	public WrapperGrid<GrupoMovimentoDTO> getGrupoMovimentoList(String orderBy,
 			OrderType orderType, int page, int numRows) {
-		List<GrupoMovimento> list = grupoMovimentoDAO.listGrupoMovimento();//TODO: limit
-		List<GrupoMovimentoDTO> listGmDTO = new ArrayList<GrupoMovimentoDTO>(list.size());
+		List<GrupoMovimento> list = grupoMovimentoDAO.listGrupoMovimentoWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+		int total = grupoMovimentoDAO.getTotalOfGrupoMovimentos().intValue();
+		List<GrupoMovimentoDTO> listDTO = new ArrayList<GrupoMovimentoDTO>(total);
 		for(GrupoMovimento gm : list){
 			GrupoMovimentoDTO gmDTO = new GrupoMovimentoDTO();
 			gmDTO.setId(gm.getId());
 			gmDTO.setNome(gm.getNome());
 			gmDTO.setAnoInicio(gm.getAnoInicio() != null ? String.valueOf(gm.getAnoInicio()) : "");
 			gmDTO.setAnoFim(gm.getAnoFim() != null ? String.valueOf(gm.getAnoFim()) : "");
-			listGmDTO.add(gmDTO);
-		}
-		
-		int total = list == null ? 0 : list.size();//TODO: count
-		return getWrapper(listGmDTO, orderBy, orderType, page, numRows, total, null);
+			listDTO.add(gmDTO);
+		}		
+		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
 }

@@ -124,9 +124,10 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 	public WrapperGrid<LocalDTO> getLocalList(String orderBy,
 			OrderType orderType, int page, int numRows) {
 		
-		List<Local> list = localDAO.listLocal();//TODO: limit
-		int total = list == null ? 0 : list.size();//TODO: count
-		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
+		List<Local> list = localDAO.listLocalWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+		int total = localDAO.getTotalOfLocais().intValue();
+		List<LocalDTO> listDTO = new ArrayList<LocalDTO>(total);
 		for(Local l : list){
 			LocalDTO lDTO = new LocalDTO();
 			lDTO.setId(l.getId());

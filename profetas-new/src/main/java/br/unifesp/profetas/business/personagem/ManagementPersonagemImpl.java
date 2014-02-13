@@ -381,8 +381,10 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 
 	public WrapperGrid<PersonagemDTO> getPersonagemList(String orderBy,
 			OrderType orderType, int page, int numRows) {
-		List<Personagem> list = personagemDAO.listPersonagem();//TODO: limit
-		int total = list == null ? 0 : list.size();//TODO: count
+		
+		List<Personagem> list = personagemDAO.listPersonagemWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+		int total = personagemDAO.getTotalOfPersonagens().intValue();
 		List<PersonagemDTO> listDTO = new ArrayList<PersonagemDTO>();
 		for(Personagem p : list){
 			PersonagemDTO pDTO = new PersonagemDTO();

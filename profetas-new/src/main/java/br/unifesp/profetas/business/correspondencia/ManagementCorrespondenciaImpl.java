@@ -120,9 +120,11 @@ public class ManagementCorrespondenciaImpl extends AbstractBusiness implements M
 
     public WrapperGrid<CorrespondenciaDTO> getCorrespondenciaList(String orderBy,
             OrderType orderType, int page, int numRows) {
-        List<Correspondencia> list = correspondenciaDAO.listCorrespondencia();//TODO: limit
-        int total = list == null ? 0 : list.size();//TODO: count
-        List<CorrespondenciaDTO> listDTO = new ArrayList<CorrespondenciaDTO>();
+    	
+        List<Correspondencia> list = correspondenciaDAO.listCorrespondenciaWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+        int total = correspondenciaDAO.getTotalOfCorrespondencias().intValue();
+        List<CorrespondenciaDTO> listDTO = new ArrayList<CorrespondenciaDTO>(total);
         for(Correspondencia c : list){
             CorrespondenciaDTO cDTO = new CorrespondenciaDTO();
             cDTO.setId(c.getId());
