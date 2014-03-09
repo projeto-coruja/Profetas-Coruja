@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION notnull(text) RETURNS text
 	LANGUAGE SQL
     IMMUTABLE;
 
-CREATE VIEW personagem_view AS 
+CREATE OR REPLACE VIEW personagem_view AS 
  SELECT p.id_personagem AS id, 
  		notnull(p.p_nome::text) || ' ' || notnull(p.p_sobrenome::text) || ' ' || notnull(p.p_apelido::text)|| ' ' || 
  		notnull(p.p_biografia::text) || ' ' || notnull(p.p_ocupacao::text) || ' ' || notnull(p.p_ocupacao::text) || ' ' ||
@@ -23,7 +23,7 @@ CREATE VIEW personagem_view AS
   WHERE p.active = 'Y'::bpchar
   ORDER BY p.id_personagem;
   
-CREATE VIEW fonteobra_view AS 
+CREATE OR REPLACE VIEW fonteobra_view AS 
  SELECT f.id_fontes AS id, 
  		notnull(f.f_titulo::text) || ' ' || notnull(f.f_ref_completa::text) || ' ' ||
  		notnull(f.f_ref_circulacao::text) || ' ' || notnull(f.f_comentarios::text) || ' ' || notnull(f.f_copias::text) || ' ' || 
