@@ -15,6 +15,8 @@ public interface FontesObrasDAO {
 	
 	public Long getTotalOfFontesObras();
 	
+	public List<FontesObras> searchFontesObras(String prefix);
+	
 	public void saveFontesObras(FontesObras fontesObras);
 	
 	public void updateFontesObras(FontesObras fontesObras);

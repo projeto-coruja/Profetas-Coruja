@@ -13,7 +13,9 @@ public interface GrupoMovimentoDAO {
 	public List<GrupoMovimento> listGrupoMovimentoWithLimit(Integer page, 
 	        Integer numRows, String order, String field);
 	
-	public Long getTotalOfGrupoMovimentos();	
+	public Long getTotalOfGrupoMovimentos();
+	
+	public List<GrupoMovimento> searchGrupoMovimento(String prefix);
 	
 	public void saveGrupoMovimento(GrupoMovimento grupoMovimento);
 	

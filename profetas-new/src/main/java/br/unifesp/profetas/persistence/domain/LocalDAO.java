@@ -8,6 +8,8 @@ public interface LocalDAO {
 
 	public Local getLocalById(Long id);
 	
+	public Local getLocalByCountryAndNome(String country, String nome);
+	
 	public List<Local> listLocal();
 	
 	public List<Local> listLocalWithLimit(Integer page, 

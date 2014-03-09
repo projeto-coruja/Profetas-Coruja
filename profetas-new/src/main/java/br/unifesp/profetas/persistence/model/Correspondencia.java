@@ -23,8 +23,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Type;
 
-@Entity
-@Table(name = "correspondencia")
+//@Entity
+//@Table(name = "correspondencia")
 public class Correspondencia implements Serializable {
 
 	@Id

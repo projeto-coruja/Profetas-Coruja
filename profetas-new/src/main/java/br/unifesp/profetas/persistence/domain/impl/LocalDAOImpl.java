@@ -29,6 +29,16 @@ public class LocalDAOImpl extends AbstractHibernateDAO<Local> implements LocalDA
 		criteria.add(Restrictions.eq("active", true));
 		return (Local)criteria.uniqueResult();
 	}
+	
+	public Local getLocalByCountryAndNome(String country, String nome) {
+		Criteria criteria = getCurrentSession().createCriteria(Local.class);
+		criteria.add(Restrictions.eq("country", country));
+		criteria.add(Restrictions.eq("nome", nome));
+		criteria.add(Restrictions.eq("state", ""));
+		criteria.add(Restrictions.eq("city", ""));
+		criteria.add(Restrictions.eq("active", true));
+		return (Local)criteria.uniqueResult();
+	}	
 
 	public List<Local> listLocal() {
 		Criteria criteria = getCurrentSession().createCriteria(Local.class);
@@ -72,5 +82,5 @@ public class LocalDAOImpl extends AbstractHibernateDAO<Local> implements LocalDA
 
 	public void deleteLocal(Local local) {
 		delete(local);
-	}	
+	}
 }

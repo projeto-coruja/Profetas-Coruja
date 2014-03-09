@@ -3,6 +3,7 @@ package br.unifesp.profetas.persistence.domain.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -51,6 +52,16 @@ public class CorrespondenciaDAOImpl extends AbstractHibernateDAO<Correspondencia
 		criteria.add(Restrictions.eq("active", true));
 		criteria.setProjection(Projections.rowCount());
 		return (Long)criteria.uniqueResult();
+	}
+	
+	@Override
+	public List<Correspondencia> searchCorrespondencia(String prefix) {
+		Criteria criteria = getCurrentSession().createCriteria(Correspondencia.class);
+        criteria.add(Restrictions.eq("active", true));
+        criteria.createAlias("remetente", "remetente");//TODO: remetente is active
+        criteria.add(Restrictions.like("remetente.nome", prefix, MatchMode.START).ignoreCase());
+        criteria.addOrder(Order.asc("remetente.nome"));
+        return criteria.list();
 	}
 
 	public void saveCorrespondencia(Correspondencia correspondencia) {

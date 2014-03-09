@@ -52,10 +52,106 @@ $(document).ready(function() {
         saveForm();
     });
     loadGrid();
+    //
+    prepareLocais();
+    //Religioes
+    prepareReligioesCrencas();
+    //Obras
+    prepareObras();
+    //Correspondencias
+    //prepareCorrespondencias();
+    //Locais passou
+    prepareLocaisPassou();
     //Encontros
     loadEncontros();
     prepareEncontros();
 });
+
+//
+function prepareLocais(){
+    $("#acLocalNascimentoTxt").autocomplete({
+        source: "local/search.html",
+        select: function( event, ui ) {
+            $( "#acLocalNascimentoTxt" ).val( ui.item.label );
+            $( "#acLocalNascimentoId" ).val( ui.item.id );
+            return false;
+        },
+        focus: function( event, ui ) {
+            $( "#acLocalNascimentoTxt" ).val( ui.item.label );
+            return false;
+        }
+    });
+    
+    $("#acLocalMorteTxt").autocomplete({
+        source: "local/search.html",
+        select: function( event, ui ) {
+            $( "#acLocalMorteTxt" ).val( ui.item.label );
+            $( "#acLocalMorteId" ).val( ui.item.id );
+            return false;
+        },
+        focus: function( event, ui ) {
+            $( "#acLocalMorteTxt" ).val( ui.item.label );
+            return false;
+        }
+    });
+}
+function prepareLocaisPassou(){
+    $("#acLocaisPassoulTxt").autocomplete({
+        source: "local/search.html",
+        select: function( event, ui ) {
+            $( "#acLocaisPassoulTxt" ).val( ui.item.label );
+            $( "#acLocaisPassouId" ).val( ui.item.id );
+            return false;
+        },
+        focus: function( event, ui ) {
+            $( "#acLocaisPassoulTxt" ).val( ui.item.label );
+            return false;
+        }
+    });
+}
+function prepareReligioesCrencas(){
+    $("#acReligioesTxt").autocomplete({
+        source: "religiao-crencas/search.html",
+        select: function( event, ui ) {
+            $( "#acReligioesTxt" ).val( ui.item.label );
+            $( "#acReligioesId" ).val( ui.item.id );
+            return false;
+        },
+        focus: function( event, ui ) {
+            $( "#acReligioesTxt" ).val( ui.item.label );
+            return false;
+        }
+    });
+}
+function prepareObras(){
+    $("#acObrasTxt").autocomplete({
+        source: "fontes-obras/search.html",
+        select: function( event, ui ) {
+            $( "#acObrasTxt" ).val( ui.item.label );
+            $( "#acObrasId" ).val( ui.item.id );
+            return false;
+        },
+        focus: function( event, ui ) {
+            $( "#acObrasTxt" ).val( ui.item.label );
+            return false;
+        }
+    });
+}
+function prepareCorrespondencias(){
+    $("#acCorrespondenciasTxt").autocomplete({
+        source: "correspondencia/search.html",
+        select: function( event, ui ) {
+            $( "#acCorrespondenciasTxt" ).val( ui.item.label );
+            $( "#acCorrespondenciasId" ).val( ui.item.id );
+            return false;
+        },
+        focus: function( event, ui ) {
+            $( "#acCorrespondenciasTxt" ).val( ui.item.label );
+            return false;
+        }
+    });
+}
+//
 
 function prepareEncontros(){
     $("#persEnc").autocomplete({
@@ -178,6 +274,33 @@ function clearFields(){
     $('#idCorrespondencias').val('');
     $('idLocaisPers').val('');
     //
+    $('#acLocalNascimentoTxt').val('');
+	$('#acLocalNascimentoId').val('');
+	$('#persLstLocalNascimento').html('');
+	
+	$('#acLocalMorteTxt').val('');
+	$('#acLocalMorteId').val('');
+	$('#persLstLocalMorte').html('');
+	
+	$('#acReligioesTxt').val('');
+	$('#acReligioesId').val('');
+	$('#persLstReligioes').html('');
+	
+	$('#acObrasTxt').val('');
+	$('#acObrasId').val('');
+	$('#persLstObras').html('');
+    
+	$('#acLocaisPassoulTxt').val('');
+	$('#acLocaisPassouId').val('');
+	$('#persLstLocaisPassou').html('');
+	//
+	persLstLocalNascimento = [];
+	persLstLocalMorte = [];
+	persLstLocaisPassou = [];
+	//persLstCorrespondencias = [];
+	persLstReligioes = [];
+	persLstObras = [];
+	//
     lstEncontros = [];
     loadEncontros();
     prepareEncontros();
@@ -208,17 +331,21 @@ function saveForm(){
     var biografia    = $('#biografia').val();
     var ocupacao    = $('#ocupacao').val();
     var formacao    = $('#formacao').val();
-   
+
     var refBibliografica    = $('#refBibliografica').val();
     var idReligioes    = $('#idReligioes').val();
+    	idReligioes = JSON.parse("[" + idReligioes + "]");
     var idObras        = $('#idObras').val();
-    var idCorrespondencias    = $('#idCorrespondencias').val();
+    	idObras = JSON.parse("[" + idObras + "]");
+    //var idCorrespondencias    = $('#idCorrespondencias').val();
+    	//idCorrespondencias = JSON.parse("[" + idCorrespondencias + "]");
     var idLocaisPers        = $('#idLocaisPers').val();
+    	idLocaisPers = JSON.parse("[" + idLocaisPers + "]");
    
     var data = JSON.stringify({ "id" : id, "nome" : nome, "sobrenome" : sobrenome, "apelido" : apelido,
         "idNascimento" : idNascimento, "dataNascimento" : dataNascimento, "idMorte" : idMorte, "dataMorte" : dataMorte,
         "biografia" : biografia, "ocupacao" : ocupacao, "formacao" : formacao, "refBibliografica" : refBibliografica,
-        "idReligioes" : idReligioes, "idObras" : idObras, "idCorrespondencias" : idCorrespondencias,
+        "idReligioes" : idReligioes, "idObras" : idObras, 
         "idLocaisPers" : idLocaisPers, "encontros":lstEncontros });
    
     $.ajax({

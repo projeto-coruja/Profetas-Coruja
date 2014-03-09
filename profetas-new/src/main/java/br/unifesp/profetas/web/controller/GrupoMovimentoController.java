@@ -1,5 +1,7 @@
 package br.unifesp.profetas.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,4 +78,11 @@ public class GrupoMovimentoController extends AbstractController {
 		WrapperGrid<GrupoMovimentoDTO> wrapper = mGrupoMovimento.getGrupoMovimentoList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 		return wrapper;
 	}
+	
+	@RequestMapping(value = "/grupo-movimento/search", method = RequestMethod.GET)
+    public @ResponseBody List searchGrupoMovimento(HttpServletRequest request,
+            @RequestParam(value = "term", required = false) String word) {
+       
+        return mGrupoMovimento.searchGrupoMovimento(word);
+    }
 }

@@ -35,7 +35,6 @@ function saveForm(){
 	var id			= $('#id').val();
     var name		= $('#name').val();
     var idRoles		= $('#idRoles').val();
-    console.log('roles: ' + idRoles);
    
     var data = JSON.stringify({ "id" : id, "name" : name, "idRoles" : idRoles });
     commonSaveForm(url, data);

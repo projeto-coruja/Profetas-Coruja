@@ -1,5 +1,7 @@
 package br.unifesp.profetas.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +77,11 @@ public class ReligiaoCrencasController extends AbstractController {
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mReligiao.getReligiaoCrencasList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 	}
+	
+	@RequestMapping(value = "/religiao-crencas/search", method = RequestMethod.GET)
+    public @ResponseBody List searchReligioes(HttpServletRequest request,
+            @RequestParam(value = "term", required = false) String word) {
+       
+        return mReligiao.searchReligioes(word);
+    }
 }

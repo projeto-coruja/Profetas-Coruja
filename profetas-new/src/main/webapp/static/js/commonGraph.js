@@ -43,7 +43,7 @@ var render = function(r, n) {
   };
 
 function paintGraph(data){
-	var width = 600;
+	var width = 700;
 	var height = 400;
     var g = new Graph();
 

@@ -4,7 +4,7 @@ $(document).ready(function() {
 	});
 });
 
-function clearFields(){
+function clearFieldsBP(){
 	$('#p_nome').val('');
 	$('#p_sobrenome').val('');
     $('#p_apelido').val('');
@@ -30,8 +30,8 @@ function saveBasicForm(){
         	
         	if(TXT_SUCCESS == data.type.toLowerCase()){
         		addMessage(data.message, 'success');
-        		if(id == undefined || id == '') { clearFields(); }        		
-        		addPersonagemToSelect(data.data, nome, sobrenome, apelido);
+        		if(id == undefined || id == '') { clearFieldsBP(); }        		
+        		addPersonagemToInput(data.data, nome, sobrenome, apelido);
         	} else{
         		addMessage(data.message, 'error');
         	}
@@ -43,6 +43,17 @@ function saveBasicForm(){
     return false;
 }
 
+function addPersonagemToInput(id, nome, sobrenome, apelido){
+	var divId = $('#divId').val();
+	var _apelido = apelido != '' ? '('+apelido+')' : '';
+	var personagem = sobrenome + ' ' + nome + _apelido;
+	
+	$('#str'+divId).val(personagem);
+	$('#id'+divId).val(id);
+	//$("#popup-personagem").dialog('close');
+}
+
+//Deprecated
 function addPersonagemToSelect(id, nome, sobrenome, apelido){
 	var divId = $('#divId').val();
 	var combo = $('#'+divId);

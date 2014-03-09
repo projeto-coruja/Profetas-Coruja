@@ -15,6 +15,8 @@ public interface CorrespondenciaDAO {
 	
 	public Long getTotalOfCorrespondencias();
 	
+	public List<Correspondencia> searchCorrespondencia(String prefix);
+	
 	public void saveCorrespondencia(Correspondencia correspondencia);
 	
 	public void updateCorrespondencia(Correspondencia correspondencia);

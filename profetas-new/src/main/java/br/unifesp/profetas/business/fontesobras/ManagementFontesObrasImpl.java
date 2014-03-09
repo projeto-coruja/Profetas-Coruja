@@ -24,11 +24,13 @@ import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
+import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
 import br.unifesp.profetas.persistence.model.PalavraChave;
 import br.unifesp.profetas.persistence.model.Personagem;
+import br.unifesp.profetas.util.AutoCompleteDTO;
 import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
@@ -51,7 +53,13 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 			FontesObrasDTO fDTO = new FontesObrasDTO();
 			fDTO.setId(fontesObras.getId());
 			fDTO.setLocalizacao(fontesObras.getLocalizacao());
-			fDTO.setAutor(fontesObras.getAutor());
+			if(fontesObras.getAutor() != null){
+				fDTO.setIdAutor(fontesObras.getAutor().getId());
+				fDTO.setStrAutor(fontesObras.getAutor().getNome());//TODO: Fullname
+			} else{
+				fDTO.setIdAutor(null);
+				fDTO.setStrAutor("");
+			}
 			fDTO.setTitulo(fontesObras.getTitulo());
 			fDTO.setComentarios(fontesObras.getComentarios());
 			fDTO.setReferenciaCompleta(fontesObras.getReferenciaCompleta());
@@ -130,7 +138,9 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 	
 	private FontesObras getFontesObras(FontesObras fontesObras, FontesObrasDTO fontesObrasDTO){
 		fontesObras.setLocalizacao(fontesObrasDTO.getLocalizacao());
-		fontesObras.setAutor(fontesObrasDTO.getAutor());
+		if(fontesObrasDTO.getIdAutor() != null && fontesObrasDTO.getIdAutor() != -1){
+			fontesObras.setAutor(new Personagem(fontesObrasDTO.getIdAutor()));
+		}
 		fontesObras.setTitulo(fontesObrasDTO.getTitulo());
 		fontesObras.setComentarios(fontesObrasDTO.getComentarios());
 		fontesObras.setReferenciaCompleta(fontesObrasDTO.getReferenciaCompleta());
@@ -335,10 +345,42 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 		for(FontesObras f : list){
 			FontesObrasDTO fDTO = new FontesObrasDTO();
 			fDTO.setId(f.getId());
-			fDTO.setAutor(f.getAutor());
 			fDTO.setTitulo(f.getTitulo());
+			if(f.getAutor() != null){
+				fDTO.setStrAutor(f.getAutor().getNome());//TODO: Fullname
+			} else {
+				fDTO.setStrAutor("");
+			}
+			
 			listDTO.add(fDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
+	}
+
+	@Override
+	public List searchFontesObras(String word) {
+		int min = ProfetasConstants.AUTOCOMPLETE_LENGTH;
+        List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
+        if (word.length() > min) {
+            List<FontesObras> fontesObras = fontesObrasDAO.searchFontesObras(word);
+            if(fontesObras == null || fontesObras.isEmpty()){
+            	AutoCompleteDTO o = new AutoCompleteDTO();
+                o.setLabel(getText("msg_autocomplete_no_results"));
+                o.setId(null);
+                lista.add(o);
+                return lista;
+            }
+            
+            for(FontesObras f : fontesObras){
+                AutoCompleteDTO o = new AutoCompleteDTO(f.getId(), f.getTitulo());
+                lista.add(o);
+            }
+        } else {
+            AutoCompleteDTO o = new AutoCompleteDTO();
+            o.setLabel(getText("msg_autocomplete_length", new Object[] { min }));
+            o.setId(null);
+            lista.add(o);
+        }
+        return lista;
 	}
 }

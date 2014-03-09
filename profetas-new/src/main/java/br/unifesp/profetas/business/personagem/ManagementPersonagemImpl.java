@@ -18,13 +18,11 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.business.encontro.EncontroDTO;
 import br.unifesp.profetas.business.encontro.ManagementEncontro;
-import br.unifesp.profetas.persistence.domain.CorrespondenciaDAO;
 import br.unifesp.profetas.persistence.domain.EncontroDAO;
 import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.domain.ReligiaoCrencasDAO;
-import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.Encontro;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.Local;
@@ -52,7 +50,6 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 	@Autowired private EncontroDAO encontroDAO;
 	@Autowired private FontesObrasDAO fontesObrasDAO;
 	@Autowired private LocalDAO localDAO;
-	@Autowired private CorrespondenciaDAO correspondenciaDAO;
 	
 	public PersonagemDTO getPersonagemById(Long id) {
 		Personagem personagem = personagemDAO.getPersonagemById(id);
@@ -116,17 +113,6 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 					pDTO.setStrLocaisPers(locaisPersonagens.toString());
 				}
 			}
-			//correspondencias
-				Set<Correspondencia> correspondenciasSet = personagem.getCorrespondencias();
-			if(!correspondenciasSet.isEmpty()){
-				List<Long> correspondencias = new ArrayList<Long>(correspondenciasSet.size());
-				for(Correspondencia c : correspondenciasSet){
-					correspondencias.add(c.getId());
-				}
-				if(!correspondencias.isEmpty()){
-					pDTO.setStrCorrespondencias(correspondencias.toString());
-				}
-			}
 			
 			return pDTO;
 		}
@@ -140,9 +126,9 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 			EncontroDTO edto = new EncontroDTO();
 			edto.setId(e.getId());
 			edto.setNome(e.getNome());
-			edto.setData(dateFormat.format(e.getData()));
-			edto.setIdLocal(e.getLocal().getId());
-			edto.setDescLocal(e.getLocal().getNome());
+			edto.setData(e.getData() != null ? dateFormat.format(e.getData()) : "");
+			edto.setIdLocal(e.getLocal() != null ? e.getLocal().getId() : null);
+			edto.setDescLocal(e.getLocal() != null ? e.getLocal().getNome() + e.getLocal().getCountry() : "");
 			if(personagem.getId().equals(e.getPersonagem1().getId())) {
 				edto.setIdPersonagem(e.getPersonagem2().getId());
 				edto.setDescPersonagem(e.getPersonagem2().getNome());
@@ -231,22 +217,6 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 					}
 				}
 				personagem.setLocaisPersonagens(new HashSet<Local>(locais));
-			}
-		}
-		//Correspondencia
-		if(personagemDTO.getIdCorrespondencias() != null){
-			int corLength = personagemDTO.getIdCorrespondencias().length;
-			if(corLength > 0){
-				List<Correspondencia> correspondencias = new ArrayList<Correspondencia>(corLength);
-				for(int i = 0; i < corLength; i++){
-					Correspondencia c = correspondenciaDAO.getCorrespondenciaById(personagemDTO.getIdCorrespondencias()[i]);
-					if(c != null){
-						correspondencias.add(c);
-					} else{
-						logger.error("Correspondencia: " + personagemDTO.getIdCorrespondencias()[i] + " does not exist");
-					}
-				}
-				personagem.setCorrespondencias(new HashSet<Correspondencia>(correspondencias));
 			}
 		}
 		//

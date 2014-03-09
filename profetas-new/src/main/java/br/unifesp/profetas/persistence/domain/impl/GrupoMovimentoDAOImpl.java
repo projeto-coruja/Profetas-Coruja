@@ -3,6 +3,7 @@ package br.unifesp.profetas.persistence.domain.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -13,6 +14,7 @@ import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.persistence.AbstractHibernateDAO;
 import br.unifesp.profetas.persistence.domain.GrupoMovimentoDAO;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
+import br.unifesp.profetas.persistence.model.Local;
 
 @Repository("grupoMovimentoDAO")
 @Transactional
@@ -51,6 +53,15 @@ public class GrupoMovimentoDAOImpl extends AbstractHibernateDAO<GrupoMovimento> 
 		criteria.add(Restrictions.eq("active", true));
 		criteria.setProjection(Projections.rowCount());
 		return (Long)criteria.uniqueResult();
+	}
+	
+	@Override
+	public List<GrupoMovimento> searchGrupoMovimento(String prefix) {
+		Criteria criteria = getCurrentSession().createCriteria(GrupoMovimento.class);
+        criteria.add(Restrictions.eq("active", true));
+        criteria.add(Restrictions.like("nome", prefix, MatchMode.START).ignoreCase());
+        criteria.addOrder(Order.asc("nome"));
+        return criteria.list();
 	}
 
 	public void saveGrupoMovimento(GrupoMovimento grupoMovimento) {

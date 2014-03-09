@@ -6,7 +6,9 @@ public class FontesObrasDTO extends CommonDTO {
 
 	private Long id;
 	private String localizacao;
-	private String autor;
+	//private String autor;
+	private Long idAutor;
+	private String strAutor;
 	private String titulo;
 	private String comentarios;
 	private String referenciaCompleta;
@@ -42,12 +44,18 @@ public class FontesObrasDTO extends CommonDTO {
 	}
 	public void setLocalizacao(String localizacao) {
 		this.localizacao = localizacao;
+	}	
+	public Long getIdAutor() {
+		return idAutor;
 	}
-	public String getAutor() {
-		return autor;
+	public void setIdAutor(Long idAutor) {
+		this.idAutor = idAutor;
 	}
-	public void setAutor(String autor) {
-		this.autor = autor;
+	public String getStrAutor() {
+		return strAutor;
+	}
+	public void setStrAutor(String strAutor) {
+		this.strAutor = strAutor;
 	}
 	public String getTitulo() {
 		return titulo;

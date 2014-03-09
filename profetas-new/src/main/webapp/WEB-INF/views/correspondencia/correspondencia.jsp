@@ -19,7 +19,7 @@
 	    <div class="input-box">
 	    	<form:select id="idRemetente" path="idRemetente">
 		    </form:select>
-		    <img onclick="showAddPersonagem('idRemetente')" src="<c:url value="/static/images/add.png" />" />
+		    <img onclick="showAddPersonagem('idRemetente')" src="<c:url value="/static/images/new_personagem.png" />" />
 	    </div>		
 		<br />
 		
@@ -27,7 +27,7 @@
 	    <div class="input-box">
 	    	<form:select id="idDestinatario" path="idDestinatario">
 		    </form:select>
-		    <img onclick="showAddPersonagem('idDestinatario')" src="<c:url value="/static/images/add.png" />" />
+		    <img onclick="showAddPersonagem('idDestinatario')" src="<c:url value="/static/images/new_personagem.png" />" />
 	    </div>		
 		<br />
 		

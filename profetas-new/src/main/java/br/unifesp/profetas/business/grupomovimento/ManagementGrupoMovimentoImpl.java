@@ -18,6 +18,8 @@ import br.unifesp.profetas.persistence.domain.GrupoMovimentoDAO;
 import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.util.AutoCompleteDTO;
+import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mGrupoMovimento")
@@ -167,4 +169,33 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 		}		
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
+
+	@Override
+	public List searchGrupoMovimento(String word) {
+		int min = ProfetasConstants.AUTOCOMPLETE_LENGTH;
+        List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
+        if (word.length() > min) {
+            List<GrupoMovimento> grupos = grupoMovimentoDAO.searchGrupoMovimento(word);
+            if(grupos == null || grupos.isEmpty()){
+            	AutoCompleteDTO o = new AutoCompleteDTO();
+                o.setLabel(getText("msg_autocomplete_no_results"));
+                o.setId(null);
+                lista.add(o);
+                return lista;
+            }
+            
+            for(GrupoMovimento g : grupos){
+                AutoCompleteDTO o = new AutoCompleteDTO(g.getId(), g.getNome());
+                lista.add(o);
+            }
+        } else {
+            AutoCompleteDTO o = new AutoCompleteDTO();
+            o.setLabel(getText("msg_autocomplete_length", new Object[] { min }));
+            o.setId(null);
+            lista.add(o);
+        }
+        return lista;
+	}
+
+
 }

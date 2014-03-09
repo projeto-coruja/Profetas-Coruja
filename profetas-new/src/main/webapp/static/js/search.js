@@ -69,9 +69,9 @@ function buildGrid(div_id, data, grid_type){
 		columns_sort	= ['nome', 'sobrenome'];
 	} else if(grid_type == SEARCH_FONTEOBRA){
 		titles			= ['Autor', 'Titulo'];
-		columns_key		= ['autor', 'titulo'];
+		columns_key		= ['strAutor', 'titulo'];
 		columns_size	= ['45', '45'];
-		columns_sort	= ['autor', 'titulo'];
+		columns_sort	= ['strAutor', 'titulo'];
 	} else { return; }
 	var corujaGrid = new CorujaGrid();
 	corujaGrid.paintGrid(div_id, titles, columns_key, columns_size, columns_sort, data, grid_type);

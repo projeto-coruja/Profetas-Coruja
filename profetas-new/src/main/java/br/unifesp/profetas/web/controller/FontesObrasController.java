@@ -1,5 +1,7 @@
 package br.unifesp.profetas.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,4 +83,11 @@ public class FontesObrasController extends AbstractController {
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mFontesObras.getFontesObrasList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 	}
+	
+	@RequestMapping(value = "/fontes-obras/search", method = RequestMethod.GET)
+    public @ResponseBody List searchFontesObras(HttpServletRequest request,
+            @RequestParam(value = "term", required = false) String word) {
+       
+        return mFontesObras.searchFontesObras(word);
+    }
 }

@@ -15,10 +15,11 @@ public interface ReligiaoCrencasDAO {
 	
 	public Long getTotalOfReligiaoCrencas();
 	
+	public List<ReligiaoCrencas> searchReligioes(String prefix);
+	
 	public void saveReligiaoCrencas(ReligiaoCrencas religiaoCrencas);
 	
 	public void updateReligiaoCrencas(ReligiaoCrencas religiaoCrencas);
 	
 	public void deleteReligiaoCrencas(ReligiaoCrencas religiaoCrencas);
-
 }

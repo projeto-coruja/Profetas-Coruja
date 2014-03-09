@@ -12,7 +12,10 @@ import br.unifesp.profetas.business.common.MessageType;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
 import br.unifesp.profetas.persistence.domain.ReligiaoCrencasDAO;
+import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.ReligiaoCrencas;
+import br.unifesp.profetas.util.AutoCompleteDTO;
+import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mReligiao")
@@ -131,5 +134,33 @@ public class ManagementReligiaoImpl extends AbstractBusiness implements Manageme
 			listDTO.add(rDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public List searchReligioes(String word) {
+		int min = ProfetasConstants.AUTOCOMPLETE_LENGTH;
+        List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
+        if (word.length() > min) {
+            List<ReligiaoCrencas> religioes = religiaoCrencasDAO.searchReligioes(word);
+            if(religioes == null || religioes.isEmpty()){
+            	AutoCompleteDTO o = new AutoCompleteDTO();
+                o.setLabel(getText("msg_autocomplete_no_results"));
+                o.setId(null);
+                lista.add(o);
+                return lista;
+            }
+            
+            for(ReligiaoCrencas r : religioes){
+                AutoCompleteDTO o = new AutoCompleteDTO(r.getId(), r.getNome());
+                lista.add(o);
+            }
+        } else {
+            AutoCompleteDTO o = new AutoCompleteDTO();
+            o.setLabel(getText("msg_autocomplete_length", new Object[] { min }));
+            o.setId(null);
+            lista.add(o);
+        }
+        return lista;
 	}
 }
