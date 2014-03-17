@@ -8,7 +8,7 @@ public interface PalavraChaveDAO {
 	
 	public PalavraChave getPalavraChaveById(Long id);
 	
-	public List<PalavraChave> listPalavraChave();//TODO:
+	public List<PalavraChave> listPalavraChave();
 	
 	public void savePalavraChave(PalavraChave palavraChave);
 	

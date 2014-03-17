@@ -46,8 +46,7 @@ public class ManagementProfileImpl extends AbstractBusiness implements Managemen
 			return new MessageDTO(getText("err_profile_nome_required"), MessageType.ERROR);
 		}
 		if(profileDTO.getIdRoles() == null || profileDTO.getIdRoles().length == 0){
-			//TODO: Message
-			return new MessageDTO(getText("err_profile_nome_required"), MessageType.ERROR);
+			return new MessageDTO(getText("err_role_required"), MessageType.ERROR);
 		}
 		try{
 			Profile profile = new Profile();
@@ -58,7 +57,7 @@ public class ManagementProfileImpl extends AbstractBusiness implements Managemen
 				if(role != null){
 					roles.add(role);					
 				} else {
-					//TODO: Error ?
+					throw new RuntimeException("This rol does not exist");
 				}
 			}
 			profile.setRoles(new HashSet<Role>(roles));

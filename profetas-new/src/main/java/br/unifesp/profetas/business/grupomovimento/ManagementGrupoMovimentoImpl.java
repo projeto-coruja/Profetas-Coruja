@@ -66,10 +66,16 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 		grupoMovimento.setNome(gMovimentoDTO.getNome());
 		if(gMovimentoDTO.getAnoInicio() != null && !"".equals(gMovimentoDTO.getAnoInicio())){
 			grupoMovimento.setAnoInicio(Integer.parseInt(gMovimentoDTO.getAnoInicio()));
+		} else{
+			grupoMovimento.setAnoInicio(null);
 		}
+		
 		if(gMovimentoDTO.getAnoFim() != null && !"".equals(gMovimentoDTO.getAnoFim())){
 			grupoMovimento.setAnoFim(Integer.parseInt(gMovimentoDTO.getAnoFim()));
+		} else{
+			grupoMovimento.setAnoFim(null);	
 		}
+		
 		grupoMovimento.setDescricao(gMovimentoDTO.getDescricao());
 		
 		//Local

@@ -24,7 +24,6 @@ import br.unifesp.profetas.persistence.domain.FontesObrasDAO;
 import br.unifesp.profetas.persistence.domain.PalavraChaveDAO;
 import br.unifesp.profetas.persistence.domain.PersonagemDAO;
 import br.unifesp.profetas.persistence.model.Classificacao;
-import br.unifesp.profetas.persistence.model.Correspondencia;
 import br.unifesp.profetas.persistence.model.FontesObras;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
@@ -46,6 +45,14 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 	
 	@Autowired private SessionFactory sessionFactory;
 
+	private String getFullNameFromPersonagem(String nome, String sobrenome, String apelido){
+		String _apelido = "";
+		if(apelido != null && !"".equals(apelido.trim())){
+			_apelido = "("+apelido+")";
+		}
+		return nome + " " + sobrenome + " " + _apelido;
+	}
+	
 	public FontesObrasDTO getFontesObrasById(Long id) {
 		FontesObras fontesObras = fontesObrasDAO.getFontesObrasById(id);
 		if(fontesObras != null){
@@ -55,7 +62,9 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 			fDTO.setLocalizacao(fontesObras.getLocalizacao());
 			if(fontesObras.getAutor() != null){
 				fDTO.setIdAutor(fontesObras.getAutor().getId());
-				fDTO.setStrAutor(fontesObras.getAutor().getNome());//TODO: Fullname
+				fDTO.setStrAutor(getFullNameFromPersonagem(fontesObras.getAutor().getNome(), 
+						fontesObras.getAutor().getSobrenome(), 
+						fontesObras.getAutor().getApelido()));
 			} else{
 				fDTO.setIdAutor(null);
 				fDTO.setStrAutor("");
@@ -140,7 +149,10 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 		fontesObras.setLocalizacao(fontesObrasDTO.getLocalizacao());
 		if(fontesObrasDTO.getIdAutor() != null && fontesObrasDTO.getIdAutor() != -1){
 			fontesObras.setAutor(new Personagem(fontesObrasDTO.getIdAutor()));
+		} else{
+			fontesObras.setAutor(null);
 		}
+		
 		fontesObras.setTitulo(fontesObrasDTO.getTitulo());
 		fontesObras.setComentarios(fontesObrasDTO.getComentarios());
 		fontesObras.setReferenciaCompleta(fontesObrasDTO.getReferenciaCompleta());
@@ -153,18 +165,29 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 		fontesObras.setDataImpressao(dataImpressao);
 		if(fontesObrasDTO.getIdLocalImpressao() != null && fontesObrasDTO.getIdLocalImpressao() != -1){
 			fontesObras.setLocalImpressao(new Local(fontesObrasDTO.getIdLocalImpressao()));
+		} else{
+			fontesObras.setLocalImpressao(null);
 		}
+		
 		fontesObras.setProdutor(fontesObrasDTO.getProdutor());
 			Date dataProducao = UtilValidator.getDateFromString(fontesObrasDTO.getDataProducao());
 		fontesObras.setDataProducao(dataProducao);
 		if(fontesObrasDTO.getIdLocalProducao() != null && fontesObrasDTO.getIdLocalProducao() != -1){
 			fontesObras.setLocalProducao(new Local(fontesObrasDTO.getIdLocalProducao()));
+		} else{
+			fontesObras.setLocalProducao(null);
 		}
+		
 		if(fontesObrasDTO.getIdClassificacao() != null && fontesObrasDTO.getIdClassificacao() != -1){
 			fontesObras.setClassificacao(new Classificacao(fontesObrasDTO.getIdClassificacao()));
+		} else{
+			fontesObras.setClassificacao(null);
 		}
+		
 		if(fontesObrasDTO.getIdGruMovimento() != null && fontesObrasDTO.getIdGruMovimento() != -1){
 			fontesObras.setGrupoMovimento(new GrupoMovimento(fontesObrasDTO.getIdGruMovimento()));
+		} else{
+			fontesObras.setGrupoMovimento(null);
 		}
 		
 		//
@@ -271,9 +294,7 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 				fontesObras = getFontesObras(fontesObras, fontesObrasDTO);
 				fontesObrasDAO.updateFontesObras(fontesObras);
 				if(fontesObras.getId() != null){
-					//TODO:
 					//Palavras Chave ...
-					
 					if(fontesObras.getPalavrasChave() != null){
 						Set<PalavraChave> palavrasNovas = new HashSet<PalavraChave>(), 
 								palavrasAntigas = fontesObras.getPalavrasChave();
@@ -347,7 +368,9 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 			fDTO.setId(f.getId());
 			fDTO.setTitulo(f.getTitulo());
 			if(f.getAutor() != null){
-				fDTO.setStrAutor(f.getAutor().getNome());//TODO: Fullname
+				fDTO.setStrAutor(getFullNameFromPersonagem(f.getAutor().getNome(), 
+						f.getAutor().getSobrenome(), 
+						f.getAutor().getApelido()));
 			} else {
 				fDTO.setStrAutor("");
 			}

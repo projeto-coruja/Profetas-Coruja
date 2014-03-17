@@ -52,10 +52,16 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 		local.setNome(localDTO.getNome());
 		if(localDTO.getLatitude() != null && !"null".equals(localDTO.getLatitude()) && !"".equals(localDTO.getLatitude())){
 			local.setLatitude(Double.parseDouble(localDTO.getLatitude()));
+		} else{
+			local.setLatitude(null);
 		}
+		
 		if(localDTO.getLongitude() != null && !"null".equals(localDTO.getLongitude()) && !"".equals(localDTO.getLongitude())){
 			local.setLongitude(Double.parseDouble(localDTO.getLongitude()));
+		} else{
+			local.setLongitude(null);
 		}
+		
 		local.setCountry(localDTO.getCountry());
 		local.setState(localDTO.getState());
 		local.setCity(localDTO.getCity());

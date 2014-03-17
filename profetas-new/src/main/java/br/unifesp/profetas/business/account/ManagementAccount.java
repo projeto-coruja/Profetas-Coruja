@@ -12,7 +12,7 @@ public interface ManagementAccount {
 
 	public MessageDTO saveUser(UserDTO userDTO);
 	
-	public MessageDTO recoveryPassStepOne(String username);
+	public MessageDTO recoveryPassStepOne(String username, String contextPath);
 	
 	public MessageDTO recoveryPassStepTwo(UserDTO userDTO);
 	

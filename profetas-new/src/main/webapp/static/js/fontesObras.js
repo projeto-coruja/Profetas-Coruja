@@ -187,8 +187,15 @@ function clearFields(){
 
 function checkFields(){
 	var titulo	= $('#titulo').val();
+	var strAutor = $('#strAutor').val();
+	var idAutor = $('#idAutor').val();
+	
 	if(titulo == undefined || titulo == ''){
 		addMessage(jQuery.i18n.prop('err_titulo_required'), 'error');
+		return false;
+	}
+	if((strAutor != undefined && strAutor.trim() != '') && (idAutor == undefined || idAutor == '')){
+		addMessage(jQuery.i18n.prop('err_autor_invalid', strAutor), 'error');
 		return false;
 	}
 	return true;

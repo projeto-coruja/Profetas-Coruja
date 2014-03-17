@@ -133,17 +133,17 @@ public class ManagementAccountImpl extends AbstractBusiness implements Managemen
 		}
 	}
 
-	public MessageDTO recoveryPassStepOne(String username) {
+	public MessageDTO recoveryPassStepOne(String username, String contextPath) {
 		UserAccount userAcc = userAccountDAO.getUserByUsername(username);
 		if(userAcc != null){
 			userAcc.setActivationCode(UtilCodification.randomString());
 			userAcc.setCreationDateCode(new Date());
-			String link = "http://localhost:8080/profetas/update-pass.html?user="+username+"&code="+userAcc.getActivationCode();
+			String link = contextPath+"/update-pass.html?user="+username+"&code="+userAcc.getActivationCode();
 			System.out.println(link);
 			userAccountDAO.updateUserAccount(userAcc);
 			
 			SimpleMailMessage message = new SimpleMailMessage(templateMail);
-			message.setText("Para recuperar sua senha, siga o link: " + link); // TODO: deixar configurável o texto?
+			message.setText("Para recuperar sua senha, siga o link: " + link);
 			message.setTo(userAcc.getEmail());
 			try{ 
 				mailSender.send(message);

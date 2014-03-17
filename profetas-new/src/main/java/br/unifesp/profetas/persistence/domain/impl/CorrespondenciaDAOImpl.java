@@ -58,7 +58,7 @@ public class CorrespondenciaDAOImpl extends AbstractHibernateDAO<Correspondencia
 	public List<Correspondencia> searchCorrespondencia(String prefix) {
 		Criteria criteria = getCurrentSession().createCriteria(Correspondencia.class);
         criteria.add(Restrictions.eq("active", true));
-        criteria.createAlias("remetente", "remetente");//TODO: remetente is active
+        criteria.createAlias("remetente", "remetente");// Remetente should be active
         criteria.add(Restrictions.like("remetente.nome", prefix, MatchMode.START).ignoreCase());
         criteria.addOrder(Order.asc("remetente.nome"));
         return criteria.list();

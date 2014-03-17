@@ -39,7 +39,6 @@ public class ProfetasAuthenticationProvider implements UserDetailsService {
         } 
         catch (Exception e) {
             //logger.error ... 
-            //TODO: sec
             throw new UsernameNotFoundException("Error ...");
         }
         return user;

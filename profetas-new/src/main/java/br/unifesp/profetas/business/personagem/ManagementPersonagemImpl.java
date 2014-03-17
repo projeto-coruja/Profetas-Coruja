@@ -158,11 +158,17 @@ public class ManagementPersonagemImpl extends AbstractBusiness implements Manage
 		personagem.setApelido(personagemDTO.getApelido());
 		if(personagemDTO.getIdNascimento() != null && personagemDTO.getIdNascimento() != -1){
 			personagem.setLocalNascimento(new Local(personagemDTO.getIdNascimento()));
+		} else{
+			personagem.setLocalNascimento(null);
 		}
+		
 		personagem.setDataNascimento(dataNasc);
 		if(personagemDTO.getIdMorte() != null && personagemDTO.getIdMorte() != -1){
 			personagem.setLocalMorte(new Local(personagemDTO.getIdMorte()));
+		} else{
+			personagem.setLocalMorte(null);
 		}
+		
 		personagem.setDataMorte(dataMorte);
 		personagem.setBiografia(personagemDTO.getBiografia());
 		personagem.setOcupacao(personagemDTO.getOcupacao());

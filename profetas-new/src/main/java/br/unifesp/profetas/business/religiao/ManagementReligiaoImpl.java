@@ -48,10 +48,16 @@ public class ManagementReligiaoImpl extends AbstractBusiness implements Manageme
 		religiao.setNome(religiaoDTO.getNome());
 		if(religiaoDTO.getAnoInicio() != null && !"".equals(religiaoDTO.getAnoInicio())){
 			religiao.setAnoInicio(Integer.parseInt(religiaoDTO.getAnoInicio()));
+		} else{
+			religiao.setAnoInicio(null);
 		}
+		
 		if(religiaoDTO.getAnoFim() != null && !"".equals(religiaoDTO.getAnoFim())){
 			religiao.setAnoFim(Integer.parseInt(religiaoDTO.getAnoFim()));
+		} else{
+			religiao.setAnoFim(null);
 		}
+		
 		religiao.setDescricao(religiaoDTO.getDescricao());
 		religiao.setActive(true);
 		return religiao;

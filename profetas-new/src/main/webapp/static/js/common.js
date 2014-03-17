@@ -518,7 +518,7 @@ function fillListLocais(idsSelected, idDiv, identificador, multiple){
 	for(var i = 0; i < split_ids.length; i++){
 		ids.push(parseInt(split_ids[i]));
 	}
-	if(ids != undefined && ids != NaN && ids.length > 0){//TODO:
+	if(ids != undefined && ids != NaN && ids.length > 0){//
 		paintItems(idDiv, ids, 'locals.html', lstFields, identificador, multiple);
 	}
 }
@@ -695,7 +695,6 @@ function createTableForItems(_idDiv, _itemList, _identificador, _multtiple){
 	html += '</table>';
 	$('#'+_idDiv).html(html);
 }
-//TODO: Check duplicates
 function addItemToTable(identificador, _idDiv, inputTxt, inputId, multiple){
 	var valId	= $('#'+inputId).val();
 	var valTxt	= $('#'+inputTxt).val();
@@ -735,6 +734,13 @@ function addItemToTable(identificador, _idDiv, inputTxt, inputId, multiple){
 		return;
 	}
 	else{
+		for(var i in _itemList){
+			if(_itemList[i].id == valId){
+				addMessage(jQuery.i18n.prop('err_item_already_exists'), 'error');
+				return;
+			}
+		}
+		
 		_itemList.push(item);
 	}	
 	
