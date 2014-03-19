@@ -118,10 +118,10 @@ function saveForm(){
 }
 
 function buildGrid(div_id, data){	
-	var titles			= ['Nome'];
-	var columns_key		= ['nome'];
-	var columns_size	= ['90'];
-	var columns_sort	= ['nome'];
+	var titles			= ['Nome', 'Country'];
+	var columns_key		= ['nome', 'country'];
+	var columns_size	= ['45', '45'];
+	var columns_sort	= ['nome', 'country'];
 	var corujaGrid = new CorujaGrid();
 	corujaGrid.paintGrid(div_id, titles, columns_key, columns_size, columns_sort, data);
 }

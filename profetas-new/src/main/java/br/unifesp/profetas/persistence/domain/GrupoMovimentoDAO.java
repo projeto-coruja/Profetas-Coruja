@@ -8,7 +8,14 @@ public interface GrupoMovimentoDAO {
 	
 	public GrupoMovimento getGrupoMovimentoById(Long id);
 	
-	public List<GrupoMovimento> listGrupoMovimento();//TODO:
+	public List<GrupoMovimento> listGrupoMovimento();
+	
+	public List<GrupoMovimento> listGrupoMovimentoWithLimit(Integer page, 
+	        Integer numRows, String order, String field);
+	
+	public Long getTotalOfGrupoMovimentos();
+	
+	public List<GrupoMovimento> searchGrupoMovimento(String prefix);
 	
 	public void saveGrupoMovimento(GrupoMovimento grupoMovimento);
 	

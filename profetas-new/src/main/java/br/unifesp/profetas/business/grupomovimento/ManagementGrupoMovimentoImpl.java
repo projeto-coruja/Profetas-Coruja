@@ -18,6 +18,8 @@ import br.unifesp.profetas.persistence.domain.GrupoMovimentoDAO;
 import br.unifesp.profetas.persistence.domain.LocalDAO;
 import br.unifesp.profetas.persistence.model.GrupoMovimento;
 import br.unifesp.profetas.persistence.model.Local;
+import br.unifesp.profetas.util.AutoCompleteDTO;
+import br.unifesp.profetas.util.ProfetasConstants;
 import br.unifesp.profetas.util.UtilValidator;
 
 @Service("mGrupoMovimento")
@@ -64,10 +66,16 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 		grupoMovimento.setNome(gMovimentoDTO.getNome());
 		if(gMovimentoDTO.getAnoInicio() != null && !"".equals(gMovimentoDTO.getAnoInicio())){
 			grupoMovimento.setAnoInicio(Integer.parseInt(gMovimentoDTO.getAnoInicio()));
+		} else{
+			grupoMovimento.setAnoInicio(null);
 		}
+		
 		if(gMovimentoDTO.getAnoFim() != null && !"".equals(gMovimentoDTO.getAnoFim())){
 			grupoMovimento.setAnoFim(Integer.parseInt(gMovimentoDTO.getAnoFim()));
+		} else{
+			grupoMovimento.setAnoFim(null);	
 		}
+		
 		grupoMovimento.setDescricao(gMovimentoDTO.getDescricao());
 		
 		//Local
@@ -153,18 +161,47 @@ public class ManagementGrupoMovimentoImpl extends AbstractBusiness implements Ma
 
 	public WrapperGrid<GrupoMovimentoDTO> getGrupoMovimentoList(String orderBy,
 			OrderType orderType, int page, int numRows) {
-		List<GrupoMovimento> list = grupoMovimentoDAO.listGrupoMovimento();//TODO: limit
-		List<GrupoMovimentoDTO> listGmDTO = new ArrayList<GrupoMovimentoDTO>(list.size());
+		List<GrupoMovimento> list = grupoMovimentoDAO.listGrupoMovimentoWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+		int total = grupoMovimentoDAO.getTotalOfGrupoMovimentos().intValue();
+		List<GrupoMovimentoDTO> listDTO = new ArrayList<GrupoMovimentoDTO>(total);
 		for(GrupoMovimento gm : list){
 			GrupoMovimentoDTO gmDTO = new GrupoMovimentoDTO();
 			gmDTO.setId(gm.getId());
 			gmDTO.setNome(gm.getNome());
 			gmDTO.setAnoInicio(gm.getAnoInicio() != null ? String.valueOf(gm.getAnoInicio()) : "");
 			gmDTO.setAnoFim(gm.getAnoFim() != null ? String.valueOf(gm.getAnoFim()) : "");
-			listGmDTO.add(gmDTO);
-		}
-		
-		int total = list == null ? 0 : list.size();//TODO: count
-		return getWrapper(listGmDTO, orderBy, orderType, page, numRows, total, null);
+			listDTO.add(gmDTO);
+		}		
+		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);
 	}
+
+	@Override
+	public List searchGrupoMovimento(String word) {
+		int min = ProfetasConstants.AUTOCOMPLETE_LENGTH;
+        List<AutoCompleteDTO> lista = new ArrayList<AutoCompleteDTO>();
+        if (word.length() > min) {
+            List<GrupoMovimento> grupos = grupoMovimentoDAO.searchGrupoMovimento(word);
+            if(grupos == null || grupos.isEmpty()){
+            	AutoCompleteDTO o = new AutoCompleteDTO();
+                o.setLabel(getText("msg_autocomplete_no_results"));
+                o.setId(null);
+                lista.add(o);
+                return lista;
+            }
+            
+            for(GrupoMovimento g : grupos){
+                AutoCompleteDTO o = new AutoCompleteDTO(g.getId(), g.getNome());
+                lista.add(o);
+            }
+        } else {
+            AutoCompleteDTO o = new AutoCompleteDTO();
+            o.setLabel(getText("msg_autocomplete_length", new Object[] { min }));
+            o.setId(null);
+            lista.add(o);
+        }
+        return lista;
+	}
+
+
 }

@@ -19,6 +19,7 @@ import br.unifesp.profetas.business.account.UserDTO;
 import br.unifesp.profetas.business.common.MessageDTO;
 import br.unifesp.profetas.business.common.OrderType;
 import br.unifesp.profetas.business.common.WrapperGrid;
+import br.unifesp.profetas.persistence.model.UtilsWeb;
 import br.unifesp.profetas.util.ProfetasConstants;
 
 @Controller
@@ -91,8 +92,9 @@ public class UserAccountController {
     }
 	@RequestMapping(value = "/forgot-pass", method = RequestMethod.POST, 
 			headers = {"content-type=application/json"})
-    public @ResponseBody MessageDTO recoveryPassStepOne(@RequestBody UserDTO user){
-		return account.recoveryPassStepOne(user.getEmail());
+    public @ResponseBody MessageDTO recoveryPassStepOne(@RequestBody UserDTO user, 
+    		HttpServletRequest request){
+		return account.recoveryPassStepOne(user.getEmail(), UtilsWeb.buildContextUrl(request));
 	}
 	
 	@RequestMapping(value = "/update-pass", method = RequestMethod.GET)

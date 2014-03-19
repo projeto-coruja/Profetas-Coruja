@@ -8,7 +8,14 @@ public interface LocalDAO {
 
 	public Local getLocalById(Long id);
 	
-	public List<Local> listLocal();//TODO:
+	public Local getLocalByCountryAndNome(String country, String nome);
+	
+	public List<Local> listLocal();
+	
+	public List<Local> listLocalWithLimit(Integer page, 
+	        Integer numRows, String order, String field);
+	
+	public Long getTotalOfLocais();
 	
 	public List<Local> searchLocal(String prefix);
 	

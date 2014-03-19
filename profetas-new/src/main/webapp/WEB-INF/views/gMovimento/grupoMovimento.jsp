@@ -31,10 +31,12 @@
 		<br />
 		
 		<div class="label-box"><label for="idLocais"><spring:message code="lbl_local"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idLocais" path="idLocais" multiple="true">
-		    </form:select>
-	    </div>		
+		<div class="input-box">
+			<form:hidden id="idLocais" path="idLocais" />
+			<input type="text" id="acLocalTxt" /><img onclick="addItemToTable('idLocais', 'gruMovLstLocais', 'acLocalTxt', 'acLocalId', 'true')" src="<c:url value='/static/images/add.png'/> " />
+			<input type="hidden" id="acLocalId" name="acLocalId" />
+		</div>
+		<div id="gruMovLstLocais"></div>
 		<br />
 		
 		<div class="left">
@@ -45,7 +47,7 @@
 	<jsp:include page="../includes/grid.jsp" flush="true" />
 	
 	<script type="text/javascript">
-		fillMultipleLocals("${grupoMovimento.strLocais}");
+		fillListLocais('${grupoMovimento.strLocais}', 'gruMovLstLocais', 'idLocais', true);
 	</script>
 </div>
 

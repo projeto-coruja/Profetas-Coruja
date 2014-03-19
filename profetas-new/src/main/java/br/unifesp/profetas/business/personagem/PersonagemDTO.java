@@ -29,8 +29,6 @@ public class PersonagemDTO extends CommonDTO {
 	private String strObras;
 	private Long[] idLocaisPers;
 	private String strLocaisPers;
-	private Long[] idCorrespondencias;
-	private String strCorrespondencias;
 	
 	private List<EncontroDTO> encontros = new ArrayList<EncontroDTO>();
 	private String encontrosJson; 
@@ -159,18 +157,6 @@ public class PersonagemDTO extends CommonDTO {
 	}
 	public void setStrLocaisPers(String strLocaisPers) {
 		this.strLocaisPers = strLocaisPers;
-	}
-	public Long[] getIdCorrespondencias() {
-		return idCorrespondencias;
-	}
-	public void setIdCorrespondencias(Long[] idCorrespondencias) {
-		this.idCorrespondencias = idCorrespondencias;
-	}
-	public String getStrCorrespondencias() {
-		return strCorrespondencias;
-	}
-	public void setStrCorrespondencias(String strCorrespondencias) {
-		this.strCorrespondencias = strCorrespondencias;
 	}
 	public String getDivId() {
 		return divId;

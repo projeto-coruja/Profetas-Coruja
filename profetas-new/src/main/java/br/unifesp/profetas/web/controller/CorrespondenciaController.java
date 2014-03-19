@@ -1,5 +1,7 @@
 package br.unifesp.profetas.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +77,11 @@ public class CorrespondenciaController {
 		OrderType orderType = OrderType.getOrderType(strOrderType);
 		return mCorrespondencia.getCorrespondenciaList(strOrderBy, orderType, page, ProfetasConstants.ITEMS_PER_PAGE);
 	}
+	
+	@RequestMapping(value = "/correspondencia/search", method = RequestMethod.GET)
+    public @ResponseBody List searchCorrespondencia(HttpServletRequest request,
+            @RequestParam(value = "term", required = false) String word) {
+       
+        return mCorrespondencia.searchCorrespondencia(word);
+    }
 }

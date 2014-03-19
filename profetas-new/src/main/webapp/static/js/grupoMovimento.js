@@ -5,6 +5,8 @@ $(document).ready(function() {
 		saveForm();
 	});
 	loadGrid();
+	//
+	prepareLocais();
 });
 
 function checkFields(){
@@ -21,7 +23,12 @@ function clearFields(){
     $('#anoInicio').val('');
     $('#anoFim').val('');
     $('#descricao').val('');
-    $('#idLocais').val('');	    
+
+    $('#idLocais').val('');    
+    $('#acLocalTxt').val('');
+	$('#acLocalId').val('');	
+    gruMovLstLocais = [];
+    $('#gruMovLstLocais').html('');
 }
 
 function saveForm(){
@@ -35,6 +42,7 @@ function saveForm(){
     var anoFim		= $('#anoFim').val();
     var descricao	= $('#descricao').val();
     var idLocais	= $('#idLocais').val();
+    	idLocais = JSON.parse("[" + idLocais + "]");
     
     var data = JSON.stringify({ "id" : id, "nome" : nome, "anoInicio" : anoInicio, "anoFim" : anoFim, 
     	"descricao" : descricao, "idLocais" : idLocais });
@@ -73,4 +81,20 @@ function buildGrid(div_id, data){
 	var columns_sort	= ['nome'];
 	var corujaGrid = new CorujaGrid();
 	corujaGrid.paintGrid(div_id, titles, columns_key, columns_size, columns_sort, data);
+}
+
+/////////
+function prepareLocais(){
+    $("#acLocalTxt").autocomplete({
+        source: "local/search.html",
+        select: function( event, ui ) {
+            $( "#acLocalTxt" ).val( ui.item.label );
+            $( "#acLocalId" ).val( ui.item.id );
+            return false;
+        },
+        focus: function( event, ui ) {
+            $( "#acLocalTxt" ).val( ui.item.label );
+            return false;
+        }
+    });
 }

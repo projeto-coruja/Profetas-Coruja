@@ -33,7 +33,7 @@ public class Encontro implements Serializable {
 	private String nome;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "e_data", nullable = false, length = 10)
+	@Column(name = "e_data", nullable = true, length = 10)
 	private Date data;
 	
 	@ManyToOne

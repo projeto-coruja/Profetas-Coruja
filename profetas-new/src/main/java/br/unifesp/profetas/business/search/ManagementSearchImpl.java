@@ -54,7 +54,12 @@ public class ManagementSearchImpl extends AbstractBusiness implements Management
 			FontesObrasDTO fDTO = new FontesObrasDTO();
 			fDTO.setId(f.getId());
 			fDTO.setTitulo(vo.getTitulo());
-			fDTO.setAutor(vo.getAutor());
+			if(vo.getAutor() != null){
+				fDTO.setStrAutor(vo.getAutor().getNome());//TODO: Fullname
+			} else {
+				fDTO.setStrAutor("");
+			}
+			
 			listDTO.add(fDTO);
 		}
 		return getWrapper(listDTO, null, orderType, page, numRows, total, null);

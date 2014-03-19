@@ -42,8 +42,8 @@ import org.hibernate.annotations.Type;
 + Obras,
 + Locais por onde passou,
 +? Encontros,
-+ Correspondências,
-- Leituras,
+-- Correspondências,
++ Leituras,
 + Referências Bibliográficas
  */
 @Entity
@@ -115,13 +115,6 @@ public class Personagem implements Serializable {
 			inverseJoinColumns = { @JoinColumn(name = "id_local", 
 			nullable = false, updatable = false) })
 	private Set<Local> locaisPersonagens = new HashSet<Local>(0);
-	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "pers_correspondencias", joinColumns = { 
-			@JoinColumn(name = "id_personagem", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "id_correspondencia", 
-			nullable = false, updatable = false) })
-	private Set<Correspondencia> correspondencias = new HashSet<Correspondencia>(0);
 	
 	@Type(type="yes_no")
 	@Column(name = "active")
@@ -241,12 +234,6 @@ public class Personagem implements Serializable {
 	}
 	public void setLocaisPersonagens(Set<Local> locaisPersonagens) {
 		this.locaisPersonagens = locaisPersonagens;
-	}
-	public Set<Correspondencia> getCorrespondencias() {
-		return correspondencias;
-	}
-	public void setCorrespondencias(Set<Correspondencia> correspondencias) {
-		this.correspondencias = correspondencias;
 	}
 
 	public Boolean getActive() {

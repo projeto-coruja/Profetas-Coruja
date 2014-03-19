@@ -50,17 +50,33 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 	
 	private Local getLocal(Local local, LocalDTO localDTO){
 		local.setNome(localDTO.getNome());
-		if(localDTO.getLatitude() != null && !"".equals(localDTO.getLatitude())){
+		if(localDTO.getLatitude() != null && !"null".equals(localDTO.getLatitude()) && !"".equals(localDTO.getLatitude())){
 			local.setLatitude(Double.parseDouble(localDTO.getLatitude()));
+		} else{
+			local.setLatitude(null);
 		}
-		if(localDTO.getLongitude() != null && !"".equals(localDTO.getLongitude())){
+		
+		if(localDTO.getLongitude() != null && !"null".equals(localDTO.getLongitude()) && !"".equals(localDTO.getLongitude())){
 			local.setLongitude(Double.parseDouble(localDTO.getLongitude()));
+		} else{
+			local.setLongitude(null);
 		}
+		
 		local.setCountry(localDTO.getCountry());
 		local.setState(localDTO.getState());
 		local.setCity(localDTO.getCity());
 		local.setActive(true);
 		return local;
+	}
+	
+	private boolean isOnlyCountry(LocalDTO localDTO){
+		boolean res = false;
+		if("".equals(localDTO.getState()) && "".equals(localDTO.getCity()) && 
+				"".equals(localDTO.getLatitude()) && "".equals(localDTO.getLongitude())) {
+			
+			res = true;
+		}
+		return res;
 	}
 
 	public MessageDTO createLocal(LocalDTO localDTO) {
@@ -69,6 +85,13 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 			return isNotValid;
 		
 		try{
+			if(isOnlyCountry(localDTO)){
+				Local local = localDAO.getLocalByCountryAndNome(localDTO.getCountry(), localDTO.getNome());
+				if(local != null){
+					return new MessageDTO(getText("msg_local_created"), MessageType.SUCCESS);
+				}
+			}
+			
 			Local local = new Local();
 			local = getLocal(local, localDTO);
 			localDAO.saveLocal(local);
@@ -124,13 +147,15 @@ public class ManagementLocalImpl extends AbstractBusiness implements ManagementL
 	public WrapperGrid<LocalDTO> getLocalList(String orderBy,
 			OrderType orderType, int page, int numRows) {
 		
-		List<Local> list = localDAO.listLocal();//TODO: limit
-		int total = list == null ? 0 : list.size();//TODO: count
-		List<LocalDTO> listDTO = new ArrayList<LocalDTO>();
+		List<Local> list = localDAO.listLocalWithLimit(page, numRows, 
+				orderType.getDescription(), orderBy);
+		int total = localDAO.getTotalOfLocais().intValue();
+		List<LocalDTO> listDTO = new ArrayList<LocalDTO>(total);
 		for(Local l : list){
 			LocalDTO lDTO = new LocalDTO();
 			lDTO.setId(l.getId());
 			lDTO.setNome(l.getNome());
+			lDTO.setCountry(l.getCountry());
 			listDTO.add(lDTO);
 		}
 		return getWrapper(listDTO, orderBy, orderType, page, numRows, total, null);

@@ -23,8 +23,12 @@
 	    <div class="input-box"><form:textarea id="titulo" path="titulo" cols="70" rows="2" /></div>		
 		<br />
 		
-		<div class="label-box"><label for="autor"><spring:message code="lbl_autor"/></label></div>
-	    <div class="input-box"><form:input id="autor" path="autor" size="50" maxlength="100" /></div>		
+		<div class="label-box"><label for="strAutor"><spring:message code="lbl_autor"/></label></div>
+	    <div class="input-box">
+	    	<form:input id="strAutor" path="strAutor" size="50" maxlength="100" />
+	    	<form:hidden id="idAutor" path="idAutor" />
+		    <img onclick="showAddPersonagem('Autor')" src="<c:url value="/static/images/new_personagem.png" />" />
+	    </div>
 		<br />
 		
 		<div class="label-box"><label for="localizacao"><spring:message code="lbl_localizacao"/></label></div>
@@ -64,11 +68,13 @@
 		<br />
 		
 		<div class="label-box"><label for="idLocalImpressao"><spring:message code="lbl_local_impressao"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idLocalImpressao" path="idLocalImpressao">
-		    </form:select>
-	    </div>		
-		<br />
+        <div class="input-box">
+            <form:hidden id="idLocalImpressao" path="idLocalImpressao" />
+            <input type="text" id="acLocalImpressaoTxt" /><img onclick="addItemToTable('idLocalImpressao', 'fontLstLocalImpressao', 'acLocalImpressaoTxt', 'acLocalImpressaoId', 'false')" src="<c:url value='/static/images/add.png'/> " />
+            <input type="hidden" id="acLocalImpressaoId" name="acLocalImpressaoId" />
+        </div>
+        <div id="fontLstLocalImpressao"></div>
+        <br />
 
 		<div class="label-box"><label for="produtor"><spring:message code="lbl_produtor"/></label></div>
 	    <div class="input-box"><form:input id="produtor" path="produtor" size="50" maxlength="100" /></div>		
@@ -79,11 +85,13 @@
 		<br />
 		
 		<div class="label-box"><label for="idLocalProducao"><spring:message code="lbl_local_producao"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idLocalProducao" path="idLocalProducao">
-		    </form:select>
-	    </div>		
-		<br />
+        <div class="input-box">
+            <form:hidden id="idLocalProducao" path="idLocalProducao" />
+            <input type="text" id="acLocalProducaoTxt" /><img onclick="addItemToTable('idLocalProducao', 'fontLstLocalProducao', 'acLocalProducaoTxt', 'acLocalProducaoId', 'false')" src="<c:url value='/static/images/add.png'/> " />
+            <input type="hidden" id="acLocalProducaoId" name="acLocalProducaoId" />
+        </div>
+        <div id="fontLstLocalProducao"></div>
+        <br />
 		
 		<div class="label-box"><label for="idClassificacao"><spring:message code="lbl_classificacao"/></label></div>
 	    <div class="input-box">
@@ -93,32 +101,40 @@
 		<br />
 		<!--  -->
 		<div class="label-box"><label for="idGruMovimento"><spring:message code="lbl_gru_movimento"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idGruMovimento" path="idGruMovimento">
-		    </form:select>
-	    </div>		
-		<br />
+        <div class="input-box">
+            <form:hidden id="idGruMovimento" path="idGruMovimento" />
+            <input type="text" id="acGruMovimentoTxt" /><img onclick="addItemToTable('idGruMovimento', 'fontLstGruMovimento', 'acGruMovimentoTxt', 'acGruMovimentoId', 'false')" src="<c:url value='/static/images/add.png'/> " />
+            <input type="hidden" id="acGruMovimentoId" name="acGruMovimentoId" />
+        </div>
+        <div id="fontLstGruMovimento"></div>
+        <br />
 		
 		<div class="label-box"><label for="idLeitores"><spring:message code="lbl_leitores"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idLeitores" path="idLeitores" multiple="true">
-		    </form:select>
-	    </div>
-		<br />
+        <div class="input-box">
+            <form:hidden id="idLeitores" path="idLeitores" />
+            <input type="text" id="acLeitoresTxt" /><img onclick="addItemToTable('idLeitores', 'fontLstLeitores', 'acLeitoresTxt', 'acLeitoresId', 'true')" src="<c:url value='/static/images/add.png'/> " />
+            <input type="hidden" id="acLeitoresId" name="acLeitoresId" />
+        </div>
+        <div id="fontLstLeitores"></div>
+        <br />
 		
 		<div class="label-box"><label for="idAutCitados"><spring:message code="lbl_autores_citados"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idAutCitados" path="idAutCitados" multiple="true">
-		    </form:select>
-	    </div>
-		<br />
+        <div class="input-box">
+            <form:hidden id="idAutCitados" path="idAutCitados" />
+            <input type="text" id="acAutCitadosTxt" /><img onclick="addItemToTable('idAutCitados', 'fontLstAutCitados', 'acAutCitadosTxt', 'acAutCitadosId', 'true')" src="<c:url value='/static/images/add.png'/> " />
+            <input type="hidden" id="acAutCitadosId" name="acAutCitadosId" />
+        </div>
+        <div id="fontLstAutCitados"></div>
+        <br />
 		
 		<div class="label-box"><label for="idObrCitadas"><spring:message code="lbl_obras_citadas"/></label></div>
-	    <div class="input-box">
-	    	<form:select id="idObrCitadas" path="idObrCitadas" multiple="true">
-		    </form:select>
-	    </div>
-		<br />
+        <div class="input-box">
+            <form:hidden id="idObrCitadas" path="idObrCitadas" />
+            <input type="text" id="acObrCitadasTxt" /><img onclick="addItemToTable('idObrCitadas', 'fontLstObrCitadas', 'acObrCitadasTxt', 'acObrCitadasId', 'true')" src="<c:url value='/static/images/add.png'/> " />
+            <input type="hidden" id="acObrCitadasId" name="acObrCitadasId" />
+        </div>
+        <div id="fontLstObrCitadas"></div>
+        <br />
 		
 		<div class="label-box"><label for="palavrasChave"><spring:message code="lbl_palavras_chave"/></label></div>
 	    <div class="input-box"><form:input name="palavrasChave" id="palavrasChave" path="palavrasChave" /></div>
@@ -139,17 +155,18 @@
 	<jsp:include page="../includes/grid.jsp" flush="true" />
 	
 	<script type="text/javascript">
-		fillLocals("${fontes.idLocalImpressao}", 'idLocalImpressao');
-		fillLocals("${fontes.idLocalProducao}", 'idLocalProducao');
+		fillListLocais('${fontes.idLocalImpressao}', 'fontLstLocalImpressao', 'idLocalImpressao', false);
+		fillListLocais('${fontes.idLocalProducao}', 'fontLstLocalProducao', 'idLocalProducao', false);
 		fillClassificacoes("${fontes.idClassificacao}");
-		fillGrupoMovimento("${fontes.idGruMovimento}");
-		fillMultiplePersonagens("${fontes.strLeitores}", 'idLeitores');
-		fillMultiplePersonagens("${fontes.strAutCitados}", 'idAutCitados');
-		fillMultipleObras("${fontes.strObrCitadas}", 'idObrCitadas');
-		fillPalavrasChave("${fontes.strPalChave}");
+		fillListGruMovimento('${fontes.idGruMovimento}', 'fontLstGruMovimento', 'idGruMovimento', false);
+		fillListPersonagens('${fontes.strLeitores}', 'fontLstLeitores', 'idLeitores', true);
+		fillListPersonagens('${fontes.strAutCitados}', 'fontLstAutCitados', 'idAutCitados', true);
+		fillListObras('${fontes.strObrCitadas}', 'fontLstObrCitadas', 'idObrCitadas', true);
+		fillPalavrasChave('${fontes.strPalChave}');
 	</script>
 </div>
 
+<div id="popup-personagem" style="display: none;"></div>
 </sec:authorize>
 
 <jsp:include page="../includes/accessDenied.jsp" flush="true" />

@@ -62,8 +62,10 @@ public class FontesObras implements Serializable {
 	@Column(name="f_localizacao", nullable = false, length = 200)
 	private String localizacao;
 	
-	@Column(name="f_autor", nullable = false, length = 100)
-	private String autor;
+	@ManyToOne
+	@PrimaryKeyJoinColumn
+	@ForeignKey(name = "fk_foob_autor")
+	private Personagem autor;	
 	
 	@Column(name="f_titulo", columnDefinition="TEXT", nullable = false)
 	private String titulo;
@@ -172,11 +174,11 @@ public class FontesObras implements Serializable {
 	}
 	public void setLocalizacao(String localizacao) {
 		this.localizacao = localizacao;
-	}
-	public String getAutor() {
+	}	
+	public Personagem getAutor() {
 		return autor;
 	}
-	public void setAutor(String autor) {
+	public void setAutor(Personagem autor) {
 		this.autor = autor;
 	}
 	public String getTitulo() {

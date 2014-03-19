@@ -8,7 +8,14 @@ public interface CorrespondenciaDAO {
 	
 	public Correspondencia getCorrespondenciaById(Long id);
 	
-	public List<Correspondencia> listCorrespondencia();//TODO:
+	public List<Correspondencia> listCorrespondencia();
+	
+	public List<Correspondencia> listCorrespondenciaWithLimit(Integer page, 
+	        Integer numRows, String order, String field);
+	
+	public Long getTotalOfCorrespondencias();
+	
+	public List<Correspondencia> searchCorrespondencia(String prefix);
 	
 	public void saveCorrespondencia(Correspondencia correspondencia);
 	

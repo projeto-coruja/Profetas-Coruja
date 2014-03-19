@@ -1,6 +1,7 @@
+DROP TABLE IF EXISTS personagem_view;
 DROP VIEW IF EXISTS personagem_view;
+DROP TABLE IF EXISTS fonteobra_view;
 DROP VIEW IF EXISTS fonteobra_view;
-DROP FUNCTION IF EXISTS notnull;
 
 CREATE OR REPLACE FUNCTION notnull(text) RETURNS text
 	AS $$ SELECT COALESCE($1, '') $$
@@ -24,7 +25,7 @@ CREATE OR REPLACE VIEW personagem_view AS
   
 CREATE OR REPLACE VIEW fonteobra_view AS 
  SELECT f.id_fontes AS id, 
- 		notnull(f.f_titulo::text) || ' ' || notnull(f.f_autor::text) || ' ' || notnull(f.f_ref_completa::text) || ' ' ||
+ 		notnull(f.f_titulo::text) || ' ' || notnull(f.f_ref_completa::text) || ' ' ||
  		notnull(f.f_ref_circulacao::text) || ' ' || notnull(f.f_comentarios::text) || ' ' || notnull(f.f_copias::text) || ' ' || 
  		notnull(f.f_traducoes::text) || ' ' || notnull(f.f_editor::text) || ' ' || notnull(f.f_localizacao::text) || ' ' || 
  		notnull(array_to_string(
