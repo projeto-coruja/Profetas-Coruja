@@ -255,6 +255,18 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 			fontesObrasDAO.saveFontesObras(fontesObras);
 			if(fontesObras.getId() != null){
 				
+				//Autor (List of Fontes/Obras)
+				if(fontesObras.getAutor() != null){
+					Personagem per = personagemDAO.getPersonagemById(fontesObras.getAutor().getId());
+					if(per != null){
+						List<FontesObras> fOs = new ArrayList<>(per.getObras());
+						fOs.add(fontesObras);
+						
+						per.setObras(new HashSet<>(fOs));
+						personagemDAO.savePersonagem(per);
+					}
+				}
+				
 				//Palavras Chave
 				if(fontesObras.getPalavrasChave() != null){
 					int palavrasLength = fontesObrasDTO.getPalavrasChave().length;
@@ -294,7 +306,20 @@ public class ManagementFontesObrasImpl extends AbstractBusiness implements Manag
 				fontesObras = getFontesObras(fontesObras, fontesObrasDTO);
 				fontesObrasDAO.updateFontesObras(fontesObras);
 				if(fontesObras.getId() != null){
-					//Palavras Chave ...
+					
+					//Autor (List of Fontes/Obras)
+					if(fontesObras.getAutor() != null){
+						Personagem per = personagemDAO.getPersonagemById(fontesObras.getAutor().getId());
+						if(per != null){
+							List<FontesObras> fOs = new ArrayList<>(per.getObras());
+							fOs.add(fontesObras);
+							
+							per.setObras(new HashSet<>(fOs));
+							personagemDAO.savePersonagem(per);
+						}
+					}
+					
+					//Palavras Chave
 					if(fontesObras.getPalavrasChave() != null){
 						Set<PalavraChave> palavrasNovas = new HashSet<PalavraChave>(), 
 								palavrasAntigas = fontesObras.getPalavrasChave();

@@ -62,8 +62,6 @@ public class FontesObras implements Serializable {
 	@Column(name="f_localizacao", nullable = false, length = 200)
 	private String localizacao;
 	
-	//@Column(name="f_autor", nullable = false, length = 100)
-	//private String autor;	
 	@ManyToOne
 	@PrimaryKeyJoinColumn
 	@ForeignKey(name = "fk_foob_autor")
